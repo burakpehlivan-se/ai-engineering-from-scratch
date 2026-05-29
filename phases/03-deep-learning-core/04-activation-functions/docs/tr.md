@@ -98,7 +98,7 @@ Maksimum türev, x = 0'da 1.0'dır — sigmoid'den dört kat daha iyi. Ama kaybo
 ReLU(x) = max(0, x)
 ```
 
-ReLU'nun türevi 0 veya 1'dir. Sigmoid'in 0.25 maksimum türevinin aksine, ReLU'nunpozitif bölgede türevi tam olarak 1'dir. Gradyan on katman boyunca çarpılmaz — ya aynen kalır ya da sıfır olur.
+ReLU'nun türevi 0 veya 1'dir. Sigmoid'in 0.25 maksimum türevinin aksine, ReLU'nun pozitif bölgede türevi tam olarak 1'dir. Gradyan on katman boyunca çarpılmaz — ya aynen kalır ya da sıfır olur.
 
 Bu, derin ağların gerçekten çalışmasını sağlar. Pratikte, ReLU ile 100 katmanlı ağlar eğitilebilir.
 
@@ -121,7 +121,7 @@ burada Φ(x), standart normal dağılımın kümülatif dağılım fonksiyonudur
 
 GELU yumuşak bir eşiktir. ReLU gibi keskin bir köşe yerine, 0 civarında pürüzsüz bir geçiş yapar. Transformerlarda (BERT, GPT) yaygın olarak kullanılır.
 
-Neden GELU ReLU'dan daha iyi? Ölü nöron sorununu azaltır (negatif bölgede küçük bir gradyan vardır) ve pürüzsüz türevi优化 için daha iyidir.
+Neden GELU ReLU'dan daha iyi? Ölü nöron sorununu azaltır (negatif bölgede küçük bir gradyan vardır) ve pürüzsüz türevi optimizasyon için daha iyidir.
 
 ### Softmax
 
@@ -158,6 +158,6 @@ Toplam her zaman 1'dir. En yüksek skor en yüksek olasılığı alır.
 | Sigmoid | "S-eğrisi" | Sayıları 0-1 arasına sıkıştıran fonksiyon |
 | ReLU | "Doğrusal olmayan basit" | max(0, x) fonksiyonu, en yaygın aktivasyon |
 | GELU | "Yumuşak eşik" | Transformerlarda kullanılan pürüzsüz aktivasyon |
-| Softmax | "Olasiğila dönüştürücü" | Ham skorları olasılık dağılımına dönüştüren fonksiyon |
+| Softmax | "Olasılığa dönüştürücü" | Ham skorları olasılık dağılımına dönüştüren fonksiyon |
 | Kaybolan gradyan | "Gradyan küçülme" | Derin ağlarda gradyanların üstel olarak küçülmesi |
 | Ölü nöron | "Pasif nöron" | Gradyanı olmadığı için öğrenmeyen nöron |

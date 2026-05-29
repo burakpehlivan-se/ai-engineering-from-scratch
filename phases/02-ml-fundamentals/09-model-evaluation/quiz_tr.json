@@ -1,67 +1,71 @@
-[
-  {
-    "id": "eval-pre-1",
-    "stage": "pre",
-    "question": "Hiperparametreleri neden asla test seti performansına göre ayarlamamalısınız?",
-    "options": [
-      "Test seti güvenilir tahminler için çok küçüktür",
-      "Modeli test sonuçlarına göre ayarlamak, test setinde etkili bir şekilde eğitim yapmak anlamına gelir ve raporlanan performansı anlamsız kılar",
-      "Hiperparametreler eğitimden sonra değiştirilemez",
-      "Test setinin her zaman eğitim setinden farklı özellikleri vardır"
-    ],
-    "correct": 1,
-    "explanation": "Modelinizi test performansına göre her ayarladığınızda, test bilgisini modelleme kararlarınıza sızdırmış olursunuz. Test seti, tarafsız bir tahmin için en sonda tam olarak bir kez kullanılmalıdır."
-  },
-  {
-    "id": "eval-pre-2",
-    "stage": "pre",
-    "question": "Bir veri seti %95 negatif ve %5 pozitif örnek içeriyor. Bir model her örnek için 'negatif' tahmin ediyor. Doğruluğu nedir?",
-    "options": [
-      "%50",
-      "%5",
-      "%95",
-      "%0"
-    ],
-    "correct": 2,
-    "explanation": "Doğruluk = doğru tahminler / toplam = 950/1000 = %95. Bu, dengesiz veride accuracy'nin neden yanıltıcı olduğunu gösterir — işe yaramaz bir model harika görünür."
-  },
-  {
-    "id": "eval-post-1",
-    "stage": "post",
-    "question": "K=5 ile K-fold çapraz doğrulamada, her veri noktası doğrulama için kaç kez kullanılır?",
-    "options": [
-      "5 kez",
-      "Tam olarak bir kez",
-      "Rastgele tohum değerine bağlıdır",
-      "Hiçbir zaman — tüm veri eğitim için kullanılır"
-    ],
-    "correct": 1,
-    "explanation": "K-fold CV'de veri K eşit kata bölünür. Her kat tam olarak bir kez doğrulama seti olarak kullanılırken kalan K-1 kat eğitim için kullanılır."
-  },
-  {
-    "id": "eval-post-2",
-    "stage": "post",
-    "question": "Bir öğrenme eğrisi, eğitim skoru = 0.95 ve doğrulama skoru = 0.60 gösteriyor ve daha fazla veriyle iyileşmiyor. Ne denemelisiniz?",
-    "options": [
-      "Daha fazla eğitim verisi toplayın",
-      "Varyansı (aşırı öğrenme) azaltmak için daha basit bir model veya düzenlileştirme (regularization) kullanın",
-      "Modele daha fazla eğitim verisi vermek için doğrulama setini kaldırın",
-      "Öğrenme oranını (learning rate) artırın"
-    ],
-    "correct": 1,
-    "explanation": "Eğitim (yüksek) ve doğrulama (düşük) skorları arasındaki büyük fark, yüksek varyansa (aşırı öğrenme) işarettir. Çözüm, daha basit bir model, daha fazla düzenlileştirme — fark devam ediyorsa daha fazla veri değil."
-  },
-  {
-    "id": "eval-post-3",
-    "stage": "post",
-    "question": "İkili bir sınıflandırıcı için AUC-ROC = 0.5. Bu neyi gösterir?",
-    "options": [
-      "Model iki sınıfı mükemmel şekilde ayırıyor",
-      "Model, pozitifleri negatiflerin üzerinde sıralamada rastgele tahminden daha iyi değil",
-      "Modelin %50 doğruluğu var",
-      "Modelin precision ve recall'u eşit"
-    ],
-    "correct": 1,
-    "explanation": "AUC-ROC = 0.5, modelin pozitif ve negatif örnekleri sıralamasının rastgele tahminden daha iyi olmadığı anlamına gelir. AUC = 1.0 mükemmel ayrım olurdu. Metrik eşikten bağımsızdır."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "eval-pre-1",
+      "stage": "pre",
+      "question": "Hiperparametreleri neden asla test seti performansına göre ayarlamamalısınız?",
+      "options": [
+        "Test seti güvenilir tahminler için çok küçüktür",
+        "Modeli test sonuçlarına göre ayarlamak, test setinde etkili bir şekilde eğitim yapmak anlamına gelir ve raporlanan performansı anlamsız kılar",
+        "Hiperparametreler eğitimden sonra değiştirilemez",
+        "Test setinin her zaman eğitim setinden farklı özellikleri vardır"
+      ],
+      "correct": 1,
+      "explanation": "Modelinizi test performansına göre her ayarladığınızda, test bilgisini modelleme kararlarınıza sızdırmış olursunuz. Test seti, tarafsız bir tahmin için en sonda tam olarak bir kez kullanılmalıdır."
+    },
+    {
+      "id": "eval-pre-2",
+      "stage": "pre",
+      "question": "Bir veri seti %95 negatif ve %5 pozitif örnek içeriyor. Bir model her örnek için 'negatif' tahmin ediyor. Doğruluğu nedir?",
+      "options": [
+        "%50",
+        "%5",
+        "%95",
+        "%0"
+      ],
+      "correct": 2,
+      "explanation": "Doğruluk = doğru tahminler / toplam = 950/1000 = %95. Bu, dengesiz veride accuracy'nin neden yanıltıcı olduğunu gösterir — işe yaramaz bir model harika görünür."
+    },
+    {
+      "id": "eval-post-1",
+      "stage": "post",
+      "question": "K=5 ile K-fold çapraz doğrulamada, her veri noktası doğrulama için kaç kez kullanılır?",
+      "options": [
+        "5 kez",
+        "Tam olarak bir kez",
+        "Rastgele tohum değerine bağlıdır",
+        "Hiçbir zaman — tüm veri eğitim için kullanılır"
+      ],
+      "correct": 1,
+      "explanation": "K-fold CV'de veri K eşit kata bölünür. Her kat tam olarak bir kez doğrulama seti olarak kullanılırken kalan K-1 kat eğitim için kullanılır."
+    },
+    {
+      "id": "eval-post-2",
+      "stage": "post",
+      "question": "Bir öğrenme eğrisi, eğitim skoru = 0.95 ve doğrulama skoru = 0.60 gösteriyor ve daha fazla veriyle iyileşmiyor. Ne denemelisiniz?",
+      "options": [
+        "Daha fazla eğitim verisi toplayın",
+        "Varyansı (aşırı öğrenme) azaltmak için daha basit bir model veya düzenlileştirme (regularization) kullanın",
+        "Modele daha fazla eğitim verisi vermek için doğrulama setini kaldırın",
+        "Öğrenme oranını (learning rate) artırın"
+      ],
+      "correct": 1,
+      "explanation": "Eğitim (yüksek) ve doğrulama (düşük) skorları arasındaki büyük fark, yüksek varyansa (aşırı öğrenme) işarettir. Çözüm, daha basit bir model, daha fazla düzenlileştirme — fark devam ediyorsa daha fazla veri değil."
+    },
+    {
+      "id": "eval-post-3",
+      "stage": "post",
+      "question": "İkili bir sınıflandırıcı için AUC-ROC = 0.5. Bu neyi gösterir?",
+      "options": [
+        "Model iki sınıfı mükemmel şekilde ayırıyor",
+        "Model, pozitifleri negatiflerin üzerinde sıralamada rastgele tahminden daha iyi değil",
+        "Modelin %50 doğruluğu var",
+        "Modelin precision ve recall'u eşit"
+      ],
+      "correct": 1,
+      "explanation": "AUC-ROC = 0.5, modelin pozitif ve negatif örnekleri sıralamasının rastgele tahminden daha iyi olmadığı anlamına gelir. AUC = 1.0 mükemmel ayrım olurdu. Metrik eşikten bağımsızdır."
+    }
+  ]
+}

@@ -18,13 +18,13 @@
 
 ## Sorun
 
-Tek bir nöron bir çizgi çizerici. Hepsi bu kadar. Verinizden tek bir düz çizgi. Yapay zekadaki her gerçek sorun — görüntü tanıma, dil anlama, Go oynamak — eğriler gerektirir. Nöronları katmanlar halinde istiflemek eğri elde etmenin yoludur.
+Tek bir nöron bir çizgi çizer. Hepsi bu kadar. Verinizden tek bir düz çizgi. Yapay zekadaki her gerçek sorun — görüntü tanıma, dil anlama, Go oynamak — eğriler gerektirir. Nöronları katmanlar halinde istiflemek eğri elde etmenin yoludur.
 
 1969'da Minsky ve Papert bu sınırlamanın ölümcül olduğunu kanıtladı: tek katmanlı bir ağ XOR'u öğrenemez. "Öğrenmek için mücadele ediyor" değil — matematiksel olarak yapamaz. XOR doğruluk tablosu [0,1] ve [1,0]'u bir tarafa, [0,0] ve [1,1]'i diğer tarafa yerleştirir. Tek bir çizgi bunları ayıramaz.
 
 Bu, sinir ağı finansmanını on yıldan fazla süreyle öldürdü. Düzeltme geriye dönüp bakıldığında açıktı: tek katman kullanmayı bırakın. Nöronları katmanlar halinde istifleyin. Birinci katmanın girdi uzayını yeni özelliklere ayırmasına izin verin ve ikinci katmanın bu özellikleri tek bir çizginin yapamayacağı kararlara dönüştürmesine izin verin.
 
-Bu istif, çok katmanlı ağdır. Bugün üretimdeki her derin öğrenme modelinin temelidir. İleri besleme — verinin gizli katmanlardan geçerek çıktiya akması — başka her şeyin çalışmasından önce oluşturmanız gereken ilk şeydir.
+Bu istif, çok katmanlı ağdır. Bugün üretimdeki her derin öğrenme modelinin temelidir. İleri besleme — verinin gizli katmanlardan geçerek çıktıya akması — başka her şeyin çalışmasından önce oluşturmanız gereken ilk şeydir.
 
 ## Kavram
 
@@ -65,7 +65,7 @@ graph LR
 
 Bu bir 2-3-1 ağıdır. İki girdi, üç gizli nöron, bir çıktı. Her bağlantı bir ağırlık taşır. Her nöron (girdi hariç) bir bias taşır.
 
-Her katman, gizli durum adı verilen bir sayı vektörü üretir. Metin için, gizli durumlar boyutluluğu artırır — bir kelimeyi anlamsal anlamı yakalamak için 768 sayı olarak kodlar. Görüntüler için boyutluğu azaltır — milyonlarca pikseli yönetilebilir bir temsile sıkıştırır. Gizli durum, öğrenmenin yaşadığı yerdir.
+Her katman, gizli durum adı verilen bir sayı vektörü üretir. Metin için, gizli durumlar boyutluluğu artırır — bir kelimeyi anlamsal anlamı yakalamak için 768 sayı olarak kodlar. Görüntüler için boyutluluğu azaltır — milyonlarca pikseli yönetilebilir bir temsile sıkıştırır. Gizli durum, öğrenmenin yaşadığı yerdir.
 
 ### Nöronlar ve Aktivasyonlar
 

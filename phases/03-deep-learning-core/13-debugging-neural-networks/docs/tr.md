@@ -36,9 +36,9 @@ Altın kural: **basit başla, karmaşıklığı tek tek ekle, her parçayı bağ
 
 **Ölü ReLU'lar.** Bir ReLU nöronu büyük negatif girdi alırsa 0 çıktısı verir ve gradyanı 0 olur. Bir daha asla aktive olmaz. Kontrol: her ReLU katmanından sonra tam olarak 0 olan aktivasyonların oranını yazdırın. >%50 ise LeakyReLU'ya geçin.
 
-**Kaybolan gradyanlar.** Derin ağlarda sigmoid/tanh ile gradyanlar üssel küçülür. Düzeltme: ReLU/GELU kullanın, artık bağlantılar ekleyin.
+**Kaybolan gradyanlar.** Derin ağlarda sigmoid/tanh ile gradyanlar üstel küçülür. Düzeltme: ReLU/GELU kullanın, artık bağlantılar ekleyin.
 
-**Patlayan gradyanlar.** Gradyanlar üssel büyür. RNN'lerde yaygın. Düzeltme: gradyan kırpma (gradient clipping).
+**Patlayan gradyanlar.** Gradyanlar üstel büyür. RNN'lerde yaygın. Düzeltme: gradyan kırpma (gradient clipping).
 
 ### Belirti 2: Kayıp Azalıyor Ama Model Kötü
 
@@ -90,7 +90,7 @@ Aşağıdaki kodları `code/main.py` içinde inşa edin:
 
 **Tek toplu işe aşırı uyum testi:** 200 adımda kaybın 0.1'in altına düşüp düşmediğini kontrol eder.
 
-**Öğrenme hızı bulucu:** 1e-7'den 10'a üssel tarama yapar, optimal lr'yi önerir.
+**Öğrenme hızı bulucu:** 1e-7'den 10'a üstel tarama yapar, optimal lr'yi önerir.
 
 **Gradyan kontrolcüsü:** Sonlu farklarla analitik gradyanları karşılaştırır.
 
@@ -119,8 +119,8 @@ Hata ayıklama kontrol listesi (tam eğitimden önce):
 |-------|--------------------------|
 | Sessiz hata | Hata üretmeyen ama model kalitesini düşüren hata |
 | Ölü ReLU | Girdisi hep negatif olan, 0 çıktısı veren ve gradyan almayan nöron |
-| Kaybolan gradyan | Gradyanların katmanlar boyunca üssel küçülmesi |
-| Patlayan gradyan | Gradyanların üssel büyümesi, kaybın NaN olması |
+| Kaybolan gradyan | Gradyanların katmanlar boyunca üstel küçülmesi |
+| Patlayan gradyan | Gradyanların üstel büyümesi, kaybın NaN olması |
 | Gradyan kontrolü | Geri yayılım gradyanlarını sayısal gradyanlarla doğrulama |
 | Tek toplu iş testi | Modelin öğrenebildiğini doğrulamak için tek toplu işte eğitim |
 | LR bulucu | Optimal öğrenme hızını bulmak için tarama |

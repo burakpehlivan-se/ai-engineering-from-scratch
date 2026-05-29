@@ -51,7 +51,7 @@ graph LR
 
 Geriye doğru geçiş: gradyanlar sağdan sola akar. dL/da ile başlayın (aktivasyonun kaybı nasıl değiştirdiği). da/dz2 ile çarpın (türev). Bu dL/dz2'yi verir. dL/db (z2 = z1 + b olduğundan dL/dz2'ye eşittir) ve dL/dz1'e bölün. Sonra dL/dw = dL/dz1 × x ve dL/dx = dL/dz1 × w.
 
-Grafikteki her düğümün geriye doğru geçişte bir görevi vardır: yukarından gelen gradyanı alır, kendi yerel türeviyle çarpar ve aşağıya aktarır.
+Grafikteki her düğümün geriye doğru geçişte bir görevi vardır: yukarıdan gelen gradyanı alır, kendi yerel türeviyle çarpar ve aşağıya aktarır.
 
 ### İleriye vs Geriye Doğru
 

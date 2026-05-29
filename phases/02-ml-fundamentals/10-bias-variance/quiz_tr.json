@@ -1,67 +1,71 @@
-[
-  {
-    "id": "biasvar-pre-1",
-    "stage": "pre",
-    "question": "Doğrusal bir model, belirgin şekilde eğrisel (kuadratik) bir ilişkiyi uydurmak için kullanılıyor. Hangi hata bileşeni baskındır?",
-    "options": [
-      "Varyans: model farklı eğitim verileriyle çok fazla değişir",
-      "Bias: model gerçek doğrusal olmayan örüntüyü yakalamak için çok katıdır",
-      "İndirgenemez gürültü: veri çok gürültülüdür",
-      "Hiçbiri: model mükemmel uymalıdır"
-    ],
-    "correct": 1,
-    "explanation": "Doğrusal bir model, ne kadar veri görürse görsün ikinci dereceden bir eğriyi yakalayamaz. Yanlış model varsayımlarından kaynaklanan bu sistematik hata bias'tır. Model yetersiz öğrenir."
-  },
-  {
-    "id": "biasvar-pre-2",
-    "stage": "pre",
-    "question": "Beklenen hatanın bias-variance ayrışımı üç terime sahiptir. Hangisi hiçbir model tarafından azaltılamaz?",
-    "options": [
-      "Bias kare",
-      "Varyans",
-      "İndirgenemez gürültü (sigma kare)",
-      "Üçü de sıfıra indirgenebilir"
-    ],
-    "correct": 2,
-    "explanation": "İndirgenemez gürültü, verinin kendisindeki rastgelelikten gelir (ölçüm hatası, eksik değişkenler). Hiçbir model gürültüyü tahmin edemez. Beklenen hata = bias^2 + varyans + indirgenemez gürültü."
-  },
-  {
-    "id": "biasvar-post-1",
-    "stage": "post",
-    "question": "Bir modele L2 düzenlileştirme eklemek bias'ı artırır ve varyansı azaltır. Bu neden faydalıdır?",
-    "options": [
-      "Her zaman hem eğitim hem test doğruluğunu artırır",
-      "Varyanstaki azalma, bias'taki artıştan daha ağır basabilir ve toplam hatayı düşürebilir",
-      "L2 düzenlileştirme indirgenemez gürültüyü yok eder",
-      "Modeli eğitmesi daha hızlı hale getirir"
-    ],
-    "correct": 1,
-    "explanation": "Düzenlileştirme, küçük bir bias artışını daha büyük bir varyans azalışıyla takas eder. Bir model aşırı öğrendiğinde (yüksek varyans), bu takas bias hafifçe artmasına rağmen toplam hatayı düşürür."
-  },
-  {
-    "id": "biasvar-post-2",
-    "stage": "post",
-    "question": "Bir modelin eğitim hatası = %2 ve test hatası = %25. En olası teşhis nedir?",
-    "options": [
-      "Yüksek bias (yetersiz öğrenme): model çok basit",
-      "Yüksek varyans (aşırı öğrenme): model eğitim verisini ezberledi ve genelleyemiyor",
-      "Yüksek indirgenemez gürültü: veri çok gürültülü",
-      "Model mükemmel kalibre edilmiş"
-    ],
-    "correct": 1,
-    "explanation": "Düşük eğitim hatası + yüksek test hatası + büyük fark = yüksek varyans (aşırı öğrenme). Model eğitime özgü gürültüyü uyduruyor. Çözümler: düzenlileştir, karmaşıklığı azalt, daha fazla veri al."
-  },
-  {
-    "id": "biasvar-post-3",
-    "stage": "post",
-    "question": "Aynı model mimarisini 50 farklı rastgele eğitim alt kümesinde eğitiyorsunuz ve tahminlerin aralarında çılgınca değiştiğini gözlemliyorsunuz. Bu neyi gösterir?",
-    "options": [
-      "Yüksek bias: model gerçek örüntüyü sürekli kaçırıyor",
-      "Yüksek varyans: model hangi eğitim verisini gördüğüne duyarlı",
-      "Yüksek indirgenemez gürültü: hedef değişken rastgele",
-      "Öğrenme oranı çok yüksek"
-    ],
-    "correct": 1,
-    "explanation": "Varyans, farklı eğitim alt kümelerinde eğitildiğinde tahminlerin ne kadar değiştiğini ölçer. Alt kümeler arasında çılgınca farklı tahminler, yüksek varyansın tanımıdır."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "biasvar-pre-1",
+      "stage": "pre",
+      "question": "Doğrusal bir model, belirgin şekilde eğrisel (kuadratik) bir ilişkiyi uydurmak için kullanılıyor. Hangi hata bileşeni baskındır?",
+      "options": [
+        "Varyans: model farklı eğitim verileriyle çok fazla değişir",
+        "Bias: model gerçek doğrusal olmayan örüntüyü yakalamak için çok katıdır",
+        "İndirgenemez gürültü: veri çok gürültülüdür",
+        "Hiçbiri: model mükemmel uymalıdır"
+      ],
+      "correct": 1,
+      "explanation": "Doğrusal bir model, ne kadar veri görürse görsün ikinci dereceden bir eğriyi yakalayamaz. Yanlış model varsayımlarından kaynaklanan bu sistematik hata bias'tır. Model yetersiz öğrenir."
+    },
+    {
+      "id": "biasvar-pre-2",
+      "stage": "pre",
+      "question": "Beklenen hatanın bias-variance ayrışımı üç terime sahiptir. Hangisi hiçbir model tarafından azaltılamaz?",
+      "options": [
+        "Bias kare",
+        "Varyans",
+        "İndirgenemez gürültü (sigma kare)",
+        "Üçü de sıfıra indirgenebilir"
+      ],
+      "correct": 2,
+      "explanation": "İndirgenemez gürültü, verinin kendisindeki rastgelelikten gelir (ölçüm hatası, eksik değişkenler). Hiçbir model gürültüyü tahmin edemez. Beklenen hata = bias^2 + varyans + indirgenemez gürültü."
+    },
+    {
+      "id": "biasvar-post-1",
+      "stage": "post",
+      "question": "Bir modele L2 düzenlileştirme eklemek bias'ı artırır ve varyansı azaltır. Bu neden faydalıdır?",
+      "options": [
+        "Her zaman hem eğitim hem test doğruluğunu artırır",
+        "Varyanstaki azalma, bias'taki artıştan daha ağır basabilir ve toplam hatayı düşürebilir",
+        "L2 düzenlileştirme indirgenemez gürültüyü yok eder",
+        "Modeli eğitmesi daha hızlı hale getirir"
+      ],
+      "correct": 1,
+      "explanation": "Düzenlileştirme, küçük bir bias artışını daha büyük bir varyans azalışıyla takas eder. Bir model aşırı öğrendiğinde (yüksek varyans), bu takas bias hafifçe artmasına rağmen toplam hatayı düşürür."
+    },
+    {
+      "id": "biasvar-post-2",
+      "stage": "post",
+      "question": "Bir modelin eğitim hatası = %2 ve test hatası = %25. En olası teşhis nedir?",
+      "options": [
+        "Yüksek bias (yetersiz öğrenme): model çok basit",
+        "Yüksek varyans (aşırı öğrenme): model eğitim verisini ezberledi ve genelleyemiyor",
+        "Yüksek indirgenemez gürültü: veri çok gürültülü",
+        "Model mükemmel kalibre edilmiş"
+      ],
+      "correct": 1,
+      "explanation": "Düşük eğitim hatası + yüksek test hatası + büyük fark = yüksek varyans (aşırı öğrenme). Model eğitime özgü gürültüyü uyduruyor. Çözümler: düzenlileştir, karmaşıklığı azalt, daha fazla veri al."
+    },
+    {
+      "id": "biasvar-post-3",
+      "stage": "post",
+      "question": "Aynı model mimarisini 50 farklı rastgele eğitim alt kümesinde eğitiyorsunuz ve tahminlerin aralarında çılgınca değiştiğini gözlemliyorsunuz. Bu neyi gösterir?",
+      "options": [
+        "Yüksek bias: model gerçek örüntüyü sürekli kaçırıyor",
+        "Yüksek varyans: model hangi eğitim verisini gördüğüne duyarlı",
+        "Yüksek indirgenemez gürültü: hedef değişken rastgele",
+        "Öğrenme oranı çok yüksek"
+      ],
+      "correct": 1,
+      "explanation": "Varyans, farklı eğitim alt kümelerinde eğitildiğinde tahminlerin ne kadar değiştiğini ölçer. Alt kümeler arasında çılgınca farklı tahminler, yüksek varyansın tanımıdır."
+    }
+  ]
+}

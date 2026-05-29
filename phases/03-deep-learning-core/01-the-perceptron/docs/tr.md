@@ -82,7 +82,7 @@ Her eğitim örneği (x, y_gercek) için:
     bias = bias + ogrenme_hizi * hata
 ```
 
-Tahmin doğruysa, hata = 0, hiçbir şey değişmez. 0 tahmin etmesi gerekirken 1 tahmin ederse, ağırlıklar artar. 1 tahmin etmesi gerekirken 0 tahmin ederse, ağırlıklar azalır. Öğrenme hızı her ayarlamamanın ne kadar büyük olduğunu kontrol eder.
+Tahmin doğruysa, hata = 0, hiçbir şey değişmez. 0 tahmin etmesi gerekirken 1 tahmin ederse, ağırlıklar artar. 1 tahmin etmesi gerekirken 0 tahmin ederse, ağırlıklar azalır. Öğrenme hızı her ayarlamanın ne kadar büyük olduğunu kontrol eder.
 
 ### XOR Sorunu
 
@@ -147,7 +147,7 @@ Bu, gradyan inişini mümkün kılar. Geri yayılım (backpropagation) ile ağı
 | Algılayıcı | "Tek nöron" | Tek bir ağırlıklı toplam + aktivasyon ile karar veren ünite |
 | Bias | "Önyargı" | Karar sınırını kaydıran ek terim |
 | Ağırlık | "Önem" | Her girdinin çıktıyı ne kadar etkilediğini gösteren sayı |
-| Aktivasyon fonksiyonu | "Dönüşüm fonksiyonu" | Doğrusal çıktıyı doğrusal olmayan的形式a sokan fonksiyon |
+| Aktivasyon fonksiyonu | "Dönüşüm fonksiyonu" | Doğrusal çıktıyı doğrusal olmayan forma sokan fonksiyon |
 | Karar sınırı | "Sınır çizgisi" | Sınıfları ayıran çizgi veya hiperdüzlem |
 | XOR | "Özel VEYA" | Doğrusal olarak ayrılabilir olmayan mantık kapısı |
 | Geri yayılım | "Hata yayılımı" | Hata türevlerini ağırlıklara doğru geriye yayma |

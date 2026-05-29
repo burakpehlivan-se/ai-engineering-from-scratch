@@ -26,7 +26,7 @@ Birincisi, salınım. Kayıp manzarası nadiren pürüzsüz bir kase şeklindedi
 
 İkincisi, tüm parametreler için tek öğrenme hızı yanlıştır. Bazı ağırlıkların büyük güncellemelere ihtiyacı vardır (erken, yetersiz uyum aşamasındadırlar). Diğerlerinin çok küçük güncellemelere ihtiyacı vardır (optimum değerlerine yakındırlar). Birincisi için çalışan öğrenme hızı ikincisini bozar ve tersi.
 
-Üçüncüsü, eyer noktaları. Yüksek boyutlarda, kayıp manzarasında gradyanın sıfıra yakın olduğu geniş düzlük bölgeleri vardır. Saf SGD bunları gradyan hızıyla geçer, ki bu etkili olarak sıfordur. Model takılmış görünür. Takılmamıştır — faydalı bir aşağı inişin olduğu düz bir bölgededir. Ama SGD'nin bunu aşma mekanizması yoktur.
+Üçüncüsü, eyer noktaları. Yüksek boyutlarda, kayıp manzarasında gradyanın sıfıra yakın olduğu geniş düzlük bölgeleri vardır. Saf SGD bunları gradyan hızıyla geçer, ki bu etkili olarak sıfırdır. Model takılmış görünür. Takılmamıştır — faydalı bir aşağı inişin olduğu düz bir bölgededir. Ama SGD'nin bunu aşma mekanizması yoktur.
 
 Adam üçünü de çözer. Her parametre için iki akan ortalama tutar — ortalama gradyan (momentum, salınımı ele alır) ve ortalama kare gradyan (adaptif hız, farklı ölçekleri ele alır). İlk birkaç adım için önyargı düzeltmesiyle birleştirildiğinde, varsayılan hiperparametrelerle %80 sorunda çalışan tek bir optimize edici verir.
 

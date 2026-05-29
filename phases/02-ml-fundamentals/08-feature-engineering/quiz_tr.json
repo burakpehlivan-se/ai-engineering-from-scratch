@@ -1,67 +1,71 @@
-[
-  {
-    "id": "feateng-pre-1",
-    "stage": "pre",
-    "question": "Özellik mühendisliği neden genellikle daha süslü bir algoritma seçmekten daha etkilidir?",
-    "options": [
-      "Özellik mühendisliği kodun daha hızlı çalışmasını sağlar",
-      "İyi özellikler, modelin ham verinin gizlediği örüntüleri görmesini sağlar ve basit modelleri bile etkili kılar",
-      "Özellik mühendisliği test seti ihtiyacını ortadan kaldırır",
-      "Süslü algoritmalar ham veriyi işleyemez"
-    ],
-    "correct": 1,
-    "explanation": "Verinin temsili algoritmadan daha önemlidir. VKİ (kilo/boy^2) gibi iyi tasarlanmış bir özellik, ilgili örüntüyü doğrudan ortaya çıkarır ve basit lojistik regresyonu bile karmaşık ensemble yöntemleriyle rekabet edebilir hale getirir."
-  },
-  {
-    "id": "feateng-pre-2",
-    "stage": "pre",
-    "question": "One-hot encoding nedir?",
-    "options": [
-      "Her kategoriyi veri kümesindeki sıklığıyla değiştirmek",
-      "Her kategori için bir ikili sütun oluşturmak ve her satırda tam olarak bir sütunun 1 olması",
-      "Tüm özellikleri 0 ile 1 arasındaki değerlere dönüştürmek",
-      "Hedef değişkeni bir olasılık olarak kodlamak"
-    ],
-    "correct": 1,
-    "explanation": "One-hot encoding her benzersiz kategori için bir ikili sütun oluşturur. Kırmızı/mavi/yeşil değerlerine sahip bir renk özelliği için üç sütun üretir: is_red, is_blue, is_green."
-  },
-  {
-    "id": "feateng-post-1",
-    "stage": "post",
-    "question": "Target encoding'deki veri sızıntısı (data leakage) riski nedir?",
-    "options": [
-      "Modelin eğitimini çok yavaşlatır",
-      "Kategorileri ortalama hedef değeriyle değiştirir; yalnızca eğitim verisinde hesaplanmazsa test setinden bilgi sızdırabilir",
-      "Çok fazla özellik oluşturur",
-      "Yalnızca ikili hedeflerle çalışır"
-    ],
-    "correct": 1,
-    "explanation": "Target encoding her kategoriyi o kategorideki ortalama hedef değeriyle değiştirir. Tüm veri setinde (test dahil) hesaplanırsa, test etiketleri eğitim özelliklerine sızar ve performans tahminleri yapay olarak şişer."
-  },
-  {
-    "id": "feateng-post-2",
-    "stage": "post",
-    "question": "TF-IDF bir kelimeyi ters belge sıklığıyla ağırlıklandırır. Bunun etkisi nedir?",
-    "options": [
-      "'the' gibi yaygın kelimeler sık görüldükleri için yüksek ağırlık alır",
-      "Nadir, ayırt edici kelimeler yüksek ağırlık alırken yaygın kelimeler düşük ağırlık alır",
-      "Tüm kelimeler sıklıklarına bakılmaksızın eşit ağırlık alır",
-      "Her belgede yalnızca en sık kelime tutulur"
-    ],
-    "correct": 1,
-    "explanation": "IDF = log(toplam belge / kelimeyi içeren belge sayısı). Birçok belgede geçen yaygın kelimeler düşük IDF alır. Nadir, ayırt edici kelimeler yüksek IDF alır ve bu sayede temsilde daha etkili olurlar."
-  },
-  {
-    "id": "feateng-post-3",
-    "stage": "post",
-    "question": "Korelasyonu 0.98 olan iki özelliğiniz var. Neden birini kaldırmak isteyebilirsiniz?",
-    "options": [
-      "Yüksek korelasyonlu özellikler her zaman modelin çökmesine neden olur",
-      "Gereksizdirler — ikisi de neredeyse aynı bilgiyi taşır ve ikisini de tutmak aşırı öğrenme riskini artırır",
-      "Korelasyonlu özellikler veriyi durağan olmayan hale getirir",
-      "0.5'in üzerindeki korelasyon, özelliklerin farklı şeyler ölçtüğü anlamına gelir"
-    ],
-    "correct": 1,
-    "explanation": "r=0.98 olan özellikler neredeyse birbirinin aynısıdır. İkisini de tutmak, hedef hakkında yeni bilgi sağlamadan boyutluluğu, aşırı öğrenme riskini ve çoklu bağlantıyı (multicollinearity) artıran gürültülü bir kopya ekler."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "feateng-pre-1",
+      "stage": "pre",
+      "question": "Özellik mühendisliği neden genellikle daha süslü bir algoritma seçmekten daha etkilidir?",
+      "options": [
+        "Özellik mühendisliği kodun daha hızlı çalışmasını sağlar",
+        "İyi özellikler, modelin ham verinin gizlediği örüntüleri görmesini sağlar ve basit modelleri bile etkili kılar",
+        "Özellik mühendisliği test seti ihtiyacını ortadan kaldırır",
+        "Süslü algoritmalar ham veriyi işleyemez"
+      ],
+      "correct": 1,
+      "explanation": "Verinin temsili algoritmadan daha önemlidir. VKİ (kilo/boy^2) gibi iyi tasarlanmış bir özellik, ilgili örüntüyü doğrudan ortaya çıkarır ve basit lojistik regresyonu bile karmaşık ensemble yöntemleriyle rekabet edebilir hale getirir."
+    },
+    {
+      "id": "feateng-pre-2",
+      "stage": "pre",
+      "question": "One-hot encoding nedir?",
+      "options": [
+        "Her kategoriyi veri kümesindeki sıklığıyla değiştirmek",
+        "Her kategori için bir ikili sütun oluşturmak ve her satırda tam olarak bir sütunun 1 olması",
+        "Tüm özellikleri 0 ile 1 arasındaki değerlere dönüştürmek",
+        "Hedef değişkeni bir olasılık olarak kodlamak"
+      ],
+      "correct": 1,
+      "explanation": "One-hot encoding her benzersiz kategori için bir ikili sütun oluşturur. Kırmızı/mavi/yeşil değerlerine sahip bir renk özelliği için üç sütun üretir: is_red, is_blue, is_green."
+    },
+    {
+      "id": "feateng-post-1",
+      "stage": "post",
+      "question": "Target encoding'deki veri sızıntısı (data leakage) riski nedir?",
+      "options": [
+        "Modelin eğitimini çok yavaşlatır",
+        "Kategorileri ortalama hedef değeriyle değiştirir; yalnızca eğitim verisinde hesaplanmazsa test setinden bilgi sızdırabilir",
+        "Çok fazla özellik oluşturur",
+        "Yalnızca ikili hedeflerle çalışır"
+      ],
+      "correct": 1,
+      "explanation": "Target encoding her kategoriyi o kategorideki ortalama hedef değeriyle değiştirir. Tüm veri setinde (test dahil) hesaplanırsa, test etiketleri eğitim özelliklerine sızar ve performans tahminleri yapay olarak şişer."
+    },
+    {
+      "id": "feateng-post-2",
+      "stage": "post",
+      "question": "TF-IDF bir kelimeyi ters belge sıklığıyla ağırlıklandırır. Bunun etkisi nedir?",
+      "options": [
+        "'the' gibi yaygın kelimeler sık görüldükleri için yüksek ağırlık alır",
+        "Nadir, ayırt edici kelimeler yüksek ağırlık alırken yaygın kelimeler düşük ağırlık alır",
+        "Tüm kelimeler sıklıklarına bakılmaksızın eşit ağırlık alır",
+        "Her belgede yalnızca en sık kelime tutulur"
+      ],
+      "correct": 1,
+      "explanation": "IDF = log(toplam belge / kelimeyi içeren belge sayısı). Birçok belgede geçen yaygın kelimeler düşük IDF alır. Nadir, ayırt edici kelimeler yüksek IDF alır ve bu sayede temsilde daha etkili olurlar."
+    },
+    {
+      "id": "feateng-post-3",
+      "stage": "post",
+      "question": "Korelasyonu 0.98 olan iki özelliğiniz var. Neden birini kaldırmak isteyebilirsiniz?",
+      "options": [
+        "Yüksek korelasyonlu özellikler her zaman modelin çökmesine neden olur",
+        "Gereksizdirler — ikisi de neredeyse aynı bilgiyi taşır ve ikisini de tutmak aşırı öğrenme riskini artırır",
+        "Korelasyonlu özellikler veriyi durağan olmayan hale getirir",
+        "0.5'in üzerindeki korelasyon, özelliklerin farklı şeyler ölçtüğü anlamına gelir"
+      ],
+      "correct": 1,
+      "explanation": "r=0.98 olan özellikler neredeyse birbirinin aynısıdır. İkisini de tutmak, hedef hakkında yeni bilgi sağlamadan boyutluluğu, aşırı öğrenme riskini ve çoklu bağlantıyı (multicollinearity) artıran gürültülü bir kopya ekler."
+    }
+  ]
+}

@@ -27,7 +27,7 @@ PyTorch'ta her katman `nn.Module`'dan türer. Bir Module'ün üç sorumluluğu v
 
 ### Sequential Kabı
 
-`nn.Sequential` Modul'leri zincirler. İleri geçiş: Modul 1 → Modul 2 → Modul 3. Geri geçiş: ters sıra. Kabın kendisi bir Module'dür.
+`nn.Sequential` Modül'leri zincirler. İleri geçiş: Modül 1 → Modül 2 → Modül 3. Geri geçiş: ters sıra. Kabın kendisi bir Module'dür.
 
 ### Eğitim vs Değerlendirme Modu
 

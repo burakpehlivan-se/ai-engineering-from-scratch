@@ -1,67 +1,71 @@
-[
-  {
-    "id": "imbalanced-pre-1",
-    "stage": "pre",
-    "question": "%99.9'u meşru işlem, %0.1'i dolandırıcılık olan bir veri setinde model her işleme 'meşru' tahmini yapıyor. Doğruluk (accuracy) nedir?",
-    "options": [
-      "%50",
-      "%0.1",
-      "%99.9",
-      "%100"
-    ],
-    "correct": 2,
-    "explanation": "Accuracy = 999/1000 = %99.9. Model sıfır dolandırıcılık yakalar ancak accuracy açısından harika görünür. Dengesiz veri setlerinde accuracy'nin neden tehlikeli olduğunu tam olarak budur."
-  },
-  {
-    "id": "imbalanced-pre-2",
-    "stage": "pre",
-    "question": "Hangi metrik, her zaman negatif tahmin eden modeli işe yaramaz olarak doğru şekilde tanımlar?",
-    "options": [
-      "Accuracy (%99.9)",
-      "Recall (%0) veya F1 skoru (%0)",
-      "Specificity (%100)",
-      "True negative rate (%100)"
-    ],
-    "correct": 1,
-    "explanation": "Recall = TP/(TP+FN) = 0/toplam_pozitif = %0. F1 = 2*0*0/(0+0) = 0. İkisi de modelin pozitif sınıfta hiçbir şey yakalamadığını doğru şekilde gösterir. Accuracy bu başarısızlığı gizler."
-  },
-  {
-    "id": "imbalanced-post-1",
-    "stage": "post",
-    "question": "SMOTE sentetik minority örneklerini nasıl üretir?",
-    "options": [
-      "Mevcut minority örneklerini birebir kopyalayarak",
-      "Özellik uzayında (feature space) rastgele noktalar üreterek",
-      "Bir minority örneği ile onun K en yakın minority komşusundan biri arasında interpolasyon yaparak",
-      "Majority class örneklerinin etiketlerini ters çevirerek"
-    ],
-    "correct": 2,
-    "explanation": "SMOTE bir minority noktası seçer, K en yakın minority komşusundan birini alır ve aralarındaki doğru parçası üzerinde yeni bir nokta oluşturur: new = x + rand(0,1) * (neighbor - x). Bu, mantıklı ve kopya olmayan örnekler üretir."
-  },
-  {
-    "id": "imbalanced-post-2",
-    "stage": "post",
-    "question": "Dengesiz bir veri setinde sınıflandırma threshold'unu 0.5'ten 0.3'e düşürüyorsunuz. Precision ve recall'a ne olur?",
-    "options": [
-      "Hem precision hem recall artar",
-      "Recall artar (daha fazla pozitif yakalanır) ancak precision düşer (daha fazla yanlış pozitif)",
-      "Precision artar ancak recall düşer",
-      "İkisi de değişmez — threshold yalnızca hızı etkiler"
-    ],
-    "correct": 1,
-    "explanation": "Threshold'u düşürmek, daha fazla örneğin pozitif tahmin edilmesi anlamına gelir. Bu daha fazla true positive yakalar (recall artar) ancak daha fazla false positive ekler (precision düşer). Threshold tuning, precision ile recall arasında bir ödünleşimdir."
-  },
-  {
-    "id": "imbalanced-post-3",
-    "stage": "post",
-    "question": "Yüksek oranda dengesiz veri setlerinde AUPRC (Area Under Precision-Recall Curve), AUC-ROC'tan neden daha bilgilendiricidir?",
-    "options": [
-      "AUPRC her zaman AUC-ROC'tan yüksektir",
-      "Rastgele bir sınıflandırıcının AUPRC değeri pozitif sınıf oranına eşittir (ör. 0.001), bu sayede iyileştirmeler görünür hale gelir; AUC-ROC ise dengesizlikten bağımsız olarak 0.5'ten başlar",
-      "AUPRC bir threshold gerektirmez",
-      "AUC-ROC dengesiz veriler için hesaplanamaz"
-    ],
-    "correct": 1,
-    "explanation": "Dengesiz verilerde AUC-ROC, yüksek sayıdaki true negative nedeniyle yanıltıcı derecede iyi görünebilir. AUPRC'nin baseline'ı pozitif sınıf oranına eşittir, bu da minority class'ı tespitteki gerçek iyileştirmeleri çok daha belirgin hale getirir."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "imbalanced-pre-1",
+      "stage": "pre",
+      "question": "%99.9'u meşru işlem, %0.1'i dolandırıcılık olan bir veri setinde model her işleme 'meşru' tahmini yapıyor. Doğruluk (accuracy) nedir?",
+      "options": [
+        "%50",
+        "%0.1",
+        "%99.9",
+        "%100"
+      ],
+      "correct": 2,
+      "explanation": "Accuracy = 999/1000 = %99.9. Model sıfır dolandırıcılık yakalar ancak accuracy açısından harika görünür. Dengesiz veri setlerinde accuracy'nin neden tehlikeli olduğunu tam olarak budur."
+    },
+    {
+      "id": "imbalanced-pre-2",
+      "stage": "pre",
+      "question": "Hangi metrik, her zaman negatif tahmin eden modeli işe yaramaz olarak doğru şekilde tanımlar?",
+      "options": [
+        "Accuracy (%99.9)",
+        "Recall (%0) veya F1 skoru (%0)",
+        "Specificity (%100)",
+        "True negative rate (%100)"
+      ],
+      "correct": 1,
+      "explanation": "Recall = TP/(TP+FN) = 0/toplam_pozitif = %0. F1 = 2*0*0/(0+0) = 0. İkisi de modelin pozitif sınıfta hiçbir şey yakalamadığını doğru şekilde gösterir. Accuracy bu başarısızlığı gizler."
+    },
+    {
+      "id": "imbalanced-post-1",
+      "stage": "post",
+      "question": "SMOTE sentetik minority örneklerini nasıl üretir?",
+      "options": [
+        "Mevcut minority örneklerini birebir kopyalayarak",
+        "Özellik uzayında (feature space) rastgele noktalar üreterek",
+        "Bir minority örneği ile onun K en yakın minority komşusundan biri arasında interpolasyon yaparak",
+        "Majority class örneklerinin etiketlerini ters çevirerek"
+      ],
+      "correct": 2,
+      "explanation": "SMOTE bir minority noktası seçer, K en yakın minority komşusundan birini alır ve aralarındaki doğru parçası üzerinde yeni bir nokta oluşturur: new = x + rand(0,1) * (neighbor - x). Bu, mantıklı ve kopya olmayan örnekler üretir."
+    },
+    {
+      "id": "imbalanced-post-2",
+      "stage": "post",
+      "question": "Dengesiz bir veri setinde sınıflandırma threshold'unu 0.5'ten 0.3'e düşürüyorsunuz. Precision ve recall'a ne olur?",
+      "options": [
+        "Hem precision hem recall artar",
+        "Recall artar (daha fazla pozitif yakalanır) ancak precision düşer (daha fazla yanlış pozitif)",
+        "Precision artar ancak recall düşer",
+        "İkisi de değişmez — threshold yalnızca hızı etkiler"
+      ],
+      "correct": 1,
+      "explanation": "Threshold'u düşürmek, daha fazla örneğin pozitif tahmin edilmesi anlamına gelir. Bu daha fazla true positive yakalar (recall artar) ancak daha fazla false positive ekler (precision düşer). Threshold tuning, precision ile recall arasında bir ödünleşimdir."
+    },
+    {
+      "id": "imbalanced-post-3",
+      "stage": "post",
+      "question": "Yüksek oranda dengesiz veri setlerinde AUPRC (Area Under Precision-Recall Curve), AUC-ROC'tan neden daha bilgilendiricidir?",
+      "options": [
+        "AUPRC her zaman AUC-ROC'tan yüksektir",
+        "Rastgele bir sınıflandırıcının AUPRC değeri pozitif sınıf oranına eşittir (ör. 0.001), bu sayede iyileştirmeler görünür hale gelir; AUC-ROC ise dengesizlikten bağımsız olarak 0.5'ten başlar",
+        "AUPRC bir threshold gerektirmez",
+        "AUC-ROC dengesiz veriler için hesaplanamaz"
+      ],
+      "correct": 1,
+      "explanation": "Dengesiz verilerde AUC-ROC, yüksek sayıdaki true negative nedeniyle yanıltıcı derecede iyi görünebilir. AUPRC'nin baseline'ı pozitif sınıf oranına eşittir, bu da minority class'ı tespitteki gerçek iyileştirmeleri çok daha belirgin hale getirir."
+    }
+  ]
+}

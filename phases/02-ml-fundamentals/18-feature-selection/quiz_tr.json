@@ -1,67 +1,71 @@
-[
-  {
-    "id": "featsel-pre-1",
-    "stage": "pre",
-    "question": "Daha fazla özellik eklemek neden modelin performansını düşürebilir?",
-    "options": [
-      "Daha fazla özellik her zaman model doğruluğunu artırır",
-      "İlgisiz özellikler gürültü ekler, overfit riskini artırır ve yararlı özelliklerin sinyalini zayıflatır",
-      "Modellerin kabul edebileceği özellik sayısında sabit bir sınır vardır",
-      "Daha fazla özellik modelin hafızasını tüketmesine neden olur"
-    ],
-    "correct": 1,
-    "explanation": "İlgisiz özellikler, modele eğitim verisindeki gürültüye overfit olma fırsatı verir. Boyutluluğu artırarak veriyi seyreltir ve uzaklıkları anlamsız kılar (curse of dimensionality)."
-  },
-  {
-    "id": "featsel-pre-2",
-    "stage": "pre",
-    "question": "Filter ve wrapper feature selection method'ları arasındaki temel fark nedir?",
-    "options": [
-      "Filter method'lar özellikleri değerlendirmek için model kullanır; wrapper method'lar istatistik kullanır",
-      "Filter method'lar özellikleri model kullanmadan istatistikle puanlar; wrapper method'lar özellik altkümelerini değerlendirmek için model eğitir",
-      "Filter method'lar her zaman wrapper method'lardan daha doğrudur",
-      "Wrapper method'lar aynı anda yalnızca bir özellik seçebilir"
-    ],
-    "correct": 1,
-    "explanation": "Filter method'lar (variance threshold, mutual information, correlation) özellikleri istatistiksel ölçütlerle puanlar. Wrapper method'lar (RFE, forward selection) farklı özellik altkümelerini değerlendirmek için modelleri tekrar tekrar eğitir."
-  },
-  {
-    "id": "featsel-post-1",
-    "stage": "post",
-    "question": "Mutual information, Pearson correlation'ın yakalayamadığı hangi tür ilişkileri tespit edebilir?",
-    "options": [
-      "Sürekli özellikler arasındaki doğrusal ilişkileri",
-      "Kuadratik veya periyodik bağımlılıklar gibi doğrusal olmayan ilişkileri",
-      "Yalnızca kategorik özellikler arasındaki ilişkileri",
-      "1000'den fazla veri noktası gerektiren ilişkileri"
-    ],
-    "correct": 1,
-    "explanation": "Pearson correlation yalnızca doğrusal ilişkiyi ölçer. Kuadratik bir ilişki (y = x^2) sıfır correlation'a ancak yüksek mutual information'a sahiptir. MI, değişkenler arasındaki her tür istatistiksel bağımlılığı yakalar."
-  },
-  {
-    "id": "featsel-post-2",
-    "stage": "post",
-    "question": "L1 (Lasso) regularization, eğitimin bir parçası olarak feature selection'ı nasıl gerçekleştirir?",
-    "options": [
-      "Eğitim başlamadan önce düşük varyanslı özellikleri kaldırır",
-      "İlgisiz özelliklerin ağırlıklarını tam olarak sıfıra iter, böylece onları modelden etkin bir şekilde eler",
-      "Özellikleri hedefle correlation'a göre sıralar",
-      "Her özellik için ayrı modeller eğitir"
-    ],
-    "correct": 1,
-    "explanation": "L1 regularization, kayıp fonksiyonuna |w| cezası ekler. L1 kısıtlamasının geometrisi (elmas şekli) bazı ağırlık çözümlerinin tam sıfıra düşmesine neden olur; bu da otomatik olarak özellik seçen seyrek modeller üretir."
-  },
-  {
-    "id": "featsel-post-3",
-    "stage": "post",
-    "question": "RFE en az önemli özelliği kaldırıp yeniden eğitir. Bunu tüm düşük önemli özellikleri tek seferde kaldırmaktan daha iyi kılan nedir?",
-    "options": [
-      "Daha iyi değildir — hepsini tek seferde kaldırmak her zaman tercih edilir",
-      "Özellikler kaldırıldıkça özellik önemleri değişir, bu nedenle yinelemeli kaldırma özellikler arasındaki etkileşimleri hesaba katar",
-      "RFE, tek seferlik kaldırmadan farklı bir önem metriği kullanır",
-      "Tek tek kaldırmak yalnızca sinir ağları için gereklidir"
-    ],
-    "correct": 1,
-    "explanation": "Özellik önemleri görecelidir. İlişkili bir özellik kaldırıldığında, eşdeğerinin önemi artabilir. Yinelemeli kaldırma, modelin her adımda önemleri yeniden değerlendirmesine izin vererek bu etkileşimleri yakalar."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "featsel-pre-1",
+      "stage": "pre",
+      "question": "Daha fazla özellik eklemek neden modelin performansını düşürebilir?",
+      "options": [
+        "Daha fazla özellik her zaman model doğruluğunu artırır",
+        "İlgisiz özellikler gürültü ekler, overfit riskini artırır ve yararlı özelliklerin sinyalini zayıflatır",
+        "Modellerin kabul edebileceği özellik sayısında sabit bir sınır vardır",
+        "Daha fazla özellik modelin hafızasını tüketmesine neden olur"
+      ],
+      "correct": 1,
+      "explanation": "İlgisiz özellikler, modele eğitim verisindeki gürültüye overfit olma fırsatı verir. Boyutluluğu artırarak veriyi seyreltir ve uzaklıkları anlamsız kılar (curse of dimensionality)."
+    },
+    {
+      "id": "featsel-pre-2",
+      "stage": "pre",
+      "question": "Filter ve wrapper feature selection method'ları arasındaki temel fark nedir?",
+      "options": [
+        "Filter method'lar özellikleri değerlendirmek için model kullanır; wrapper method'lar istatistik kullanır",
+        "Filter method'lar özellikleri model kullanmadan istatistikle puanlar; wrapper method'lar özellik altkümelerini değerlendirmek için model eğitir",
+        "Filter method'lar her zaman wrapper method'lardan daha doğrudur",
+        "Wrapper method'lar aynı anda yalnızca bir özellik seçebilir"
+      ],
+      "correct": 1,
+      "explanation": "Filter method'lar (variance threshold, mutual information, correlation) özellikleri istatistiksel ölçütlerle puanlar. Wrapper method'lar (RFE, forward selection) farklı özellik altkümelerini değerlendirmek için modelleri tekrar tekrar eğitir."
+    },
+    {
+      "id": "featsel-post-1",
+      "stage": "post",
+      "question": "Mutual information, Pearson correlation'ın yakalayamadığı hangi tür ilişkileri tespit edebilir?",
+      "options": [
+        "Sürekli özellikler arasındaki doğrusal ilişkileri",
+        "Kuadratik veya periyodik bağımlılıklar gibi doğrusal olmayan ilişkileri",
+        "Yalnızca kategorik özellikler arasındaki ilişkileri",
+        "1000'den fazla veri noktası gerektiren ilişkileri"
+      ],
+      "correct": 1,
+      "explanation": "Pearson correlation yalnızca doğrusal ilişkiyi ölçer. Kuadratik bir ilişki (y = x^2) sıfır correlation'a ancak yüksek mutual information'a sahiptir. MI, değişkenler arasındaki her tür istatistiksel bağımlılığı yakalar."
+    },
+    {
+      "id": "featsel-post-2",
+      "stage": "post",
+      "question": "L1 (Lasso) regularization, eğitimin bir parçası olarak feature selection'ı nasıl gerçekleştirir?",
+      "options": [
+        "Eğitim başlamadan önce düşük varyanslı özellikleri kaldırır",
+        "İlgisiz özelliklerin ağırlıklarını tam olarak sıfıra iter, böylece onları modelden etkin bir şekilde eler",
+        "Özellikleri hedefle correlation'a göre sıralar",
+        "Her özellik için ayrı modeller eğitir"
+      ],
+      "correct": 1,
+      "explanation": "L1 regularization, kayıp fonksiyonuna |w| cezası ekler. L1 kısıtlamasının geometrisi (elmas şekli) bazı ağırlık çözümlerinin tam sıfıra düşmesine neden olur; bu da otomatik olarak özellik seçen seyrek modeller üretir."
+    },
+    {
+      "id": "featsel-post-3",
+      "stage": "post",
+      "question": "RFE en az önemli özelliği kaldırıp yeniden eğitir. Bunu tüm düşük önemli özellikleri tek seferde kaldırmaktan daha iyi kılan nedir?",
+      "options": [
+        "Daha iyi değildir — hepsini tek seferde kaldırmak her zaman tercih edilir",
+        "Özellikler kaldırıldıkça özellik önemleri değişir, bu nedenle yinelemeli kaldırma özellikler arasındaki etkileşimleri hesaba katar",
+        "RFE, tek seferlik kaldırmadan farklı bir önem metriği kullanır",
+        "Tek tek kaldırmak yalnızca sinir ağları için gereklidir"
+      ],
+      "correct": 1,
+      "explanation": "Özellik önemleri görecelidir. İlişkili bir özellik kaldırıldığında, eşdeğerinin önemi artabilir. Yinelemeli kaldırma, modelin her adımda önemleri yeniden değerlendirmesine izin vererek bu etkileşimleri yakalar."
+    }
+  ]
+}

@@ -1,67 +1,71 @@
-[
-  {
-    "id": "hptune-pre-1",
-    "stage": "pre",
-    "question": "Parametre (parameter) ve hiperparametre (hyperparameter) arasındaki fark nedir?",
-    "options": [
-      "Parametreler kullanıcı tarafından belirlenir; hiperparametreler eğitim sırasında öğrenilir",
-      "Parametreler eğitim sırasında öğrenilir (ağırlıklar, bias'lar); hiperparametreler eğitim başlamadan önce belirlenir (learning rate, max depth)",
-      "Hiçbir fark yoktur; eş anlamlıdırlar",
-      "Parametreler yalnızca sinir ağlarına, hiperparametreler yalnızca ağaç modellerine uygulanır"
-    ],
-    "correct": 1,
-    "explanation": "Parametreler optimizasyon algoritması tarafından eğitim sırasında öğrenilir (ör. ağırlıklar). Hiperparametreler eğitimden önce belirlenir ve öğrenmenin nasıl gerçekleşeceğini kontrol eder (ör. learning rate, regularizasyon şiddeti)."
-  },
-  {
-    "id": "hptune-pre-2",
-    "stage": "pre",
-    "question": "5'er değere sahip 4 hiperparametre üzerinde grid search kaç değerlendirme gerektirir?",
-    "options": [
-      "20",
-      "25",
-      "625",
-      "4"
-    ],
-    "correct": 2,
-    "explanation": "Grid search her kombinasyonu değerlendirir: 5^4 = 625. Bu üstel ölçeklenme, grid search'in çok sayıda hiperparametreyle pratik olmamasının nedenidir."
-  },
-  {
-    "id": "hptune-post-1",
-    "stage": "post",
-    "question": "Aynı değerlendirme bütçesiyle random search neden genellikle grid search'ten daha iyi performans gösterir?",
-    "options": [
-      "Random search daha iyi bir optimizasyon algoritması kullanır",
-      "Çoğu hiperparametrenin düşük efektif boyutuluğu vardır, bu nedenle random search önemli olanları daha yoğun şekilde kapsar",
-      "Random search her zaman global optimumu bulur",
-      "Grid search sürekli hiperparametreleri işleyemez"
-    ],
-    "correct": 1,
-    "explanation": "Genellikle belirli bir problem için yalnızca 1-2 hiperparametre önemlidir. Grid search, önemsiz parametreleri değiştirerek değerlendirmeleri boşa harcar. Random search, her denemede her parametre için benzersiz değerler vererek önemli boyutları daha yoğun şekilde kapsar."
-  },
-  {
-    "id": "hptune-post-2",
-    "stage": "post",
-    "question": "Bayesian optimizasyonunda kazanım fonksiyonu (acquisition function) neyi dengeler?",
-    "options": [
-      "Eğitim hızı ve model doğruluğunu",
-      "Sömürüyü (exploitation - bilinen iyi noktaların yakınında arama) ve keşfi (exploration - belirsiz bölgelerde arama)",
-      "Özellik sayısı ve örnek sayısını",
-      "Vekil modeldeki bias ve variance'ı"
-    ],
-    "correct": 1,
-    "explanation": "Kazanım fonksiyonu, sömürü (bilinen iyi sonuçların yakınında) ve keşfi (vekil modelin belirsiz olduğu yerlerde) dengeleyerek bir sonraki noktanın nerede değerlendirileceğine karar verir. Bu, aramayı random'dan daha verimli yönlendirir."
-  },
-  {
-    "id": "hptune-post-3",
-    "stage": "post",
-    "question": "Test setini kullanarak hiperparametre ayarlıyor ve en iyi test performansını raporluyorsunuz. Bu yaklaşımda ne yanlıştır?",
-    "options": [
-      "Hiçbir şey -- bu standart uygulamadır",
-      "Test setine overfit yaptınız; raporlanan performans iyimserdir ve genelleme yapmayacaktır",
-      "Test seti eğitim için kullanılmalıdır, ayar için değil",
-      "Hiperparametreler yalnızca tam sayı olmalıdır"
-    ],
-    "correct": 1,
-    "explanation": "Test setinde ayar yapmak, yalnızca belirli örneklerde iyi performans gösteren hiperparametreleri seçtiğiniz anlamına gelir. Bu, test setine overfitting'dir. Ayar için bir validasyon seti kullanın ve test setini nihai değerlendirme için ayırın."
-  }
-]
+{
+  "lesson": "quiz_tr.json",
+  "title": "",
+  "questions": [
+    {
+      "id": "hptune-pre-1",
+      "stage": "pre",
+      "question": "Parametre (parameter) ve hiperparametre (hyperparameter) arasındaki fark nedir?",
+      "options": [
+        "Parametreler kullanıcı tarafından belirlenir; hiperparametreler eğitim sırasında öğrenilir",
+        "Parametreler eğitim sırasında öğrenilir (ağırlıklar, bias'lar); hiperparametreler eğitim başlamadan önce belirlenir (learning rate, max depth)",
+        "Hiçbir fark yoktur; eş anlamlıdırlar",
+        "Parametreler yalnızca sinir ağlarına, hiperparametreler yalnızca ağaç modellerine uygulanır"
+      ],
+      "correct": 1,
+      "explanation": "Parametreler optimizasyon algoritması tarafından eğitim sırasında öğrenilir (ör. ağırlıklar). Hiperparametreler eğitimden önce belirlenir ve öğrenmenin nasıl gerçekleşeceğini kontrol eder (ör. learning rate, regularizasyon şiddeti)."
+    },
+    {
+      "id": "hptune-pre-2",
+      "stage": "pre",
+      "question": "5'er değere sahip 4 hiperparametre üzerinde grid search kaç değerlendirme gerektirir?",
+      "options": [
+        "20",
+        "25",
+        "625",
+        "4"
+      ],
+      "correct": 2,
+      "explanation": "Grid search her kombinasyonu değerlendirir: 5^4 = 625. Bu üstel ölçeklenme, grid search'in çok sayıda hiperparametreyle pratik olmamasının nedenidir."
+    },
+    {
+      "id": "hptune-post-1",
+      "stage": "post",
+      "question": "Aynı değerlendirme bütçesiyle random search neden genellikle grid search'ten daha iyi performans gösterir?",
+      "options": [
+        "Random search daha iyi bir optimizasyon algoritması kullanır",
+        "Çoğu hiperparametrenin düşük efektif boyutuluğu vardır, bu nedenle random search önemli olanları daha yoğun şekilde kapsar",
+        "Random search her zaman global optimumu bulur",
+        "Grid search sürekli hiperparametreleri işleyemez"
+      ],
+      "correct": 1,
+      "explanation": "Genellikle belirli bir problem için yalnızca 1-2 hiperparametre önemlidir. Grid search, önemsiz parametreleri değiştirerek değerlendirmeleri boşa harcar. Random search, her denemede her parametre için benzersiz değerler vererek önemli boyutları daha yoğun şekilde kapsar."
+    },
+    {
+      "id": "hptune-post-2",
+      "stage": "post",
+      "question": "Bayesian optimizasyonunda kazanım fonksiyonu (acquisition function) neyi dengeler?",
+      "options": [
+        "Eğitim hızı ve model doğruluğunu",
+        "Sömürüyü (exploitation - bilinen iyi noktaların yakınında arama) ve keşfi (exploration - belirsiz bölgelerde arama)",
+        "Özellik sayısı ve örnek sayısını",
+        "Vekil modeldeki bias ve variance'ı"
+      ],
+      "correct": 1,
+      "explanation": "Kazanım fonksiyonu, sömürü (bilinen iyi sonuçların yakınında) ve keşfi (vekil modelin belirsiz olduğu yerlerde) dengeleyerek bir sonraki noktanın nerede değerlendirileceğine karar verir. Bu, aramayı random'dan daha verimli yönlendirir."
+    },
+    {
+      "id": "hptune-post-3",
+      "stage": "post",
+      "question": "Test setini kullanarak hiperparametre ayarlıyor ve en iyi test performansını raporluyorsunuz. Bu yaklaşımda ne yanlıştır?",
+      "options": [
+        "Hiçbir şey -- bu standart uygulamadır",
+        "Test setine overfit yaptınız; raporlanan performans iyimserdir ve genelleme yapmayacaktır",
+        "Test seti eğitim için kullanılmalıdır, ayar için değil",
+        "Hiperparametreler yalnızca tam sayı olmalıdır"
+      ],
+      "correct": 1,
+      "explanation": "Test setinde ayar yapmak, yalnızca belirli örneklerde iyi performans gösteren hiperparametreleri seçtiğiniz anlamına gelir. Bu, test setine overfitting'dir. Ayar için bir validasyon seti kullanın ve test setini nihai değerlendirme için ayırın."
+    }
+  ]
+}
