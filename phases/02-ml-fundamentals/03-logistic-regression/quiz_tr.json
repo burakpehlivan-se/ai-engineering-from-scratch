@@ -1,71 +1,71 @@
 {
   "lesson": "03-logistic-regression",
-  "title": "Logistic Regression",
+  "title": "Lojistik Regresyon (Logistic Regression)",
   "questions": [
     {
       "id": "logreg-pre-1",
       "stage": "pre",
-      "question": "What is the range of the sigmoid function's output?",
+      "question": "Sigmoid fonksiyonunun çıktısının aralığı (range) nedir?",
       "options": [
-        "Negative infinity to positive infinity",
-        "0 to 1 (exclusive)",
-        "-1 to 1",
-        "0 to positive infinity"
+        "Negatif sonsuzdan pozitif sonsuza",
+        "0 ile 1 arası (hariç)",
+        "-1 ile 1",
+        "0'dan pozitif sonsuza"
       ],
       "correct": 1,
-      "explanation": "The sigmoid function 1/(1+e^(-z)) outputs values strictly between 0 and 1, which can be interpreted as probabilities."
+      "explanation": "Sigmoid fonksiyonu 1/(1+e^(-z)) değerleri kesin olarak 0 ile 1 arasında üretir ve bu değerler olasılık (probability) olarak yorumlanabilir."
     },
     {
       "id": "logreg-pre-2",
       "stage": "pre",
-      "question": "Why is logistic regression called 'regression' even though it is used for classification?",
+      "question": "Lojistik regresyon (logistic regression) sınıflandırma (classification) için kullanılmasına rağmen neden 'regresyon' olarak adlandırılır?",
       "options": [
-        "It predicts continuous values that are then rounded",
-        "The name comes from the logistic (sigmoid) function it uses, not from regression analysis",
-        "It was originally designed for regression and later adapted",
-        "It minimizes mean squared error like linear regression"
+        "Sürekli değerler tahmin eder ve sonra yuvarlanır",
+        "İsim, regresyon analizinden değil, kullandığı lojistik (sigmoid) fonksiyonundan gelir",
+        "Aslında regresyon için tasarlanmış ve sonradan uyarlanmıştır",
+        "Doğrusal regresyon gibi ortalama kare hatasını (MSE) minimize eder"
       ],
       "correct": 1,
-      "explanation": "The name comes from the logistic function (sigmoid). Despite the name, logistic regression is a classification algorithm that outputs class probabilities."
+      "explanation": "İsim, lojistik fonksiyondan (sigmoid) gelir. İsmine rağmen, lojistik regresyon sınıf olasılıkları (class probabilities) üreten bir sınıflandırma algoritmasıdır."
     },
     {
       "id": "logreg-post-1",
       "stage": "post",
-      "question": "Why is binary cross-entropy used instead of MSE for logistic regression?",
+      "question": "Lojistik regresyonda (logistic regression) MSE yerine neden ikili çapraz entropi (binary cross-entropy) kullanılır?",
       "options": [
-        "Cross-entropy is faster to compute",
-        "MSE with sigmoid creates a non-convex cost surface with local minima, while cross-entropy is convex",
-        "MSE can only be used with linear models",
-        "Cross-entropy works only when the dataset is balanced"
+        "Çapraz entropi daha hızlı hesaplanır",
+        "MSE, sigmoid ile birleştiğinde yerel minimumları (local minima) olan dışbükey olmayan (non-convex) bir maliyet yüzeyi oluştururken, çapraz entropi dışbükeydir (convex)",
+        "MSE sadece doğrusal modellerle kullanılabilir",
+        "Çapraz entropi sadece veri seti dengeli olduğunda çalışır"
       ],
       "correct": 1,
-      "explanation": "MSE combined with the sigmoid activation creates a non-convex cost surface with many local minima. Binary cross-entropy with sigmoid is convex, guaranteeing a single global minimum."
+      "explanation": "MSE, sigmoid aktivasyonu ile birleştiğinde birçok yerel minimum (local minimum) içeren dışbükey olmayan (non-convex) bir maliyet yüzeyi oluşturur. Sigmoid ile ikili çapraz entropi (binary cross-entropy) dışbükeydir ve tek bir global minimum garanti eder."
     },
     {
       "id": "logreg-post-2",
       "stage": "post",
-      "question": "A spam filter has precision = 0.95 and recall = 0.60. What does this mean in practical terms?",
+      "question": "Bir spam filtresinin kesinliği (precision) 0.95 ve duyarlılığı (recall) 0.60'tır. Bu pratikte ne anlama gelir?",
       "options": [
-        "95% of all emails are correctly classified, and 60% of spam is caught",
-        "When it flags an email as spam, it is correct 95% of the time, but it only catches 60% of actual spam",
-        "60% of flagged emails are spam, and 95% of all spam is caught",
-        "The model is 95% accurate on the test set and 60% on the training set"
+        "Tüm e-postaların %95'i doğru sınıflandırılır ve spam'lerin %60'ı yakalanır",
+        "Bir e-postayı spam olarak işaretlediğinde %95 olasılıkla doğrudur, ancak gerçek spam'lerin yalnızca %60'ını yakalar",
+        "İşaretlenen e-postaların %60'ı spam'dir ve tüm spam'lerin %95'i yakalanır",
+        "Model test setinde %95, eğitim setinde %60 doğruluk (accuracy) gösterir"
       ],
       "correct": 1,
-      "explanation": "Precision = 0.95 means 95% of emails predicted as spam are actually spam (few false alarms). Recall = 0.60 means only 60% of actual spam is caught (40% slips through)."
+      "explanation": "Kesinlik (precision) = 0.95, spam olarak tahmin edilen e-postaların %95'inin gerçekten spam olduğu anlamına gelir (az sayıda yanlış alarm). Duyarlılık (recall) = 0.60, gerçek spam'lerin yalnızca %60'ının yakalandığı (%40'ının kaçırıldığı) anlamına gelir."
     },
     {
       "id": "logreg-post-3",
       "stage": "post",
-      "question": "In softmax regression for 4 classes, what is true about the output probabilities?",
+      "question": "4 sınıflı softmax regresyonunda (softmax regression), çıktı olasılıkları (output probabilities) hakkında hangisi doğrudur?",
       "options": [
-        "Each class gets an independent probability between 0 and 1",
-        "The four output probabilities sum to 1, and the class with the highest probability is the prediction",
-        "Only the top-2 classes receive nonzero probabilities",
-        "The outputs are raw scores, not probabilities"
+        "Her sınıf 0 ile 1 arasında bağımsız bir olasılık alır",
+        "Dört çıktı olasılığının toplamı 1'dir ve en yüksek olasılığa sahip sınıf tahmin (prediction) olarak seçilir",
+        "Sadece ilk iki sınıf sıfırdan farklı olasılık alır",
+        "Çıktılar olasılık değil, ham puanlardır (raw scores)"
       ],
       "correct": 1,
-      "explanation": "Softmax converts a vector of raw scores into probabilities that sum to 1. The predicted class is the one with the highest probability."
+      "explanation": "Softmax, bir ham puan (raw score) vektörünü toplamı 1 olan olasılıklara dönüştürür. Tahmin edilen sınıf, en yüksek olasılığa sahip olandır."
     }
   ]
 }

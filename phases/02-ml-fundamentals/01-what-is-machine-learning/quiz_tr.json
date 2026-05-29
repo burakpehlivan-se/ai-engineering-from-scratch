@@ -46,10 +46,10 @@
       "stage": "post",
       "question": "Bir e-ticaret sitesi, müşterileri önceden tanımlanmış etiketler olmadan satın alma davranışlarına göre gruplara ayırmak istiyor. Bu hangi ML türüdür?",
       "options": [
-        "Denetimli öğrenme (sınıflandırma)",
-        "Denetimli öğrenme (regresyon)",
-        "Denetimsiz öğrenme (kümeleme)",
-        "Pekiştirmeli öğrenme"
+        "Denetimli öğrenme — sınıflandırma (classification)",
+        "Denetimli öğrenme — regresyon (regression)",
+        "Denetimsiz öğrenme — kümeleme (clustering)",
+        "Pekiştirmeli öğrenme (reinforcement learning)"
       ],
       "correct": 2,
       "explanation": "Önceden tanımlanmış etiketler olmadan veride doğal gruplamalar bulmaya kümeleme (clustering) denir ve bu, denetimsiz öğrenmenin bir biçimidir."

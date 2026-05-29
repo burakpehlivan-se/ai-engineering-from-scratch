@@ -1,50 +1,50 @@
 {
   "lesson": "04-decision-trees",
-  "title": "Decision Trees",
+  "title": "Karar Ağaçları (Decision Trees)",
   "questions": [
     {
       "id": "trees-pre-1",
       "stage": "pre",
-      "question": "What does Gini impurity measure at a decision tree node?",
+      "question": "Gini impurity (Gini impurity), bir karar ağacı (decision tree) düğümünde neyi ölçer?",
       "options": [
-        "The depth of the node in the tree",
-        "The probability of misclassifying a randomly chosen sample given the class distribution at that node",
-        "The total number of samples at the node",
-        "The correlation between features"
+        "Düğümün ağaçtaki derinliği",
+        "O düğümdeki sınıf dağılımına göre rastgele seçilen bir örneğin yanlış sınıflandırılma olasılığı",
+        "Düğümdeki toplam örnek sayısı",
+        "Özellikler (features) arasındaki korelasyon"
       ],
       "correct": 1,
-      "explanation": "Gini impurity = 1 - sum(p_k^2). It measures how often a randomly chosen sample would be misclassified if labeled according to the class distribution at that node. Pure node = 0."
+      "explanation": "Gini impurity = 1 - sum(p_k^2). O düğümdeki sınıf dağılımına göre etiketlenen rastgele seçilmiş bir örneğin ne sıklıkta yanlış sınıflandırılacağını ölçer. Saf düğüm (pure node) = 0."
     },
     {
       "id": "trees-pre-2",
       "stage": "pre",
-      "question": "What is the main advantage of tree-based models over neural networks for tabular data?",
+      "question": "Tabular veriler için ağaç tabanlı modellerin (tree-based models) sinir ağlarına (neural networks) göre ana avantajı nedir?",
       "options": [
-        "Trees can process images and text natively",
-        "Trees always have lower bias than neural networks",
-        "Trees handle mixed feature types, require less preprocessing, and are more interpretable",
-        "Trees train faster on GPU hardware"
+        "Ağaçlar görüntüleri ve metinleri doğal olarak işleyebilir",
+        "Ağaçlar her zaman sinir ağlarından daha düşük bias'a sahiptir",
+        "Ağaçlar karışık özellik türlerini (mixed feature types) işler, daha az ön işleme gerektirir ve daha yorumlanabilirdir (interpretable)",
+        "Ağaçlar GPU donanımında daha hızlı eğitilir"
       ],
       "correct": 2,
-      "explanation": "Trees natively handle numeric and categorical features without encoding, require minimal preprocessing, and produce interpretable rules. Neural networks excel at spatial/sequential data, not flat tables."
+      "explanation": "Ağaçlar, kodlama gerektirmeden sayısal ve kategorik özellikleri doğal olarak işler, minimum ön işleme gerektirir ve yorumlanabilir kurallar üretir. Sinir ağları uzamsal/sıralı verilerde üstündür, düz tablolarda değil."
     },
     {
       "id": "trees-post-1",
       "stage": "post",
-      "question": "Why does a random forest use both bootstrap sampling AND random feature subsets at each split?",
+      "question": "Rastgele orman (random forest) neden her bölünmede (split) hem bootstrap örneklemesi HEM de rastgele özellik alt kümeleri (random feature subsets) kullanır?",
       "options": [
-        "To speed up training by reducing the dataset size",
-        "To create diverse, decorrelated trees so that averaging reduces variance without increasing bias",
-        "To ensure each tree sees every data point at least once",
-        "To reduce the depth of individual trees"
+        "Veri kümesi boyutunu küçülterek eğitimi hızlandırmak için",
+        "Çeşitli ve korelasyonsuz (decorrelated) ağaçlar oluşturarak ortalamanın varyansı (variance) düşürmesini sağlamak, bias'ı artırmadan",
+        "Her ağacın her veri noktasını en az bir kez görmesini sağlamak için",
+        "Bireysel ağaçların derinliğini azaltmak için"
       ],
       "correct": 1,
-      "explanation": "Both sources of randomness make the trees diverse. Without feature randomization, all trees would split on the same dominant feature. Diversity is what makes averaging effective at reducing variance."
+      "explanation": "Her iki rastgelelik kaynağı da ağaçları çeşitlendirir. Özellik rastgeleleştirmesi olmasaydı, tüm ağaçlar aynı baskın özelliğe göre bölünürdü. Çeşitlilik (diversity), ortalamanın varyansı düşürmede etkili olmasını sağlar."
     },
     {
       "id": "trees-post-2",
       "stage": "post",
-      "question": "A node contains 8 dogs and 2 cats. What is its Gini impurity?",
+      "question": "Bir düğümde 8 köpek ve 2 kedi vardır. Gini impurity (Gini impurity) değeri nedir?",
       "options": [
         "0.0",
         "0.20",
@@ -52,20 +52,20 @@
         "0.50"
       ],
       "correct": 2,
-      "explanation": "Gini = 1 - (0.8^2 + 0.2^2) = 1 - (0.64 + 0.04) = 0.32. The node is mostly dogs but not pure, so Gini is between 0 (pure) and 0.5 (max for binary)."
+      "explanation": "Gini = 1 - (0.8^2 + 0.2^2) = 1 - (0.64 + 0.04) = 0.32. Düğüm çoğunlukla köpek ama saf değil, bu nedenle Gini, 0 (saf) ile 0,5 (ikili sınıflar için maksimum) arasındadır."
     },
     {
       "id": "trees-post-3",
       "stage": "post",
-      "question": "MDI (Mean Decrease in Impurity) feature importance is biased toward which type of feature?",
+      "question": "MDI (Mean Decrease in Impurity) özellik önemi (feature importance), hangi tür özelliğe karşı yanlıdır (biased)?",
       "options": [
-        "Binary features with only two values",
-        "Features with low variance",
-        "High-cardinality features with many possible split points",
-        "Features that are highly correlated with the target"
+        "Yalnızca iki değeri olan ikili (binary) özellikler",
+        "Düşük varyanslı özellikler",
+        "Çok sayıda olası bölünme noktasına sahip yüksek kardinaliteli (high-cardinality) özellikler",
+        "Hedef değişkenle yüksek korelasyonlu özellikler"
       ],
       "correct": 2,
-      "explanation": "MDI is biased toward high-cardinality features because they offer more possible split points, giving them more chances to reduce impurity by luck. Permutation importance is more reliable."
+      "explanation": "MDI, yüksek kardinaliteli özelliklere karşı yanlıdır çünkü daha fazla olası bölünme noktası sunarlar ve şans eseri impurity'yi düşürme şansları daha yüksektir. Permütasyon önemi (permutation importance) daha güvenilirdir."
     }
   ]
 }

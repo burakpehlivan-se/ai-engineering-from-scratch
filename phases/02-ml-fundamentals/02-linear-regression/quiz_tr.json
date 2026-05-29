@@ -5,67 +5,67 @@
     {
       "id": "linreg-pre-1",
       "stage": "pre",
-      "question": "What does the learning rate control in gradient descent?",
+      "question": "Learning rate, gradient descent'te neyi kontrol eder?",
       "options": [
-        "The number of features used by the model",
-        "How many epochs the model trains for",
-        "The size of each parameter update step",
-        "The ratio of training to test data"
+        "Model tarafından kullanılan feature sayısı",
+        "Modelin kaç epoch eğitim yaptığı",
+        "Her parametre güncelleme adımının boyutu",
+        "Eğitim ve test verisi arasındaki oran"
       ],
       "correct": 2,
-      "explanation": "The learning rate is a scalar that controls how much weights change per gradient descent step. Too large causes divergence, too small causes slow convergence."
+      "explanation": "Learning rate, gradient descent adımında ağırlıkların (weights) ne kadar değişeceğini kontrol eden bir skaler (scalar) değerdir. Çok büyük olması ıraksamaya (divergence), çok küçük olması yavaş yakınsamaya (convergence) neden olur."
     },
     {
       "id": "linreg-pre-2",
       "stage": "pre",
-      "question": "What does R-squared = 0 mean for a regression model?",
+      "question": "R-kare = 0 değeri bir regresyon modeli için ne anlama gelir?",
       "options": [
-        "The model makes perfect predictions",
-        "The model is no better than always predicting the mean of the target",
-        "The model has negative error",
-        "The model has not been trained yet"
+        "Model mükemmel tahminler yapar",
+        "Model, hedef (target) değişkenin ortalamasını tahmin etmekten daha iyi performans göstermez",
+        "Model negatif hataya (error) sahiptir",
+        "Model henüz eğitilmemiştir"
       ],
       "correct": 1,
-      "explanation": "R-squared = 0 means the model explains none of the variance in the target. It performs exactly as well as simply predicting the mean every time."
+      "explanation": "R-kare = 0, modelin hedef değişkendeki variance'ın hiçbirini açıklayamadığı anlamına gelir. Her seferinde ortalamayı tahmin etmekle aynı performansı gösterir."
     },
     {
       "id": "linreg-post-1",
       "stage": "post",
-      "question": "Why is feature scaling important for gradient descent in multiple linear regression?",
+      "question": "Çoklu linear regression'da gradient descent için feature scaling neden önemlidir?",
       "options": [
-        "It makes the model more interpretable",
-        "It prevents the cost surface from being elongated, allowing faster convergence",
-        "It reduces the number of features needed",
-        "It guarantees the model will find the global minimum"
+        "Modeli daha yorumlanabilir kılar",
+        "Cost surface'in uzamasını engelleyerek daha hızlı convergence sağlar",
+        "Gerekli feature sayısını azaltır",
+        "Modelin global minimum'u bulmasını garanti eder"
       ],
       "correct": 1,
-      "explanation": "When features have very different scales, the cost surface becomes elongated. Gradient descent takes many more steps to converge. Standardizing features makes the surface more spherical."
+      "explanation": "Feature'lar çok farklı ölçeklere (scales) sahip olduğunda, cost surface uzar (elongated). Gradient descent'in convergence'ı çok daha fazla adım gerektirir. Feature'ları standardize etmek surface'ı daha küresel (spherical) hale getirir."
     },
     {
       "id": "linreg-post-2",
       "stage": "post",
-      "question": "The normal equation gives optimal weights directly. Why would you prefer gradient descent instead?",
+      "question": "Normal equation (normal denklem) optimal ağırlıkları doğrudan verir. Neden bunun yerine gradient descent tercih edilir?",
       "options": [
-        "Gradient descent always gives more accurate results",
-        "The normal equation does not work for linear regression",
-        "Matrix inversion in the normal equation is O(n^3) in features, which is too slow for thousands of features",
-        "Gradient descent requires less memory than storing the data"
+        "Gradient descent her zaman daha doğru sonuçlar verir",
+        "Normal equation linear regression için çalışmaz",
+        "Normal equation'daki matris inversiyonu (matrix inversion) feature sayısında O(n³) karmaşıklığındadır, bu binlerce feature için çok yavaştır",
+        "Gradient descent, veriyi depolamaktan daha az bellek gerektirir"
       ],
       "correct": 2,
-      "explanation": "The normal equation requires inverting X^T * X, which is O(n^3) in the number of features. For large feature counts, gradient descent is more efficient."
+      "explanation": "Normal equation, Xᵀ·X'in inversiyonunu gerektirir ve bu feature sayısında O(n³) karmaşıklığındadır. Çok sayıda feature için gradient descent daha verimlidir (efficient)."
     },
     {
       "id": "linreg-post-3",
       "stage": "post",
-      "question": "A degree-10 polynomial regression model fits training data perfectly (R^2 = 1.0) but has R^2 = 0.3 on test data. What should you do?",
+      "question": "10. dereceden bir polinom regresyon (polynomial regression) modeli eğitim verisinde mükemmel uyum sağlıyor (R² = 1.0) ancak test verisinde R² = 0.3. Ne yapmalısınız?",
       "options": [
-        "Increase the polynomial degree to 20 for even better training fit",
-        "Reduce model complexity (lower degree) or add regularization (Ridge) to prevent overfitting",
-        "Collect less training data so the model cannot memorize",
-        "Remove the test set and report training R^2 only"
+        "Daha iyi eğitim uyumu için polinom derecesini 20'ye çıkarmak",
+        "Model karmaşıklığını (complexity) azaltmak (daha düşük derece) veya overfitting'i önlemek için regularizasyon (Ridge) eklemek",
+        "Modelin ezberleyememesi için daha az eğitim verisi toplamak",
+        "Test setini kaldırıp sadece eğitim R²'sini raporlamak"
       ],
       "correct": 1,
-      "explanation": "Perfect training fit with poor test fit is overfitting. The fix is to reduce complexity (lower polynomial degree) or add regularization to penalize large weights."
+      "explanation": "Mükemmel eğitim uyumu ve zayıf test uyumu overfitting'dir. Çözüm, karmaşıklığı azaltmak (daha düşük polinom derecesi) veya büyük ağırlıkları cezalandırmak (penalize) için regularizasyon eklemektir."
     }
   ]
 }

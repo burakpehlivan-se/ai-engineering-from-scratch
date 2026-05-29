@@ -5,46 +5,46 @@
     {
       "id": "knn-pre-1",
       "stage": "pre",
-      "question": "KNN is called a 'lazy learner.' What does that mean?",
+      "question": "KNN, bir 'lazy learner' olarak adlandırılır. Bu ne anlama gelir?",
       "options": [
-        "It converges slowly during training",
-        "It does no computation at training time and computes everything at prediction time",
-        "It uses a simplified version of the loss function",
-        "It only works on small datasets"
+        "Eğitim (training) sırasında yavaş yakınsar",
+        "Eğitim zamanında hiç hesaplama yapmaz ve her şeyi tahmin (prediction) zamanında hesaplar",
+        "Kayıp fonksiyonunun (loss function) basitleştirilmiş bir versiyonunu kullanır",
+        "Sadece küçük veri kümelerinde (dataset) çalışır"
       ],
       "correct": 1,
-      "explanation": "Lazy learning means KNN stores the training data and does no work during 'training.' All computation (distance calculations, voting) happens when a prediction is requested."
+      "explanation": "Lazy learning, KNN'nin eğitim verisini (training data) sakladığı ve 'eğitim' sırasında hiçbir iş yapmadığı anlamına gelir. Tüm hesaplamalar (mesafe hesaplamaları, oylama) bir tahmin istendiğinde gerçekleşir."
     },
     {
       "id": "knn-pre-2",
       "stage": "pre",
-      "question": "Why is feature scaling critical for KNN?",
+      "question": "Feature scaling KNN için neden kritiktir?",
       "options": [
-        "KNN cannot handle negative numbers without scaling",
-        "Distance calculations are dominated by features with larger ranges, making scaling necessary for fair comparisons",
-        "Feature scaling reduces the number of neighbors needed",
-        "KNN uses gradient descent which requires normalized inputs"
+        "KNN, ölçekleme olmadan negatif sayıları işleyemez",
+        "Mesafe hesaplamaları (distance calculations), daha geniş aralığa sahip özellikler tarafından domine edilir; bu da adil karşılaştırmalar için ölçeklemeyi gerekli kılar",
+        "Feature scaling, gereken komşu sayısını azaltır",
+        "KNN, normalleştirilmiş girdi gerektiren gradyan inişi (gradient descent) kullanır"
       ],
       "correct": 1,
-      "explanation": "KNN relies on distances. A feature ranging 0-1000 will dominate a feature ranging 0-1 in distance calculations. Scaling puts all features on comparable ranges."
+      "explanation": "KNN mesafelere dayanır. 0-1000 aralığındaki bir özellik, mesafe hesaplamalarında 0-1 aralığındaki bir özelliği domine eder. Ölçekleme, tüm özellikleri karşılaştırılabilir aralıklara koyar."
     },
     {
       "id": "knn-post-1",
       "stage": "post",
-      "question": "In 100 dimensions with uniform random points, what happens to the ratio of max distance to min distance?",
+      "question": "100 boyutta (dimension), düzgün dağılmış rastgele noktalarla, maksimum mesafenin minimum mesafeye oranına ne olur?",
       "options": [
-        "It increases dramatically, making neighbors more distinct",
-        "It approaches 1, making all points nearly equidistant from each other",
-        "It stays the same as in 2 dimensions",
-        "It becomes negative due to numerical overflow"
+        "Dramatik bir şekilde artar ve komşuları daha belirgin hale getirir",
+        "1'e yaklaşır ve tüm noktaları birbirine neredeyse eşit mesafede yapar",
+        "2 boyuttaki ile aynı kalır",
+        "Sayısal taşma (numerical overflow) nedeniyle negatif olur"
       ],
       "correct": 1,
-      "explanation": "This is the curse of dimensionality. In high dimensions, distances converge: max_dist / min_dist approaches 1. When all points are equidistant, 'nearest' becomes meaningless."
+      "explanation": "Bu, curse of dimensionality'dir. Yüksek boyutlarda, mesafeler yakınsar: maksimum_mesafe / minimum_mesafe 1'e yaklaşır. Tüm noktalar eşit mesafede olduğunda, 'en yakın' anlamsız hale gelir."
     },
     {
       "id": "knn-post-2",
       "stage": "post",
-      "question": "Which distance metric is most appropriate for comparing text documents represented as TF-IDF vectors?",
+      "question": "TF-IDF vektörleri olarak temsil edilen metin belgelerini karşılaştırmak için en uygun distance metric hangisidir?",
       "options": [
         "L2 (Euclidean) distance",
         "L1 (Manhattan) distance",
@@ -52,20 +52,20 @@
         "Chebyshev distance"
       ],
       "correct": 2,
-      "explanation": "Cosine distance measures the angle between vectors, ignoring magnitude. For text, document length (magnitude) is noise -- direction captures meaning. Cosine consistently outperforms L1/L2 for text."
+      "explanation": "Cosine distance, vektörler arasındaki açıyı ölçer ve büyüklüğü (magnitude) yok sayar. Metin için, belge uzunluğu (büyüklük) gürültüdür -- yön anlamı yakalar. Cosine, metin için L1/L2'den tutarlı bir şekilde daha iyi performans gösterir."
     },
     {
       "id": "knn-post-3",
       "stage": "post",
-      "question": "What happens to the KNN decision boundary as K increases from 1 to N (the full dataset size)?",
+      "question": "K, 1'den N'e (tüm veri kümesi boyutu) arttıkça KNN karar sınırına (decision boundary) ne olur?",
       "options": [
-        "The boundary becomes more complex and detailed",
-        "The boundary stays the same regardless of K",
-        "The boundary smooths out, eventually predicting the majority class for every point",
-        "The boundary becomes circular"
+        "Sınır daha karmaşık ve detaylı hale gelir",
+        "Sınır, K'dan bağımsız olarak aynı kalır",
+        "Sınır yumuşar ve sonunda her nokta için çoğunluk sınıfını (majority class) tahmin eder",
+        "Sınır dairesel hale gelir"
       ],
       "correct": 2,
-      "explanation": "K=1 produces jagged boundaries that follow every point (overfitting). As K increases, boundaries smooth out. K=N means every query considers all points, always predicting the majority class (maximum bias)."
+      "explanation": "K=1, her noktayı takip eden pürüzlü sınırlar üretir (overfitting). K arttıkça sınırlar yumuşar. K=N, her sorgunun tüm noktaları dikkate aldığı ve her zaman çoğunluk sınıfını tahmin ettiği anlamına gelir (maksimum bias)."
     }
   ]
 }
