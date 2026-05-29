@@ -20,7 +20,7 @@
 
 Bir kayıp fonksiyonunuz var. Modelinizin ne kadar yanlış olduğunu söylüyor. Gradyanlarınız var. Kaybı hangi yönde kötüleştirdiklerini söylüyor. Şimdi aşağı inmek için bir stratejiye ihtiyacınız var.
 
-Saf yaklaşım basittir: gradyana ters yönde hareket et. Adımı öğrenme hızı adı verilen birsayıyla ölçekle. Tekrarla. Bu gradyan inişidir ve çalışır. Ama "çalışmak" sakıncaları vardır. Çok yüksek öğrenme hızıyla tamamen vadiden dışarı çıkarsınız, duvarlar arasında zıplarsınız. Çok düşükse binlerce gereksiz adımda cevaba doğru sürüngenlik edersiniz. Eyer noktasına çarptığınızda minimumu bulamasanız bile hareketi durdurursunuz.
+Saf yaklaşım basittir: gradyana ters yönde hareket et. Adımı öğrenme hızı adı verilen bir sayiyla ölçekle. Tekrarla. Bu gradyan inişidir ve çalışır. Ama "çalışmak" sakıncaları vardır. Çok yüksek öğrenme hızıyla tamamen vadiden dışarı çıkarsınız, duvarlar arasında zıplarsınız. Çok düşükse binlerce gereksiz adımda cevaba doğru yürüyünüz. Eyer noktasına çarptığınızda minimumu bulamasanız bile hareketi durdurursunuz.
 
 Derin öğrenmedeki her optimize edici aynı sorunun cevabıdır: vadinin dibine nasıl daha hızlı ve daha güvenilir bir şekilde ulaşılır?
 
