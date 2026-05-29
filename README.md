@@ -15,10 +15,10 @@
 ```
 
 > **Öğrencilerin %84'ü zaten yapay zeka araçları kullanıyor. Sadece %18'i bunları
-> profesyonelce kullanmaya hazır hissediyor.** Bu müfrezeat bu açığı kapatıyor.
+> profesyonelce kullanmaya hazır hissediyor.** Bu müfredat bu açığı kapatıyor.
 >
 > 473 ders. 20 faz. ~320 saat. Python, TypeScript, Rust, Julia. Her ders yeniden kullanılabilir
-> bir ürün üretir: bir istem, bir beceri, bir ajan, bir MCP sunucusu. Ücretsiz, açık kaynak, MIT.
+> bir ürün üretir: bir prompt, bir skill, bir agent, bir MCP sunucusu. Ücretsiz, açık kaynak, MIT.
 >
 > Sadece yapay zeka öğrenmiyorsunuz. Onu sıfırdan, elle, uçtan uca oluşturuyorsunuz.
 
@@ -26,7 +26,7 @@
 
 Çoğu yapay zeka materyali dağınık parçalar halinde öğretir. Bir makale burada, bir ince ayar yazısı orada, bir yerde parlak bir ajan demosu. Parçalar nadiren uyumlu olur. Bir sohbet botu çıkarsınız ama kayıp eğrisini açıklayamazsınız. Bir fonksiyonu bir ajana bağlarsınız ama çağıran modelin içinde dikkatin ne yaptığını söyleyemezsiniz.
 
-Bu müfrezeat omurgadır. 20 faz, 473 ders, dört dil: Python, TypeScript, Rust, Julia. Bir ucunda doğrusal cebir, diğerinde özerk sürüler. Her algoritma önce ham matematikten oluşturulur. Geri yayılım. Tokenize edici. Dikkat. Ajan döngüsü. PyTorch ortaya çıktığında, zaten ne yaptığını biliyor olursunuz.
+Bu müfredat omurgadır. 20 faz, 473 ders, dört dil: Python, TypeScript, Rust, Julia. Bir ucunda doğrusal cebir, diğerinde özerk sürüler. Her algoritma önce ham matematikten oluşturulur. Geri yayılım. Tokenize edici. Dikkat. Ajan döngüsü. PyTorch ortaya çıktığında, zaten ne yaptığını biliyor olursunuz.
 
 Her ders aynı döngüyü çalıştırır: sorunu oku, matematiği türet, kodu yaz, testi çalıştır, ürünü sakla. Beş dakikalık videolar, kopyala-yapıştır dağıtımlar, elinden tutma yok. Ücretsiz, açık kaynak ve kendi dizüstü bilgisayarınızda çalışacak şekilde oluşturulmuş.
 
@@ -34,7 +34,7 @@ Her ders aynı döngüyü çalıştırır: sorunu oku, matematiği türet, kodu 
 ░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
 ```
 
-## Müfrezeatın yapısı
+## Müfredatın yapısı
 
 Yirmi faz üst üste istiflenir. Matematik zemindir. Ajanlar ve üretim çatıdır. Alt katmanları zaten biliyorsanız ileri atlayın, ama atlayıp sonra üstteki bir şeyin neden bozulduğuna şaşırmayın.
 
@@ -70,7 +70,7 @@ flowchart TB
 
 ## Bir dersin yapısı
 
-Her ders kendi klasöründe yaşar ve tüm müfrezeat boyunca aynı yapıya sahiptir:
+Her ders kendi dizininde yer alır ve tüm müfredat boyunca aynı yapıya sahiptir:
 
 ```
 phases/<NN>-<faz-adı>/<NN>-<ders-adı>/
@@ -80,7 +80,7 @@ phases/<NN>-<faz-adı>/<NN>-<ders-adı>/
 └── outputs/   bu dersin ürettiği istemler, beceriler, ajanlar veya MCP sunucuları
 ```
 
-Her ders altı vuruşu takip eder. *Uygula / Kullan* bölünmesi omurgadır — algoritmayı önce sıfırdan uygularsınız, sonra aynı şeyi üretim kütüphanesinden çalıştırırsınız. Çerçevenin ne yaptığını anlarsınız çünkü daha küçük versiyonunu kendiniz yazdınız.
+Her ders altı bölümden oluşur. *Uygula / Kullan* bölünmesi omurgadır — algoritmayı önce sıfırdan uygularsınız, sonra aynı şeyi üretim kütüphanesinden çalıştırırsınız. Çerçevenin ne yaptığını anlarsınız çünkü daha küçük versiyonunu kendiniz yazdınız.
 
 ```mermaid
 %%{init: {'theme':'base','themeVariables':{'primaryColor':'#fafaf5','primaryTextColor':'#1a1a1a','primaryBorderColor':'#3553ff','lineColor':'#3553ff','fontFamily':'JetBrains Mono','fontSize':'13px'}}}%%
@@ -89,7 +89,7 @@ flowchart LR
   Pr --> C["KAVRAM<br/><sub>shemalar ve sezgi</sub>"]
   C --> B["UYGULA<br/><sub>ham matematik, çerçeve yok</sub>"]
   B --> U["KULLAN<br/><sub>aynı şey PyTorch / sklearn ile</sub>"]
-  U --> S["TESLİM ET<br/><sub>istem · beceri · ajan · MCP</sub>"]
+  U --> S["TESLİM ET<br/><sub>prompt · skill · agent · MCP</sub>"]
 ```
 
 ## Başlangıç
@@ -106,7 +106,7 @@ cd ai-engineering-from-scratch
 python phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 ```
 
-**Seçenek C — seviyenizi bulun *(önerilen)*.** Akıllıca ileri atlayın. Claude, Cursor, Codex, OpenClaw, Hermes veya müfrezeat becerileri kurulu herhangi bir ajan içinde:
+**Seçenek C — seviyenizi bulun *(önerilen)*.** Akıllıca ileri atlayın. Claude, Cursor, Codex, OpenClaw, Hermes veya müfredat becerileri kurulu herhangi bir ajan içinde:
 
 ```bash
 /find-your-level
@@ -139,11 +139,11 @@ ls phases/03-deep-learning-core/05-loss-functions/outputs/
 
 ## Her ders bir şey teslim eder
 
-Diğer müfrezeatlar *"tebrikler, X'i öğrendiniz"* ile biter. Burada her ders, günlük iş akışınıza yapıştırabileceğiniz veya kurabileceğiniz **yeniden kullanılabilir bir araçla** biter.
+Diğer müfredatlar *"tebrikler, X'i öğrendiniz"* ile biter. Burada her ders, günlük iş akışınıza yapıştırabileceğiniz veya kurabileceğiniz **yeniden kullanılabilir bir araçla** biter.
 
 <table>
 <tr>
-<th align="left" width="25%"><img src="site/assets/figures/001-a-prompts.svg" width="96" height="96" alt="FIG_001.A istemler"/><br/><sub>FIG_001 · A</sub><br/><b>İSTEMLER</b></th>
+<th align="left" width="25%"><img src="site/assets/figures/001-a-prompts.svg" width="96" height="96" alt="FIG_001.A istemler"/><br/><sub>FIG_001 · A</sub><br/><b>PROMPT'LAR</b></th>
 <th align="left" width="25%"><img src="site/assets/figures/001-b-skills.svg" width="96" height="96" alt="FIG_001.B beceriler"/><br/><sub>FIG_001 · B</sub><br/><b>BECERİLER</b></th>
 <th align="left" width="25%"><img src="site/assets/figures/001-c-agents.svg" width="96" height="96" alt="FIG_001.C ajanlar"/><br/><sub>FIG_001 · C</sub><br/><b>AJANLAR</b></th>
 <th align="left" width="25%"><img src="site/assets/figures/001-d-mcp-servers.svg" width="96" height="96" alt="FIG_001.D MCP sunucuları"/><br/><sub>FIG_001 · D</sub><br/><b>MCP SUNUCULARI</b></th>
@@ -157,7 +157,7 @@ Diğer müfrezeatlar *"tebrikler, X'i öğrendiniz"* ile biter. Burada her ders,
 </table>
 
 > Tümünü `python3 scripts/install_skills.py` ile kurun. Gerçek araçlar, ödev değil.
-> Müfrezeatın sonunda, anladığınız 473 üründen oluşan bir portföyünüz olur çünkü bunları siz oluşturdunuz.
+> Müfredatın sonunda, anladığınız 473 üründen oluşan bir portföyünüz olur çünkü bunları siz oluşturdunuz.
 
 ### Her ders bir şey üretir
 
@@ -171,7 +171,7 @@ outputs/
 
 ### Kursta her beceriyi ajanınıza kurun
 
-Depo `phases/**/outputs/` altında 382 beceri ve 99 istem sunuyor.
+Depo `phases/**/outputs/` altında 382 skill ve 99 prompt sunuyor.
 
 **Önerilen: [skills.sh](https://skills.sh) ile kurun.** Klonlama yok, Python yok, ajanınızın beceri dizinini otomatik olarak algılar:
 
@@ -238,7 +238,7 @@ Bir GitHub Eylemi (`.github/workflows/curriculum.yml`), her PR'da `catalog.json`
 `scripts/lesson_run.py`, her dersin `code/` dizinindeki her `.py` dosyasını bayt derler. Varsayılan mod sadece sözdizimi kontrolüdür — çalıştırma, API anahtarı veya ağır ML bağımlılıkları gerekmez. Katkıda bulunanların en sık getirdiği gerilemeleri yakalar (yanlış girinti, bozuk f-stringler, yanlış düzenlemeler).
 
 ```bash
-python3 scripts/lesson_run.py                  # tüm müfrezeatı sözdizimi kontrolü
+python3 scripts/lesson_run.py                  # tüm müfredatı sözdizimi kontrolü
 python3 scripts/lesson_run.py --phase 14       # sadece bir faz
 python3 scripts/lesson_run.py --json           # stdout'ta JSON raporu
 python3 scripts/lesson_run.py --strict         # herhangi bir ders başarısız olursa 1 ile çık
@@ -316,7 +316,7 @@ Sadece stdlib, Python 3.10+. Varsayılan atlama listesini (`twitter.com`, `x.com
 Bir ders göndermeden önce sabitleri kontrol edin:
 
 ```bash
-python3 scripts/audit_lessons.py           # tam müfrezeat
+python3 scripts/audit_lessons.py           # tam müfredat
 python3 scripts/audit_lessons.py --phase 14  # tek faz
 python3 scripts/audit_lessons.py --json    # CI dostu çıktı
 ```
@@ -329,7 +329,7 @@ Herhangi bir kural başarısız olduğunda çıkış kodu sıfırdan büyüktür
 
 ## Çalışmayı destekleyin
 
-Ücretsiz, MIT lisanslı, 473 ders. Müfrezeat sadece sponsorlukla sürdürülmektedir. Sadece nakit.
+Ücretsiz, MIT lisanslı, 473 ders. Müfredat sadece sponsorlukla sürdürülmektedir. Sadece nakit.
 
 **Erişim (2026-05-14'te doğrulanmış):** 55.593 aylık ziyaretçi · 90.709 sayfa görüntüleme · 7.5K yıldız · Twitter/X #1 edinme kanalıdır.
 

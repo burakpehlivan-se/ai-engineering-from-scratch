@@ -42,7 +42,7 @@ graph LR
     B --> E[Yeniden başlattığında ölür]
 ```
 
-O "tıkladığın sırada" kısmı hem süper güç hem de kazaya davetiyedir.
+Bu "tıkladığın sırada" özelliği hem büyük bir avantaj hem de ciddi bir risktir.
 
 ## Uygulama
 
