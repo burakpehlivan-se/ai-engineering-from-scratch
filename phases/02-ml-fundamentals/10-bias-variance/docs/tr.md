@@ -6,7 +6,7 @@
 
 **Tür:** Learn
 **Diller:** Python
-**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Ön Koşullar:** Phase 2, Lessons 01-09 (ML basics, regression, classification, evaluation)
 **Süre:** ~75 minutes
 
 ---

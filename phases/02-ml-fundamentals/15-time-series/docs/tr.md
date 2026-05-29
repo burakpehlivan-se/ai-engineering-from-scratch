@@ -6,7 +6,7 @@
 
 **Tür:** Build
 **Diller:** Python
-**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Ön Koşullar:** Phase 2, Lessons 01-09
 **Süre:** ~90 minutes
 
 ---
