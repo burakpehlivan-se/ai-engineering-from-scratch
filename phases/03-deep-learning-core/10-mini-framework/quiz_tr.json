@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/10-mini-framework/quiz.json", 
+[
   {
     "question": "What three responsibilities does the Module abstraction have in a deep learning framework?",
     "options": ["Load data, preprocess data, augment data", "forward() for computation, backward() for gradients, parameters() for trainable weights", "Compile, optimize, deploy", "Tokenize, embed, decode"],

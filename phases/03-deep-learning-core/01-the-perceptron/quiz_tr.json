@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/01-the-perceptron/quiz.json", 
+[
   {
     "question": "What mathematical operation does a perceptron perform on its inputs before applying the activation function?",
     "options": ["Matrix inversion", "Weighted sum plus bias", "Fourier transform", "Eigenvalue decomposition"],

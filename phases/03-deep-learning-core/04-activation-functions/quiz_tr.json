@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/04-activation-functions/quiz.json", 
+[
   {
     "question": "Why can't you build a useful deep network using only linear layers (no activation functions)?",
     "options": ["Linear layers are too slow", "Stacking linear layers collapses to a single linear transformation, giving no benefit from depth", "Linear layers don't have biases", "Linear layers can't handle batched data"],

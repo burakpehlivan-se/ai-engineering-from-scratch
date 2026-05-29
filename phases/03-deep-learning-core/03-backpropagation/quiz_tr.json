@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/03-backpropagation/quiz.json", 
+[
   {
     "question": "What is the chain rule in the context of neural networks?",
     "options": ["A rule for chaining layers together", "If y = f(g(x)), then dy/dx = f'(g(x)) * g'(x) -- multiply derivatives along the path", "A method for initializing weights", "A technique for batching data"],

@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/06-optimizers/quiz.json", 
+[
   {
     "question": "What problem does momentum solve in gradient descent?",
     "options": ["It reduces memory usage", "It dampens oscillation by accumulating past gradients, accelerating movement in consistent directions", "It eliminates the need for a learning rate", "It prevents overfitting"],

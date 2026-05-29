@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/08-weight-initialization/quiz.json", 
+[
   {
     "question": "What happens if you initialize all weights in a neural network to zero?",
     "options": ["The network trains normally but slowly", "All neurons compute identical outputs and receive identical gradients, so the network has only 1 effective neuron per layer", "The network diverges", "Zero init is the recommended default"],

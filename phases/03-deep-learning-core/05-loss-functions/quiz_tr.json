@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/05-loss-functions/quiz.json", 
+[
   {
     "question": "What does the loss function represent in neural network training?",
     "options": ["The number of incorrect predictions", "A differentiable measure of how wrong the model's predictions are, which the optimizer minimizes", "The size of the training dataset", "The learning rate schedule"],

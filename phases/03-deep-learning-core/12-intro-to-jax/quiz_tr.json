@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/12-intro-to-jax/quiz.json", 
+[
   {
     "question": "What is the fundamental design difference between PyTorch and JAX?",
     "options": ["PyTorch is faster", "PyTorch mutates tensors eagerly while JAX compiles pure functions without side effects", "JAX doesn't support GPUs", "PyTorch doesn't support automatic differentiation"],

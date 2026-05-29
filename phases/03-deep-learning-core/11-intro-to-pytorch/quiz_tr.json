@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/11-intro-to-pytorch/quiz.json", 
+[
   {
     "question": "What is autograd in PyTorch?",
     "options": ["A data loading library", "An automatic differentiation engine that records operations and computes gradients without manual backward implementations", "A model compression tool", "A hyperparameter tuning framework"],

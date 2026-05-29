@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/02-multi-layer-networks/quiz.json", 
+[
   {
     "question": "What is the purpose of a hidden layer in a multi-layer network?",
     "options": ["To store the training data", "To transform inputs into new feature representations that enable nonlinear decision boundaries", "To reduce the number of parameters", "To apply the loss function"],

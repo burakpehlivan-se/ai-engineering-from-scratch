@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/09-learning-rate-schedules/quiz.json", 
+[
   {
     "question": "Why is a constant learning rate usually suboptimal for training neural networks?",
     "options": ["It uses too much memory", "It's either too high for late training (causes oscillation) or too low for early training (wastes compute)", "Constant learning rates cause overfitting", "They only work with SGD"],

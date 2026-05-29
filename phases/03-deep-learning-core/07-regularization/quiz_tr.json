@@ -1,4 +1,4 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/03-deep-learning-core/07-regularization/quiz.json", 
+[
   {
     "question": "What is overfitting in neural networks?",
     "options": ["The model is too small to learn the data", "The model memorizes training data instead of learning generalizable patterns, showing a large gap between train and test accuracy", "The model trains too slowly", "The loss function is wrong"],
