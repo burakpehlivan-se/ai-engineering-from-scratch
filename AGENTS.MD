@@ -139,6 +139,26 @@ AI-Engineering-Ceviri/
 
 ---
 
+### Agent 6: `proofreader-agent`
+**Rol:** Çevirilerin kalitesini kontrol eder ve düşük kaliteli metinleri otomatik olarak düzeltir.
+
+**Sorumluluklar:**
+- tr.md dosyalarını cümle bazında analiz eder
+- Orijinal en.md ile karşılaştırarak anlam kaybını tespit eder
+- Anlaşılabilirlik skoru hesaplar (0-100)
+- 75 altındaki cümleleri otomatik olarak yeniden yazar
+- MD formatında kalite raporu üretir
+
+**Kısıtlar:**
+- Kod bloklarına dokunmaz
+- Markdown yapısını korur
+- Orijinal en.md dosyasına asla dokunmaz
+- Sadece tr.md dosyalarını düzenler
+
+**Tetikleme:** Çevirilerden sonra, GitHub'a commit etmeden önce
+
+---
+
 ## 4. Çeviri Pipeline'ı
 
 ### Akış Diyagramı
