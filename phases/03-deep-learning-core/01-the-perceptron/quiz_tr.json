@@ -3,63 +3,63 @@
   "title": "",
   "questions": [
     {
-      "question": "What mathematical operation does a perceptron perform on its inputs before applying the activation function?",
+      "question": "Bir perceptron, activation function uygulamadan önce input'ları üzerinde hangi matematiksel işlemi gerçekleştirir?",
       "options": [
-        "Matrix inversion",
-        "Weighted sum plus bias",
-        "Fourier transform",
-        "Eigenvalue decomposition"
+        "Matris tersi alma (matrix inversion)",
+        "Ağırlıklı toplam artı bias (weighted sum plus bias)",
+        "Fourier dönüşümü (Fourier transform)",
+        "Özdeğer ayrışımı (eigenvalue decomposition)"
       ],
       "correct": 1,
-      "explanation": "A perceptron computes the dot product of inputs and weights, adds a bias term, then passes the result through a step function. This weighted sum plus bias is the core computation.",
+      "explanation": "Bir perceptron, input'lar ve weight'lerin nokta çarpımını (dot product) hesaplar, bir bias terimi ekler, ardından sonucu bir step function'dan geçirir. Bu ağırlıklı toplam artı bias (weighted sum plus bias) temel hesaplamadır.",
       "stage": "pre"
     },
     {
-      "question": "What does 'linearly separable' mean for a classification problem?",
+      "question": "Bir sınıflandırma (classification) probleminde 'linearly separable' ne anlama gelir?",
       "options": [
-        "The data can be sorted in order",
-        "A single straight line (or hyperplane) can perfectly separate the classes",
-        "The features have a linear relationship with the label",
-        "The data has only two dimensions"
+        "Veriler sıraya dizilebilir",
+        "Tek bir doğru (veya hiperdüzlem/hyperplane) sınıfları mükemmel şekilde ayırabilir",
+        "Özellikler (features) etiket (label) ile doğrusal bir ilişkiye sahiptir",
+        "Veri yalnızca iki boyutludur"
       ],
       "correct": 1,
-      "explanation": "A dataset is linearly separable when you can draw a single hyperplane that perfectly divides the input space into the correct classes. AND and OR are linearly separable; XOR is not.",
+      "explanation": "Bir veri kümesi (dataset), input uzayını doğru sınıflara mükemmel şekilde bölen tek bir hyperplane çizilebildiğinde linearly separable'dır. AND ve OR linearly separable'dır; XOR değildir.",
       "stage": "pre"
     },
     {
-      "question": "Why does a single perceptron fail to learn the XOR function?",
+      "question": "Tek bir perceptron neden XOR fonksiyonunu öğrenemez?",
       "options": [
-        "The learning rate is too low",
-        "XOR has too many inputs",
-        "XOR is not linearly separable -- no single line can separate the classes",
-        "The step function prevents gradient flow"
+        "Learning rate çok düşük",
+        "XOR'un çok fazla input'u var",
+        "XOR linearly separable değildir — hiçbir tek doğru sınıfları ayıramaz",
+        "Step function gradient akışını engelliyor"
       ],
       "correct": 2,
-      "explanation": "XOR places [0,1] and [1,0] on one side and [0,0] and [1,1] on the other. No single straight line can separate these groups, so a single perceptron, which can only draw one linear boundary, cannot solve XOR.",
+      "explanation": "XOR, [0,1] ve [1,0]'ı bir tarafa, [0,0] ve [1,1]'i diğer tarafa koyar. Hiçbir tek doğru bu grupları ayıramaz, bu nedenle yalnızca bir decision boundary çizebilen tek bir perceptron XOR'u çözemez.",
       "stage": "post"
     },
     {
-      "question": "In the perceptron learning rule, what happens when the prediction matches the target?",
+      "question": "Perceptron öğrenme kuralında (learning rule), tahmin (prediction) hedef (target) ile eşleştiğinde ne olur?",
       "options": [
-        "Weights are doubled",
-        "Weights are set to zero",
-        "Nothing changes -- error is zero so the update is zero",
-        "The learning rate is halved"
+        "Weight'ler iki katına çıkar",
+        "Weight'ler sıfırlanır",
+        "Hiçbir şey değişmez — hata (error) sıfır olduğu için güncelleme sıfırdır",
+        "Learning rate yarıya düşer"
       ],
       "correct": 2,
-      "explanation": "The update rule is w_i = w_i + lr * error * x_i. When prediction equals target, error = 0, so all weight updates are zero. The perceptron only adjusts when it makes a mistake.",
+      "explanation": "Güncelleme kuralı (update rule): w_i = w_i + lr * error * x_i. Tahmin (prediction) hedefe (target) eşit olduğunda error = 0 olur, bu nedenle tüm weight güncellemeleri sıfırdır. Perceptron yalnızca hata yaptığında ayarlama yapar.",
       "stage": "post"
     },
     {
-      "question": "How is XOR solved using multiple perceptrons?",
+      "question": "XOR, birden fazla perceptron kullanılarak nasıl çözülür?",
       "options": [
-        "By using a larger learning rate on a single perceptron",
-        "By combining OR, NAND, and AND perceptrons in two layers",
-        "By adding more inputs to a single perceptron",
-        "By removing the bias term"
+        "Tek bir perceptron'da daha büyük learning rate kullanarak",
+        "OR, NAND ve AND perceptron'larını iki katmanda (layer) birleştirerek",
+        "Tek bir perceptron'a daha fazla input ekleyerek",
+        "Bias terimini kaldırarak"
       ],
       "correct": 1,
-      "explanation": "XOR = (x1 OR x2) AND NOT(x1 AND x2). A hidden layer with an OR neuron and a NAND neuron feeds into an output AND neuron, creating a nonlinear decision boundary from linear components.",
+      "explanation": "XOR = (x1 OR x2) VE (x1 AND x2) DEĞİL. Bir OR nöronu (neuron) ve bir NAND nöronu içeren bir gizli katman (hidden layer), output'taki bir AND nöronuna besleme yaparak lineer bileşenlerden doğrusal olmayan (nonlinear) bir decision boundary oluşturur.",
       "stage": "post"
     }
   ]

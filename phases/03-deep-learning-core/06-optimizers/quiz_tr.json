@@ -3,43 +3,43 @@
   "title": "",
   "questions": [
     {
-      "question": "What problem does momentum solve in gradient descent?",
+      "question": "Gradient descent'te momentum hangi sorunu çözer?",
       "options": [
-        "It reduces memory usage",
-        "It dampens oscillation by accumulating past gradients, accelerating movement in consistent directions",
-        "It eliminates the need for a learning rate",
-        "It prevents overfitting"
+        "Bellek kullanımını azaltır",
+        "Geçmiş gradient'ları biriktirerek salınımı sönümler, tutarlı yönlerde hareketi hızlandırır",
+        "Learning rate ihtiyacını ortadan kaldırır",
+        "Overfitting'i önler"
       ],
       "correct": 1,
-      "explanation": "In narrow valleys, gradients oscillate across the valley while making slow progress along it. Momentum accumulates past gradients: consistent directions amplify while oscillating directions cancel, giving smoother, faster convergence.",
+      "explanation": "Dar vadilerde gradient'lar vadi boyunca salınırken aynı anda yavaş ilerleme kaydeder. Momentum geçmiş gradient'ları biriktirir: tutarlı yönler güçlenirken salınan yönler birbirini iptal eder, daha pürüzsüz ve hızlı convergence sağlar.",
       "stage": "pre"
     },
     {
-      "question": "What is the key difference between Adam and AdamW?",
+      "question": "Adam ve AdamW arasındaki temel fark nedir?",
       "options": [
-        "AdamW uses a higher learning rate",
-        "AdamW applies weight decay directly to weights instead of through the gradient, giving proper regularization",
-        "AdamW doesn't use momentum",
-        "AdamW only works with transformers"
+        "AdamW daha yüksek bir learning rate kullanır",
+        "AdamW weight decay'i gradient üzerinden değil, doğrudan ağırlıklara uygulayarak uygun regularization sağlar",
+        "AdamW momentum kullanmaz",
+        "AdamW sadece transformer'larla çalışır"
       ],
       "correct": 1,
-      "explanation": "In Adam + L2, the adaptive learning rate scales the regularization term differently per parameter. AdamW decouples weight decay from the gradient update, applying uniform shrinkage regardless of gradient statistics.",
+      "explanation": "Adam + L2'de, adaptive learning rate regularization terimini her parametre için farklı ölçekler. AdamW weight decay'i gradient güncellemesinden ayırarak, gradient istatistiklerinden bağımsız olarak tek tip shrinkage uygular.",
       "stage": "pre"
     },
     {
-      "question": "Why does Adam use bias correction in early training steps?",
+      "question": "Adam neden erken eğitim adımlarında bias correction kullanır?",
       "options": [
-        "To prevent overfitting",
-        "The moment estimates are initialized to zero, so early values are biased toward zero; correction compensates for this cold start",
-        "To clip large gradients",
-        "To speed up convergence"
+        "Overfitting'i önlemek için",
+        "Moment tahminleri sıfır ile başlatılır, bu nedenle ilk değerler sıfıra doğru biased olur; correction bu soğuk başlangıcı telafi eder",
+        "Büyük gradient'ları kırpmak için",
+        "Convergence'ı hızlandırmak için"
       ],
       "correct": 1,
-      "explanation": "At step 1 with beta1=0.9, m_1 = 0.1 * gradient (10x too small). Dividing by (1 - 0.9^1) = 0.1 corrects this to the actual gradient. The correction becomes negligible after ~50 steps.",
+      "explanation": "beta1=0.9 ile 1. adımda, m_1 = 0.1 * gradient (10 kat çok küçük). (1 - 0.9^1) = 0.1'e bölmek bunu gerçek gradient'a düzeltir. Düzeltme yaklaşık 50 adımdan sonra ihmal edilebilir hale gelir.",
       "stage": "post"
     },
     {
-      "question": "What are the standard default hyperparameters for Adam?",
+      "question": "Adam için standart varsayılan hiperparametreler nelerdir?",
       "options": [
         "lr=0.1, beta1=0.5, beta2=0.5",
         "lr=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8",
@@ -47,11 +47,11 @@
         "lr=0.0001, beta1=0.8, beta2=0.9"
       ],
       "correct": 1,
-      "explanation": "The original Adam paper (Kingma & Ba, 2014) recommended lr=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8. These defaults work well for most problems.",
+      "explanation": "Orijinal Adam makalesi (Kingma & Ba, 2014) lr=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8 değerlerini önermiştir. Bu varsayılanlar çoğu problem için iyi çalışır.",
       "stage": "post"
     },
     {
-      "question": "Which optimizer is the modern default for training transformers and LLMs?",
+      "question": "Transformer ve LLM'leri eğitmek için modern varsayılan optimizer hangisidir?",
       "options": [
         "Vanilla SGD",
         "SGD with momentum",
@@ -59,7 +59,7 @@
         "AdamW"
       ],
       "correct": 3,
-      "explanation": "AdamW (Adam with decoupled weight decay) is used to train BERT, GPT, LLaMA, and virtually all modern transformers. It combines adaptive learning rates with proper weight decay regularization.",
+      "explanation": "AdamW (decoupled weight decay ile Adam) BERT, GPT, LLaMA ve neredeyse tüm modern transformer'ları eğitmek için kullanılır. Adaptive learning rate'leri uygun weight decay regularization ile birleştirir.",
       "stage": "post"
     }
   ]

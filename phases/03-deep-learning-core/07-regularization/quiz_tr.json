@@ -1,65 +1,65 @@
 {
-  "lesson": "quiz_tr.json",
-  "title": "",
+  "lesson": "Düzenlileştirme (Regularization)",
+  "title": "Bölüm 07: Düzenlileştirme (Regularization)",
   "questions": [
     {
-      "question": "What is overfitting in neural networks?",
+      "question": "Sinir ağlarında overfitting nedir?",
       "options": [
-        "The model is too small to learn the data",
-        "The model memorizes training data instead of learning generalizable patterns, showing a large gap between train and test accuracy",
-        "The model trains too slowly",
-        "The loss function is wrong"
+        "Modelin veriyi öğrenemeyecek kadar küçük olması",
+        "Modelin genellenebilir pattern'lar öğrenmek yerine eğitim verisini ezberlemesi, train ve test accuracy'si arasında büyük fark oluşması",
+        "Modelin çok yavaş eğitilmesi",
+        "Loss fonksiyonunun yanlış olması"
       ],
       "correct": 1,
-      "explanation": "Overfitting occurs when a model achieves high training accuracy but poor test accuracy. It has memorized the training data's noise rather than learning the underlying patterns.",
+      "explanation": "Overfitting, bir modelin yüksek eğitim accuracy'sine ancak düşük test accuracy'sine sahip olması durumudur. Model, alttaki pattern'ları öğrenmek yerine eğitim verisindeki gürültüyü ezberlemiştir.",
       "stage": "pre"
     },
     {
-      "question": "How does dropout regularize a neural network?",
+      "question": "Dropout bir sinir ağını nasıl düzenlileştirir (regularize eder)?",
       "options": [
-        "It removes the worst-performing neurons permanently",
-        "It randomly zeroes neurons during training, forcing the network to learn redundant representations",
-        "It reduces the learning rate",
-        "It removes outliers from the training data"
+        "En kötü performans gösteren nöronları kalıcı olarak kaldırır",
+        "Eğitim sırasında nöronları rastgele sıfırlar ve ağı yedekli (redundant) temsiller öğrenmeye zorlar",
+        "Öğrenme oranını (learning rate) düşürür",
+        "Eğitim verisindeki aykırı değerleri (outlier) kaldırır"
       ],
       "correct": 1,
-      "explanation": "During each forward pass, dropout randomly sets neuron outputs to zero with probability p. This prevents co-adaptation (neurons relying on specific others) and is equivalent to training an ensemble of 2^N subnetworks.",
+      "explanation": "Her forward pass'te dropout, nöron çıktılarını p olasılığıyla rastgele sıfırlar. Bu, nöronların belirli diğerlerine bağımlı hale gelmesini (ko-adaptasyon) önler ve 2^N alt ağdan oluşan bir ensemble eğitmeye eşdeğerdir.",
       "stage": "pre"
     },
     {
-      "question": "Why do transformers use LayerNorm instead of BatchNorm?",
+      "question": "Transformer'lar neden BatchNorm yerine LayerNorm kullanır?",
       "options": [
-        "LayerNorm is faster to compute",
-        "LayerNorm normalizes across features per sample (batch-independent), which works with variable sequence lengths and small batch sizes",
-        "BatchNorm causes gradient explosion",
-        "LayerNorm was invented more recently"
+        "LayerNorm hesaplaması daha hızlıdır",
+        "LayerNorm her örnekte feature'lar arasında normalize eder (batch'ten bağımsız), değişken dizi uzunlukları ve küçük batch boyutlarıyla çalışır",
+        "BatchNorm gradyan patlamasına neden olur",
+        "LayerNorm daha yakın zamanda icat edilmiştir"
       ],
       "correct": 1,
-      "explanation": "BatchNorm depends on batch statistics, which are noisy with small batches and meaningless with batch size 1 (common during generation). LayerNorm normalizes across features within each sample, independent of batch size.",
+      "explanation": "BatchNorm batch istatistiklerine bağımlıdır; küçük batch'lerde gürültülüdür ve batch boyutu 1'de (üretim sırasında yaygın) anlamsızdır. LayerNorm, batch boyutundan bağımsız olarak her örnek içindeki feature'lar arasında normalize eder.",
       "stage": "post"
     },
     {
-      "question": "What is the key difference between RMSNorm and LayerNorm?",
+      "question": "RMSNorm ve LayerNorm arasındaki temel fark nedir?",
       "options": [
-        "RMSNorm uses batch statistics",
-        "RMSNorm skips the mean subtraction, only dividing by the root mean square, giving ~10% speedup with equal accuracy",
-        "RMSNorm adds learnable parameters",
-        "RMSNorm only works on CNNs"
+        "RMSNorm batch istatistiklerini kullanır",
+        "RMSNorm ortalama çıkarma adımını atlar, sadece root mean square'e böler ve eşit accuracy ile ~%10 hızlanma sağlar",
+        "RMSNorm öğrenilebilir parametreler ekler",
+        "RMSNorm sadece CNN'lerde çalışır"
       ],
       "correct": 1,
-      "explanation": "RMSNorm removes the mean subtraction step from LayerNorm, which contributes little to accuracy but adds computation. LLaMA, Mistral, and most modern LLMs use RMSNorm for this efficiency gain.",
+      "explanation": "RMSNorm, LayerNorm'dan ortalama çıkarma adımını kaldırır; bu adım accuracy'ye çok az katkı sağlar ancak hesaplama ekler. LLaMA, Mistral ve çoğu modern LLM bu verimlilik kazancı için RMSNorm kullanır.",
       "stage": "post"
     },
     {
-      "question": "Why is it critical to call model.eval() before running inference in PyTorch?",
+      "question": "PyTorch'ta inference öncesinde neden model.eval() çağırmak kritiktir?",
       "options": [
-        "It speeds up computation",
-        "It disables dropout and switches BatchNorm to use running statistics instead of batch statistics, giving deterministic outputs",
-        "It frees GPU memory",
-        "It enables gradient computation"
+        "Hesaplamayı hızlandırır",
+        "Dropout'u devre dışı bırakır ve BatchNorm'un batch istatistikleri yerine running statistics kullanmasını sağlar, deterministik çıktılar üretir",
+        "GPU belleğini boşaltır",
+        "Gradyan hesaplamasını etkinleştirir"
       ],
       "correct": 1,
-      "explanation": "Without model.eval(), dropout randomly zeroes neurons during inference (causing random output variation) and BatchNorm uses current-batch statistics instead of the stable running averages accumulated during training.",
+      "explanation": "model.eval() olmadan, dropout inference sırasında nöronları rastgele sıfırlar (tutarsız çıktıya neden olur) ve BatchNorm eğitim sırasında biriktirilen kararlı running averages yerine mevcut batch istatistiklerini kullanır.",
       "stage": "post"
     }
   ]

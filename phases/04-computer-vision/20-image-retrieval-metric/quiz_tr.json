@@ -2,38 +2,63 @@
   "questions": [
     {
       "stage": "pre",
-      "question": "For a visual search product where queries are text and gallery items are images, which backbone do you pick first?",
-      "options": ["A supervised ResNet-50", "A CLIP or SigLIP model — they learn a shared text-image embedding space so cosine similarity between text query and image gallery is meaningful out of the box", "A self-supervised DINOv2 model", "A handcrafted ORB descriptor"],
+      "question": "Sorguların metin ve galeri öğelerinin görsel olduğu bir görsel arama ürünü için ilk olarak hangi backbone'u seçersiniz?",
+      "options": [
+        "Supervised bir ResNet-50",
+        "Bir CLIP veya SigLIP modeli — paylaşılan bir text-image embedding uzayı öğrenirler, böylece metin sorgusu ile görsel galerisi arasındaki cosine similarity kutu dışında anlamlıdır",
+        "Self-supervised bir DINOv2 modeli",
+        "Elle tasarlanmış bir ORB tanımlayıcısı"
+      ],
       "correct": 1,
-      "explanation": "Retrieval with text queries requires embeddings where text and image end up in the same space. CLIP/SigLIP train exactly this with the contrastive loss in Lesson 18. Supervised ImageNet features are image-only. DINOv2 is strong but image-only. Text queries demand a vision-language encoder."
+      "explanation": "Metin sorgularıyla retrieval, metin ve görselin aynı uzayda sonlandığı embedding'ler gerektirir. CLIP/SigLIP, Ders 18'deki contrastive loss ile tam olarak bunu eğitir. Supervised ImageNet feature'ları yalnızca görseldir. DINOv2 güçlüdür ancak yalnızca görseldir. Metin sorguları bir vision-language encoder gerektirir."
     },
     {
       "stage": "pre",
-      "question": "What does 'semi-hard mining' mean in triplet-loss training?",
-      "options": ["Picking random triplets", "For each anchor, select a negative that is further than the positive but still within the margin; easy negatives contribute no gradient and hardest negatives can destabilise training, so semi-hard is the sweet spot", "Using only the hardest possible negatives", "Mining cryptocurrency for training examples"],
+      "question": "Triplet-loss eğitiminde 'semi-hard mining' ne anlama gelir?",
+      "options": [
+        "Rastgele triplet'ler seçmek",
+        "Her anchor için, positive'ten daha uzak ancak yine de margin içinde olan bir negative seçin; easy negative'ler gradient sağlamaz ve hardest negative'ler eğitimi istikrarsızlaştırabilir, bu nedenle semi-hard tatlı noktadır",
+        "Yalnızca mümkün olan en zor negative'leri kullanmak",
+        "Eğitim örnekleri için kripto para madenciliği yapmak"
+      ],
       "correct": 1,
-      "explanation": "Triplet loss gradient is non-zero only when d(a, n) < d(a, p) + margin. Easy negatives (already far) give zero gradient. Hardest negatives can collapse training. Semi-hard — d(a, p) < d(a, n) < d(a, p) + margin — is where the loss is informative without being unstable. FaceNet introduced this recipe in 2015 and it is still the default for triplet fine-tuning."
+      "explanation": "Triplet loss gradient'i yalnızca d(a, n) < d(a, p) + margin olduğunda sıfır değildir. Easy negative'ler (zaten uzak) sıfır gradient verir. Hardest negative'ler eğitimi çökertebilir. Semi-hard — d(a, p) < d(a, n) < d(a, p) + margin — loss'un bilgilendirici olduğu ancak istikrarsız olmadığı yerdir. FaceNet bu tarifi 2015'te tanıttı ve triplet fine-tuning için hâlâ varsayılandır."
     },
     {
       "stage": "post",
-      "question": "Your retrieval system reports recall@10 = 0.95 but recall@1 = 0.42. What should you conclude?",
-      "options": ["The evaluation is broken", "The embedding space has the correct structure — relevant items are usually in the top 10 — but ranking within the top 10 is noisy; a re-ranking model (cross-encoder, second-stage scorer) or longer metric-learning fine-tune will fix recall@1 without damaging recall@10", "The model is overfitting", "Data is leaking from gallery to queries"],
+      "question": "Retrieval sisteminiz recall@10 = 0.95 ancak recall@1 = 0.42 raporluyor. Ne sonucuna varmalısınız?",
+      "options": [
+        "Değerlendirme bozuk",
+        "Embedding uzayı doğru yapıya sahiptir — ilgili öğeler genellikle ilk 10'dadır — ancak ilk 10 içinde sıralama gürültülüdür; bir re-ranking modeli (cross-encoder, ikinci aşama scorer) veya daha uzun metric-learning fine-tune, recall@10'a zarar vermeden recall@1'i düzeltecektir",
+        "Model overfitting yapıyor",
+        "Veri galeriden sorgulara sızıyor"
+      ],
       "correct": 1,
-      "explanation": "recall@K vs @1 tells you where the information sits. A high recall@10 with low recall@1 means retrieval is approximately right but the model is not confident about ordering the top few. Re-ranking — a separate model that scores every top-K candidate against the query — is the production fix and is what search engines like Pinterest and Google Photos use."
+      "explanation": "recall@K ve @1, bilginin nerede olduğunu söyler. Düşük recall@1 ile yüksek recall@10, retrieval'in yaklaşık olarak doğru olduğu ancak modelin ilk birkaçı sıralama konusunda emin olmadığı anlamına gelir. Re-ranking — her top-K adayını sorguya karşı puanlayan ayrı bir model — production çözümüdür ve Pinterest ile Google Photos gibi arama motorlarının kullandığı yöntemdir."
     },
     {
       "stage": "post",
-      "question": "Cosine similarity on unnormalised embeddings is not cosine similarity — what goes wrong?",
-      "options": ["Nothing, it is fine", "It mixes direction with magnitude; cos(a, b) is only correct when both vectors are L2-normalised. On unnormalised embeddings, large-norm items dominate regardless of direction, skewing ranks toward vectors with big magnitudes", "PyTorch raises an error", "The matmul overflows"],
+      "question": "Normalize edilmemiş embedding'lerde cosine similarity cosine similarity değildir — ne yanlış gider?",
+      "options": [
+        "Hiçbir şey, sorun yok",
+        "Yönü büyüklükle karıştırır; cos(a, b) yalnızca her iki vektör L2-normalize edildiğinde doğrudur. Normalize edilmemiş embedding'lerde, büyük-normlu öğeler yönden bağımsız olarak baskın gelir ve sıralamayı büyük büyüklüklü vektörlere doğru çarpıtır",
+        "PyTorch hata verir",
+        "Matmul taşar"
+      ],
       "correct": 1,
-      "explanation": "cos(a, b) = (a . b) / (||a|| * ||b||). Skipping the normalisation gives you raw inner product, which ranks by direction weighted by magnitude. On typical neural embeddings magnitudes vary 2-3x across samples, and that alone dominates the ranking. Always L2-normalise before computing cosine or before indexing in FAISS IndexFlatIP."
+      "explanation": "cos(a, b) = (a . b) / (||a|| * ||b||). Normalizasyonu atlamak size ham iç çarpımı verir; bu da sıralamayı büyüklükle ağırlıklandırılmış yöne göre yapar. Tipik sinirsel embedding'lerde büyüklükler örnekler arasında 2-3 kat değişir ve bu tek başına sıralamaya hakim olur. Cosine similarity hesaplamadan veya FAISS IndexFlatIP'de indekslemeden önce daima L2-normalize edin."
     },
     {
       "stage": "post",
-      "question": "Between instance-level retrieval (find this exact car) and category-level retrieval (find cars), which requires metric-learning fine-tuning?",
-      "options": ["Neither", "Instance-level. Off-the-shelf DINOv2 and CLIP embeddings discriminate between categories well but not between visually similar instances of the same category. A triplet or contrastive fine-tune on (same instance, different instance) pairs tightens the embedding around each instance", "Category-level", "Both require the same amount of fine-tuning"],
+      "question": "Örnek-seviyesi retrieval (bu tam arabayı bul) ve kategori-seviyesi retrieval (arabaları bul) arasında hangisi metric-learning fine-tuning gerektirir?",
+      "options": [
+        "Hiçbiri",
+        "Örnek-seviyesi. Kutudan çıkan DINOv2 ve CLIP embedding'leri kategoriler arasında iyi ayrım yapar ancak aynı kategorinin görsel olarak benzer örnekleri arasında iyi ayrım yapmaz. (Aynı örnek, farklı örnek) çiftleri üzerinde bir triplet veya contrastive fine-tune, embedding'i her örnek etrafında sıkılaştırır",
+        "Kategori-seviyesi",
+        "Her ikisi de aynı miktarda fine-tuning gerektirir"
+      ],
       "correct": 1,
-      "explanation": "Category-level retrieval is what pretrained models already do: cats cluster near cats, dogs near dogs. Instance-level — same car, same face, same product SKU — needs metric learning because two instances of the same product look very similar in the general embedding space. Fine-tuning with triplet or InfoNCE on instance-labelled pairs shrinks intra-instance distance and grows inter-instance distance."
+      "explanation": "Kategori-seviyesi retrieval, önceden eğitilmiş modellerin zaten yaptığı şeydir: kediler kedilerin yakınında kümelenir, köpekler köpeklerin yakınında. Örnek-seviyesi — aynı araba, aynı yüz, aynı ürün SKU'su — metric learning gerektirir çünkü aynı ürünün iki örneği genel embedding uzayında çok benzer görünür. Örnek-etiketli çiftlerde triplet veya InfoNCE ile fine-tuning, örnek-içi mesafeyi küçültür ve örnekler-arası mesafeyi büyütür."
     }
   ]
 }

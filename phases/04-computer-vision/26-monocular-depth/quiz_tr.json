@@ -2,63 +2,63 @@
   "questions": [
     {
       "stage": "pre",
-      "question": "What is the main difference between relative depth and metric depth?",
+      "question": "Relative depth ve metric depth arasındaki temel fark nedir?",
       "options": [
-        "Relative depth is always lower resolution",
-        "There is no difference",
-        "Metric depth uses grayscale output; relative uses colour",
-        "Relative depth gives only ordered distances without real-world units; metric depth gives distances in metres and requires the model to have learnt absolute scale from training data"
+        "Relative depth her zaman daha düşük çözünürlüktedir",
+        "Hiçbir fark yoktur",
+        "Metric depth gri tonlamalı çıktı kullanır; relative depth renk kullanır",
+        "Relative depth sadece gerçek dünya birimleri olmadan sıralı mesafeler verir; metric depth metre cinsinden mesafeler verir ve modelin eğitim verisinden mutlak ölçeği öğrenmesini gerektirir"
       ],
       "correct": 3,
-      "explanation": "Relative depth preserves ordering and ratios but has no anchor to real-world units \u2014 a MiDaS or Depth Anything prediction needs alignment before you can compare it to a ground-truth measurement in metres. Metric depth models (ZoeDepth, UniDepth, Metric3D) output calibrated distances at the cost of sensitivity to camera intrinsics and training data coverage."
+      "explanation": "Relative depth sıralamayı ve oranları korur ancak gerçek dünya birimlerine bir dayanağı yoktur — bir MiDaS veya Depth Anything tahmini, metre cinsinden bir ground-truth ölçümüyle karşılaştırmadan önce hizalama gerektirir. Metric depth modelleri (ZoeDepth, UniDepth, Metric3D) kalibre edilmiş mesafeler çıkarır ancak kamera intrinsiklerine ve eğitim verisi kapsamına duyarlıdır."
     },
     {
       "stage": "pre",
-      "question": "Depth Anything V3 uses a frozen DINOv2 encoder plus a DPT-style decoder. Why freeze the encoder?",
+      "question": "Depth Anything V3, donuk bir DINOv2 encoder artı bir DPT tarzı decoder kullanır. Encoder'ı neden dondurur?",
       "options": [
-        "DINOv2 would otherwise learn bad features",
-        "DINOv2's self-supervised features already encode scene structure, texture gradients, and object semantics that correlate with depth; freezing them lets the decoder train with a small head on limited depth-supervised data while keeping the encoder's strong generalisation",
-        "Compute savings at training time only",
-        "Freezing is a legal requirement"
+        "DINOv2 aksi halde kötü özellikler öğrenirdi",
+        "DINOv2'nin self-supervised özellikleri zaten sahne yapısını, doku gradyanlarını ve derinlikle ilişkili nesne semantiğini kodlar; bunları dondurmak, decoder'ın encoder'ın güçlü genellemesini korurken sınırlı derinlik-denetimli veriyle küçük bir kafa ile eğitilmesini sağlar",
+        "Sadece eğitim zamanında hesaplama tasarrufu",
+        "Dondurmak yasal bir gerekliliktir"
       ],
       "correct": 1,
-      "explanation": "Self-supervised ViTs like DINOv2 / DINOv3 already have features that transfer to dense tasks with minimal fine-tuning. A frozen encoder plus a lightweight depth decoder means you train a tiny number of parameters on depth data, and you inherit DINOv2's cross-domain generalisation (indoor, outdoor, medical, satellite) for free. Fine-tuning the backbone sometimes hurts if the depth dataset is narrower than DINOv2's pretraining distribution."
+      "explanation": "DINOv2 / DINOv3 gibi self-supervised ViT'ler, minimum ince ayarla yoğun görevlere aktarılan özelliklere zaten sahiptir. Donuk bir encoder artı hafif bir derinlik decoder'ı, derinlik verisi üzerinde çok az sayıda parametre eğitmek ve DINOv2'nin çapraz alan genellemesini (iç mekan, dış mekan, tıbbi, uydu) ücretsiz olarak devralmak anlamına gelir. Eğer derinlik veri kümesi DINOv2'nin ön-eğitim dağılımından daha darsa, backbone'da ince ayar yapmak bazen zarar verebilir."
     },
     {
       "stage": "post",
-      "question": "To lift a pixel (u, v) with predicted depth d to 3D, you use X = (u - cx) * d / fx, Y = (v - cy) * d / fy, Z = d. What are fx, fy, cx, cy?",
+      "question": "Tahmin edilen d derinliğine sahip bir pikseli (u, v) 3D'ye yükseltmek için X = (u - cx) * d / fx, Y = (v - cy) * d / fy, Z = d kullanılır. fx, fy, cx, cy nedir?",
       "options": [
-        "Pinhole camera intrinsics \u2014 focal lengths and principal point in pixels, from EXIF metadata or camera calibration",
-        "Training loss weights",
-        "Normalisation constants",
-        "Weights learned by the depth decoder"
+        "Pinhole kamera intrinsikleri — EXIF metadata veya kamera kalibrasyonundan piksel cinsinden odak uzunlukları ve principal point",
+        "Eğitim kaybı ağırlıkları",
+        "Normalizasyon sabitleri",
+        "Derinlik decoder'ı tarafından öğrenilen ağırlıklar"
       ],
       "correct": 0,
-      "explanation": "The pinhole-camera formula needs the camera intrinsics. fx, fy are the focal lengths in pixel units; cx, cy are the principal point (usually near image centre). Without intrinsics you can only assume a generic FOV (~60 degrees) which is enough for visualisation but not for measurement. Many 2026 pipelines estimate intrinsics automatically from image content (Perspective Fields, UniDepth)."
+      "explanation": "Pinhole-kamera formülü kamera intrinsiklerini gerektirir. fx, fy piksel birimindeki odak uzunluklarıdır; cx, cy principal point'tir (genellikle görüntü merkezine yakın). Intrinsikler olmadan sadece genel bir FOV (~60 derece) varsayabilirsiniz ki bu görselleştirme için yeterlidir ancak ölçüm için değildir. 2026'daki birçok pipeline, intrinsikleri otomatik olarak görüntü içeriğinden tahmin eder (Perspective Fields, UniDepth)."
     },
     {
       "stage": "post",
-      "question": "When evaluating a relative-depth model (MiDaS, Depth Anything), why do you apply scale-and-shift alignment before computing AbsRel?",
+      "question": "Bir relative-depth modelini (MiDaS, Depth Anything) değerlendirirken, neden AbsRel hesaplamadan önce scale-and-shift hizalaması uygulanır?",
       "options": [
-        "To inflate the metric score",
-        "Relative-depth predictions have arbitrary scale and offset; aligning them to ground truth via least-squares fit of a * pred + b = target gives a fair measurement of the ordering quality that relative models are actually trained to produce",
-        "To enable GPU inference",
-        "Pytorch cannot compute AbsRel without alignment"
+        "Metrik puanını şişirmek için",
+        "Relative-depth tahminleri keyfi ölçek ve kaydırmaya sahiptir; bunları en küçük kareler uyumu a * pred + b = target ile ground truth'a hizalamak, relative modellerin aslında üretmek üzere eğitildiği sıralama kalitesinin adil bir ölçümünü verir",
+        "GPU çıkarımını etkinleştirmek için",
+        "PyTorch hizalama olmadan AbsRel hesaplayamaz"
       ],
       "correct": 1,
-      "explanation": "MiDaS-style models produce outputs where only the ordering and ratios are meaningful. Directly computing AbsRel without alignment measures the scale mismatch, not the model's actual quality. Least-squares alignment fits a linear transform that minimises squared error; the residual after alignment is what you report. Every MiDaS / Depth Anything paper uses this protocol."
+      "explanation": "MiDaS tarzı modeller, yalnızca sıralama ve oranların anlamlı olduğu çıktılar üretir. Hizalama olmadan doğrudan AbsRel hesaplamak, modelin gerçek kalitesini değil, ölçek uyumsuzluğunu ölçer. En küçük kareler hizalaması, kare hatasını en aza indiren doğrusal bir dönüşüm uydurur; hizalama sonrası kalan bildirilir. Her MiDaS / Depth Anything makalesi bu protokolü kullanır."
     },
     {
       "stage": "post",
-      "question": "Your Depth Anything prediction on a glass-fronted reception desk reports believable but clearly wrong depth for the glass region. Why?",
+      "question": "Depth Anything tahmininiz, cam önlü bir resepsiyon masasında cam bölgesi için inandırıcı ancak açıkça yanlış derinlik raporluyor. Neden?",
       "options": [
-        "The model is broken",
-        "The model was trained without glass data",
-        "Glass, mirrors, and highly reflective surfaces break the monocular cues the model relies on; the network sees the texture / content behind the glass and reports a plausible depth consistent with that, not the real glass surface distance",
-        "Your image resolution is wrong"
+        "Model bozuk",
+        "Model cam verisi olmadan eğitildi",
+        "Cam, aynalar ve yüksek yansıtıcı yüzeyler, modelin güvendiği monoküler ipuçlarını bozar; ağ, camın arkasındaki doku/içeriği görür ve bununla tutarlı, gerçek cam yüzey mesafesi değil, makul bir derinlik raporlar",
+        "Görüntü çözünürlüğünüz yanlış"
       ],
       "correct": 2,
-      "explanation": "Monocular depth relies on texture gradients, occlusion ordering, and perspective cues. Reflective or transparent surfaces confuse all of them: a mirror shows a scene with its own depth; glass shows content behind it. The model fills in a plausible depth and is confidently wrong. This is a fundamental limit of monocular depth, not a bug. Fix by fusing with stereo, LiDAR, or polarisation cameras when materials like glass matter."
+      "explanation": "Monoküler derinlik, doku gradyanlarına, örtülme sıralamasına ve perspektif ipuçlarına dayanır. Yansıtıcı veya şeffaf yüzeyler bunların hepsini karıştırır: bir ayna kendi derinliği olan bir sahne gösterir; cam arkasındaki içeriği gösterir. Model makul bir derinlik doldurur ve kendinden emin bir şekilde yanlıştır. Bu, monoküler derinliğin temel bir sınırlamasıdır, bir hata değil. Cam gibi malzemeler önemli olduğunda stereo, LiDAR veya polarizasyon kameralarıyla birleştirerek düzeltin."
     }
   ]
 }

@@ -1,65 +1,65 @@
 {
   "lesson": "quiz_tr.json",
-  "title": "",
+  "title": "Sinir Ağlarında Debugging",
   "questions": [
     {
-      "question": "Why is neural network debugging harder than traditional software debugging?",
+      "question": "Sinir ağlarında debugging neden geleneksel yazılım debugging'inden daha zordur?",
       "options": [
-        "Neural networks use different programming languages",
-        "Networks can produce wrong outputs without any error messages or crashes -- the code runs but the results are silently incorrect",
-        "Neural networks can't be tested",
-        "There are no debugging tools for neural networks"
+        "Sinir ağları farklı programlama dilleri kullanır",
+        "Ağlar herhangi bir hata mesajı veya çökme olmadan yanlış çıktılar üretebilir -- kod çalışır ancak sonuçlar sessizce yanlıştır",
+        "Sinir ağları test edilemez",
+        "Sinir ağları için debugging araçları yoktur"
       ],
       "correct": 1,
-      "explanation": "Traditional bugs crash or throw exceptions. Neural network bugs produce a number that's just wrong -- a loss that doesn't decrease, accuracy that plateaus, or outputs that are subtly incorrect. No error message tells you what went wrong.",
+      "explanation": "Geleneksel hatalar çöker veya istisna fırlatır. Sinir ağı hataları sadece yanlış olan bir sayı üretir -- azalmayan bir loss, platoya ulaşan accuracy veya ince bir şekilde yanlış olan çıktılar. Neyin yanlış gittiğini söyleyen bir hata mesajı yoktur.",
       "stage": "pre"
     },
     {
-      "question": "What is the 'overfit one batch' debugging technique?",
+      "question": "'Overfit one batch' debugging tekniği nedir?",
       "options": [
-        "Training on the full dataset until it overfits",
-        "Training on a single small batch until the loss reaches near-zero, verifying the model can memorize at least a few examples",
-        "Using a very large batch size",
-        "Overfitting the validation set"
+        "Tam veri setinde overfitting oluşana kadar eğitmek",
+        "Tek bir küçük batch'te loss sıfıra yaklaşana kadar eğitmek, modelin en az birkaç örneği ezberleyebildiğini doğrulamak",
+        "Çok büyük bir batch size kullanmak",
+        "Validation set'ini overfit etmek"
       ],
       "correct": 1,
-      "explanation": "If your model can't memorize a tiny batch (e.g., 4-8 samples) to near-zero loss, something is fundamentally broken: wrong architecture, broken loss function, or incorrect training loop. This is the first diagnostic to run.",
+      "explanation": "Eğer modeliniz küçük bir batch'i (örn. 4-8 örnek) sıfıra yakın loss ile ezberleyemiyorsa, temelde bir şey yanlıştır: yanlış mimari, bozuk loss fonksiyonu veya hatalı eğitim döngüsü. Bu çalıştırılacak ilk diagnostiktir.",
       "stage": "pre"
     },
     {
-      "question": "Your loss is NaN after a few training steps. What is the most likely cause?",
+      "question": "Birkaç eğitim adımından sonra loss'unuz NaN oluyor. En olası neden nedir?",
       "options": [
-        "The dataset is too small",
-        "Exploding gradients or numerical overflow, often from a learning rate that's too high or missing gradient clipping",
-        "The model has too few parameters",
-        "The activation function is wrong"
+        "Veri seti çok küçük",
+        "Exploding gradient'ler veya numerik taşma, genellikle çok yüksek bir learning rate veya eksik gradient clipping'den kaynaklanır",
+        "Model çok az parametreye sahip",
+        "Aktivasyon fonksiyonu yanlış"
       ],
       "correct": 1,
-      "explanation": "NaN loss typically comes from numerical overflow: gradients explode, weights grow unbounded, and operations like log(0) or exp(1000) produce infinity/NaN. Lower the learning rate or add gradient clipping.",
+      "explanation": "NaN loss tipik olarak numerik taşmadan gelir: gradient'ler patlar, ağırlıklar sınırsız büyür ve log(0) veya exp(1000) gibi işlemler infinity/NaN üretir. Learning rate'i düşürün veya gradient clipping ekleyin.",
       "stage": "post"
     },
     {
-      "question": "Your training loss decreases but validation loss stays flat from the start. What does this indicate?",
+      "question": "Eğitim loss'unuz azalıyor ancak validation loss baştan itibaren sabit kalıyor. Bu neyi gösterir?",
       "options": [
-        "The model is overfitting",
-        "The model is learning training data patterns but they don't generalize -- likely a data pipeline issue (train/val data mismatch) or severe overfitting",
-        "The learning rate is too low",
-        "The model needs more layers"
+        "Model overfitting yapıyor",
+        "Model eğitim verisi desenlerini öğreniyor ancak genellemiyor -- olasılıkla bir veri hattı sorunu (train/val veri uyumsuzluğu) veya şiddetli overfitting",
+        "Learning rate çok düşük",
+        "Modelin daha fazla katmana ihtiyacı var"
       ],
       "correct": 1,
-      "explanation": "If validation loss never improves, the model is either memorizing training noise (overfitting), or there's a data pipeline bug where train and validation distributions are fundamentally different.",
+      "explanation": "Eğer validation loss hiç iyileşmiyorsa, model ya eğitim gürültüsünü ezberliyordur (overfitting) ya da train ve validation dağılımlarının temelde farklı olduğu bir veri hattı hatası vardır.",
       "stage": "post"
     },
     {
-      "question": "What should you check first when your loss curve is completely flat (loss doesn't decrease at all)?",
+      "question": "Loss curve'iniz tamamen düz olduğunda (loss hiç azalmıyor) ilk neyi kontrol etmelisiniz?",
       "options": [
-        "Try a different architecture",
-        "Verify gradients are nonzero, the learning rate is high enough, and the loss function actually depends on the model's predictions",
-        "Add more training data",
-        "Switch to a different optimizer"
+        "Farklı bir mimari deneyin",
+        "Gradient'lerin sıfır olmadığını, learning rate'in yeterince yüksek olduğunu ve loss fonksiyonunun gerçekten modelin tahminlerine bağlı olduğunu doğrulayın",
+        "Daha fazla eğitim verisi ekleyin",
+        "Farklı bir optimizer'a geçin"
       ],
       "correct": 1,
-      "explanation": "A flat loss means the model isn't updating. Common causes: zero gradients (dead neurons, detached tensors), learning rate too small, or a loss function that doesn't flow gradients to the model (e.g., using .item() before .backward()).",
+      "explanation": "Düz bir loss, modelin güncellenmediği anlamına gelir. Yaygın nedenler: sıfır gradient'ler (ölü nöronlar, ayrılmış tensor'lar), çok küçük learning rate veya modele gradient akıtmayan bir loss fonksiyonu (örn. .backward() öncesinde .item() kullanmak).",
       "stage": "post"
     }
   ]

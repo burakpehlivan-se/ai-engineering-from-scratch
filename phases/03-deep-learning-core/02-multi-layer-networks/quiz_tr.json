@@ -3,31 +3,31 @@
   "title": "",
   "questions": [
     {
-      "question": "What is the purpose of a hidden layer in a multi-layer network?",
+      "question": "Multi-layer network'lerde hidden layer'ın amacı nedir?",
       "options": [
-        "To store the training data",
-        "To transform inputs into new feature representations that enable nonlinear decision boundaries",
-        "To reduce the number of parameters",
-        "To apply the loss function"
+        "Eğitim verisini (training data) depolamak",
+        "Girdileri (input) yeni öznitelik temsillerine (feature representation) dönüştürerek doğrusal olmayan (nonlinear) karar sınırları (decision boundary) oluşturmayı sağlamak",
+        "Parametre sayısını azaltmak",
+        "Kayıp fonksiyonunu (loss function) uygulamak"
       ],
       "correct": 1,
-      "explanation": "Hidden layers apply weights, biases, and activation functions to create new feature representations. These intermediate features allow the network to learn nonlinear mappings that a single layer cannot.",
+      "explanation": "Hidden layer'lar weight, bias ve activation function uygulayarak yeni öznitelik temsilleri oluşturur. Bu ara öznitelikler (intermediate feature), ağın tek bir layer'ın öğrenemeyeceği doğrusal olmayan eşlemeler (mapping) öğrenmesini sağlar.",
       "stage": "pre"
     },
     {
-      "question": "What does the forward pass do in a neural network?",
+      "question": "Bir neural network'te forward pass ne işe yarar?",
       "options": [
-        "Updates the weights using gradients",
-        "Computes gradients for backpropagation",
-        "Pushes input through each layer to produce an output",
-        "Shuffles the training data"
+        "Gradyanları (gradient) kullanarak weight'leri günceller",
+        "Backpropagation için gradyanları hesaplar",
+        "Girdiyi her layer'dan geçirerek bir çıktı (output) üretir",
+        "Eğitim verisini karıştırır"
       ],
       "correct": 2,
-      "explanation": "The forward pass is pure computation: for each layer, multiply by weights, add bias, apply activation, and pass the result to the next layer. No learning happens during the forward pass.",
+      "explanation": "Forward pass tamamen hesaplama (computation) amaçlıdır: her layer için weight'lerle çarp, bias ekle, activation function uygula ve sonucu bir sonraki layer'a geçir. Forward pass sırasında öğrenme (learning) gerçekleşmez.",
       "stage": "pre"
     },
     {
-      "question": "For a layer with 3 neurons receiving input from 2 neurons, what is the shape of the weight matrix?",
+      "question": "2 neuron'dan girdi alan 3 neuron'lu bir layer için weight matrix'inin şekli (shape) nedir?",
       "options": [
         "(2, 3)",
         "(3, 2)",
@@ -35,31 +35,31 @@
         "(2, 2)"
       ],
       "correct": 1,
-      "explanation": "The weight matrix has shape (neurons_in_current_layer, neurons_in_previous_layer) = (3, 2). Each row contains one neuron's weights across all inputs.",
+      "explanation": "Weight matrix'inin şekli (mevcut layer'daki neuron sayısı, önceki layer'daki neuron sayısı) = (3, 2) şeklindedir. Her satır (row), bir neuron'un tüm girdilere ait weight'lerini içerir.",
       "stage": "post"
     },
     {
-      "question": "What does the Universal Approximation Theorem guarantee?",
+      "question": "Universal Approximation Theorem (Evrensel Yaklaşım Teoremi) neyi garanti eder?",
       "options": [
-        "Any network can be trained in polynomial time",
-        "A single hidden layer with enough neurons can approximate any continuous function",
-        "Deeper networks always outperform shallow ones",
-        "Neural networks can solve any computational problem"
+        "Herhangi bir ağ polinom zamanda (polynomial time) eğitilebilir",
+        "Yeterli sayıda neuron'a sahip tek bir hidden layer herhangi bir sürekli fonksiyonu (continuous function) yaklaşık olarak (approximate) hesaplayabilir",
+        "Daha derin (deep) ağlar her zaman sığ (shallow) ağlardan daha iyi performans gösterir",
+        "Neural network'ler herhangi bir hesaplama problemini (computational problem) çözebilir"
       ],
       "correct": 1,
-      "explanation": "Cybenko (1989) proved that a network with one hidden layer and sufficient neurons can approximate any continuous function to any desired accuracy. In practice, deeper networks achieve the same with fewer total parameters.",
+      "explanation": "Cybenko (1989), tek hidden layer ve yeterli sayıda neuron içeren bir ağın herhangi bir sürekli fonksiyonu (continuous function) istenilen doğrulukta (accuracy) yaklaşık olarak (approximate) hesaplayabileceğini kanıtlamıştır. Pratikte (practice), daha derin (deep) ağlar daha az toplam parametre ile aynı sonuca ulaşır.",
       "stage": "post"
     },
     {
-      "question": "Why does the sigmoid activation function make learning possible, unlike the step function used in perceptrons?",
+      "question": "Sigmoid activation function, perceptron'larda kullanılan step function'dan farklı olarak öğrenmeyi neden mümkün kılar?",
       "options": [
-        "Sigmoid outputs larger values",
-        "Sigmoid is faster to compute",
-        "Sigmoid is smooth and differentiable everywhere, so gradients exist for backpropagation",
-        "Sigmoid outputs negative values"
+        "Sigmoid daha büyük değerler üretir",
+        "Sigmoid'in hesaplaması daha hızlıdır",
+        "Sigmoid her yerde düzgün (smooth) ve türevlenebilirdir (differentiable), bu sayede backpropagation için gradyanlar mevcuttur",
+        "Sigmoid negatif değerler üretir"
       ],
       "correct": 2,
-      "explanation": "The step function has zero gradient almost everywhere and undefined gradient at the threshold. Sigmoid is smooth with a well-defined derivative (s*(1-s)) at every point, which is essential for gradient-based learning.",
+      "explanation": "Step function neredeyse her yerde sıfır gradyana (zero gradient) sahiptir ve eşik (threshold) noktasında türevi (derivative) tanımsızdır. Sigmoid ise her noktada iyi tanımlanmış bir türeve (s*(1-s)) sahip düzgün bir fonksiyondur ve bu gradyan tabanlı öğrenme (gradient-based learning) için elzemdir.",
       "stage": "post"
     }
   ]

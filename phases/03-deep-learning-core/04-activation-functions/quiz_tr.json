@@ -3,19 +3,19 @@
   "title": "",
   "questions": [
     {
-      "question": "Why can't you build a useful deep network using only linear layers (no activation functions)?",
+      "question": "Neden sadece lineer katmanlar kullanarak (aktivasyon fonksiyonu olmadan) yararlı bir derin ağ inşa edemezsiniz?",
       "options": [
-        "Linear layers are too slow",
-        "Stacking linear layers collapses to a single linear transformation, giving no benefit from depth",
-        "Linear layers don't have biases",
-        "Linear layers can't handle batched data"
+        "Lineer katmanlar çok yavaştır",
+        "Lineer katmanları istiflemek tek bir lineer dönüşüme indirgenir, derinlikten hiçbir fayda sağlamaz",
+        "Lineer katmanlar bias'a sahip değildir",
+        "Lineer katmanlar toplu verileri işleyemez"
       ],
       "correct": 1,
-      "explanation": "y = W2(W1*x + b1) + b2 simplifies to y = Ax + c. No matter how many linear layers you stack, the result is equivalent to one linear layer. Activation functions break this composability.",
+      "explanation": "y = W2(W1*x + b1) + b2, y = Ax + c'ye sadeleşir. Ne kadar lineer katman istiflerseniz istifleyin, sonuç tek bir lineer katmana eşdeğerdir. Aktivasyon fonksiyonları bu birleştirilebilirliği kırar.",
       "stage": "pre"
     },
     {
-      "question": "What is the output range of the ReLU activation function?",
+      "question": "ReLU aktivasyon fonksiyonunun çıktı aralığı nedir?",
       "options": [
         "(-1, 1)",
         "(0, 1)",
@@ -23,23 +23,23 @@
         "(-infinity, infinity)"
       ],
       "correct": 2,
-      "explanation": "ReLU(x) = max(0, x). It outputs 0 for all negative inputs and passes positive inputs unchanged, giving a range of [0, infinity).",
+      "explanation": "ReLU(x) = max(0, x). Tüm negatif girdiler için 0 çıktısı verir ve pozitif girdileri değiştirmeden geçirir, [0, ∞) aralığını verir.",
       "stage": "pre"
     },
     {
-      "question": "What is the 'dead neuron' problem in ReLU networks?",
+      "question": "ReLU ağlarında 'dead neuron' problemi nedir?",
       "options": [
-        "Neurons that compute too slowly",
-        "Neurons whose input is permanently negative, producing zero output and zero gradient forever",
-        "Neurons that produce NaN values",
-        "Neurons with zero bias"
+        "Çok yavaş hesaplayan nöronlar",
+        "Girdisi kalıcı olarak negatif olan, sonsuza kadar sıfır çıktı ve sıfır gradient üreten nöronlar",
+        "NaN değerleri üreten nöronlar",
+        "Sıfır bias'a sahip nöronlar"
       ],
       "correct": 1,
-      "explanation": "If a ReLU neuron's weighted input is always negative (due to bad initialization or large negative bias), it outputs 0 with gradient 0. It can never recover because zero gradient means zero update.",
+      "explanation": "Bir ReLU nöronunun ağırlıklı girdisi her zaman negatifse (kötü başlatma veya büyük negatif bias nedeniyle), gradient 0 ile 0 çıktısı verir. Asla kurtulamaz çünkü sıfır gradient, sıfır güncelleme anlamına gelir.",
       "stage": "post"
     },
     {
-      "question": "Which activation function is the default for hidden layers in modern transformers like GPT and BERT?",
+      "question": "GPT ve BERT gibi modern transformer'larda gizli katmanlar için varsayılan aktivasyon fonksiyonu hangisidir?",
       "options": [
         "Sigmoid",
         "ReLU",
@@ -47,19 +47,19 @@
         "Tanh"
       ],
       "correct": 2,
-      "explanation": "GELU (Gaussian Error Linear Unit) is the default activation in transformers. It provides smooth gradient flow, avoids dead neurons, and has been shown to outperform ReLU in language models.",
+      "explanation": "GELU (Gaussian Error Linear Unit), transformer'larda varsayılan aktivasyon fonksiyonudur. Yumuşak gradient akışı sağlar, dead neuron'lardan kaçınır ve dil modellerinde ReLU'dan daha iyi performans gösterdiği kanıtlanmıştır.",
       "stage": "post"
     },
     {
-      "question": "Why is softmax used only in the output layer and never in hidden layers?",
+      "question": "Softmax neden sadece çıktı katmanında kullanılır ve asla gizli katmanlarda kullanılmaz?",
       "options": [
-        "It's too slow for hidden layers",
-        "It converts a vector into a probability distribution (values sum to 1), which is needed for classification output but not for intermediate representations",
-        "It causes exploding gradients",
-        "It only works with two classes"
+        "Gizli katmanlar için çok yavaştır",
+        "Bir vektörü olasılık dağılımına dönüştürür (değerlerin toplamı 1'dir), bu sınıflandırma çıktısı için gereklidir ancak ara temsiller için gerekli değildir",
+        "Exploding gradient'lere neden olur",
+        "Sadece iki sınıfla çalışır"
       ],
       "correct": 1,
-      "explanation": "Softmax normalizes a vector so all values are in (0,1) and sum to 1, creating a probability distribution. Hidden layers need to preserve and transform information, not compress it into probabilities.",
+      "explanation": "Softmax bir vektörü normalleştirir, böylece tüm değerler (0,1) aralığında olur ve toplamları 1 olur, bir olasılık dağılımı oluşturur. Gizli katmanların bilgiyi koruması ve dönüştürmesi gerekir, olasılıklara sıkıştırması değil.",
       "stage": "post"
     }
   ]

@@ -2,7 +2,7 @@
   "questions": [
     {
       "stage": "pre",
-      "question": "'Sürüm kontrolü' primarily ne yapar?",
+      "question": "'Sürüm kontrolü' temel olarak ne yapar?",
       "options": ["Kod çalıştırma hızını artırır", "Dosyalardaki değişimleri zamana göre takip eder ve başkalarıyla iş birliği sağlar", "Disk alanı kaydetmek için dosyaları sıkıştırır", "Kodunuzdaki hataları otomatik olarak düzeltir"],
       "correct": 1,
       "explanation": "Git gibi sürüm kontrol sistemleri, dosyalarda yapılan her değişimi takip eder, önceki durumlara geri dönmenizi ve aynı kod tabanında başkalarıyla iş birliği yapmanızı sağlar."

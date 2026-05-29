@@ -1,65 +1,65 @@
 {
-  "lesson": "quiz_tr.json",
-  "title": "",
+  "lesson": "09-learning-rate-schedules",
+  "title": "Öğrenme Oranı Programları (Learning Rate Schedules)",
   "questions": [
     {
-      "question": "Why is a constant learning rate usually suboptimal for training neural networks?",
+      "question": "Sinir ağlarını eğitirken sabit bir learning rate genellikle neden optimal değildir?",
       "options": [
-        "It uses too much memory",
-        "It's either too high for late training (causes oscillation) or too low for early training (wastes compute)",
-        "Constant learning rates cause overfitting",
-        "They only work with SGD"
+        "Çok fazla bellek kullanır",
+        "Ya geç eğitim için çok yüksektir (salınıma neden olur) ya da erken eğitim için çok düşüktür (işlem gücünü boşa harcar)",
+        "Sabit learning rate'ler overfitting'e neden olur",
+        "Sadece SGD ile çalışırlar"
       ],
       "correct": 1,
-      "explanation": "The optimal step size changes during training. Early on, large steps cover ground quickly. Late in training, small steps are needed to settle into a minimum. A constant rate can't serve both needs.",
+      "explanation": "Optimal adım boyutu eğitim sırasında değişir. Erken aşamalarda büyük adımlar hızlı ilerleme sağlar. Eğitimin sonlarında ise bir minimuma yerleşmek için küçük adımlar gerekir. Sabit bir oran her iki ihtiyacı da karşılayamaz.",
       "stage": "pre"
     },
     {
-      "question": "What is the purpose of learning rate warmup?",
+      "question": "Learning rate warmup'un amacı nedir?",
       "options": [
-        "To prevent overfitting",
-        "To let adaptive optimizer statistics (momentum, variance) stabilize before taking large steps",
-        "To increase the batch size gradually",
-        "To initialize weights properly"
+        "Overfitting'i önlemek",
+        "Adaptif optimizer istatistiklerinin (momentum, varyans) büyük adımlar atmadan önce dengelenmesine izin vermek",
+        "Batch boyutunu kademeli olarak artırmak",
+        "Ağırlıkları doğru şekilde başlatmak"
       ],
       "correct": 1,
-      "explanation": "Adam's moment estimates are initialized to zero. Early gradient updates are based on unreliable statistics. Warmup starts with a tiny LR and ramps up, giving Adam time to accumulate meaningful estimates.",
+      "explanation": "Adam'ın moment tahminleri sıfır olarak başlatılır. Erken gradyan güncellemeleri güvenilir olmayan istatistiklere dayanır. Warmup, küçük bir LR ile başlayıp kademeli olarak artırarak Adam'a anlamlı tahminler biriktirmesi için zaman tanır.",
       "stage": "pre"
     },
     {
-      "question": "What learning rate schedule do Llama 3, GPT-3, and most modern LLMs use?",
+      "question": "Llama 3, GPT-3 ve modern LLM'lerin çoğu hangi learning rate schedule'ı kullanır?",
       "options": [
-        "Constant learning rate",
-        "Step decay every 30 epochs",
-        "Linear warmup followed by cosine decay",
+        "Sabit learning rate",
+        "Her 30 epoch'ta bir step decay",
+        "Linear warmup ardından cosine decay",
         "Exponential decay"
       ],
       "correct": 2,
-      "explanation": "Linear warmup + cosine decay is the standard for transformer training. Llama 3 used 2000 warmup steps with cosine decay from 3e-4 to 3e-5. This schedule requires no milestone tuning.",
+      "explanation": "Linear warmup + cosine decay, transformer eğitimi için standarttır. Llama 3, 3e-4'ten 3e-5'e cosine decay ile 2000 warmup adımı kullanmıştır. Bu schedule, milestone ayarı gerektirmez.",
       "stage": "post"
     },
     {
-      "question": "What makes the 1cycle policy different from other schedules?",
+      "question": "1cycle policy'yi diğer schedule'lardan ayıran özellik nedir?",
       "options": [
-        "It uses a constant learning rate",
-        "It ramps the learning rate UP in the first half of training, then back down -- the high LR phase acts as regularization",
-        "It only works with SGD",
-        "It requires no hyperparameter tuning"
+        "Sabit bir learning rate kullanır",
+        "Learning rate'i eğitimin ilk yarısında YUKARI çıkarır, ardından tekrar aşağı indirir — yüksek LR aşaması regularization görevi görür",
+        "Sadece SGD ile çalışır",
+        "Hiçbir hiperparametre ayarı gerektirmez"
       ],
       "correct": 1,
-      "explanation": "Leslie Smith's 1cycle ramps LR from low to high (first half) then high to very low (second half). The high-LR phase helps the model explore more of the loss landscape before settling into the best basin.",
+      "explanation": "Leslie Smith'in 1cycle'ı, LR'yi düşükten yükseğe (ilk yarı) ve ardından yüksekten çok düşüğe (ikinci yarı) çıkarır. Yüksek LR aşaması, modelin en iyi havuzda karar kılmadan önce kayıp manzarasını daha fazla keşfetmesine yardımcı olur.",
       "stage": "post"
     },
     {
-      "question": "If training loss suddenly spikes and diverges, what is the most likely learning rate issue?",
+      "question": "Eğitim kaybı aniden yükselir ve ıraksarsa, en olası learning rate sorunu nedir?",
       "options": [
-        "Learning rate is too low",
-        "Learning rate is too high, causing the optimizer to overshoot the minimum",
-        "The warmup period is too long",
-        "The schedule decays too slowly"
+        "Learning rate çok düşük",
+        "Learning rate çok yüksek, optimizer minimumu aşıyor",
+        "Warmup süresi çok uzun",
+        "Schedule çok yavaş decay oluyor"
       ],
       "correct": 1,
-      "explanation": "A learning rate that's too high causes the optimizer to take steps larger than the loss basin, overshooting the minimum and causing the loss to increase. This manifests as sudden divergence.",
+      "explanation": "Çok yüksek bir learning rate, optimizer'ın kayıp havuzundan daha büyük adımlar atmasına, minimumu aşmasına ve kaybın artmasına neden olur. Bu durum aniden ıraksama olarak ortaya çıkar.",
       "stage": "post"
     }
   ]

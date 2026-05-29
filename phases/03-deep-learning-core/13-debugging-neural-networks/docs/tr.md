@@ -4,7 +4,7 @@
 
 > Ağın derlendi. Çalıştı. Bir sayı üretti. Sayı yanlış ve hiçbir şey çökmedi. En zor hata ayıklama türüne hoş geldin — hata mesajı olmayan tür.
 
-**Tür:** Practice
+**Tür:** Uygulama
 **Diller:** Python, PyTorch
 **Ön Koşullar:** Faz 03 Ders 01-10 (özellikle geri yayılım, kayıp fonksiyonları, optimize ediciler)
 **Süre:** ~90 dakika

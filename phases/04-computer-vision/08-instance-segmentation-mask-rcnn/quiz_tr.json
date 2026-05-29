@@ -2,38 +2,38 @@
   "questions": [
     {
       "stage": "pre",
-      "question": "Why did Mask R-CNN replace RoIPool with RoIAlign?",
-      "options": ["RoIAlign is faster on GPUs", "RoIPool rounds box coordinates to integers at multiple steps, misaligning the feature map from the input pixels by up to a feature-map pixel; RoIAlign uses bilinear sampling with no rounding, preserving localisation", "RoIPool only works on CPU", "RoIPool was a copyright issue"],
+      "question": "Mask R-CNN neden RoIPool yerine RoIAlign kullandı?",
+      "options": ["RoIAlign GPU'larda daha hızlıdır", "RoIPool, kutu koordinatlarını birden çok adımda tam sayılara yuvarlayarak öznitelik haritasını girdi pikselleriyle en fazla bir öznitelik haritası pikseli kadar yanlış hizalar; RoIAlign ise yuvarlama olmadan çift doğrusal örnekleme (bilinear sampling) kullanarak lokalizasyonu korur", "RoIPool yalnızca CPU'da çalışır", "RoIPool telif hakkı sorunuydu"],
       "correct": 1,
-      "explanation": "RoIPool's rounding costs up to a stride-sized misalignment (e.g. 32 pixels on a stride-32 feature map). RoIAlign samples at exact float coordinates via bilinear interpolation. The change lifted mask AP by 3-4 points on COCO in the original paper and is now standard in every detector that cares about localisation."
+      "explanation": "RoIPool'un yuvarlaması, bir stride boyutunda yanlış hizalamaya mal olur (örneğin stride-32 öznitelik haritasında 32 piksel). RoIAlign, çift doğrusal enterpolasyon (bilinear interpolation) ile tam kayan nokta koordinatlarında örnekleme yapar. Bu değişiklik, orijinal makalede COCO üzerinde mask AP'yi 3-4 puan artırmıştır ve artık lokalizasyonu önemseyen her dedektörde standarttır."
     },
     {
       "stage": "pre",
-      "question": "Mask R-CNN's mask head outputs a 28x28 mask per class per proposal. Why per class?",
-      "options": ["Because binary masks need per-class channels for backprop", "Decoupling mask prediction from classification: the mask head only has to learn the shape for each class separately, so the classifier's decision does not affect which mask is produced, only which channel is read at inference", "Binary masks overflow in a single channel", "The paper required it"],
+      "question": "Mask R-CNN'in mask başlığı, her öneri (proposal) için sınıf başına 28x28 mask çıktısı üretir. Neden sınıf başına?",
+      "options": ["İkili maskelerin geri yayılım (backprop) için sınıf başına kanala ihtiyacı vardır", "Mask tahminini sınıflandırmadan ayırma: mask başlığı her sınıf için yalnızca şekli öğrenmek zorundadır, böylece sınıflandırıcının kararı hangi maskenin üretileceğini etkilemez, yalnızca çıkarımda hangi kanalın okunacağını belirler", "İkili maskeler tek bir kanalda taşar", "Makale bunu gerektirdi"],
       "correct": 1,
-      "explanation": "Producing one mask per class per proposal decouples mask shape learning from classification. At inference you read only the channel matching the predicted class. This multi-task decoupling matters because mask shape and class probability are different targets that train with different gradients."
+      "explanation": "Her öneri (proposal) için sınıf başına bir mask üretmek, mask şekli öğrenimini sınıflandırmadan ayırır. Çıkarım sırasında yalnızca tahmin edilen sınıfla eşleşen kanalı okursunuz. Bu çoklu görev ayrıştırması önemlidir çünkü mask şekli ve sınıf olasılığı farklı gradyanlarla eğitilen farklı hedeflerdir."
     },
     {
       "stage": "post",
-      "question": "torchvision's Mask R-CNN prediction dict has `labels` that start at 1, not 0. Why?",
-      "options": ["Legacy bug", "Class 0 is reserved for background; user classes are always 1-based so the classifier head can treat background as a real class with its own logits and gradients", "torchvision uses 1-based indexing throughout", "Training data determined it"],
+      "question": "torchvision'un Mask R-CNN tahmin sözlüğünde `labels` 0'dan değil 1'den başlar. Neden?",
+      "options": ["Eski bir hata (legacy bug)", "Sınıf 0 arka plan (background) için ayrılmıştır; kullanıcı sınıfları her zaman 1 tabanlıdır, böylece sınıflandırıcı başlığı arka planı kendi logit ve gradyanlarına sahip gerçek bir sınıf olarak ele alabilir", "torchvision boyunca 1 tabanlı indeksleme kullanır", "Eğitim verileri belirledi"],
       "correct": 1,
-      "explanation": "Most detectors treat background as class 0 and explicit foreground classes as 1..C. The softmax over (C+1) classes lets the network learn to actively predict 'no object here' rather than just low confidence on all classes. A dataset with 4 real classes needs num_classes = 5 when swapping the predictor."
+      "explanation": "Çoğu dedektör, arka planı sınıf 0 ve ön plan (foreground) sınıflarını 1..C olarak ele alır. (C+1) sınıf üzerinden softmax, ağın tüm sınıflarda düşük güven yerine 'burada nesne yok'u aktif olarak tahmin etmeyi öğrenmesini sağlar. 4 gerçek sınıfı olan bir veri seti, predictor değiştirilirken num_classes = 5 gerektirir."
     },
     {
       "stage": "post",
-      "question": "You fine-tune Mask R-CNN on a 500-image dataset and val mAP plateaus while train loss keeps dropping. What is the first thing to try?",
-      "options": ["Add more epochs", "Freeze the backbone and FPN so the model only fine-tunes the RPN and heads; 500 images is too few to update 23M backbone parameters without overfitting", "Switch to segmentation U-Net", "Use a higher learning rate"],
+      "question": "500 görüntülük bir veri setinde Mask R-CNN'i ince ayar (fine-tune) yapıyorsunuz ve val mAP platoya ulaşırken train loss düşmeye devam ediyor. Denenecek ilk şey nedir?",
+      "options": ["Daha fazla epoch ekle", "Omurgayı (backbone) ve FPN'yi dondur, böylece model yalnızca RPN ve başlıkları ince ayar yapar; 23M omurga parametresini aşırı öğrenme (overfitting) olmadan güncellemek için 500 görüntü çok azdır", "Segmentation U-Net'e geç", "Daha yüksek öğrenme oranı (learning rate) kullan"],
       "correct": 1,
-      "explanation": "On small datasets you do not have enough signal to fine-tune every parameter. Freezing the pretrained backbone and FPN (ImageNet + COCO features) and training only the RPN objectness head and the two classifier/mask heads is the standard recipe and usually fixes this plateau in one training run."
+      "explanation": "Küçük veri setlerinde her parametreyi ince ayar yapmak için yeterli sinyal yoktur. Önceden eğitilmiş omurga ve FPN'yi (ImageNet + COCO öznitelikleri) dondurmak ve yalnızca RPN nesnellik başlığı ile iki sınıflandırıcı/mask başlığını eğitmek standart yöntemdir ve bu platoyu genellikle tek bir eğitim çalıştırmasında çözer."
     },
     {
       "stage": "post",
-      "question": "The FPN inside Mask R-CNN has four levels (P2, P3, P4, P5) at strides 4, 8, 16, 32. Why not just use one level?",
-      "options": ["To use more GPU memory", "Objects in natural images span a range of scales; routing each proposal to the FPN level matching its size gives the head a feature map with the right receptive field for that object, which is strictly better than always using one scale", "Four levels is arbitrary", "To reduce parameter count"],
+      "question": "Mask R-CNN içindeki FPN, stride 4, 8, 16, 32'de dört seviyeye (P2, P3, P4, P5) sahiptir. Neden yalnızca bir seviye kullanılmıyor?",
+      "options": ["Daha fazla GPU belleği kullanmak için", "Doğal görüntülerdeki nesneler çeşitli ölçeklerde bulunur; her öneriyi (proposal) boyutuna uygun FPN seviyesine yönlendirmek, başlığa o nesne için doğru alıcı alana (receptive field) sahip bir öznitelik haritası verir; bu her zaman tek bir ölçek kullanmaktan kesinlikle daha iyidir", "Dört seviye keyfidir", "Parametre sayısını azaltmak için"],
       "correct": 1,
-      "explanation": "A small object on a stride-32 feature map occupies a single cell, which has almost no spatial information. FPN routes small objects to the high-resolution, shallow levels (P2) and large objects to the low-resolution, deep levels (P5), matching receptive field to object size. This is why every modern detector has a pyramid."
+      "explanation": "Küçük bir nesne stride-32 öznitelik haritasında tek bir hücre kaplar ve neredeyse hiç uzamsal bilgiye sahip değildir. FPN, küçük nesneleri yüksek çözünürlüklü, sığ seviyelere (P2) ve büyük nesneleri düşük çözünürlüklü, derin seviyelere (P5) yönlendirerek alıcı alanı nesne boyutuyla eşleştirir. Bu nedenle her modern dedektör bir piramit içerir."
     }
   ]
 }

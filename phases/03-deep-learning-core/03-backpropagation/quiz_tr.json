@@ -1,65 +1,65 @@
 {
-  "lesson": "quiz_tr.json",
-  "title": "",
+  "lesson": "03-backpropagation",
+  "title": "Backpropagation Sınavı",
   "questions": [
     {
-      "question": "What is the chain rule in the context of neural networks?",
+      "question": "Sinir ağları bağlamında chain rule nedir?",
       "options": [
-        "A rule for chaining layers together",
-        "If y = f(g(x)), then dy/dx = f'(g(x)) * g'(x) -- multiply derivatives along the path",
-        "A method for initializing weights",
-        "A technique for batching data"
+        "Katmanları birbirine zincirleme kuralı",
+        "y = f(g(x)) ise dy/dx = f'(g(x)) * g'(x) — yol boyunca türevleri çarp",
+        "Ağırlıkları başlatmak için bir yöntem",
+        "Veriyi gruplamak için bir teknik"
       ],
       "correct": 1,
-      "explanation": "The chain rule lets you compute the derivative of a composite function by multiplying the local derivatives at each step. Backpropagation applies this systematically through the computational graph.",
+      "explanation": "Chain rule, bileşik bir fonksiyonun türevini her adımdaki local türevleri çarparak hesaplamanıza olanak tanır. Backpropagation bunu computational graph üzerinde sistematik olarak uygular.",
       "stage": "pre"
     },
     {
-      "question": "Why is backpropagation more efficient than computing each gradient independently?",
+      "question": "Backpropagation neden her gradient'i bağımsız hesaplamaktan daha verimlidir?",
       "options": [
-        "It uses less memory",
-        "It computes all gradients in a single backward pass instead of one forward pass per parameter",
-        "It only works on small networks",
-        "It avoids using the chain rule"
+        "Daha az bellek kullanır",
+        "Tüm gradient'leri parametre başına bir forward pass yerine tek bir backward pass'te hesaplar",
+        "Sadece küçük ağlarda çalışır",
+        "Chain rule kullanmaktan kaçınır"
       ],
       "correct": 1,
-      "explanation": "Computing gradients independently requires one forward pass per parameter (millions of passes for a large network). Backpropagation computes all gradients in one backward pass by reusing intermediate values stored during the forward pass.",
+      "explanation": "Gradient'leri bağımsız hesaplamak, parametre başına bir forward pass gerektirir (büyük bir ağ için milyonlarca pass). Backpropagation, forward pass sırasında depolanan ara değerleri yeniden kullanarak tüm gradient'leri tek bir backward pass'te hesaplar.",
       "stage": "pre"
     },
     {
-      "question": "In the backward pass, why do we use '+=' instead of '=' when accumulating gradients?",
+      "question": "Backward pass'te gradient'leri biriktirirken neden '=' yerine '+=' kullanırız?",
       "options": [
-        "It's a Python convention",
-        "A value might be used in multiple operations, so its gradient is the sum of gradients from all paths",
-        "It prevents overflow",
-        "It makes the code run faster"
+        "Bu bir Python kuralıdır",
+        "Bir değer birden fazla işlemde kullanılabileceğinden, gradient'i tüm yollardan gelen gradient'lerin toplamıdır",
+        "Taşmayı önler",
+        "Kodu daha hızlı çalıştırır"
       ],
       "correct": 1,
-      "explanation": "When a Value is used as input to multiple operations (e.g., x used in both x*w1 and x*w2), its total gradient is the sum of the gradients flowing back from each operation. Using += accumulates these correctly.",
+      "explanation": "Bir Value birden fazla işleme girdi olarak kullanıldığında (örneğin x, hem x*w1 hem de x*w2'de kullanılıyorsa), toplam gradient'i her işlemden geri akan gradient'lerin toplamıdır. += kullanmak bunları doğru şekilde biriktirir.",
       "stage": "post"
     },
     {
-      "question": "What causes the vanishing gradient problem in deep sigmoid networks?",
+      "question": "Derin sigmoid ağlarında vanishing gradient problemine ne sebep olur?",
       "options": [
-        "The learning rate is too small",
-        "Sigmoid's derivative has a maximum of 0.25, so gradients shrink exponentially through layers",
-        "The network has too many parameters",
-        "The loss function is poorly chosen"
+        "Learning rate çok küçüktür",
+        "Sigmoid'in türevi maksimum 0.25'tir, bu yüzden gradient'ler katmanlar boyunca katlanarak azalır",
+        "Ağın çok fazla parametresi vardır",
+        "Loss function kötü seçilmiştir"
       ],
       "correct": 1,
-      "explanation": "The sigmoid derivative peaks at 0.25 (when z=0). Each layer multiplies the gradient by at most 0.25, so after 10 layers the gradient is at most 0.25^10 = ~0.000001 of the original signal.",
+      "explanation": "Sigmoid türevi en yüksek değerine 0.25 ile (z=0 iken) ulaşır. Her katman gradient'i en fazla 0.25 ile çarpar, bu nedenle 10 katmandan sonra gradient orijinal sinyalin en fazla 0.25^10 = ~0.000001'i kadar olur.",
       "stage": "post"
     },
     {
-      "question": "Why does topological sort matter in the backward pass?",
+      "question": "Backward pass'te topological sort neden önemlidir?",
       "options": [
-        "It makes the code cleaner",
-        "It ensures each node's gradient is fully accumulated before propagating to its children",
-        "It speeds up the forward pass",
-        "It reduces memory usage"
+        "Kodu daha temiz yapar",
+        "Her düğümün gradient'inin alt öğelerine yayılmadan önce tamamen biriktirilmesini sağlar",
+        "Forward pass'i hızlandırır",
+        "Bellek kullanımını azaltır"
       ],
       "correct": 1,
-      "explanation": "Topological sort ensures we process nodes in the correct order: a node's gradient must be fully accumulated from all downstream paths before we propagate through it. Without this ordering, gradients would be incomplete.",
+      "explanation": "Topological sort, düğümleri doğru sırada işlememizi sağlar: bir düğümün gradient'i, üzerinden yayılım yapmadan önce tüm downstream yollardan tamamen biriktirilmiş olmalıdır. Bu sıralama olmadan gradient'ler eksik kalır.",
       "stage": "post"
     }
   ]

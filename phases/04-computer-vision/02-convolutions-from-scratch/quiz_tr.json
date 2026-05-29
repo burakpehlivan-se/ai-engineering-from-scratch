@@ -2,38 +2,63 @@
   "questions": [
     {
       "stage": "pre",
-      "question": "You feed a 224x224 RGB image to a conv with kernel_size=3, stride=1, padding=0. What is the output spatial size?",
-      "options": ["224x224", "222x222", "112x112", "74x74"],
+      "question": "224x224 RGB bir görseli kernel_size=3, stride=1, padding=0 olan bir conv'e besliyorsunuz. Çıktının uzamsal boyutu nedir?",
+      "options": [
+        "224x224",
+        "222x222",
+        "112x112",
+        "74x74"
+      ],
       "correct": 1,
-      "explanation": "Output size = (H - K + 2P) / S + 1 = (224 - 3 + 0) / 1 + 1 = 222. Without padding, every 3x3 convolution shrinks the feature map by 2 pixels on each axis — one pixel off each border."
+      "explanation": "Çıktı boyutu = (H - K + 2P) / S + 1 = (224 - 3 + 0) / 1 + 1 = 222. Padding olmadan, her 3x3 convolution feature map'i her eksende 2 piksel küçültür — her kenardan bir piksel."
     },
     {
       "stage": "pre",
-      "question": "A conv layer has in_channels=3, out_channels=64, kernel_size=3, with bias. How many learnable parameters?",
-      "options": ["1,728", "1,792", "576", "192"],
+      "question": "Bir conv katmanı in_channels=3, out_channels=64, kernel_size=3 ve bias ile tanımlanmış. Kaç tane öğrenilebilir parametre vardır?",
+      "options": [
+        "1.728",
+        "1.792",
+        "576",
+        "192"
+      ],
       "correct": 1,
-      "explanation": "C_out * C_in * K * K + C_out = 64 * 3 * 3 * 3 + 64 = 1,728 + 64 = 1,792. The +C_out is one bias per output channel. Compare that to a dense layer on the same input (224*224*3 -> 64 = about 9.6M params) and you see why convolution is the right prior for images."
+      "explanation": "C_out * C_in * K * K + C_out = 64 * 3 * 3 * 3 + 64 = 1.728 + 64 = 1.792. +C_out, çıktı kanalı başına bir biastır. Aynı girdi üzerindeki bir dense katmanıyla (224*224*3 -> 64 = yaklaşık 9,6M parametre) karşılaştırıldığında, convolution'ın görseller için neden doğru prior olduğunu görürsünüz."
     },
     {
       "stage": "post",
-      "question": "Why do modern CNNs prefer stacks of 3x3 convolutions over a single 5x5 or 7x7 conv?",
-      "options": ["3x3 convolutions are hardware-accelerated; larger ones are not", "Two 3x3 convs cover the same 5x5 receptive field with fewer parameters (2 * 9 vs 25) and add an extra non-linearity between them", "Large kernels overflow GPU registers", "3x3 is the only kernel size that supports padding"],
+      "question": "Modern CNN'ler neden tek bir 5x5 veya 7x7 conv yerine 3x3 convolution yığınlarını tercih eder?",
+      "options": [
+        "3x3 convolution'lar donanım hızlandırmalıdır; büyük olanlar değildir",
+        "İki 3x3 conv aynı 5x5 receptive field'i daha az parametreyle (2 * 9'a karşı 25) kapsar ve aralarına ek bir non-linearity ekler",
+        "Büyük kernel'ler GPU register'larını taşırır",
+        "3x3 padding'i destekleyen tek kernel boyutudur"
+      ],
       "correct": 1,
-      "explanation": "Stacking 3x3 convs gives the same receptive field as one large conv but with fewer parameters and more non-linearities, which increases expressive power. VGG proved this empirically and every modern family (ResNet, ConvNeXt) inherited the design."
+      "explanation": "3x3 conv'leri istiflemek, tek bir büyük conv ile aynı receptive field'i verir ancak daha az parametre ve daha fazla non-linearity ile ifade gücünü artırır. VGG bunu deneysel olarak kanıtladı ve her modern aile (ResNet, ConvNeXt) bu tasarımı miras aldı."
     },
     {
       "stage": "post",
-      "question": "What does the im2col transformation actually do?",
-      "options": ["It compresses the image to fit in GPU cache", "It extracts every kernel-sized receptive window from the input and stacks them as columns so that convolution becomes a single matrix multiply", "It converts float32 pixels to int8 for faster arithmetic", "It concatenates all images in a batch into a single 2D matrix"],
+      "question": "im2col dönüşümü aslında ne yapar?",
+      "options": [
+        "Görseli GPU önbelleğine sığdırmak için sıkıştırır",
+        "Girdiden her kernel boyutundaki receptive pencereyi çıkarır ve bunları sütunlar halinde dizer, böylece convolution tek bir matris çarpımına dönüşür",
+        "float32 pikselleri daha hızlı aritmetik için int8'e dönüştürür",
+        "Bir batch'teki tüm görselleri tek bir 2D matriste birleştirir"
+      ],
       "correct": 1,
-      "explanation": "im2col reshapes the input so that each column is one flattened receptive field. Flattening the kernel into a row reduces convolution to cols @ w_flat.T, a single GEMM call that GPUs execute thousands of times faster than a quadruple Python loop. Every production conv library is some variant of this."
+      "explanation": "im2col, girdiyi her sütun bir düzleştirilmiş receptive field olacak şekilde yeniden şekillendirir. Kernel'i bir satıra düzleştirmek, convolution'ı cols @ w_flat.T'ye, yani GPU'ların dört katlı bir Python döngüsünden binlerce kat daha hızlı çalıştırdığı tek bir GEMM çağrısına indirger. Her üretim conv kütüphanesi bunun bir varyantıdır."
     },
     {
       "stage": "post",
-      "question": "You stack four 3x3 convolutions (all stride 1, no pooling). What is the receptive field of a neuron in the final layer?",
-      "options": ["3x3 — each conv is 3x3", "5x5 — two convs give 5x5 and depth does not help", "9x9 — every conv adds 2 on each side: 1 + 4*(3-1) = 9", "15x15 — every conv triples the receptive field"],
+      "question": "Dört adet 3x3 convolution'ı üst üste koyuyorsunuz (tümü stride 1, pooling yok). Son katmandaki bir nöronun receptive field'i nedir?",
+      "options": [
+        "3x3 — her conv 3x3'tür",
+        "5x5 — iki conv 5x5 verir ve derinlik yardımcı olmaz",
+        "9x9 — her conv her kenara 2 ekler: 1 + 4*(3-1) = 9",
+        "15x15 — her conv receptive field'i üçe katlar"
+      ],
       "correct": 2,
-      "explanation": "For L stacked K x K convs with stride 1, receptive field = 1 + L * (K - 1). With L=4 and K=3 that is 1 + 4*2 = 9. The same formula generalises with stride: receptive field grows multiplicatively through strided layers, which is why a deep network with downsampling can cover the whole image in ten or fifteen blocks."
+      "explanation": "Stride 1 ile L tane K x K conv için receptive field = 1 + L * (K - 1). L=4 ve K=3 için bu 1 + 4*2 = 9'dur. Aynı formül stride ile genelleşir: receptive field, strided katmanlar aracılığıyla çarparak büyür; bu nedenle downsampling yapan derin bir ağ, on veya on beş blokta tüm görseli kapsayabilir."
     }
   ]
 }
