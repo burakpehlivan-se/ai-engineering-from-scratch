@@ -1,67 +1,71 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/13-ml-pipelines/quiz.json",
-  {
-    "id": "pipeline-pre-1",
-    "stage": "pre",
-    "question": "ML pipeline'ları bağlamında veri sızıntısı (data leakage) nedir?",
-    "options": [
-      "Ön işleme sırasında verinin yanlışlıkla silinmesi",
-      "Test seti veya gelecek verilerden gelen bilginin eğitim sürecini kirletmesi",
-      "Modelin veriyi işlemek için çok yavaş olması",
-      "Kodlama sırasında feature'ların düşürülmesi"
-    ],
-    "correct": 1,
-    "explanation": "Veri sızıntısı, tahmin anında mevcut olmayacak bilginin eğitim sırasında kullanılmasıdır. Örnek: scaler'ın ortalama/standart sapmasını test verisi dahil tüm veri kümesi üzerinden hesaplamak."
-  },
-  {
-    "id": "pipeline-pre-2",
-    "stage": "pre",
-    "question": "Bir scaler'ı eğitim/test olarak ayırmadan önce tüm veri kümesine fit etmek neden sızıntılı kabul edilir?",
-    "options": [
-      "Ölçekleme veri dağılımını değiştirir",
-      "Scaler'ın istatistikleri (ortalama, std) test verisini içerir, bu nedenle model eğitim sırasında test bilgisini dolaylı olarak görür",
-      "Ölçekleme yalnızca test setinde yapılmalıdır",
-      "Scaler'ı fit etmek büyük veri kümelerinde çok uzun sürer"
-    ],
-    "correct": 1,
-    "explanation": "Scaler tüm veriye fit edildiğinde, ortalama ve standart sapması test örneklerinden gelen bilgiyi kodlar. Eğitim feature'ları daha sonra test istatistikleri kullanılarak kaydırılır ve gelecek bilgi eğitime sızar."
-  },
-  {
-    "id": "pipeline-post-1",
-    "stage": "post",
-    "question": "sklearn'de bir pipeline adımında fit_transform ile transform çağırmak arasındaki fark nedir?",
-    "options": [
-      "Aynıdırlar -- ikisi de fit ve transform yapar",
-      "fit_transform veriden parametreleri öğrenir ve dönüşümü uygular; transform yalnızca önceden öğrenilmiş parametreleri uygular",
-      "transform eğitim verisi içindir; fit_transform test verisi içindir",
-      "fit_transform daha yavaş ama daha doğrudur"
-    ],
-    "correct": 1,
-    "explanation": "fit_transform veriden istatistikleri (ör. ortalama, std) hesaplar VE dönüşümü uygular. transform, önceden öğrenilmiş istatistikleri yeniden hesaplamadan uygular. Test verisinde sızıntıyı önlemek için transform kullanmalısınız."
-  },
-  {
-    "id": "pipeline-post-2",
-    "stage": "post",
-    "question": "Gerçek dünya veri kümeleri için neden bir ColumnTransformer gereklidir?",
-    "options": [
-      "Pipeline'ı birden çok CPU'da paralel çalıştırır",
-      "Aynı pipeline içinde sayısal ve kategorik sütunlara farklı ön işleme adımları uygular",
-      "Eksik değerleri olan sütunları otomatik olarak kaldırır",
-      "Tüm sütunları aynı veri tipine dönüştürür"
-    ],
-    "correct": 1,
-    "explanation": "Gerçek veri kümelerinde karma tipler bulunur. Sayısal sütunlar ölçekleme, kategorik sütunlar kodlama gerektirir. ColumnTransformer, her sütun alt kümesini tek bir pipeline içinde uygun dönüştürücüye yönlendirir."
-  },
-  {
-    "id": "pipeline-post-3",
-    "stage": "post",
-    "question": "Bir üretim modeli, eğitim sırasında hiç görmediği kategorik bir değer ('yeni_kategori') alıyor. Pipeline bunu nasıl ele almalı?",
-    "options": [
-      "Satırı tamamen yoksay ve tahmin döndürme",
-      "Tüm modeli sıfırdan yeniden eğit",
-      "Bilinmeyen kategorileri zarifçe ele al, örn. 'bilinmeyen' kovası veya hedef kodlamada genel ortalama kullanarak",
-      "Bilinmeyen kategoriyi sıfır sayısına dönüştür"
-    ],
-    "correct": 2,
-    "explanation": "Sağlam pipeline'lar üretimde görülmemiş kategorileri öngörür. Çözümler arasında one-hot kodlama için 'bilinmeyen' geri dönüşü veya hedef kodlama için genel ortalamaya varsayılan yapma bulunur."
-  }
-]
+{
+  "lesson": "13-ml-pipelines",
+  "title": "ML Pipelines",
+  "questions": [
+    {
+      "id": "pipeline-pre-1",
+      "stage": "pre",
+      "question": "ML pipeline'ları bağlamında veri sızıntısı (data leakage) nedir?",
+      "options": [
+        "Ön işleme sırasında verinin yanlışlıkla silinmesi",
+        "Test seti veya gelecek verilerden gelen bilginin eğitim sürecini kirletmesi",
+        "Modelin veriyi işlemek için çok yavaş olması",
+        "Kodlama sırasında feature'ların düşürülmesi"
+      ],
+      "correct": 1,
+      "explanation": "Veri sızıntısı, tahmin anında mevcut olmayacak bilginin eğitim sırasında kullanılmasıdır. Örnek: scaler'ın ortalama/standart sapmasını test verisi dahil tüm veri kümesi üzerinden hesaplamak."
+    },
+    {
+      "id": "pipeline-pre-2",
+      "stage": "pre",
+      "question": "Bir scaler'ı eğitim/test olarak ayırmadan önce tüm veri kümesine fit etmek neden sızıntılı kabul edilir?",
+      "options": [
+        "Ölçekleme veri dağılımını değiştirir",
+        "Scaler'ın istatistikleri (ortalama, std) test verisini içerir, bu nedenle model eğitim sırasında test bilgisini dolaylı olarak görür",
+        "Ölçekleme yalnızca test setinde yapılmalıdır",
+        "Scaler'ı fit etmek büyük veri kümelerinde çok uzun sürer"
+      ],
+      "correct": 1,
+      "explanation": "Scaler tüm veriye fit edildiğinde, ortalama ve standart sapması test örneklerinden gelen bilgiyi kodlar. Eğitim feature'ları daha sonra test istatistikleri kullanılarak kaydırılır ve gelecek bilgi eğitime sızar."
+    },
+    {
+      "id": "pipeline-post-1",
+      "stage": "post",
+      "question": "sklearn'de bir pipeline adımında fit_transform ile transform çağırmak arasındaki fark nedir?",
+      "options": [
+        "Aynıdırlar — ikisi de fit ve transform yapar",
+        "fit_transform veriden parametreleri öğrenir ve dönüşümü uygular; transform yalnızca önceden öğrenilmiş parametreleri uygular",
+        "transform eğitim verisi içindir; fit_transform test verisi içindir",
+        "fit_transform daha yavaş ama daha doğrudur"
+      ],
+      "correct": 1,
+      "explanation": "fit_transform veriden istatistikleri (ör. ortalama, std) hesaplar VE dönüşümü uygular. transform, önceden öğrenilmiş istatistikleri yeniden hesaplamadan uygular. Test verisinde sızıntıyı önlemek için transform kullanmalısınız."
+    },
+    {
+      "id": "pipeline-post-2",
+      "stage": "post",
+      "question": "Gerçek dünya veri kümeleri için neden bir ColumnTransformer gereklidir?",
+      "options": [
+        "Pipeline'ı birden çok CPU'da paralel çalıştırır",
+        "Aynı pipeline içinde sayısal ve kategorik sütunlara farklı ön işleme adımları uygular",
+        "Eksik değerleri olan sütunları otomatik olarak kaldırır",
+        "Tüm sütunları aynı veri tipine dönüştürür"
+      ],
+      "correct": 1,
+      "explanation": "Gerçek veri kümelerinde karma tipler bulunur. Sayısal sütunlar ölçekleme, kategorik sütunlar kodlama gerektirir. ColumnTransformer, her sütun alt kümesini tek bir pipeline içinde uygun dönüştürücüye yönlendirir."
+    },
+    {
+      "id": "pipeline-post-3",
+      "stage": "post",
+      "question": "Bir üretim modeli, eğitim sırasında hiç görmediği kategorik bir değer ('yeni_kategori') alıyor. Pipeline bunu nasıl ele almalı?",
+      "options": [
+        "Satırı tamamen yoksay ve tahmin döndürme",
+        "Tüm modeli sıfırdan yeniden eğit",
+        "Bilinmeyen kategorileri zarifçe ele al, örn. 'bilinmeyen' kovası veya hedef kodlamada genel ortalama kullanarak",
+        "Bilinmeyen kategoriyi sıfır sayısına dönüştür"
+      ],
+      "correct": 2,
+      "explanation": "Sağlam pipeline'lar üretimde görülmemiş kategorileri öngörür. Çözümler arasında one-hot kodlama için 'bilinmeyen' geri dönüşü veya hedef kodlama için genel ortalamaya varsayılan yapma bulunur."
+    }
+  ]
+}
