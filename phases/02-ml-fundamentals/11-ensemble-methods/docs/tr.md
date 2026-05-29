@@ -1,17 +1,13 @@
 > **Orijinal İçerik:** [docs/en.md](https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/11-ensemble-methods/docs/en.md)
 
-# [Ders adı çevirilecek]
+# Ensemble Methods
 
-> [Ders motto'su çevirilecek]
+> A group of weak learners, combined correctly, becomes a strong learner. This is not a metaphor. It is a theorem.
 
-**Tür:** [Öğrenme/Uygulama]
+**Tür:** Build
 **Diller:** Python
-**Ön Koşullar:** Faz 1
-**Süre:** ~[dakika]
-
-## Öğrenme Hedefleri
-
-[Çevrilecek]
+**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Süre:** ~120 minutes
 
 ---
 

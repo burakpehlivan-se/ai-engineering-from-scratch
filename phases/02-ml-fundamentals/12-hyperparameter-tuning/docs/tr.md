@@ -1,17 +1,13 @@
 > **Orijinal İçerik:** [docs/en.md](https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/12-hyperparameter-tuning/docs/en.md)
 
-# [Ders adı çevirilecek]
+# Hyperparameter Tuning
 
-> [Ders motto'su çevirilecek]
+> Hyperparameters are the knobs you turn before training starts. Turning them well is the difference between a mediocre model and a great one.
 
-**Tür:** [Öğrenme/Uygulama]
+**Tür:** Build
 **Diller:** Python
-**Ön Koşullar:** Faz 1
-**Süre:** ~[dakika]
-
-## Öğrenme Hedefleri
-
-[Çevrilecek]
+**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Süre:** ~90 minutes
 
 ---
 

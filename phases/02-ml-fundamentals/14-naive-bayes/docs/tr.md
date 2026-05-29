@@ -1,17 +1,13 @@
 > **Orijinal İçerik:** [docs/en.md](https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/14-naive-bayes/docs/en.md)
 
-# [Ders adı çevirilecek]
+# Naive Bayes
 
-> [Ders motto'su çevirilecek]
+> The "naive" assumption is wrong, and it works anyway. That's the beauty of it.
 
-**Tür:** [Öğrenme/Uygulama]
+**Tür:** Build
 **Diller:** Python
-**Ön Koşullar:** Faz 1
-**Süre:** ~[dakika]
-
-## Öğrenme Hedefleri
-
-[Çevrilecek]
+**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Süre:** ~75 minutes
 
 ---
 

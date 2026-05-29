@@ -1,17 +1,13 @@
 > **Orijinal İçerik:** [docs/en.md](https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/18-feature-selection/docs/en.md)
 
-# [Ders adı çevirilecek]
+# Feature Selection
 
-> [Ders motto'su çevirilecek]
+> More features is not better. The right features is better.
 
-**Tür:** [Öğrenme/Uygulama]
+**Tür:** Build
 **Diller:** Python
-**Ön Koşullar:** Faz 1
-**Süre:** ~[dakika]
-
-## Öğrenme Hedefleri
-
-[Çevrilecek]
+**Ön Koşullar:** Faz 1, Faz 2 Ders 1
+**Süre:** ~75 minutes
 
 ---
 
