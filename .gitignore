@@ -24,3 +24,7 @@ source/
 
 # uv
 uv.lock
+
+# Ajan ve raporlar (sadece yerel)
+agent/
+reports/
