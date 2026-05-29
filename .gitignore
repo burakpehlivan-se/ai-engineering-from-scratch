@@ -1,0 +1,26 @@
+# IDE dosyaları
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Geçici dosyalar
+*.tmp
+*.log
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+
+# Kaynak repo (ayrı klonlanmış)
+source/
+
+# uv
+uv.lock

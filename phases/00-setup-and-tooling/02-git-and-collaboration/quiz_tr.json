@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "'Sürüm kontrolü' primarily ne yapar?",
+      "options": ["Kod çalıştırma hızını artırır", "Dosyalardaki değişimleri zamana göre takip eder ve başkalarıyla iş birliği sağlar", "Disk alanı kaydetmek için dosyaları sıkıştırır", "Kodunuzdaki hataları otomatik olarak düzeltir"],
+      "correct": 1,
+      "explanation": "Git gibi sürüm kontrol sistemleri, dosyalarda yapılan her değişimi takip eder, önceki durumlara geri dönmenizi ve aynı kod tabanında başkalarıyla iş birliği yapmanızı sağlar."
+    },
+    {
+      "stage": "pre",
+      "question": "Yazılım geliştirme bağlamında 'depo' (repository) nedir?",
+      "options": ["Google Drive gibi bir bulut depolama hizmeti", "Sürüm kontrolü tarafından yönetilen dosyaların ve bunların tam değişiklik geçmişinin bir koleksiyonu", "Kullanıcı verilerini depolamak için bir veritabanı", "Kütüphane yüklemek için bir paket yöneticisi"],
+      "correct": 1,
+      "explanation": "Bir depo (repo), git tarafından takip edilen, tüm proje dosyalarını ve bu dosyalara yapılan değişikliklerin tam geçmişini içeren bir dizindir."
+    },
+    {
+      "stage": "post",
+      "question": "Git'te çalışmanızı kaydetmek ve yedeklemek için doğru sıra nedir?",
+      "options": ["git push, git add, git commit", "git commit, git add, git push", "git add, git commit, git push", "git clone, git add, git push"],
+      "correct": 2,
+      "explanation": "Önce 'git add' ile değişiklikleri aşamaya alırsınız, sonra 'git commit' ile bir anlık görüntü kaydedersiniz, en son 'git push' ile uzak sunucuya yüklersiniz. Bu günlük iş akışıdır."
+    },
+    {
+      "stage": "post",
+      "question": "'git checkout -b experiment/new-optimizer' komutu ne yapar?",
+      "options": ["GitHub'dan experiment/new-optimizer adlı bir dalı indirir", "experiment/new-optimizer adında yeni bir dal oluşturur ve ona geçer", "experiment/new-optimizer dalını siler", "Tüm dosyaları experiment/new-optimizer dalıyla eşleşecek şekilde geri alır"],
+      "correct": 1,
+      "explanation": "'-b' bayrağı, verilen isimle yeni bir dal oluşturur ve hemen ona geçer, böylece ana dala etki etmeden deneyler yapabilirsiniz."
+    },
+    {
+      "stage": "post",
+      "question": "Neden '.pt', '.pth' ve '.safetensors' dosyalarını .gitignore'a eklemelisiniz?",
+      "options": ["Bunlar commit edilmemesi gereken Python test dosyalarıdır", "Bunlar git için çok büyük olan ve yeniden oluşturulabilen model kontrol noktası dosyalarıdır", "Hassas API anahtarları içerirler", "Git herhangi bir türdeki ikili dosyaları takip edemez"],
+      "correct": 1,
+      "explanation": "Model kontrol noktası dosyaları (.pt, .pth, .safetensors) genellikle gigabayt boyutundadır. Git büyük ikili dosyalar için tasarlanmamıştır, bu yüzden bunlar hariç tutulmalı ve yeniden oluşturulmalı veya ayrı depolanmalıdır."
+    }
+  ]
+}

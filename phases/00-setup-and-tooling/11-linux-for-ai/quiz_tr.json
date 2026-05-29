@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Linux dosya yolunda '~' sembolü neyi temsil eder?",
+      "options": ["Dosya sisteminin kök dizini", "Mevcut kullanıcının ev dizini", "Geçici dosya dizini", "Sistem programlarının kurulu olduğu dizin"],
+      "correct": 1,
+      "explanation": "Tilde (~), mevcut kullanıcının ev dizini için bir kısayoldur, Linux'ta genellikle /home/kullanıcıadı. 'cd ~' sizi her yerden eve götürür."
+    },
+    {
+      "stage": "pre",
+      "question": "Bir komutun önünde 'sudo' kullanmanın amacı nedir?",
+      "options": ["Komut çalıştırma hızını artırır", "Komutu kök (yönetici) ayrıcalıklarıyla çalıştırır", "Komutu yalıtılmış bir ortamda çalıştırır", "Komut çıktısını bir sistem dosyasına günlüğe kaydeder"],
+      "correct": 1,
+      "explanation": "sudo (superuser do), ayrıcalıklarınızı tek bir komut için kök düzeyine yükseltir. apt ile paket yükleme gibi sistem düzeyindeki işlemler için gereklidir."
+    },
+    {
+      "stage": "post",
+      "question": "Bir kabuk betiğini çalıştırmaya çalışırken 'Permission denied' (İzin reddedildi) hatası alıyorsunuz. Hangi komut bunu düzeltir?",
+      "options": ["sudo rm script.sh", "chmod +x script.sh", "chown root script.sh", "mv script.sh /usr/bin/"],
+      "correct": 1,
+      "explanation": "chmod +x, dosyaya çalıştırma izni ekler. Çalıştırma biti ayarlanmamışsa, kabuk sahip olsanız bile betiği çalıştırmayı reddeder."
+    },
+    {
+      "stage": "post",
+      "question": "Uzak bir GPU kutusunda eğitim verileriniz diski dolduruyor. Hangi komut en büyük dizinleri gösterir?",
+      "options": ["ls -la /", "du -h --max-depth=1 / | sort -hr | head -20", "cat /proc/meminfo", "free -h"],
+      "correct": 1,
+      "explanation": "du -h, dizin başına disk kullanımını gösterir, --max-depth=1 üst düzey dizinlerle sınırlar ve sort -hr, boyuta göre azalan sırada sıralar. Bu, hangi dizinlerin en çok yer kapladığını ortaya çıkarır."
+    },
+    {
+      "stage": "post",
+      "question": "macOS ve Linux sürümleri arasındaki 'sed -i'nin temel farkı nedir?",
+      "options": ["Linux sed, macOS sed'den daha hızlıdır", "macOS sed, -i sonrasında boş bir dize bağımsız değişkeni gerektirir ('sed -i \"\"'), Linux gerektirmez", "Linux sed düzenli ifadeleri desteklemez", "macOS sed dosyaları yerinde düzenleyemez"],
+      "correct": 1,
+      "explanation": "macOS, 'sed -i \"\" kalıp dosyası' gerektiren BSD sed kullanırken, Linux 'sed -i kalıp dosyası' kabul eden GNU sed kullanır. Bu, betikleri sistemler arasında taşırken sık karşılaşılan bir tuzaktır."
+    }
+  ]
+}

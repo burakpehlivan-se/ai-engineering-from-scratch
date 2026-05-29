@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Jupyter defteri nedir?",
+      "options": ["Python betikleri yazmak için bir metin düzenleyici", "Çalıştırılabilir kod hücreleri ile markdown metni ve satır içi çıktıları karıştıran etkileşimli bir belge", "Veri bilimi projeleri için bir sürüm kontrol sistemi", "Python kütüphaneleri için bir paket yöneticisi"],
+      "correct": 1,
+      "explanation": "Bir Jupyter defteri (.ipynb), kodu hücrelerde yazıp çalıştırabileceğiniz, satır içi çıktıları görebildiğiniz ve kodu biçimlendirilmiş metin açıklamalarıyla karıştırabileceğiniz etkileşimli bir ortamdır."
+    },
+    {
+      "stage": "pre",
+      "question": "Jupyter çekirdeği (kernel) ne yapar?",
+      "options": ["Markdown hücrelerini HTML'ye biçimlendirir", "Hücrelerdeki kodu çalıştırır ve çalıştırmalar arasında değişkenleri bellekte tutar", "Defter için dosya depolamasını yönetir", "Defteri sürüm kontrolü için GitHub'a bağlar"],
+      "correct": 1,
+      "explanation": "Çekirdek, hücre kodunu çalıştıran ve bellekte durumu (değişkenler, içe aktarmalar) sürdüren ayrı bir Python sürecidir. Bir defterdeki tüm hücreler aynı çekirdeği paylaşır."
+    },
+    {
+      "stage": "post",
+      "question": "%timeit ve %%time sihirli komutları arasındaki fark nedir?",
+      "options": ["%timeit duvar zamanını ölçer, %%time CPU zamanını ölçer", "%timeit kodu birçok kez çalıştırır ve ortalamasını alır, %%time kodu bir kez çalıştırır", "%timeit tek satırlarda çalışır, %%time tüm defterde çalışır", "Fark yok, takma isimlerdir"],
+      "correct": 1,
+      "explanation": "%timeit, istatistiksel ortalama için ifadeyi birçok kez çalıştırır (mikro karşılaştırmalar için iyidir). %%time hücreyi bir kez çalıştırır ve duvar zamanını bildirir (eğitim çalıştırmaları için iyidir)."
+    },
+    {
+      "stage": "post",
+      "question": "Bir defterin kendi makinenizde çalışırken, biri onu baştan sona çalıştırdığında başarısız olmasının en yaygın nedeni nedir?",
+      "options": ["Farklı bir Python sürümü kullanmak", "Hücreleri sıradışı çalıştırmanın yürütme sırasına bağlı gizli bağımlılıklar yaratması", "%matplotlib inline sihirli komutunu eksik bırakmak", "Çok fazla markdown hücresi kullanmak"],
+      "correct": 1,
+      "explanation": "Hücreleri sıradışı çalıştırmak gizli durum bağımlılıkları yaratır. Bir değişken, 5. hücreyi 2. hücreden önce çalıştırdığınız için var olabilir. Çekirdek > Yeniden Başlat ve Tümünü Çalıştır, doğrusal yürütmeyi doğrular."
+    },
+    {
+      "stage": "post",
+      "question": "Kodu bir defterden .py betiğine ne zaman taşımalısınız?",
+      "options": ["10 satırdan fazla kod yazar yazmaz", "Kod yeniden kullanılabilir bir yardımcı program, eğitim hattı veya üretim kodu olduğunda", "Asla — defterler yapay zeka çalışmaları için her zaman daha iyidir", "Sadece GPU'da çalıştırmanız gerektiğinde"],
+      "correct": 1,
+      "explanation": "Kural 'defterlerde keşfet, betiklerde teslim et.' Yeniden kullanılabilir yardımcı programlar, eğitim hatları ve üretimde çalışan her şey .py dosyası olmalıdır. Defterler keşif ve prototipleme içindir."
+    }
+  ]
+}

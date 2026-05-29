@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Dil Sunucusu Protokolü (LSP) nedir?",
+      "options": ["Düzenleyiciler arasında dosya aktarmak için bir protokol", "Düzenleyicilerin dil-sunucu tarafından tür bilgisi, tamamlama ve teşhis alması için bir standart", "Kaynak kodu dosyaları için bir sıkıştırma biçimi", "Uzaktan eşli programlama için bir ağ protokolü"],
+      "correct": 1,
+      "explanation": "LSP, düzenlenen düzenleyiciden bağımsız olarak düzenleyicilerin dil sunucularıyla otomatik tamamlama, tür kontrolü ve hata teşhisleri gibi özellikler için iletişim kurmasını sağlayan standartlaştırılmış bir protokoldür."
+    },
+    {
+      "stage": "pre",
+      "question": "Takım projeleri için kaydettiğinde biçimlendirme (format-on-save) neden faydalıdır?",
+      "options": ["Boşlukları kaldırarak dosya boyutlarını küçültür", "Manuel biçimlendirme olmadan tüm katkıda bulunanlar arasında tutarlı kod stili sağlar", "Kod çalıştırılmadan önce çalışma zamanı hatalarını yakalar", "Daha hızlı git işlemleri için kodu sıkıştırır"],
+      "correct": 1,
+      "explanation": "Kaydettiğinizde biçimlendirme, her seferinde bir biçimlendirici (Black veya Ruff gibi) çalıştırarak, kodu kim yazmış olursa olsun tüm kodun aynı stil kurallarına uymasını sağlar."
+    },
+    {
+      "stage": "post",
+      "question": "Uzak bir GPU makinesinde kodu yereldeymiş gibi düzenlemenizi sağlayan VS Code eklentisi hangisidir?",
+      "options": ["GitLens", "Pylance", "Remote SSH", "Debugpy"],
+      "correct": 2,
+      "explanation": "Remote SSH, uzak makinede hafif bir VS Code sunucusu kurar ve arayüzü yerel düzenleyicinize aktarır, böylece dosyaları düzenleyebilir, terminalleri çalıştırabilir ve uzaktan hata ayıklayabilirsiniz."
+    },
+    {
+      "stage": "post",
+      "question": "Yapay zeka çalışmaları için VS Code ayarlarında 'notebook.output.scrolling' neden etkinleştirilmelidir?",
+      "options": ["Geniş veri çerçeveleri için yatay kaydırmayı etkinleştirir", "Eğitim döngüsü çıktısının (binlerce satır) çıktı panelini patlamasını önler", "Fare tekerleğiyle defter hücreleri arasında kaydırmaya izin verir", "Düzenleyicide düzgün kaydırma animasyonlarını etkinleştirir"],
+      "correct": 1,
+      "explanation": "Eğitim döngüleri binlerce satır çıktı yazdırabilir. Çıktı kaydırmaması durumunda, defter çıktı paneli sınırsız büyür ve defteri kullanılamaz hale getirir."
+    },
+    {
+      "stage": "post",
+      "question": "VS Code'da 'python.analysis.typeCheckingMode'ı 'basic' olarak ayarlamak ne sağlar?",
+      "options": ["Python dosyaları için sözdizimi vurgulamayı etkinleştirir", "Kodu çalıştırmadan önce yanlış argüman türlerini ve tensör şekli uyumsuzluklarını yakalar", "Python kodunu PEP 8 standartlarına göre biçimlendirir", "Python 3.12 dil özelliklerini etkinleştirir"],
+      "correct": 1,
+      "explanation": "Pylance ile temel tür kontrolü, düzenleme zamanında tür uyumsuzluklarını, yanlış argüman türlerini ve hatalı API parametrelerini işaretleyerek, potansiyel olarak pahalı bir betiği çalıştırmadan önce hataları yakalar."
+    }
+  ]
+}

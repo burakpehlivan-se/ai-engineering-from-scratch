@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Sanal ortamlar hangi sorunu çözer?",
+      "options": ["Yorumlayıcıyı optimize ederek Python kodunun daha hızlı çalışmasını sağlarlar", "Proje bağımlılıklarını izole ederek farklı projelerin farklı paket sürümleri kullanmasını sağlarlar", "Python betiklerini yönetmek için bir grafik arayüzü sağlarlar", "Paketleri otomatik olarak en son sürümlere güncellerler"],
+      "correct": 1,
+      "explanation": "Sanal ortamlar her projeye kendi izole paket setini verir. Onlar olmadan, bir proje için PyTorch 2.4 yüklemek, başka bir projenin ihtiyaç duyduğu PyTorch 2.1'in üzerine yazabilirdi."
+    },
+    {
+      "stage": "pre",
+      "question": "Python bağımlılık yönetimi bağlamında kilit dosyası (lockfile) nedir?",
+      "options": ["Diğer kullanıcıların kodunuzu düzenlemesini önleyen dosya", "Tekrarlanabilir yüklemeler için her paketi kesin bir sürüme sabitleyen dosya", "Python yorumlayıcı sürümünü kilitleyen dosya", "Proje bağımlılıklarınızı şifreleyen dosya"],
+      "correct": 1,
+      "explanation": "Bir kilit dosyası, her paketin (dolaylı bağımlılıklar dahil) kesin sürümünü kaydeder, böylece ondan yükleyen herkes aynı paketleri alır ve tekrarlanabilirlik sağlanır."
+    },
+    {
+      "stage": "post",
+      "question": "pip ve python komutlarının sanal ortamı kullandığını ve sistem Python'unu kullanmadığını nasıl doğrulayabilirsiniz?",
+      "options": ["'pip --version' çalıştırın ve sürüm numarasını kontrol edin", "'which python' çalıştırın ve .venv/bin/python gösterdiğini, /usr/bin/python göstermediğini doğrulayın", "Terminal arka plan renginin değişip değişmediğini kontrol edin", "'python --check-env' çalıştırarak doğrulayın"],
+      "correct": 1,
+      "explanation": "'which python' (veya Windows'ta 'where python'), yorumlayıcının tam yolunu gösterir. .venv/bin/python'a yöneltiyorsa, sanal ortamdasınız."
+    },
+    {
+      "stage": "post",
+      "question": "Aynı ortamda pip ve conda'yı karıştırmak neden sorunludur?",
+      "options": ["Pip paketleri conda'nın Python yorumlayıcısıyla uyumsuzdur", "Pip yüklemeleri conda'nın bağımlılık izlemesini bozabilir, hata ayıklaması zor çakışmalara yol açabilir", "Conda, pip'in zaten yüklediği paketleri yükleyemez", "Her paketin kullandığı disk alanını ikiye katlar"],
+      "correct": 1,
+      "explanation": "Conda kendi bağımlılık çözücüsünü sürdürür. Pip yüklemeleri bunu devre dışı bırakır, böylece ortamın gerçek durumunu bilmez. Bu, çözülmesi acı veren bağımlılık çakışmalarına yol açar."
+    },
+    {
+      "stage": "post",
+      "question": "NVIDIA GPU'nuz olmasına rağmen PyTorch kodunuz 'CUDA mevcut değil' hatası veriyor. En olası neden nedir?",
+      "options": ["GPU'nuz CUDA'yı desteklemiyor", "PyTorch, GPU sürücünüzle uyumlu olmayan bir CUDA sürümüyle yüklendi", "torch.cuda modülünü içe aktarmayı unuttunuz", "Sanal ortamlar GPU donanımına erişemez"],
+      "correct": 1,
+      "explanation": "PyTorch, belirli CUDA sürümleri için derlenmiş CUDA bağımlılıklarıyla birlikte gelir. PyTorch CUDA sürümü, sürücünüzün CUDA sürümünü aşarsa CUDA mevcut olmaz. nvidia-smi ve torch.version.cuda ile kontrol edin."
+    }
+  ]
+}

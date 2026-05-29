@@ -1,0 +1,44 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Yapay zeka/ML kodunda hata ayıklamayı tipik bir web uygulamasından temelde farklı kılan nedir?",
+      "options": ["Yapay zeka kodu farklı programlama dilleri kullanır", "Yapay zeka hataları genellikle çökmez — hata mesajı olmadan sessizce yanlış sonuçlar üretirler", "Yapay zeka kodu print ifadeleri gibi standart araçlarla hata ayıklanamaz", "Yapay zeka kodu her zaman hata ayıklama için bir GPU gerektirir"],
+      "correct": 1,
+      "explanation": "En kötü yapay zeka hataları geçerli görünen çıktı üretir. Yanlış yapılandırılmış bir eğitim döngüsü, model hiçbir yararlı bir şey öğrenmezken saatlerce hata vermeden çalışabilir, istif izleriyle çöken web uygulamalarının aksine."
+    },
+    {
+      "stage": "pre",
+      "question": "Bir profilleyici (profiler) neyi ölçer?",
+      "options": ["Kodun doğru çıktı üretip üretmediğini", "Kodun her bölümünün ne kadar zaman ve bellek tükettiğini", "Kod tabanında kaç hata olduğunu", "Birim testlerinin kod kapsamını"],
+      "correct": 1,
+      "explanation": "Profilleyiciler kaynak tüketimini ölçer — işlev başına çalışma süresi, bellek tahsisi ve GPU kullanımı — darboğazları bulmanıza ve performansı optimize etmenize yardımcı olur."
+    },
+    {
+      "stage": "post",
+      "question": "Modeliniz test setinde %99 doğruluk elde ediyor. Önce hangi yapay zeka özgü hatayı şüphelenmelisiniz?",
+      "options": ["Modelin çok fazla parametresi var", "Veri sızıntısı — test örnekleri eğitim setine sızmış olabilir", "Öğrenme hızı çok yüksek", "Toplu iş boyutu çok büyük"],
+      "correct": 1,
+      "explanation": "Şüpheli yüksek doğruluk genellikle veri sızıntısını gösterir — eğitim ve test verileri arasında örtüşme veya hedef etiketi içeren özellikler. Her zaman eğitim/test örtüşmesini kontrol edin."
+    },
+    {
+      "stage": "post",
+      "question": "Bir eğitim döngüsünün zaman dağılımını profillemenin en yaygın bulgusu nedir?",
+      "options": ["Geriye doğru geçiş zamanın %90'ını alır", "Veri yükleme, ileri ve geriye doğru geçişlerin toplamından daha fazla zaman alır", "Günlük kaydetme en fazla zamanı alır", "GPU bellek tahsisi darboğazdır"],
+      "correct": 1,
+      "explanation": "DataLoader'da num_workers=0 olduğunda veri yükleme genellikle eğitim zamanının %60'ından fazlasını alır. Çözüm, veriyi GPU hesaplamasıyla paralel olarak yüklemek için num_workers > 0 olarak ayarlamaktır."
+    },
+    {
+      "stage": "post",
+      "question": "500. adımda NaN kaybı görüyorsunuz. Kök nedeni bulmanıza yardımcı olacak yaklaşım hangisidir?",
+      "options": [
+        "Farklı bir rastgele tohumla sıfırdan eğitime yeniden başlayın",
+        "detect_nan kullanarak gradyanlardaki NaN/Inf'i kontrol edin ve hata noktasına breakpoint() ekleyin",
+        "Gradyanları stabilize etmek için toplu iş boyutunu artırın",
+        "Adam optimize ediciden SGD optimize edicisine geçin"
+      ],
+      "correct": 1,
+      "explanation": "Önce her parametrenin gradyanlarını kontrol ederek NaN'ın NEREDEN geldiğini belirleyin. NaN adımında koşullu bir kesme noktası (breakpoint), tensör değerlerini etkileşimli olarak incelemenizi sağlar. Yaygın nedenler: öğrenme hızının çok yüksek olması, log(0) veya sıfıra bölmek."
+    }
+  ]
+}

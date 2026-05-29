@@ -1,0 +1,42 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Docker konteyneri ile sanal makine arasındaki temel fark nedir?",
+      "options": ["Konteynerlar VM'lardan daha yavaş ama daha güvenlidir", "Konteynerlar ana işletim sistemi çekirdeğini paylaşırken, VM'ler kendi tam işletim sistemlerini çalıştırır", "Konteynerlar sadece Linux çalıştırabilirken, VM'ler herhangi bir işletim sistemini destekler", "Pratik bir fark yoktur"],
+      "correct": 1,
+      "explanation": "Konteynerlar ana çekirdeği paylaşır ve süreç düzeyinde izole edilir, birkaç saniye içinde başlamalarını sağlar. VM'ler kendi çekirdeğiyle tam bir konuk işletim sistemi çalıştırır, daha fazla kaynak ve daha yavaş başlatma gerektirir."
+    },
+    {
+      "stage": "pre",
+      "question": "Dockerfile nedir?",
+      "options": "Docker daemon'ı için bir yapılandırma dosyası",
+        "Docker imajını katman katman oluşturmak için talimatlar kümesi",
+        "Konteyner etkinliğini kaydeden bir günlük dosyası",
+        "Çalışan konteynerları listeleyen dosya",
+      "correct": 1,
+      "explanation": "Bir Dockerfile, Docker'ın bir imaj oluşturmak için yürüttüğü sıralı talimatlar (FROM, RUN, COPY vb.) içerir. Her talimat önbelleğe alınmış bir katman oluşturur."
+    },
+    {
+      "stage": "post",
+      "question": "Docker ile yapay zeka geliştirme için birim (volume) bağları neden kritiktir?",
+      "options": ["Birimler, ana bilgisayar disk hızını kullanarak konteynerları daha hızlı çalıştırır", "Birimler, verileri (modeller, veri setleri, kod) konteyner yeniden oluşturmaları arasında kalıcı hale getirir, böylece her seferinde gigabaytları yeniden indirmezsiniz", "Birimlerin Python paketlerinin doğru yüklenmesi için gereklidir", "Birimler birden fazla konteynerın aynı GPU'yu paylaşmasını sağlar"],
+      "correct": 1,
+      "explanation": "Birimler olmadan, bir konteyner içindeki her şey durduğunda kaybolur. Birim bağları, ana bilgisayar dizinlerini konteynera eşler, böylece model ağırlıkları (14+ GB) ve veri setleri yeniden oluşturmalar hayatta kalır."
+    },
+    {
+      "stage": "post",
+      "question": "NVIDIA Conteyner Araç Seti ne sağlar?",
+      "options": ["Konteyner içinde CUDA sürücüleri yüklemek", "--gpus bayrağı aracılığıyla ana bilgisayar GPU'larını Docker konteynerlarına sunmak", "AMD donanımında NVIDIA GPU konteynerları çalıştırmak", "Docker oluşturma süreci sırasında CUDA kodunu derlemek"],
+      "correct": 1,
+      "explanation": "NVIDIA Conteyner Araç Seti, ana bilgisayar GPU'larını konteynerlara sunan bir çalışma zamanı eklentisidir. CUDA araç seti konteyner içinde yaşar, ama GPU sürücüsü ana bilgisayardan paylaşılır."
+    },
+    {
+      "stage": "post",
+      "question": "Yapay zeka için bir Docker Compose dosyasında, 'ai-dev' hizmeti 'qdrant' vektör veritabanına nasıl ulaşır?",
+      "options": ["Ana bilgisayarın IP adresi ve limanını kullanarak", "Compose paylaşımlı bir ağ oluşturduğu için hizmet adı 'qdrant'ı ana bilgisayar adı olarak kullanarak", "İki konteyner arasında paylaşımlı bir birim bağlayarak", "Konteynerlar arasında bir VPN yapılandırarak"],
+      "correct": 1,
+      "explanation": "Docker Compose, hizmetlerin birbirine ada göre ulaşabildiği paylaşımlı bir ağ otomatik olarak oluşturur. ai-dev konteynerı, hizmet adını ana bilgisayar adı olarak kullanarak 'http://qdrant:6333' adresine bağlanır."
+    }
+  ]
+}
