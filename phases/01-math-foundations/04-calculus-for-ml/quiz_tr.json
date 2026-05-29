@@ -1,0 +1,66 @@
+{
+  "lesson": "04-calculus-for-ml",
+  "title": "Calculus for Machine Learning",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Bir fonksiyonun bir noktadaki derivative'ı size ne söyler?",
+      "options": [
+        "Fonksiyonun o noktadaki değerini",
+        "Fonksiyonun o noktadaki değişim oranını (eğimini)",
+        "Fonksiyonun o noktaya kadar olan altında kalan alanı",
+        "Fonksiyonun ulaşabileceği maksimum değeri"
+      ],
+      "correct": 1,
+      "explanation": "Derivative f'(x), girdi birim başına çıktının ne kadar değiştiğini ölçer. Geometrik olarak, o noktadaki teğet doğrusunun eğimidir."
+    },
+    {
+      "stage": "pre",
+      "question": "Makine öğrenmesi bağlamında gradient nedir?",
+      "options": [
+        "Model doğruluğunun bir ölçüsü",
+        "En dik çıkış yönünü gösteren tüm kısmi türevlerin vektörü",
+        "Eğitim sırasında kullanılan learning rate",
+        "Tahmin edilen ve gerçek değerler arasındaki fark"
+      ],
+      "correct": 1,
+      "explanation": "Gradient, her kısmi türevi tek bir vektörde toplar. Fonksiyonu en hızlı artıran yönü gösterir. Kaybı minimize etmek için gradient'in ters yönünde hareket edilir."
+    },
+    {
+      "stage": "post",
+      "question": "Gradient descent'te 'w = w - lr * dL/dw' güncelleme kuralı neyi başarır?",
+      "options": [
+        "Model sağlamlığını test etmek için kaybı artırır",
+        "Her ağırlığı, learning rate ile ölçeklenmiş şekilde kaybı azaltan yönde ayarlar",
+        "Ağırlığı başlangıç değeri eksi gradient'e sıfırlar",
+        "Ağırlığı 1 büyüklüğünde olacak şekilde normalize eder"
+      ],
+      "correct": 1,
+      "explanation": "dL/dw size hangi yönün kaybı artırdığını söyler. Bunu çıkarmak (learning rate ile çarparak) ağırlığı kaybı azaltan yönde hareket ettirir. Bu, modeldeki her ağırlık için tekrarlanır."
+    },
+    {
+      "stage": "post",
+      "question": "Newton'un yöntemi (Hessian matrix'i kullanır) neden milyonlarca parametreli sinir ağlarına doğrudan uygulanamaz?",
+      "options": [
+        "Newton'un yöntemi sadece convex fonksiyonlar için çalışır",
+        "Hessian, N x N'lik bir matrix'tir ve N^2 depolama ve adım başına N^3 hesaplama gerektirir, bu milyonlarca parametre için uygulanamaz",
+        "Newton'un yöntemi sinir ağları için hesaplanamayan analitik türevler gerektirir",
+        "Newton'un yöntemi derin ağlar için çok yavaş yakınsar"
+      ],
+      "correct": 1,
+      "explanation": "N=1 milyon parametre için Hessian 1 trilyon girdiye sahiptir. Hesaplanması ve tersinin alınması imkansızdır. Bu nedenle ikinci derece bilgiyi ucuzca yaklaştıran birinci derece yöntemler (SGD, Adam) kullanırız."
+    },
+    {
+      "stage": "post",
+      "question": "f'(x) için sayısal (central difference) yaklaşımı nedir?",
+      "options": [
+        "f(x+h) / h",
+        "(f(x+h) - f(x)) / h",
+        "(f(x+h) - f(x-h)) / (2*h)",
+        "f(x) * h"
+      ],
+      "correct": 2,
+      "explanation": "Central difference (f(x+h) - f(x-h)) / (2h), forward difference'dan daha doğrudur çünkü x'in her iki tarafındaki eğimi ortalamasını alarak öncü hata terimini iptal eder."
+    }
+  ]
+}

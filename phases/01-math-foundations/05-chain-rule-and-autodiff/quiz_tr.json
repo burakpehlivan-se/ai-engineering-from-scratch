@@ -1,0 +1,66 @@
+{
+  "lesson": "05-chain-rule-and-autodiff",
+  "title": "Chain Rule and Autodiff",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Calculus'ta chain rule neyi ifade eder?",
+      "options": [
+        "Toplamın türevi, türevlerin toplamıdır",
+        "Bileşke fonksiyonların türevi, bireysel türevlerinin çarpımıdır",
+        "Bir çarpımın integrali, integrallerin çarpımıdır",
+        "Fonksiyonlar sadece lineerlerse türevlenebilir"
+      ],
+      "correct": 1,
+      "explanation": "y = f(g(x)) için chain rule dy/dx = f'(g(x)) * g'(x) der. Zincirdeki her halkadaki türevleri çarparsınız. Bu, backpropagation'un matematiksel temelidir."
+    },
+    {
+      "stage": "pre",
+      "question": "Computational graph nedir?",
+      "options": [
+        "Loss vs eğitim adımlarının grafiği",
+        "Düğümlerin işlemler ve kenarların ileri yönde değerleri veya geri yönde gradient'leri taşıdığı yönlendirilmiş bir graf",
+        "Bir sinir ağının mimarisini gösteren bir diyagram",
+        "Eğitim verilerini depolamak için kullanılan bir graf veritabanı"
+      ],
+      "correct": 1,
+      "explanation": "Bir computational graph, bir hesaplamadaki işlemlerin sırasını temsil eder. Veriler graf boyunca ileri yönde akar ve gradient'ler backpropagation sırasında geri yönde akar."
+    },
+    {
+      "stage": "post",
+      "question": "PyTorch neden forward-mode yerine reverse-mode autodiff (backpropagation) kullanır?",
+      "options": [
+        "Reverse mode sayısal olarak daha doğrudur",
+        "Reverse mode tüm gradient'leri tek bir geri geçişte hesaplarken, forward mode girdi değişkeni başına bir geçiş gerektirir -- sinir ağlarının milyonlarca girdisi ama tek bir loss çıktısı vardır",
+        "Reverse mode daha az bellek kullanır",
+        "Forward mode lineer olmayan fonksiyonları işleyemez"
+      ],
+      "correct": 1,
+      "explanation": "Sinir ağlarının milyonlarca ağırlık girdisi vardır ancak tek bir skaler loss üretir. Reverse mode toplamda bir geri geçiş gerektirir. Forward mode ağırlık başına bir geçiş gerektirirdi -- milyonlarca geçiş -- bu da pratik olmazdı."
+    },
+    {
+      "stage": "post",
+      "question": "Value class autograd motorunda, backward fonksiyonu neden gradient'leri biriktirmek için '=' yerine '+=' kullanır?",
+      "options": [
+        "Gradient'leri birden çok örnek arasında ortalamak için",
+        "Çünkü birden çok işlemde kullanılan bir değer, her birinden gradient katkısı alır ve bunların toplanması gerekir",
+        "Gradient'lerde sayısal taşmayı önlemek için",
+        "Python closures'da '=' operatörünü desteklemediği için"
+      ],
+      "correct": 1,
+      "explanation": "Bir değer birden çok işlemi beslediğinde (ör. x, hem x*y hem de x+z'de kullanıldığında), toplam gradient'i tüm gelen gradient katkılarının toplamıdır. '=' kullanmak önceki katkıların üzerine yazardı."
+    },
+    {
+      "stage": "post",
+      "question": "Gradient checking nedir ve ne zaman kullanmalısınız?",
+      "options": [
+        "Exploding gradient'leri önlemek için gradient'lerin bir eşiğin altında olup olmadığını kontrol etmek",
+        "Autodiff gradient'lerini sayısal finite-difference gradient'leriyle karşılaştırarak backward pass'in doğruluğunu doğrulamak",
+        "Eğitim sırasında tüm parametrelerin sıfır olmayan gradient aldığını kontrol etmek",
+        "Vanishing gradient'leri tespit etmek için eğitim sırasında gradient büyüklüklerini izlemek"
+      ],
+      "correct": 1,
+      "explanation": "Gradient checking, (f(x+h) - f(x-h)) / 2h ile sayısal türevleri hesaplar ve bunları autodiff gradient'leriyle karşılaştırır. Autograd motorunuza yeni işlemler eklerken veya eğitim hatalarını ayıklarken kullanın."
+    }
+  ]
+}

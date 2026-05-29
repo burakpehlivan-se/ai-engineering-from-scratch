@@ -1,0 +1,66 @@
+{
+  "lesson": "02-vectors-matrices-operations",
+  "title": "Vectors and Matrix Operations",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Matrix çarpımı (m x n) @ (n x p) için boyutlar hakkında ne doğru olmalıdır?",
+      "options": [
+        "m eşit olmalıdır p'ye",
+        "İç boyutlar n eşleşmelidir",
+        "Tüm boyutlar eşit olmalıdır",
+        "m, p'den büyük olmalıdır"
+      ],
+      "correct": 1,
+      "explanation": "Matrix çarpımı, ilk matrix'in sütun sayısının (n) ikinci matrix'in satır sayısına (n) eşit olmasını gerektirir. Sonuç (m x p) şeklindedir."
+    },
+    {
+      "stage": "pre",
+      "question": "Identity matrix nedir?",
+      "options": [
+        "Tümü birlerden oluşan bir matrix",
+        "Köşegeninde birler ve diğer yerlerde sıfırlar olan, çarpma işleminde birim görevi gören kare matrix",
+        "Her elemanının benzersiz olduğu bir matrix",
+        "Herhangi bir matrix'in transpose'u"
+      ],
+      "correct": 1,
+      "explanation": "Identity matrix I'in köşegeninde birler, diğer her yerde sıfırlar vardır. Herhangi bir matrix'i I ile çarpmak, bir sayıyı 1 ile çarpmak gibi, orijinal matrix'i değiştirmeden döndürür."
+    },
+    {
+      "stage": "post",
+      "question": "Element-wise çarpım ile matrix çarpımı arasındaki temel fark nedir?",
+      "options": [
+        "Element-wise daha hızlıyken matrix çarpımı daha doğrudur",
+        "Element-wise eşleşen konumları çarpar (aynı şekil gerekir), matrix çarpımı satır ve sütunların dot product'larını alır (iç boyutlar eşleşmelidir)",
+        "Aynı sonucu üretirler ancak farklı gösterim kullanırlar",
+        "Element-wise sadece vektörlerde çalışırken matrix çarpımı matrix'lerde çalışır"
+      ],
+      "correct": 1,
+      "explanation": "Element-wise (Hadamard) çarpım karşılıklı elemanları çarpar ve özdeş şekiller gerektirir. Matrix çarpımı, satırlar ve sütunlar arasında (m,n)@(n,p)=(m,p) kuralıyla dot product'ları hesaplar."
+    },
+    {
+      "stage": "post",
+      "question": "'output = relu(W @ x + b)' ifadesinde broadcasting'in rolü nedir?",
+      "options": [
+        "Hesaplamayı birden çok GPU'ya yayar",
+        "Bias vektörü b'yi W @ x'in şekline uyacak şekilde otomatik olarak genişletir, böylece toplanabilirler",
+        "W ve x'in veri tiplerini eşleştirir",
+        "Relu aktivasyonunu tüm elemanlarda tekrarlar"
+      ],
+      "correct": 1,
+      "explanation": "W @ x bir sütun vektörü üretir ve b de bir vektördür. Broadcasting, gerekirse b'yi batch boyutu boyunca genişleterek açık şekil eşleştirmesi olmadan element-wise toplamaya izin verir."
+    },
+    {
+      "stage": "post",
+      "question": "Bir matrix için sıfır determinant neyi gösterir?",
+      "options": [
+        "Matrix'in tüm girdilerinin sıfır olduğunu",
+        "Matrix'in tekil olduğunu: en az bir boyutu ezer, tersi alınamaz ve benzersiz çözümü yoktur",
+        "Matrix'in identity matrix olduğunu",
+        "Matrix'in bir rotasyon yaptığını"
+      ],
+      "correct": 1,
+      "explanation": "Sıfır determinant, dönüşümün uzayı en az bir boyut daralttığı anlamına gelir (ör. 2D'yi bir doğruya haritalamak). Matrix'in tersi yoktur ve kullanıldığı lineer sistemlerin ya hiç çözümü yoktur ya da sonsuz sayıda çözümü vardır."
+    }
+  ]
+}

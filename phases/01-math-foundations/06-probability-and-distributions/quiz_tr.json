@@ -1,0 +1,66 @@
+{
+  "lesson": "06-probability-and-distributions",
+  "title": "Probability and Distributions",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Probability mass function (PMF) ile probability density function (PDF) arasındaki fark nedir?",
+      "options": [
+        "PMF'ler sürekli değişkenler için, PDF'ler kesikli değişkenler için kullanılır",
+        "PMF'ler kesikli sonuçlar için tam olasılıkları verirken, PDF'ler sürekli değişkenler için bir aralıkta integral alınarak olasılık elde edilen yoğunlukları verir",
+        "Hiçbir fark yoktur; aynı kavramın farklı isimleridir",
+        "PMF'ler her zaman 0.5'e toplanır, PDF'ler 1'e entegre olur"
+      ],
+      "correct": 1,
+      "explanation": "Kesikli değişkenler için PMF, P(X=k)'yı doğrudan verir. Sürekli değişkenler için PDF f(x) bir yoğunluktur -- P(a<=X<=b), f(x)'i a'dan b'ye entegre etmeyi gerektirir. Tek bir noktadaki yoğunluk bir olasılık değildir."
+    },
+    {
+      "stage": "pre",
+      "question": "Central Limit Theorem neyi ifade eder?",
+      "options": [
+        "Tüm veriler normal dağılımı takip eder",
+        "Birçok bağımsız rastgele örneğin ortalaması, kaynak dağılımdan bağımsız olarak normal dağılıma yakınsar",
+        "Büyük veri kümeleri her zaman düşük varyansa sahiptir",
+        "Nadir olayların olasılığı örneklem boyutu arttıkça azalır"
+      ],
+      "correct": 1,
+      "explanation": "CLT, birçok bağımsız rastgele değişkenin ortalamasının, orijinal dağılım ne olursa olsun bir Gaussian'a yaklaştığını söyler. Bu, normal dağılımın her yerde görünmesini açıklar."
+    },
+    {
+      "stage": "post",
+      "question": "Softmax neden üs almadan önce maksimum logit'i çıkarır ('softmax trick')?",
+      "options": [
+        "Tüm olasılıkları eşit yapmak için",
+        "Matematiksel olarak özdeş sonuçlar üretirken büyük sayıların üssünün alınmasından kaynaklanan sayısal taşmayı önlemek için",
+        "Logit'lerin ortalamasını sıfır yapmak için",
+        "Üs alma sayısını azaltarak hesaplamayı hızlandırmak için"
+      ],
+      "correct": 1,
+      "explanation": "exp(100) sonsuza taşar. max(logits)'i çıkarmak tüm değerleri kaydırarak en büyüğünü 0 yapar. exp(0)=1 güvenlidir. Çıkarma işlemi normalizasyonda birbirini götürerek aynı olasılıkları verir."
+    },
+    {
+      "stage": "post",
+      "question": "Sınıflandırma için cross-entropy loss, -log(q(doğru_sınıf))'a sadeleşir. Bu sezgisel olarak ne anlama gelir?",
+      "options": [
+        "Tahmin edilen olasılıkları gerçek etiketlerle çarp",
+        "Modeli, doğru sınıf için tahmin ettiği olasılık ne kadar düşükse o kadar cezalandır -- düşük tahmin yüksek loss demektir",
+        "Log olasılıklarını tüm sınıflar arasında ortala",
+        "Gerçek dağılımın entropy'sini hesapla"
+      ],
+      "correct": 1,
+      "explanation": "Model doğru sınıf için 0.9 tahmin ederse, loss = -log(0.9) = 0.105 (düşük). 0.01 tahmin ederse, loss = -log(0.01) = 4.6 (yüksek). Loss, doğru cevaptaki düşük güveni cezalandırır."
+    },
+    {
+      "stage": "post",
+      "question": "Dil modelleri neden ham olasılıklar yerine log olasılıklarla çalışır?",
+      "options": [
+        "Log olasılıklar görsel olarak yorumlaması daha kolaydır",
+        "Birçok küçük olasılığı çarpmak sayısal olarak sıfıra underflow'a neden olur; log olasılıklar çarpımları toplamlara dönüştürerek bunu önler",
+        "Log olasılıklar transformer mimarisi tarafından gereklidir",
+        "Ham olasılıklar 0.01'den küçük değerleri temsil edemez"
+      ],
+      "correct": 1,
+      "explanation": "P(cümle) = P(kelime1) * P(kelime2) * ... float64 ile hızla 0.0'a underflow olur. Log P(cümle) = log P(kelime1) + log P(kelime2) + ... sonlu bir aralıkta kalır. Çarpımlar toplamlara dönüşür."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "lesson": "21-graph-theory",
+  "title": "Graph Theory",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "A[i][j] = 1 komşuluk matrisi (adjacency matrix) neyi temsil eder?",
+      "options": [
+        "i düğümünün derecesi j'dir",
+        "i düğümünden j düğümüne bir kenar vardır",
+        "i düğümü ve j düğümü aynı etikete sahiptir",
+        "i'den j'ye en kısa yolun uzunluğu 1'dir"
+      ],
+      "correct": 1,
+      "explanation": "Komşuluk matrisi bir grafiğin temel temsilidir. A[i][j] = 1, i düğümünü j düğümüne bağlayan bir kenar olduğu anlamına gelir. Yönsüz graflar için matris simetriktir (A[i][j] = A[j][i])."
+    },
+    {
+      "stage": "pre",
+      "question": "BFS hangi veri yapısını kullanır ve neyi bulur?",
+      "options": [
+        "Stack; bağlantılı bileşenleri (connected components) bulur",
+        "Queue; ağırlıksız graflarda en kısa yolları bulur",
+        "Priority queue; minimum spanning tree bulur",
+        "Hash map; tekrarlayan düğümleri bulur"
+      ],
+      "correct": 1,
+      "explanation": "BFS, k mesafesindeki tüm komşuları keşfetmek için bir queue (FIFO) kullanır ve ardından k+1 mesafesine geçer. Bu, bir düğümün ilk keşfedildiğinde kaynaktan en kısa yol üzerinden olduğunu garanti eder."
+    },
+    {
+      "stage": "post",
+      "question": "Bağlantılı bir grafiğin Laplacian'ı L = D - A'nın kaç tane sıfır özdeğeri vardır?",
+      "options": [
+        "Sıfır",
+        "Tam olarak bir",
+        "Düğüm sayısı kadar",
+        "Kenar sayısı kadar"
+      ],
+      "correct": 1,
+      "explanation": "Laplacian'ın sıfır özdeğerlerinin sayısı, bağlantılı bileşen sayısına eşittir. Bağlantılı bir grafiğin tam olarak bir bağlantılı bileşeni vardır, bu nedenle tam olarak bir sıfır özdeğeri vardır. k tane bağlantısız parçası olan bir grafiğin k tane sıfır özdeğeri vardır."
+    },
+    {
+      "stage": "post",
+      "question": "GNN mesaj geçirmede h_v^(k+1) = sigma(W * mean({h_u^(k) : u in neighbors(v)})) neyi hesaplar?",
+      "options": [
+        "v'den diğer tüm düğümlere en kısa yolu",
+        "Komşu özelliklerini toplayarak, öğrenilmiş ağırlıklarla dönüştürerek ve bir nonlineerlik uygulayarak v düğümü için yeni bir özellik vektörü",
+        "v düğümünün k+1 katmanındaki derecesini",
+        "v düğümünün PageRank skorunu"
+      ],
+      "correct": 1,
+      "explanation": "Her düğüm komşularından özellikleri toplar (mean aggregation), öğrenilmiş bir ağırlık matrisi W ile çarpar ve bir aktivasyon fonksiyonu sigma uygular. k turdan sonra her düğüm, k-adımlık komşuluğundan bilgiye sahiptir."
+    },
+    {
+      "stage": "post",
+      "question": "Spektral kümeleme, Fiedler vektörünü (L'nin ikinci en küçük özdeğerine ait özvektör) nasıl kullanır?",
+      "options": [
+        "Fiedler vektöründe en büyük girişlere sahip düğümler bir kümeyi oluşturur",
+        "Fiedler vektörü pozitif olan düğümler bir gruba, negatif olanlar diğer gruba gider",
+        "Fiedler vektörü kenar ağırlıkları olarak kullanılır",
+        "Fiedler vektörü küme sayısını belirler"
+      ],
+      "correct": 1,
+      "explanation": "Fiedler vektörü, grafik üzerindeki en düzgün non-trivial fonksiyonu kodlar. Aynı sıkı bağlantılı kümedeki düğümler benzer değerler alırken, bir darboğazla ayrılan düğümler zıt işaretli değerler alır. İşaret ayrımı, grafiği iki kümeye böler."
+    }
+  ]
+}

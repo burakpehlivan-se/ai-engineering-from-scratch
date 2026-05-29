@@ -1,0 +1,66 @@
+{
+  "lesson": "03-matrix-transformations",
+  "title": "Matrix Transformations",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Bir matrix'in eigenvector'ü nedir?",
+      "options": [
+        "Matrix'teki en büyük satır",
+        "Matrix'in çarptığında sadece ölçeklediği (asla döndürmediği) bir vektör",
+        "Matrix'in tüm sütunlarına dik bir vektör",
+        "Matrix'in köşegen girdilerinin vektör olarak ifadesi"
+      ],
+      "correct": 1,
+      "explanation": "Bir eigenvector v, Av = lambda*v denklemini sağlar, yani A matrix'i v'yi yönünü değiştirmeden sadece lambda skaleri (eigenvalue) kadar gerer."
+    },
+    {
+      "stage": "pre",
+      "question": "2D dönüşüm matrix'inin determinant'ı geometrik olarak neyi temsil eder?",
+      "options": [
+        "Matrix'in uyguladığı rotasyon açısını",
+        "Matrix'in alanı ölçekleme faktörünü",
+        "Matrix'in sahip olduğu eigenvector sayısını",
+        "Matrix'in trace'ini"
+      ],
+      "correct": 1,
+      "explanation": "Determinant, dönüşümün alanı ne kadar ölçeklediğini ölçer. det=1 alanı korur (rotasyon), det=2 alanı iki katına çıkarır, det=0 daha düşük bir boyuta ezer, det=-1 alanı korur ancak yönelimi ters çevirir."
+    },
+    {
+      "stage": "post",
+      "question": "Matrix dönüşümlerinin sırası neden önemlidir? (Yani neden R @ S, S @ R'den farklıdır?)",
+      "options": [
+        "Matrix toplaması değişmeli değildir",
+        "Matrix çarpımı değişmeli değildir: önce döndürüp sonra ölçeklemek, önce ölçekleyip sonra döndürmekten farklı sonuç verir",
+        "Determinantlar her sıra için farklıdır",
+        "Bir sıra diğerinden daha büyük bir matrix üretir"
+      ],
+      "correct": 1,
+      "explanation": "Matrix çarpımı değişmeli değildir. (1,0)'ı 90 derece döndürüp (2,0.5) ile ölçeklemek (0,0.5) verirken, önce ölçekleyip sonra döndürmek (0,2) verir. Geometrik işlemler farklı şekilde birleşir."
+    },
+    {
+      "stage": "post",
+      "question": "Tekrarlayan bir sinir ağında, ağırlık matrix'inin eigenvalue'leri 1'den büyük olduğunda ne olur?",
+      "options": [
+        "Ağ daha hızlı öğrenir",
+        "Çıktılar zaman adımları boyunca üstel olarak patlar (exploding gradient problemi)",
+        "Ağ daha kararlı hale gelir",
+        "Eigenvalue'ler eğitim boyunca 1'e yakınsar"
+      ],
+      "correct": 1,
+      "explanation": "Bir matrix ile tekrarlı çarpma, eigenvalue yönlerini güçlendirir. Eigenvalue'ler > 1 üstel büyümeye (exploding gradient), eigenvalue'ler < 1 ise üstel sönüme (vanishing gradient) neden olur."
+    },
+    {
+      "stage": "post",
+      "question": "A = [[2, 1], [1, 2]] matrix'inin eigenvalue'leri 3 ve 1'dir. A = V @ D @ V^(-1) eigendecomposition'u neyi ortaya çıkarır?",
+      "options": [
+        "A'nın iki rotasyona eşdeğer olduğunu",
+        "A'nın uzayı [1,1] yönünde 3 kat gerdiğini ve [1,-1] yönünü değiştirmeden bıraktığını",
+        "A'nın tüm vektörleri 2 faktörüyle sıkıştırdığını",
+        "A'nın rank 1 olduğunu ve tüm vektörleri bir doğruya haritaladığını"
+      ],
+      "correct": 1,
+      "explanation": "Eigenvalue 3, eigenvector [1,1] ile A'nın köşegen boyunca 3 kat gerdiğini gösterir. Eigenvalue 1, eigenvector [1,-1] ile A'nın anti-köşegeni değiştirmediğini gösterir. D = {3,1}'i, V ise eigenvector'leri tutar."
+    }
+  ]
+}

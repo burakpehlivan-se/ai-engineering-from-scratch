@@ -1,0 +1,66 @@
+{
+  "lesson": "01-linear-algebra-intuition",
+  "title": "Linear Algebra Intuition",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "İki vektörün dot product'u neyi ölçer?",
+      "options": [
+        "İki vektör arasındaki mesafeyi",
+        "İki vektörün ne kadar benzer veya hizalı olduğunu",
+        "Vektörler arasındaki açıyı derece cinsinden",
+        "Vektörlerin paylaştığı boyut sayısını"
+      ],
+      "correct": 1,
+      "explanation": "Dot product hizalamayı ölçer: pozitif aynı yön (benzer), sıfır dik (ilişkisiz), negatif zıt yön (benzemez). AI'da similarity search'in temelidir."
+    },
+    {
+      "stage": "pre",
+      "question": "AI'da 'embedding' terimi neyi ifade eder?",
+      "options": [
+        "Bir modelin içine başka bir model yerleştirmek",
+        "Bir şeyin (kelime, görüntü, kullanıcı) anlamını yakalayan bir vektör gösterimi",
+        "Model ağırlıklarını sıkıştırma tekniği",
+        "Kodu makine talimatlarına dönüştürme süreci"
+      ],
+      "correct": 1,
+      "explanation": "Bir embedding, discrete nesneleri (kelimeler, görüntüler, kullanıcılar) benzer öğelerin birbirine yakın olduğu yüksek boyutlu bir uzayda continuous vektörlere eşler. Gerçek dünya kavramları ile matematiksel işlemler arasındaki köprüdür."
+    },
+    {
+      "stage": "post",
+      "question": "Üç vektör v1=[1,0,0], v2=[0,1,0], v3=[2,1,0] verilmiştir. Lineer bağımsız mıdırlar?",
+      "options": [
+        "Evet, çünkü 3D uzayda üç vektör var",
+        "Hayır, çünkü v3 = 2*v1 + v2, yani v3 diğerlerinin lineer kombinasyonudur",
+        "Evet, çünkü vektörlerin hiçbiri aynı değil",
+        "Hayır, çünkü hepsinin bir bileşeni sıfır"
+      ],
+      "correct": 1,
+      "explanation": "v3 = 2*v1 + v2, kümenin lineer bağımlı olmasına neden olur. Üç vektör de xy-düzlemindedir ve [0,0,1]'e ulaşamaz. 3D'de 3 vektör olmasına rağmen sadece 2D bir altuzayı gererler."
+    },
+    {
+      "stage": "post",
+      "question": "Bir matrix'in rank'ı size makine öğrenmesi bağlamında ne söyler?",
+      "options": [
+        "Matrix'in ne kadar hızlı çarpılabileceğini",
+        "Lineer bağımsız sütunların sayısını, yani kaç boyutlu faydalı bilgi içerdiğini",
+        "Matrix'teki maksimum değeri",
+        "Matrix'teki sıfır olmayan girdilerin sayısını"
+      ],
+      "correct": 1,
+      "explanation": "Rank, lineer bağımsız sütunların sayısına eşittir. ML'de rank-eksik bir feature matrix, gereksiz öznitelikler, sonsuz sayıda ağırlık çözümü ve regularizasyon ihtiyacı anlamına gelir."
+    },
+    {
+      "stage": "post",
+      "question": "LoRA (Low-Rank Adaptation) büyük dil modellerini ince ayarlamak için lineer cebiri nasıl kullanır?",
+      "options": [
+        "Modeli küçültmek için ağırlık matrix'lerinden kullanılmayan satırları kaldırır",
+        "Ağırlık güncellemelerini tam ağırlık matrix'ini güncellemek yerine iki küçük düşük-rank'lı matrix'e ayırır",
+        "Tüm ağırlıkları float32'den int8'e dönüştürür",
+        "Embedding katmanını dondurur ve sadece çıkış başlığını eğitir"
+      ],
+      "correct": 1,
+      "explanation": "LoRA, 4096x4096'lık bir ağırlık güncellemesini 4096x16 ve 16x4096 boyutlarında iki matrix'e (rank-16) ayırarak eğitilebilir parametreleri 16M'den 131K'ya düşürür. Güncellemelerin düşük boyutlu bir altuzayda yaşadığını varsayar."
+    }
+  ]
+}

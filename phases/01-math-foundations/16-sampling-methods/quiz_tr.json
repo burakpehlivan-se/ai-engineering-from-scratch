@@ -1,0 +1,66 @@
+{
+  "lesson": "16-sampling-methods",
+  "title": "Sampling Methods",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Sıcaklık (temperature) < 1.0, bir dil modelinin çıktı dağılımına ne yapar?",
+      "options": [
+        "Dağılımı daha tekdüze (uniform) hale getirir (daha rastgele)",
+        "Dağılımı keskinleştirir, en yüksek olasılıklı token'ı daha olası hale getirir",
+        "En yüksek olasılıklı olan dışındaki tüm token'ları kaldırır",
+        "Çıktı üzerinde hiçbir etkisi yoktur"
+      ],
+      "correct": 1,
+      "explanation": "Temperature < 1.0, logit'leri 1'den küçük bir sayıya böler, bu da logit'ler arasındaki farkları büyütür. Softmax'tan sonra en yüksek olasılıklı token daha da büyük bir pay alır. Sıcaklık 0'a yaklaştıkça açgözlü (greedy/argmax) kod çözümü elde edilir."
+    },
+    {
+      "stage": "pre",
+      "question": "Top-k ve top-p (nucleus) örneklemesi arasındaki temel fark nedir?",
+      "options": [
+        "Top-k, top-p'den daha hızlıdır",
+        "Top-k sabit sayıda token tutar; top-p kümülatif olasılığa göre değişken sayıda token tutar",
+        "Top-p yalnızca temperature = 1.0 ile çalışır",
+        "Top-k logit'ler üzerinde çalışırken top-p olasılıklar üzerinde çalışır"
+      ],
+      "correct": 1,
+      "explanation": "Top-k, olasılık dağılımından bağımsız olarak her zaman tam olarak k token tutar. Top-p ise uyarlamalı olarak, kümülatif olasılığı p'yi aşan en küçük token kümesini tutar. Model emin olduğunda top-p az token tutar; emin olmadığında çok token tutar."
+    },
+    {
+      "stage": "post",
+      "question": "Standart bir örnekleme işlemi olan z ~ N(mu, sigma^2) üzerinden neden geri yayılım (backpropagation) yapamazsınız?",
+      "options": [
+        "Normal dağılımların gradyanı yoktur",
+        "Örnekleme işlemi deterministik değildir ve mu ile sigma'ya göre iyi tanımlanmış bir türevi yoktur",
+        "PyTorch normal dağılımları desteklemez",
+        "Gradyan her zaman tam olarak sıfırdır"
+      ],
+      "correct": 1,
+      "explanation": "Örnekleme, stokastik bir süreksizlik (stochastic discontinuity) getirir — rastgele bir çekim için d(örnek)/d(mu) hesaplayamazsınız. Reparameterization trick bunu z = mu + sigma * epsilon (epsilon ~ N(0,1) olacak şekilde) yazarak çözer ve z'yi mu ve sigma'nın deterministik, türevlenebilir bir fonksiyonu haline getirir."
+    },
+    {
+      "stage": "post",
+      "question": "Metropolis-Hastings MCMC'de, öneri standart sapması çok büyük ayarlanırsa ne olur?",
+      "options": [
+        "Zincir daha büyük adımlar attığı için daha hızlı yakınsar",
+        "Çoğu öneri düşük olasılıklı bölgelere düşer ve reddedilir, bu nedenle zincir neredeyse hiç hareket etmez",
+        "Durağan dağılım (stationary distribution) tekdüze bir dağılıma dönüşür",
+        "Isınma (burn-in) süresi sıfır olur"
+      ],
+      "correct": 1,
+      "explanation": "Büyük bir öneri standart sapması ile önerilen noktalar mevcut konumdan uzaktadır ve düşük olasılıklı bölgelere düşme olasılıkları yüksektir. Bunlar reddedilir ve zincirin mevcut noktada sıkışıp kalmasına neden olur. Yüksek boyutlu Gaussian önerileri için optimal kabul oranı yaklaşık %23'tür."
+    },
+    {
+      "stage": "post",
+      "question": "Reddetmeli örneklemede (rejection sampling), hedef dağılımın boyutluluğu arttıkça kabul oranına ne olur?",
+      "options": [
+        "Boyuttan bağımsız olarak sabit kalır",
+        "Kabul edilecek daha fazla boyut olduğu için artar",
+        "Öneri hacminin çoğu reddedildiği için üstel olarak düşer",
+        "Tüm durumlarda %50'ye yaklaşır"
+      ],
+      "correct": 2,
+      "explanation": "Yüksek boyutlarda, hedef dağılımla örtüşen öneri dağılımının hacmi üstel olarak küçülür. M sınırı büyür ve kabul oranı (1/M) üstel olarak düşer. Bu, reddetmeli örnekleme için boyutluluğun lanetidir (curse of dimensionality)."
+    }
+  ]
+}

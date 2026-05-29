@@ -1,0 +1,66 @@
+{
+  "lesson": "18-convex-optimization",
+  "title": "Convex Optimization",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Bir konveks fonksiyonun tanımlayıcı özelliği nedir?",
+      "options": [
+        "Tam olarak bir kritik noktası vardır",
+        "Grafiğindeki herhangi iki nokta arasındaki doğru parçası grafiğin üzerinde veya yukarısındadır",
+        "Türevi her zaman pozitiftir",
+        "Sadece pozitif reel sayılarda tanımlanabilir"
+      ],
+      "correct": 1,
+      "explanation": "Bir fonksiyon konveksdir: herhangi iki x, y noktası ve [0,1] aralığındaki her t için: f(tx + (1-t)y) <= t*f(x) + (1-t)*f(y). Geometrik olarak, grafikteki iki nokta arasındaki kiriş asla grafiğin altına düşmez."
+    },
+    {
+      "stage": "pre",
+      "question": "Hangi ML problemi konveks bir loss landscape'e sahiptir?",
+      "options": [
+        "ReLU aktivasyonlu 3 katmanlı bir sinir ağı eğitimi",
+        "Cross-entropy loss ile lojistik regresyon",
+        "k-means kümeleme",
+        "Öneri için matris faktorizasyonu"
+      ],
+      "correct": 1,
+      "explanation": "Lojistik regresyon konveks bir loss'a sahiptir (log-loss ağırlıklarda konvekstir). Sinir ağları, k-means ve matris faktorizasyonu konveks değildir. Konveks problemlerde her yerel minimum global minimumdur."
+    },
+    {
+      "stage": "post",
+      "question": "Newton metodu f(x) = 5x^2 + 3x + 1'in minimumuna kaç adımda yakınsar?",
+      "options": [
+        "1 adım (kuadratik fonksiyonlar için tamdır)",
+        "Yaklaşık 10 adım",
+        "Yaklaşık 100 adım",
+        "Öğrenme oranına bağlıdır"
+      ],
+      "correct": 0,
+      "explanation": "Newton metodu lokal bir kuadratik yaklaşım uydurur ve minimumuna atlar. Gerçek bir kuadratik fonksiyon için yaklaşım tamdır, bu nedenle Newton metodu başlangıç noktasından bağımsız olarak tek adımda yakınsar."
+    },
+    {
+      "stage": "post",
+      "question": "KKT koşullarında 'complementary slackness' (lambda_i * g_i(x) = 0) ne anlama gelir?",
+      "options": [
+        "Tüm kısıtlar optimumda aktif olmalıdır",
+        "Ya bir kısıt aktiftir (g_i = 0) ya da çarpanı sıfırdır (lambda_i = 0) — aktif olmayan bir kısıtın etkisi yoktur",
+        "Tüm kısıtların gradyanları ortogonal olmalıdır",
+        "Lagrangian optimumda her zaman sıfırdır"
+      ],
+      "correct": 1,
+      "explanation": "Complementary slackness, her kısıtın ya bağlayıcı (g_i = 0, sınırda) ya da ilgisiz (lambda_i = 0, çözümü etkilemez) olduğu anlamına gelir. SVM'lerde bu nedenle sadece support vector'ler (lambda_i > 0 olan aktif kısıtlar) karar sınırını belirler."
+    },
+    {
+      "stage": "post",
+      "question": "Konvekslik garantileri olmamasına rağmen SGD neden konveks olmayan sinir ağı landscape'lerinde iyi çözümler bulur?",
+      "options": [
+        "Sinir ağları yüksek boyutlarda gizlice konvekstir",
+        "SGD her zaman global minimumu bulur",
+        "Yüksek boyutlarda çoğu kritik nokta saddle point'lardir (kötü lokal minimum değil) ve SGD gürültüsü bunlardan kaçmaya yardımcı olur",
+        "Loss fonksiyonu model performansıyla ilgisizdir"
+      ],
+      "correct": 2,
+      "explanation": "Yüksek boyutlu parametre uzaylarında rastgele kritik noktalar ezici çoğunlukla saddle point'tir. Var olan birkaç lokal minimumun loss değerleri global minimuma yakın olma eğilimindedir. SGD'nin stokastik gürültüsü saddle point'lerden kaçmaya yardımcı olur ve aşırı parametrizasyon landscape'i düzleştirir."
+    }
+  ]
+}

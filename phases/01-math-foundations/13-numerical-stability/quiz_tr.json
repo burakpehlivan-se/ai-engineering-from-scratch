@@ -1,0 +1,66 @@
+{
+  "lesson": "13-numerical-stability",
+  "title": "Numerical Stability",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Float32'nin temsil edebileceği sayıların yaklaşık aralığı nedir?",
+      "options": [
+        "+/- 65,504",
+        "+/- 3.4e38",
+        "+/- 1.8e308",
+        "+/- 1.0e10"
+      ],
+      "correct": 1,
+      "explanation": "Float32, 8-bit üs değerine sahiptir ve yaklaşık +/- 3.4e38 aralığı sunar. Float16, +/- 65,504 ile sınırlıyken, float64 +/- 1.8e308'e kadar ulaşır."
+    },
+    {
+      "stage": "pre",
+      "question": "Kayan noktalı (floating-point) aritmetikte neden 0.1 + 0.2, 0.3'e eşit değildir?",
+      "options": [
+        "Python tüm ondalıklı sayıları tam sayıya yuvarlar",
+        "0.1 ve 0.2, ikili (binary) kayan noktalı gösterimde tam olarak ifade edilemez",
+        "CPU'nun toplama devresinde bir hata vardır",
+        "0.3 geçerli bir kayan noktalı sayı değildir"
+      ],
+      "correct": 1,
+      "explanation": "0.1 sayısı, ikili sistemde (tıpkı 1/3'ün ondalık sistemde olduğu gibi) tekrarlayan bir kesirdir. Float32 bunu kırpar, bu nedenle saklanan değer yaklaşık 0.100000001490116'dır. Biriken hata, toplamın 0.3'ten farklı olmasına neden olur."
+    },
+    {
+      "stage": "post",
+      "question": "Kararlı (stable) softmax uygulamasında, üs almadan önce neden max(logits) değerini çıkarırsınız?",
+      "options": [
+        "Çıktı olasılıklarını daha tekdüze (uniform) hale getirir",
+        "En büyük üssün 0 olmasını sağlayarak exp() fonksiyonunun taşmasını (overflow) önler",
+        "Logits değerlerini float16'dan float32'ye dönüştürür",
+        "Logits değerlerini sıfır ortalamalı olacak şekilde normalize eder"
+      ],
+      "correct": 1,
+      "explanation": "max(logits) çıkarıldıktan sonra en büyük değer 0 olur ve exp(0) = 1 olduğu için taşma olmaz. Diğer tüm değerler negatiftir, bu nedenle üstel değerleri 1'den küçüktür. Olasılıklar, naif versiyonla matematiksel olarak aynıdır."
+    },
+    {
+      "stage": "post",
+      "question": "Merkezi sonlu farklar (centered finite differences) ile gradyan kontrolü yapılırken adım boyutu h çok küçük (örn. 1e-15) olursa ne olur?",
+      "options": [
+        "Yaklaşım daha doğru olur",
+        "f(x+h) ve f(x-h) neredeyse aynı olduğu için yıkıcı sadeleşme (catastrophic cancellation) sonucu bozar",
+        "Fonksiyon değerlendirmesi hızlanır",
+        "Gradyan otomatik olarak sıfır olur"
+      ],
+      "correct": 1,
+      "explanation": "h çok küçük olduğunda, f(x+h) ve f(x-h) yalnızca son birkaç anlamlı basamakta farklılaşır. Bunları çıkarmak öndeki basamakları sadeleştirir ve geriye çoğunlukla yuvarlama gürültüsü kalır. Tipik iyi değerler h = 1e-5 ile 1e-7 arasındadır."
+    },
+    {
+      "stage": "post",
+      "question": "Sinir ağı eğitiminde bfloat16 neden genellikle float16'ya tercih edilir?",
+      "options": [
+        "bfloat16 daha fazla mantis bitine sahiptir, bu da daha iyi hassasiyet sağlar",
+        "bfloat16, float32 ile aynı üs aralığına sahiptir, bu sayede kayıp ölçeklendirme (loss scaling) olmadan büyük aktivasyonlarda taşmayı önler",
+        "bfloat16, float16'dan daha az bellek kullanır",
+        "bfloat16, float16'dan daha fazla GPU mimarisi tarafından desteklenir"
+      ],
+      "correct": 1,
+      "explanation": "bfloat16, 8 üs bitine sahiptir (float32 ile aynı, aralık 3.4e38'e kadar) while float16 yalnızca 5 üs bitine sahiptir (maks ~65,504). Eğitim sırasında aktivasyonlar ve gradyanlar 65,504'ü aşabilir ve bu da float16 taşmasına neden olur. bfloat16 bunu kayıp ölçeklendirme olmadan yönetir."
+    }
+  ]
+}

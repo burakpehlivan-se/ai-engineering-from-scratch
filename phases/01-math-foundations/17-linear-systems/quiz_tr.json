@@ -1,0 +1,66 @@
+{
+  "lesson": "17-linear-systems",
+  "title": "Linear Systems",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Bir Ax = b sisteminin tam çözümünün olmaması geometrik olarak ne anlama gelir?",
+      "options": [
+        "A matrisinin tüm girdileri sıfırdır",
+        "b vektörü, A'nın sütun uzayında (column space) yer almaz",
+        "Sistemde denklemlerden daha fazla bilinmeyen vardır",
+        "A matrisi simetriktir"
+      ],
+      "correct": 1,
+      "explanation": "Sütun resminde, Ax = b şunu sorar: A'nın sütunlarının hangi doğrusal kombinasyonu b'yi üretir? Eğer b sütun uzayında (A sütunlarının gerdiği uzay) değilse, tam çözüm yoktur. Bu, sistem aşırı belirlenmiş (overdetermined) olduğunda olur."
+    },
+    {
+      "stage": "pre",
+      "question": "Gauss eliminasyonunda neden kısmi pivotlama (partial pivoting) kullanılır?",
+      "options": [
+        "Zaman karmaşıklığını O(n^3)'ten O(n^2)'ye düşürür",
+        "Küçük sayılara bölmeden kaynaklanan hata yayılımını en aza indirmek için mümkün olan en büyük pivotu seçer",
+        "Sonucun her zaman tam sayı olmasını sağlar",
+        "Geriye doğru yerine koyma (back substitution) ihtiyacını ortadan kaldırır"
+      ],
+      "correct": 1,
+      "explanation": "Pivotlama olmadan, küçük bir pivota bölmek yuvarlama hatalarını büyütür. Kısmi pivotlama, satırları değiştirerek en büyük mutlak değeri pivot konumuna yerleştirir, böylece çarpanları küçük tutar ve hesaplamayı sayısal olarak kararlı hale getirir."
+    },
+    {
+      "stage": "post",
+      "question": "Ridge regresyonda (X^T X + lambda I) w = X^T y'yi çözmek için LU yerine neden Cholesky ayrışımı tercih edilir?",
+      "options": [
+        "Cholesky herhangi bir matriste çalışırken LU kare matris gerektirir",
+        "X^T X + lambda I matrisi simetrik pozitif tanımlıdır, bu nedenle Cholesky LU'dan iki kat daha hızlıdır ve yarısı kadar depolama alanı gerektirir",
+        "Cholesky, LU'dan daha doğru sonuç verir",
+        "LU ayrışımı düzenlileştirme (regularization) terimlerini işleyemez"
+      ],
+      "correct": 1,
+      "explanation": "Lambda > 0 olduğunda, X^T X + lambda I her zaman simetrik pozitif tanımlıdır. Cholesky, A = LL^T'yi O(n^3/3) işlemde çarpanlarına ayırır — kabaca LU'nun O(2n^3/3)'ünün yarısı — ve yalnızca alt üçgeni gerektirir. LU'nun kullanmadığı simetriden yararlanır."
+    },
+    {
+      "stage": "post",
+      "question": "Bir matrisin kondisyon sayısı (condition number) kappa = 10^8'dir. float64 (~15 basamak hassasiyet) kullanıyorsunuz. Çözümün kaç basamağına güvenebilirsiniz?",
+      "options": [
+        "Yaklaşık 15 basamak",
+        "Yaklaşık 7 basamak (15 - log10(10^8) = 15 - 8)",
+        "Yaklaşık 8 basamak",
+        "Sıfır basamak — çözüm anlamsızdır"
+      ],
+      "correct": 1,
+      "explanation": "Yaklaşık log10(kappa) kadar basamak hassasiyet kaybedersiniz. kappa = 10^8 ile, float64'ün ~15 basamağından yaklaşık 8 basamak kaybedersiniz ve geriye yaklaşık 7 güvenilir basamak kalır. Kappa 10^16'ya yaklaşırsa, çözüm float64'te anlamsız hale gelir."
+    },
+    {
+      "stage": "post",
+      "question": "Birçok farklı b vektörü için Ax = b'yi çözmeniz gerektiğinde, LU ayrışımının Gauss eliminasyonuna göre ana avantajı nedir?",
+      "options": [
+        "LU ayrışımı sayısal olarak daha kararlıdır",
+        "O(n^3) ayrışımı bir kez yapılır; yeni bir b ile her sonraki çözüm yalnızca O(n^2) maliyetindedir",
+        "LU ayrışımı dikdörtgen matrislerde çalışır",
+        "LU her zaman benzersiz bir çözüm üretir"
+      ],
+      "correct": 1,
+      "explanation": "LU, A = LU'yu bir kez O(n^3)'te çarpanlarına ayırır. Ardından her yeni b için Ly = b (ileri yönlü yerine koyma) ve Ux = y (geri yönlü yerine koyma) çözersiniz, her biri O(n^2)'dir. Gauss eliminasyonu her yeni b için O(n^3)'ün tamamını yeniden yapardı."
+    }
+  ]
+}

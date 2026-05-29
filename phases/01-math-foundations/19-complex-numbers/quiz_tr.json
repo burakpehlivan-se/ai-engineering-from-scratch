@@ -1,0 +1,66 @@
+{
+  "lesson": "19-complex-numbers",
+  "title": "Complex Numbers",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "i sanal birimi nasıl tanımlanır?",
+      "options": [
+        "i = sqrt(2)",
+        "i^2 = -1",
+        "i = -1",
+        "i^2 = 1"
+      ],
+      "correct": 1,
+      "explanation": "Sanal birim i, i^2 = -1 özelliği ile tanımlanır. Reel sayı doğrusunu 2 boyutlu bir düzleme genişletir. Geometrik olarak, i ile çarpmak 90 derecelik bir dönüştür — iki çarpma (i^2) 180 derecelik bir dönüş verir, yani -1."
+    },
+    {
+      "stage": "pre",
+      "question": "Euler formülü e^(i*theta) neye eşittir?",
+      "options": [
+        "theta + i",
+        "cos(theta) + i*sin(theta)",
+        "sin(theta) + cos(theta)",
+        "i^theta"
+      ],
+      "correct": 1,
+      "explanation": "Euler formülü e^(i*theta) = cos(theta) + i*sin(theta) olduğunu belirtir. Bu, komplex üstelleri trigonometriye bağlar ve e^(i*theta)'nın theta değiştikçe birim çemberi izlediğini gösterir."
+    },
+    {
+      "stage": "post",
+      "question": "(3 + 2i)(1 + 4i) işleminin sonucu nedir?",
+      "options": [
+        "3 + 8i",
+        "4 + 6i",
+        "-5 + 14i",
+        "5 + 14i"
+      ],
+      "correct": 2,
+      "explanation": "FOIL kullanarak: (3)(1) + (3)(4i) + (2i)(1) + (2i)(4i) = 3 + 12i + 2i + 8i^2 = 3 + 14i + 8(-1) = 3 + 14i - 8 = -5 + 14i."
+    },
+    {
+      "stage": "post",
+      "question": "Transformer'larda Rotary Position Embedding (RoPE) neden kompleks sayıları kullanır?",
+      "options": [
+        "Kompleks sayılar pozisyon kodlamasını sıkıştırarak daha az bellek kullanır",
+        "Query/key vektörlerini kompleks rotasyonlarla çarpmak göreceli pozisyonu bir dönüş açısı olarak kodlar",
+        "Attention softmax fonksiyonu için kompleks sayılar gereklidir",
+        "RoPE negatif pozisyonları işlemek için sanal sayıları kullanır"
+      ],
+      "correct": 1,
+      "explanation": "RoPE, query ve key vektörlerini e^(i*m*theta) kompleks rotasyon matrisleriyle çarpar; burada m pozisyondur. İki token arasındaki göreceli pozisyon bir dönüş açısı haline gelir ve attention, kompleks çarpma yoluyla doğal olarak mutlak değil göreceli pozisyona duyarlı hale gelir."
+    },
+    {
+      "stage": "post",
+      "question": "N-inci birim kökler (roots of unity), birim çember üzerinde eşit aralıklı N noktadır. Toplamları nedir?",
+      "options": [
+        "N",
+        "1",
+        "0",
+        "N/2"
+      ],
+      "correct": 2,
+      "explanation": "N tane birim kök, k = 0, ..., N-1 için e^(2*pi*i*k/N)'dir. Birim çember etrafında simetrik olarak dağılmışlardır, bu nedenle vektör toplamları sıfıra gider. Bu simetri özelliği DFT'nin tersinir olmasını sağlar."
+    }
+  ]
+}
