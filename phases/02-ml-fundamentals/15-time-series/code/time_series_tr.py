@@ -1,5 +1,23 @@
-# Orijinal: https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/15-time-series/code/time_series.py
-# Bu dosya, orijinal kodun Türkçe çevrilmiş versiyonudur.
+"""
+time_series_tr.py — Time Series Fundamentals (Turkish translation)
+
+Source:
+  phases/02-ml-fundamentals/15-time-series/docs/en.md
+  (https://github.com/rohitg00/ai-engineering-from-scratch)
+
+This module implements core time series building blocks from scratch:
+  - Synthetic series generation with trend + seasonality + noise
+  - Differencing for stationarity
+  - Rolling-statistics stationarity check
+  - Autocorrelation function (ACF)
+  - Lag feature creation (time series → supervised learning)
+  - Walk-forward cross-validation splitter
+  - Simple autoregressive (AR) model via normal equations
+  - Multi-step recursive forecasting
+  - Demo functions comparing random vs walk-forward evaluation
+
+Dependencies: numpy (stdlib-first, numpy is on the allowlist)
+"""
 
 import numpy as np
 

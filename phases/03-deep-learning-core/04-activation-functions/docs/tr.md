@@ -18,7 +18,7 @@
 
 ## Sorun
 
-İki doğrusal dönüşümü üst üste koyun: y = W2(W1x + b1) + b2. Genişletin: y = W2W1x + W2b1 + b2. Bu sadece y = Ax + c'dir — tek bir doğrusal dönüşüm. Kaç tane doğrusal katman istiflerseniz istifleyin, sonuç tek bir matris çarpımına düşer. 100 katmanlı ağınızın aynı temsili güçü tek bir katmana eşittir.
+İki doğrusal dönüşümü üst üste koyun: y = W2(W1x + b1) + b2. Genişletin: y = W2W1x + W2b1 + b2. Bu sadece y = Ax + c'dir — tek bir doğrusal dönüşüm. Kaç tane doğrusal katman istiflerseniz istifleyin, sonuç tek bir matris çarpımına düşer. 100 katmanlı ağınızın temsil gücü tek bir katmana eşittir.
 
 Bu teorik bir merak değildir. Derin bir doğrusal ağın gerçekten XOR'u öğrenemeyeceği, spiral veri setini sınıflandıramayacağı, bir yüzü tanıyamayacağı anlamına gelir. Aktivasyon fonksiyonları olmadan, derinlik bir aldanmadır.
 

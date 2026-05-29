@@ -87,7 +87,7 @@ Pratikte oluşturacağınız şeylerin çoğu denetimli öğrenme kullanır. Den
 
 ### Büyük Üçünün Ötesinde
 
-Yukarıdaki üç kategori temizdir, ama gerçek dünya ML'si çizgileri genellikle bulanlaştırır.
+Yukarıdaki üç kategori temizdir, ama gerçek dünya ML'si çizgileri genellikle bulanıklaştırır.
 
 **Yarı denetimli öğrenme**, küçük bir etiketli veri kümesi ve büyük bir etiketsiz veri kümesi kullanır. 100 etiketli tıbbi görüntü ve 100.000 etiketsiz görüntünüz olabilir.
 
@@ -142,7 +142,7 @@ flowchart LR
 
 ### Eğitim, Doğrulama ve Test Bölümleri
 
-Bu, acemilerin en yanlış anladığı kavramdır. Modelinizi, eğitim sırasında hiç görmediği verilerde değerlendirmelisiniz. Aksi takdirde ezberlemeyi değil, öğrenmeyi ölçersiniz.
+Bu, acemilerin en çok yanlış anlaşılan kavramdır. Modelinizi, eğitim sırasında hiç görmediği verilerde değerlendirmelisiniz. Aksi takdirde ezberlemeyi değil, öğrenmeyi ölçersiniz.
 
 | Bölüm | Amaç | Ne zaman kullanılır | Tipik boyut |
 |-------|------|---------------------|-------------|

@@ -1,21 +1,21 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/12-hyperparameter-tuning/quiz.json", 
+[
   {
     "id": "hptune-pre-1",
     "stage": "pre",
-    "question": "What is the difference between a parameter and a hyperparameter?",
+    "question": "Parametre (parameter) ve hiperparametre (hyperparameter) arasındaki fark nedir?",
     "options": [
-      "Parameters are set by the user; hyperparameters are learned during training",
-      "Parameters are learned during training (weights, biases); hyperparameters are set before training starts (learning rate, max depth)",
-      "There is no difference; they are synonyms",
-      "Parameters apply to neural networks only; hyperparameters apply to tree models"
+      "Parametreler kullanıcı tarafından belirlenir; hiperparametreler eğitim sırasında öğrenilir",
+      "Parametreler eğitim sırasında öğrenilir (ağırlıklar, bias'lar); hiperparametreler eğitim başlamadan önce belirlenir (learning rate, max depth)",
+      "Hiçbir fark yoktur; eş anlamlıdırlar",
+      "Parametreler yalnızca sinir ağlarına, hiperparametreler yalnızca ağaç modellerine uygulanır"
     ],
     "correct": 1,
-    "explanation": "Parameters are learned by the optimization algorithm during training (e.g., weights). Hyperparameters are set before training and control how learning happens (e.g., learning rate, regularization strength)."
+    "explanation": "Parametreler optimizasyon algoritması tarafından eğitim sırasında öğrenilir (ör. ağırlıklar). Hiperparametreler eğitimden önce belirlenir ve öğrenmenin nasıl gerçekleşeceğini kontrol eder (ör. learning rate, regularizasyon şiddeti)."
   },
   {
     "id": "hptune-pre-2",
     "stage": "pre",
-    "question": "Grid search over 4 hyperparameters with 5 values each requires how many evaluations?",
+    "question": "5'er değere sahip 4 hiperparametre üzerinde grid search kaç değerlendirme gerektirir?",
     "options": [
       "20",
       "25",
@@ -23,45 +23,45 @@
       "4"
     ],
     "correct": 2,
-    "explanation": "Grid search evaluates every combination: 5^4 = 625. This exponential scaling is why grid search becomes impractical with many hyperparameters."
+    "explanation": "Grid search her kombinasyonu değerlendirir: 5^4 = 625. Bu üstel ölçeklenme, grid search'in çok sayıda hiperparametreyle pratik olmamasının nedenidir."
   },
   {
     "id": "hptune-post-1",
     "stage": "post",
-    "question": "Why does random search often outperform grid search with the same evaluation budget?",
+    "question": "Aynı değerlendirme bütçesiyle random search neden genellikle grid search'ten daha iyi performans gösterir?",
     "options": [
-      "Random search uses a better optimization algorithm",
-      "Most hyperparameters have low effective dimensionality, so random search covers the important ones more densely",
-      "Random search always finds the global optimum",
-      "Grid search cannot handle continuous hyperparameters"
+      "Random search daha iyi bir optimizasyon algoritması kullanır",
+      "Çoğu hiperparametrenin düşük efektif boyutuluğu vardır, bu nedenle random search önemli olanları daha yoğun şekilde kapsar",
+      "Random search her zaman global optimumu bulur",
+      "Grid search sürekli hiperparametreleri işleyemez"
     ],
     "correct": 1,
-    "explanation": "Usually only 1-2 hyperparameters matter for a given problem. Grid search wastes evaluations varying unimportant ones. Random search gives unique values for every parameter per trial, covering important dimensions more densely."
+    "explanation": "Genellikle belirli bir problem için yalnızca 1-2 hiperparametre önemlidir. Grid search, önemsiz parametreleri değiştirerek değerlendirmeleri boşa harcar. Random search, her denemede her parametre için benzersiz değerler vererek önemli boyutları daha yoğun şekilde kapsar."
   },
   {
     "id": "hptune-post-2",
     "stage": "post",
-    "question": "In Bayesian optimization, what does the acquisition function balance?",
+    "question": "Bayesian optimizasyonunda kazanım fonksiyonu (acquisition function) neyi dengeler?",
     "options": [
-      "Training speed and model accuracy",
-      "Exploitation (searching near known good points) and exploration (searching uncertain regions)",
-      "The number of features and the number of samples",
-      "Bias and variance in the surrogate model"
+      "Eğitim hızı ve model doğruluğunu",
+      "Sömürüyü (exploitation - bilinen iyi noktaların yakınında arama) ve keşfi (exploration - belirsiz bölgelerde arama)",
+      "Özellik sayısı ve örnek sayısını",
+      "Vekil modeldeki bias ve variance'ı"
     ],
     "correct": 1,
-    "explanation": "The acquisition function decides where to evaluate next by balancing exploitation (near known good results) and exploration (where the surrogate model is uncertain). This directs search more efficiently than random."
+    "explanation": "Kazanım fonksiyonu, sömürü (bilinen iyi sonuçların yakınında) ve keşfi (vekil modelin belirsiz olduğu yerlerde) dengeleyerek bir sonraki noktanın nerede değerlendirileceğine karar verir. Bu, aramayı random'dan daha verimli yönlendirir."
   },
   {
     "id": "hptune-post-3",
     "stage": "post",
-    "question": "You tune hyperparameters using the test set and report the best test performance. What is wrong with this approach?",
+    "question": "Test setini kullanarak hiperparametre ayarlıyor ve en iyi test performansını raporluyorsunuz. Bu yaklaşımda ne yanlıştır?",
     "options": [
-      "Nothing -- this is standard practice",
-      "You overfitted to the test set; the reported performance is optimistic and will not generalize",
-      "The test set should be used for training, not tuning",
-      "Hyperparameters should only be integers"
+      "Hiçbir şey -- bu standart uygulamadır",
+      "Test setine overfit yaptınız; raporlanan performans iyimserdir ve genelleme yapmayacaktır",
+      "Test seti eğitim için kullanılmalıdır, ayar için değil",
+      "Hiperparametreler yalnızca tam sayı olmalıdır"
     ],
     "correct": 1,
-    "explanation": "Tuning on the test set means you selected hyperparameters that happen to perform well on those specific samples. This is overfitting to the test set. Use a validation set for tuning and reserve the test set for final evaluation."
+    "explanation": "Test setinde ayar yapmak, yalnızca belirli örneklerde iyi performans gösteren hiperparametreleri seçtiğiniz anlamına gelir. Bu, test setine overfitting'dir. Ayar için bir validasyon seti kullanın ve test setini nihai değerlendirme için ayırın."
   }
 ]

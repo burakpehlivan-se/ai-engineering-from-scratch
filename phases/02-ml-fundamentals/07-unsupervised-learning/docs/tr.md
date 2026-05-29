@@ -46,7 +46,7 @@ Lloyd algoritması:
 
 **Dirsek yöntemi:** K = 1, 2, 3, ..., n için K-Means çalıştırın. İnertia vs K grafiğini çizin. Daha fazla küme ekleme artık inertiayı önemli ölçüde azaltmayı bıraktığı "dirseği" arayın.
 
-**Silüet puanı:** Her nokta için, kendi kümesine (a) ve en yakın diğer kümeye (b) ne kadar benzer olduğunu ölçün. Silüet katsayısı (b - a) / max(a, b) şeklindedir, -1'den (yanlış küme) +1'e (iyi kümelendirilmiş) kadar değişir.
+**Silüet puanı:** Her nokta için, kendi kümesine (a) ve en yakın diğer kümeye (b) ne kadar benzer olduğunu ölçün. Silüet katsayısı (b - a) / max(a, b) şeklindedir, -1'den (yanlış küme) +1'e (iyi kümelenmiş) kadar değişir.
 
 ### DBSCAN: Yoğunluk Tabanlı Kümeleme
 

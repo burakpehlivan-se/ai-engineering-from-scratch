@@ -22,7 +22,7 @@ Bir veri setiniz var. Yeni bir veri noktası geliyor. Onu sınıflandırmanız v
 
 Bu K-en yakın komştur. Eğitim aşaması yok. Öğrenecek parametre yok. Asgari yapılacak kayıp fonksiyonu yok. Tüm eğitim setini depolar ve tahmin zamanında mesafeleri hesaplarsınız.
 
-Çok basit görünüyor. Ama KNN birçok sorun için şaşırtıcı kadar rekabetçidir, özellikle küçük ve orta boy veri setlerinde.
+Çok basit görünüyor. Ama KNN birçok sorun için şaşırtıcı derecede rekabetçidir, özellikle küçük ve orta boy veri setlerinde.
 
 ## Kavram
 

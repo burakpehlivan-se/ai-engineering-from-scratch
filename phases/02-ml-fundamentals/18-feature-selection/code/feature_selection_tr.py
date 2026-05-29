@@ -1,5 +1,6 @@
-# Orijinal: https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/18-feature-selection/code/feature_selection.py
-# Bu dosya, orijinal kodun Türkçe çevrilmiş versiyonudur.
+# Orijinal: source/phases/02-ml-fundamentals/18-feature-selection/code/feature_selection.py
+# Bu dosya, orijinal kodun Türkçe başlıkla kopyasıdır.
+# Feature Selection (Özellik Seçimi) dersi için sıfırdan implementasyonlar.
 
 import numpy as np
 
@@ -152,20 +153,52 @@ def best_split(X, y, feature_idx):
     values = np.unique(X[:, feature_idx])
     if len(values) <= 1:
         return None, -1.0
-    best_threshold, best_gain = None, -1.0
+
+    best_threshold = None
+    best_gain = -1.0
     parent_gini = gini_impurity(y)
     n = len(y)
-    step = max(1, (len(values) - 1) // min(20, len(values) - 1))
-    for i in range(0, len(values) - 1, step):
+
+    for i in range(len(values) - 1):
         threshold = (values[i] + values[i + 1]) / 2.0
         left_mask = X[:, feature_idx] <= threshold
-        n_left, n_right = np.sum(left_mask), n - np.sum(left_mask)
+        right_mask = ~left_mask
+
+        n_left = np.sum(left_mask)
+        n_right = np.sum(right_mask)
+
         if n_left == 0 or n_right == 0:
             continue
-        gain = parent_gini - (n_left / n) * gini_impurity(y[left_mask]) - (n_right / n) * gini_impurity(y[~left_mask])
+
+        gain = parent_gini - (n_left / n) * gini_impurity(y[left_mask]) - (n_right / n) * gini_impurity(y[right_mask])
+
         if gain > best_gain:
-            best_gain, best_threshold = gain, threshold
+            best_gain = gain
+            best_threshold = threshold
+
     return best_threshold, best_gain
+
+
+def tree_importance(X, y, n_trees=50, max_depth=5, seed=42):
+    rng = np.random.RandomState(seed)
+    n_samples, n_features = X.shape
+    importances = np.zeros(n_features)
+
+    for _ in range(n_trees):
+        sample_idx = rng.choice(n_samples, size=n_samples, replace=True)
+        feature_subset = rng.choice(n_features, size=max(1, int(np.sqrt(n_features))), replace=False)
+
+        X_boot = X[sample_idx]
+        y_boot = y[sample_idx]
+
+        tree_imp = _build_tree_importance(X_boot, y_boot, feature_subset, max_depth)
+        importances += tree_imp
+
+    total = importances.sum()
+    if total > 0:
+        importances /= total
+
+    return importances
 
 
 def _build_tree_importance(X, y, feature_subset, max_depth, depth=0):
@@ -200,58 +233,6 @@ def _build_tree_importance(X, y, feature_subset, max_depth, depth=0):
     return importances
 
 
-def tree_importance(X, y, n_trees=50, max_depth=5, seed=42):
-    rng = np.random.RandomState(seed)
-    n_samples, n_features = X.shape
-    importances = np.zeros(n_features)
-
-    for _ in range(n_trees):
-        sample_idx = rng.choice(n_samples, size=n_samples, replace=True)
-        n_subset = max(1, int(np.sqrt(n_features)))
-        feature_subset = rng.choice(n_features, size=n_subset, replace=False)
-
-        X_boot = X[sample_idx]
-        y_boot = y[sample_idx]
-
-        tree_imp = _build_tree_importance(X_boot, y_boot, feature_subset, max_depth)
-        importances += tree_imp
-
-    total = importances.sum()
-    if total > 0:
-        importances /= total
-
-    return importances
-
-
-def evaluate_accuracy(X, y, selected_mask, lr=0.1, epochs=200):
-    X_selected = X[:, selected_mask]
-    n = len(y)
-    split = int(0.8 * n)
-
-    X_train, X_test = X_selected[:split], X_selected[split:]
-    y_train, y_test = y[:split], y[split:]
-
-    w, b = simple_logistic_importance(X_train, y_train, lr, epochs)
-    z = X_test @ w + b
-    preds = (1.0 / (1.0 + np.exp(-np.clip(z, -500, 500))) >= 0.5).astype(int)
-    return np.mean(preds == y_test)
-
-
-def feature_group(name):
-    if "noise" in name:
-        return "NOISE"
-    if "corr" in name:
-        return "CORR"
-    return "INFO"
-
-
-def print_feature_scores(names, scores, label, top_k=None):
-    ranked = sorted(enumerate(scores), key=lambda x: x[1], reverse=True)
-    print(f"\n  {label}:")
-    for i, (idx, s) in enumerate(ranked[:top_k or len(ranked)]):
-        print(f"    {i+1:>2}. {names[idx]:<12} {s:>8.4f} [{feature_group(names[idx])}]")
-
-
 if __name__ == "__main__":
     print("=" * 60)
     print("FEATURE SELECTION METHODS")
@@ -262,95 +243,32 @@ if __name__ == "__main__":
     print(f"Feature groups: 5 informative, 5 correlated, 10 noise")
     print(f"Target: binary classification (y=1: {np.sum(y)}, y=0: {np.sum(y==0)})")
 
-    n = len(y)
-    split = int(0.8 * n)
-    X_train, X_test = X[:split], X[split:]
-    y_train, y_test = y[:split], y[split:]
+    print("\n--- Variance Threshold ---")
+    var_mask, variances = variance_threshold(X, threshold=0.01)
+    print(f"Features above threshold: {np.sum(var_mask)} / {len(var_mask)}")
 
-    mean = X_train.mean(axis=0)
-    std = X_train.std(axis=0)
-    std[std == 0] = 1.0
-    X_scaled_train = (X_train - mean) / std
-    X_scaled_test = (X_test - mean) / std
-    X_scaled = np.vstack([X_scaled_train, X_scaled_test])
+    print("\n--- Mutual Information ---")
+    mi_scores = mutual_information(X, y, n_bins=10)
+    ranked = sorted(zip(feature_names, mi_scores), key=lambda x: x[1], reverse=True)
+    for name, score in ranked:
+        print(f"  {name}: {score:.4f}")
 
-    print("\n" + "-" * 60)
-    print("1. VARIANCE THRESHOLD")
-    print("-" * 60)
-    var_mask, variances = variance_threshold(X_train, threshold=0.01)
-    print(f"  Threshold: 0.01, surviving: {np.sum(var_mask)} / {len(var_mask)}")
-    print_feature_scores(feature_names, variances, "Variances", top_k=10)
+    print("\n--- Recursive Feature Elimination (RFE) ---")
+    rfe_mask, rfe_rankings = rfe(X, y, n_features_to_select=5, lr=0.1, epochs=200)
+    selected = [f for i, f in enumerate(feature_names) if rfe_mask[i]]
+    print(f"Selected: {selected}")
 
-    print("\n" + "-" * 60)
-    print("2. MUTUAL INFORMATION")
-    print("-" * 60)
-    mi_scores = mutual_information(X_train, y_train, n_bins=10)
-    print_feature_scores(feature_names, mi_scores, "MI scores (top 10)", top_k=10)
-    mi_selected = np.zeros(len(feature_names), dtype=bool)
-    mi_selected[np.argsort(mi_scores)[-5:]] = True
+    print("\n--- L1 (Lasso) Feature Selection ---")
+    l1_mask, l1_weights = l1_feature_selection(X, y, alpha=0.05, lr=0.01, epochs=1000)
+    nonzero = np.sum(l1_mask)
+    selected_l1 = [f for i, f in enumerate(feature_names) if l1_mask[i]]
+    print(f"Nonzero weights: {nonzero}")
+    print(f"Selected: {selected_l1}")
 
-    print("\n" + "-" * 60)
-    print("3. RECURSIVE FEATURE ELIMINATION (RFE)")
-    print("-" * 60)
-    rfe_mask, rfe_rankings = rfe(X_scaled_train, y_train, n_features_to_select=5, lr=0.1, epochs=200)
-    print(f"  Selected: {[feature_names[i] for i in range(len(feature_names)) if rfe_mask[i]]}")
-    for idx, rank in sorted(enumerate(rfe_rankings), key=lambda x: x[1]):
-        print(f"    Rank {rank:>2}: {feature_names[idx]:<12} [{feature_group(feature_names[idx])}]")
-
-    print("\n" + "-" * 60)
-    print("4. L1 (LASSO) FEATURE SELECTION")
-    print("-" * 60)
-    l1_mask, l1_weights = l1_feature_selection(X_scaled_train, y_train, alpha=0.05, lr=0.01, epochs=1000)
-    print(f"  Nonzero weights: {np.sum(l1_mask)}")
-    print(f"  Selected: {[feature_names[i] for i in range(len(feature_names)) if l1_mask[i]]}")
-    print_feature_scores(feature_names, np.abs(l1_weights), "|Weights| (top 10)", top_k=10)
-
-    print("\n" + "-" * 60)
-    print("5. TREE-BASED IMPORTANCE")
-    print("-" * 60)
-    tree_imp = tree_importance(X_train, y_train, n_trees=100, max_depth=6, seed=42)
-    print_feature_scores(feature_names, tree_imp, "Importance (top 10)", top_k=10)
-    tree_selected = np.zeros(len(feature_names), dtype=bool)
-    tree_selected[np.argsort(tree_imp)[-5:]] = True
-
-    print("\n" + "=" * 60)
-    print("METHOD AGREEMENT")
-    print("=" * 60)
-    all_masks = {"MI": mi_selected, "RFE": rfe_mask, "L1": l1_mask, "Tree": tree_selected}
-    header = f"  {'Feature':<12}" + "".join(f" {n:>6}" for n in all_masks) + f" {'Total':>6}"
-    print(f"\n{header}")
-    print(f"  {'-'*12}" + " ------" * (len(all_masks) + 1))
-    for i, fname in enumerate(feature_names):
-        row = f"  {fname:<12}"
-        count = sum(1 for m in all_masks.values() if m[i])
-        for mask in all_masks.values():
-            row += f" {'YES':>6}" if mask[i] else f" {'---':>6}"
-        print(f"{row} {count:>6}")
-
-    print("\n" + "=" * 60)
-    print("ACCURACY COMPARISON")
-    print("=" * 60)
-
-    all_features_mask = np.ones(len(feature_names), dtype=bool)
-    info_only_mask = np.array([i < 5 for i in range(len(feature_names))])
-
-    experiments = [
-        ("All 20 features", all_features_mask),
-        ("Info only (5)", info_only_mask),
-        ("MI top-5", mi_selected),
-        ("RFE top-5", rfe_mask),
-        ("L1 selected", l1_mask),
-        ("Tree top-5", tree_selected),
-    ]
-
-    print(f"\n  {'Method':<20} {'Features':>10} {'Accuracy':>10}")
-    print(f"  {'-'*20} {'-'*10} {'-'*10}")
-
-    for name, mask in experiments:
-        if np.sum(mask) == 0:
-            print(f"  {name:<20} {int(np.sum(mask)):>10} {'N/A':>10}")
-            continue
-        acc = evaluate_accuracy(X_scaled, y, mask, lr=0.1, epochs=300)
-        print(f"  {name:<20} {int(np.sum(mask)):>10} {acc:>10.4f}")
+    print("\n--- Tree-based Importance ---")
+    tree_imp = tree_importance(X, y, n_trees=100, max_depth=6, seed=42)
+    ranked_tree = sorted(zip(feature_names, tree_imp), key=lambda x: x[1], reverse=True)
+    for name, score in ranked_tree:
+        print(f"  {name}: {score:.4f}")
 
     print("\nDone.")

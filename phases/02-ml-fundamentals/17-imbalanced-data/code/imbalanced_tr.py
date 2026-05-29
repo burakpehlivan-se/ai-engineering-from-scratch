@@ -1,5 +1,7 @@
-# Orijinal: https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/17-imbalanced-data/code/imbalanced.py
-# Bu dosya, orijinal kodun Türkçe çevrilmiş versiyonudur.
+# Orijinal kod: phases/02-ml-fundamentals/17-imbalanced-data/docs/en.md
+# Kaynak: https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/17-imbalanced-data/code/imbalanced.py
+# Bu dosya, Dengesiz Verilerle Başa Çıkma (Handling Imbalanced Data) dersinin
+# Türkçe çeviri reposu için oluşturulmuştur. Kod blokları orijinal İngilizcedir.
 
 import numpy as np
 

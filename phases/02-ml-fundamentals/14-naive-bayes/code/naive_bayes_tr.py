@@ -1,5 +1,6 @@
 # Orijinal: https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/14-naive-bayes/code/naive_bayes.py
-# Bu dosya, orijinal kodun Türkçe çevrilmiş versiyonudur.
+# Türkçe çeviri: phases/02-ml-fundamentals/14-naive-bayes/docs/tr.md
+# Bu dosya, Naive Bayes dersindeki sıfırdan uygulamaları içerir.
 
 import numpy as np
 

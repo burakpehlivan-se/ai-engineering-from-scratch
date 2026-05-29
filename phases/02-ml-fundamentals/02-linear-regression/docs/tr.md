@@ -6,7 +6,7 @@
 
 **Tür:** Uygulama
 **Diller:** Python
-**Ön Koşullar:** Faz 1 (Doğrusal Cebir, Calculas, Optimizasyon), Faz 2 Ders 1
+**Ön Koşullar:** Faz 1 (Doğrusal Cebir, Calculus, Optimizasyon), Faz 2 Ders 1
 **Süre:** ~90 dakika
 
 ## Öğrenme Hedefleri

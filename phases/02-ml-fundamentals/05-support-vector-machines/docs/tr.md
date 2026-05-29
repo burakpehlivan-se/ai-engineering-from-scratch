@@ -13,7 +13,7 @@
 
 - Sıfırdan bir doğrusal SVM uygulayın (hinge kaybı ve primal formülasyonda gradyan inişi ile)
 - Maksimum marj ilkesini açıklayın ve eğitilmiş bir modelden destek vektörlerini belirleyin
-- Doğrusal, polinomyal ve RBF çekirdeklerini karşılaştırın ve çekirdek hilesinin yüksek boyutlu eşlemeyi nasıl önlediğini açıklayın
+- Doğrusal, polynomial ve RBF çekirdeklerini karşılaştırın ve çekirdek hilesinin yüksek boyutlu eşlemeyi nasıl önlediğini açıklayın
 - Marj genişliği ile sınıflandırma hataları arasındaki C parametresiyle kontrol edilen takası değerlendirin
 
 ## Sorun
@@ -56,7 +56,7 @@ Doğrusal SVM sadece doğrusal olarak ayrılabilir verilerle çalışır. Ama ç
 
 Yaygın çekirdekler:
 - **Doğrusal:** K(x, z) = x^T z — orijinal uzayda çalışır
-- **Polinomyal:** K(x, z) = (x^T z + c)^d — polinom özellikler ekler
+- **Polynomial:** K(x, z) = (x^T z + c)^d — polinom özellikler ekler
 - **RBF (Gauss):** K(x, z) = exp(-γ||x-z||²) — sonsuz boyutlu uzaya eşler
 
 ## Alıştırmalar

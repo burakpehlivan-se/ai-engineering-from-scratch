@@ -14,7 +14,7 @@
 - En iyi karar ağacı bölümlerini bulmak için Gini saflığını, entropiyi ve bilgi kazancı hesaplamalarını uygulayın
 - Önceden budama denetimleri (maks derinlik, minimum örnek) ile sıfırdan bir karar ağacı sınıflandırıcısı oluşturun
 - Bootstrap örnekleme ve özellik rastgeleliği kullanarak bir rastgele orman oluşturun ve neden varyansı azalttığını açıklayın
-- MDI özellik önemini permütasyon önemıyla karşılaştırın ve MDI'nin ne zaman taraflı olduğunu belirleyin
+- MDI özellik önemini permütasyon önemiyle karşılaştırın ve MDI'nin ne zaman taraflı olduğunu belirleyin
 
 ## Sorun
 
@@ -22,7 +22,7 @@ Tablo veriniz var. Satırlar örneklerdir, sütunlar özelliklerdir ve tahmin et
 
 Neden? Ağaçlar, ön işleme olmadan karışık özellik türlerini (sayısal ve kategorik) ele alır. Özellik mühendisliği olmadan doğrusal olmayan ilişkileri ele alır. Yorumlanabilirler: ağaca bakıp bir tahminin neden yapıldığını tam olarak görebilirsiniz. Ve orta boy veri setlerinde aşırı uyuma karşı son derece dayanıklı olan rastgele ormanlar, birçok ağacın ortalamasını alır.
 
-Bu ders, karar ağaçlarını özyinelemeli bölme kullanarak sıfırdan oluşturur, sonra üzerine bir rastgele orman inşa eder. Bölme kriterlerinin (Gini saflığı, entropi, bilgi kazancı) arkasındaki matematiği uygulayacaksınız ve zayıf öğreniciler topluluğunun neden güçlü bir aprenden dönüştüğünü anlayacaksınız.
+Bu ders, karar ağaçlarını özyinelemeli bölme kullanarak sıfırdan oluşturur, sonra üzerine bir rastgele orman inşa eder. Bölme kriterlerinin (Gini saflığı, entropi, bilgi kazancı) arkasındaki matematiği uygulayacaksınız ve zayıf öğreniciler topluluğunun neden güçlü bir öğreniciye dönüştüğünü anlayacaksınız.
 
 ## Kavram
 

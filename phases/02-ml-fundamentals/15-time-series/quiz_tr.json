@@ -1,67 +1,72 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/15-time-series/quiz.json", 
-  {
-    "id": "timeseries-pre-1",
-    "stage": "pre",
-    "question": "Why is a random train/test split invalid for time series data?",
-    "options": [
-      "Random splits make the dataset too small",
-      "Random splits leak future information into the training set, allowing the model to cheat",
-      "Time series data cannot be split at all",
-      "Random splits only work for classification problems"
-    ],
-    "correct": 1,
-    "explanation": "In a random split, future data points can end up in the training set while past points are in the test set. The model then uses future information to predict the past, giving falsely optimistic results."
-  },
-  {
-    "id": "timeseries-pre-2",
-    "stage": "pre",
-    "question": "What does it mean for a time series to be stationary?",
-    "options": [
-      "The values never change over time",
-      "Its statistical properties (mean, variance, autocorrelation) do not change over time",
-      "It has no seasonal patterns",
-      "It always trends upward"
-    ],
-    "correct": 1,
-    "explanation": "A stationary series has constant mean, variance, and autocorrelation structure over time. Most forecasting methods assume stationarity. Non-stationary series need differencing or detrending first."
-  },
-  {
-    "id": "timeseries-post-1",
-    "stage": "post",
-    "question": "What is the purpose of differencing a time series?",
-    "options": [
-      "To increase the number of data points",
-      "To remove trend and make the series stationary by modeling changes between consecutive values",
-      "To convert regression into classification",
-      "To normalize the values between 0 and 1"
-    ],
-    "correct": 1,
-    "explanation": "Differencing replaces each value with the change from the previous value: diff[t] = value[t] - value[t-1]. This removes trend, making the series closer to stationary."
-  },
-  {
-    "id": "timeseries-post-2",
-    "stage": "post",
-    "question": "Lag features convert a time series into a supervised learning problem. What is a lag-3 feature for predicting y[t]?",
-    "options": [
-      "The average of the next 3 values: (y[t+1] + y[t+2] + y[t+3]) / 3",
-      "The value 3 time steps ago: y[t-3]",
-      "The 3rd derivative of the series",
-      "The difference between the current value and 3 steps ahead"
-    ],
-    "correct": 1,
-    "explanation": "A lag-3 feature is y[t-3]: the value 3 time steps in the past. Using past values as input features lets standard ML models (regression, trees) make time series predictions without specialized algorithms."
-  },
-  {
-    "id": "timeseries-post-3",
-    "stage": "post",
-    "question": "Walk-forward validation splits time data into expanding or sliding windows. Why is this better than K-fold CV for time series?",
-    "options": [
-      "Walk-forward is faster to compute",
-      "Walk-forward respects temporal order, training only on past data and testing on future data, preventing lookahead bias",
-      "K-fold CV cannot be used on numeric data",
-      "Walk-forward uses more data for training"
-    ],
-    "correct": 1,
-    "explanation": "Walk-forward validation always trains on past data and tests on future data, mimicking real-world deployment. K-fold CV shuffles data, potentially training on future to predict past (temporal leakage)."
-  }
-]
+{
+  "source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/15-time-series/quiz.json",
+  "lesson": "15-time-series",
+  "title": "Time Series Fundamentals",
+  "questions": [
+    {
+      "id": "timeseries-pre-1",
+      "stage": "pre",
+      "question": "Zaman serisi verilerinde neden rastgele train/test bölmesi geçersizdir?",
+      "options": [
+        "Rastgele bölmeler veri setini çok küçük yapar",
+        "Rastgele bölmeler gelecek bilgisini eğitim setine sızdırarak modelin hile yapmasına izin verir",
+        "Zaman serisi verileri hiçbir şekilde bölünemez",
+        "Rastgele bölmeler yalnızca sınıflandırma problemlerinde çalışır"
+      ],
+      "correct": 1,
+      "explanation": "Rastgele bir bölmede, gelecekteki veri noktaları eğitim setine düşerken geçmişteki noktalar test setinde kalabilir. Model daha sonra geçmişi tahmin etmek için gelecek bilgisini kullanır ve yanlış bir şekilde iyimser sonuçlar verir."
+    },
+    {
+      "id": "timeseries-pre-2",
+      "stage": "pre",
+      "question": "Bir zaman serisinin stationarity olması ne anlama gelir?",
+      "options": [
+        "Değerler zamanla asla değişmez",
+        "İstatistiksel özellikleri (ortalama, varyans, autocorrelation) zamanla değişmez",
+        "Hiçbir mevsimsel örüntüsü yoktur",
+        "Her zaman yukarı yönlü trend gösterir"
+      ],
+      "correct": 1,
+      "explanation": "Stationary bir seri, zaman içinde sabit ortalama, varyans ve autocorrelation yapısına sahiptir. Çoğu tahminleme yöntemi stationarity varsayar. Non-stationary serilerin önce fark alma veya trendden arındırma işlemine tabi tutulması gerekir."
+    },
+    {
+      "id": "timeseries-post-1",
+      "stage": "post",
+      "question": "Bir zaman serisinde fark alma (differencing) işleminin amacı nedir?",
+      "options": [
+        "Veri noktalarının sayısını artırmak",
+        "Trendi kaldırmak ve ardışık değerler arasındaki değişimleri modelleyerek seriyi stationary hale getirmek",
+        "Regresyonu sınıflandırmaya dönüştürmek",
+        "Değerleri 0 ile 1 arasında normalize etmek"
+      ],
+      "correct": 1,
+      "explanation": "Fark alma, her değeri bir önceki değerden değişimle değiştirir: diff[t] = value[t] - value[t-1]. Bu, trendi kaldırarak seriyi stationarity'a yaklaştırır."
+    },
+    {
+      "id": "timeseries-post-2",
+      "stage": "post",
+      "question": "Lag öznitelikleri bir zaman serisini gözetimli öğrenme problemine dönüştürür. y[t]'yi tahmin etmek için bir lag-3 özniteliği nedir?",
+      "options": [
+        "Sonraki 3 değerin ortalaması: (y[t+1] + y[t+2] + y[t+3]) / 3",
+        "3 zaman adımı önceki değer: y[t-3]",
+        "Serinin 3. türevi",
+        "Mevcut değer ile 3 adım sonrası arasındaki fark"
+      ],
+      "correct": 1,
+      "explanation": "Lag-3 özniteliği y[t-3]'tür: geçmişteki 3 zaman adımı önceki değer. Geçmiş değerleri girdi özniteliği olarak kullanmak, standart ML modellerinin (regresyon, ağaçlar) özel algoritmalar gerektirmeden zaman serisi tahminleri yapmasını sağlar."
+    },
+    {
+      "id": "timeseries-post-3",
+      "stage": "post",
+      "question": "Walk-forward validation, zaman verisini genişleyen veya kayan pencerelere böler. Bu neden K-fold CV'den zaman serileri için daha iyidir?",
+      "options": [
+        "Walk-forward hesaplaması daha hızlıdır",
+        "Walk-forward zamansal sıraya saygı duyar, yalnızca geçmiş verilerle eğitir ve gelecek verilerle test eder, ileri bakış yanlılığını önler",
+        "K-fold CV sayısal verilerde kullanılamaz",
+        "Walk-forward eğitim için daha fazla veri kullanır"
+      ],
+      "correct": 1,
+      "explanation": "Walk-forward validation her zaman geçmiş verilerle eğitir ve gelecek verilerle test eder, gerçek dünya dağıtımını taklit eder. K-fold CV verileri karıştırarak potansiyel olarak gelecekteki verilerle geçmişi tahmin etmek için eğitim yapabilir (zamansal sızıntı)."
+    }
+  ]
+}

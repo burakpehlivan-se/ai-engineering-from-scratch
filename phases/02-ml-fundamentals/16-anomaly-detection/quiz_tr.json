@@ -1,67 +1,67 @@
-{"source": "https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/02-ml-fundamentals/16-anomaly-detection/quiz.json", 
+[
   {
     "id": "anomaly-pre-1",
     "stage": "pre",
-    "question": "Why is anomaly detection typically framed as an unsupervised problem rather than classification?",
+    "question": "Anomali tespiti neden tipik olarak sınıflandırma yerine denetimsiz bir problem olarak çerçevelenir?",
     "options": [
-      "Anomaly detection does not require any data",
-      "Labeled anomalies are extremely rare, and novel anomaly types differ from previously seen ones",
-      "Supervised classification is always less accurate",
-      "Anomaly detection only works on time series data"
+      "Anomali tespiti herhangi bir veri gerektirmez",
+      "Etiketlenmiş anomaliler son derece nadirdir ve yeni anomali türleri daha önce görülenlerden farklıdır",
+      "Denetimli sınıflandırma her zaman daha az doğrudur",
+      "Anomali tespiti yalnızca zaman serisi verilerinde çalışır"
     ],
     "correct": 1,
-    "explanation": "Anomalies are rare (often <0.1% of data), so there are too few labeled examples to train a classifier. Also, future anomalies may be of types never seen before. Modeling 'normal' and flagging deviations handles both problems."
+    "explanation": "Anomaliler nadirdir (genellikle verinin <%0,1'i), bu nedenle bir sınıflandırıcı eğitmek için çok az etiketli örnek vardır. Ayrıca, gelecekteki anomaliler daha önce hiç görülmemiş türlerde olabilir. 'Normal'i modellemek ve sapmaları işaretlemek her iki sorunu da çözer."
   },
   {
     "id": "anomaly-pre-2",
     "stage": "pre",
-    "question": "A temperature of 90F is normal in summer but anomalous in winter. What type of anomaly is this?",
+    "question": "90°F sıcaklık yazın normal ancak kışın anormaldir. Bu ne tür bir anomalidir?",
     "options": [
-      "Point anomaly",
-      "Contextual anomaly",
-      "Collective anomaly",
-      "Statistical anomaly"
+      "Noktasal anomali (Point anomaly)",
+      "Bağlamsal anomali (Contextual anomaly)",
+      "Kolektif anomali (Collective anomaly)",
+      "İstatistiksel anomali"
     ],
     "correct": 1,
-    "explanation": "A contextual anomaly is a value that is unusual given its context (time, location). The value itself might be normal in a different context. Same data point, different interpretation based on surrounding conditions."
+    "explanation": "Bağlamsal anomali, bağlamına (zaman, konum) göre olağandışı olan bir değerdir. Değerin kendisi farklı bir bağlamda normal olabilir. Aynı veri noktası, çevre koşullarına bağlı olarak farklı yorumlanır."
   },
   {
     "id": "anomaly-post-1",
     "stage": "post",
-    "question": "The Z-score method flags points more than 3 standard deviations from the mean. When does this approach fail?",
+    "question": "Z-score yöntemi, ortalamadan 3 standart sapmadan fazla olan noktaları işaretler. Bu yaklaşım ne zaman başarısız olur?",
     "options": [
-      "When the data is perfectly normally distributed",
-      "When the data is multimodal, skewed, or when outliers in the training data inflate the mean and std",
-      "When there are exactly 3 anomalies in the dataset",
-      "When the features are standardized"
+      "Veri mükemmel bir normal dağılıma sahip olduğunda",
+      "Veri çok modlu (multimodal), çarpık (skewed) olduğunda veya eğitim verisindeki aykırı değerler (outliers) ortalama ve standart sapmayı şişirdiğinde",
+      "Veri kümesinde tam olarak 3 anomali olduğunda",
+      "Öznitelikler standartlaştırıldığında"
     ],
     "correct": 1,
-    "explanation": "Z-score assumes a single Gaussian distribution. It fails on multimodal data (multiple clusters), skewed distributions, and when outliers in training data shift the mean/std, making real anomalies harder to detect."
+    "explanation": "Z-score tek bir Gauss dağılımı varsayar. Çok modlu veride (birden çok küme), çarpık dağılımlarda ve eğitim verisindeki aykırı değerlerin ortalama/standart sapmayı kaydırarak gerçek anomalilerin tespitini zorlaştırdığı durumlarda başarısız olur."
   },
   {
     "id": "anomaly-post-2",
     "stage": "post",
-    "question": "How does Isolation Forest detect anomalies differently from distance-based methods?",
+    "question": "Isolation Forest, anomalileri mesafe tabanlı yöntemlerden nasıl farklı tespit eder?",
     "options": [
-      "It uses neural networks instead of trees",
-      "It isolates points using random splits; anomalies require fewer splits to isolate because they are few and different",
-      "It computes distances to every other point in the dataset",
-      "It only works on text data"
+      "Ağaçlar yerine sinir ağları kullanır",
+      "Noktaları rastgele bölmeler (random splits) kullanarak izole eder; anomaliler az ve farklı oldukları için izole edilmeleri daha az bölme gerektirir",
+      "Veri kümesindeki her noktaya olan mesafeyi hesaplar",
+      "Yalnızca metin verisinde çalışır"
     ],
     "correct": 1,
-    "explanation": "Isolation Forest randomly partitions data with tree splits. Anomalies, being rare and different, end up isolated (in their own leaf) with fewer splits. Short average path length = more anomalous."
+    "explanation": "Isolation Forest, veriyi ağaç bölmeleriyle rastgele böler. Nadir ve farklı olan anomaliler, daha az bölmeyle izole edilir (kendi yapraklarında). Kısa ortalama yol uzunluğu = daha anormal."
   },
   {
     "id": "anomaly-post-3",
     "stage": "post",
-    "question": "You build both an unsupervised anomaly detector and a supervised fraud classifier. When should you prefer the unsupervised approach?",
+    "question": "Hem denetimsiz bir anomali tespit edicisi hem de denetimli bir dolandırıcılık sınıflandırıcısı oluşturdunuz. Denetimsiz yaklaşımı ne zaman tercih etmelisiniz?",
     "options": [
-      "Always -- unsupervised is always better for anomaly detection",
-      "When you need to detect novel fraud patterns that differ from historical labeled examples",
-      "When you have millions of labeled fraud examples",
-      "When you only care about precision, not recall"
+      "Her zaman — denetimsiz yaklaşım anomali tespiti için her zaman daha iyidir",
+      "Geçmiş etiketli örneklerden farklı yeni dolandırıcılık desenlerini tespit etmeniz gerektiğinde",
+      "Milyonlarca etiketli dolandırıcılık örneğiniz olduğunda",
+      "Yalnızca kesinlik (precision) ile ilgilendiğinizde, duyarlılık (recall) ile değil"
     ],
     "correct": 1,
-    "explanation": "Supervised classifiers only catch fraud types present in training data. Unsupervised detectors flag any deviation from normal, catching novel fraud schemes. The tradeoff is higher false positive rate."
+    "explanation": "Denetimli sınıflandırıcılar yalnızca eğitim verisinde bulunan dolandırıcılık türlerini yakalar. Denetimsiz tespit ediciler normallikten her türlü sapmayı işaretleyerek yeni dolandırıcılık yöntemlerini yakalar. Ödünleşim daha yüksek yanlış pozitif oranıdır."
   }
 ]
