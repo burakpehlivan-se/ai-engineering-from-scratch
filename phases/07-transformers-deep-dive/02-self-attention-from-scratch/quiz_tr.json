@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "Neden saf dikkat (self-attention) çarpımını 1/sqrt(d_k) ile ölçeklendirir?",
+      "options": ["Çıktı değerlerini 0 ile 1 arasına getirmek için", "Yüksek boyutlarda iç çarpıların büyümesini önlemek için, çünkü bu durum softmax'ı küçük gradyanlı bölgelere itebilir", "Sorgu ve anahtar vektörlerini birim uzunluğa normalize etmek için", "Matris çarpımının hesaplama maliyetini azaltmak için"],
+      "correct": 1,
+      "explanation": "d_k büyük olduğunda, rastgele vektörlerin iç çarpımı sqrt(d_k) ile orantılı olarak büyür. Ölçekleme yapılmazsa, softmax büyük girişler alır ve gradyanların yok olduğu neredeyse tek sıcaklıklı çıkışlar üretir."
+    },
+    {
+      "stage": "pre",
+      "question": "Saf dikkatteki üç projeksiyon nedir?",
+      "options": ["Giriş, gizli ve çıkış", "Sorgu, anahtar ve değer — her biri aynı girişin öğrenilmiş lineer projeksiyonu", "Kodlayıcı, kod çözücü ve çapraz dikkat", "Gömme, konum ve segment"],
+      "correct": 1,
+      "explanation": "Saf dikkat, girişi üç farklı ağırlık matrisi üzerinden projekte ederek sorguları (ne arıyorum?), anahtarları (ne içeriyorum?) ve değerleri (eşleşirsem ne çıkarırım?) üretir."
+    },
+    {
+      "stage": "post",
+      "question": "8 kafalı ve d_model=512 olan çok kafalı dikkatte, her kafanın boyutu nedir?",
+      "options": ["512 — her kafa tam boyutu görür", "64 — d_model kafalar arasında eşit bölünür (512/8=64)", "8 — her kafa için bir boyut", "4096 — her kafa temsili genişletir"],
+      "correct": 1,
+      "explanation": "Çok kafalı dikkat, d_model'i h kafaya böler ve her biri d_k = d_model/h boyutunda çalışır. 512/8 = 64 boyut ile toplam hesaplama maliyeti, tam boyutlu tek kafalı dikkate eşittir."
+    },
+    {
+      "stage": "post",
+      "question": "Otomatik geriye dikkatteki nedensel maske (causal mask) neyi engeller?",
+      "options": ["Modelin dolgu (padding) belirteçlerine dikkatmasını engeller", "Her konumun gelecekteki konumlara dikkatmasını engeller, böylece model bir sonraki belirteci tahmin ederken yalnızca geçmiş bağlamı kullanır", "Dikkat ağırlıklarının çok büyük olmasını engeller", "Modelin kendi konumuna dikkatmasını engeller"],
+      "correct": 1,
+      "explanation": "Otomatik geriye üretimde, t belirteci t+1, t+2 vb. belirteçleri görmemelidir. Nedensel maske, softmax öncesi gelecekteki konumları sonsuzluğa ayarlayarak dikkat ağırlıklarını sıfırlar."
+    },
+    {
+      "stage": "post",
+      "question": "Saf dikkat neden dizi uzunluğunda O(n^2) karmaşıklığa sahiptir?",
+      "options": ["Çünkü model üst üste yığılmış n katmana sahiptir", "Çünkü her belirteç diğer tüm belirteçlerle dikkat puanları hesaplar ve n x n dikkat matrisi üretir", "Çünkü dikkat sonrası besleme katmanları kadratiktir", "Çünkü dikkat üzerinden geri yayılım n^2 gradyan hesabı gerektirir"],
+      "correct": 1,
+      "explanation": "QK^T matris çarpımı, (i,j) girişinin i belirtecinden j belirtecine olan dikkatı tutan n x n dikkat matrisi üretir. Hem hesaplama hem de bellek O(n^2) ile ölçeklenir, bu yüzden uzun bağlam modelleri FlashAttention gibi tekniklere ihtiyaç duyar."
+    }
+  ]
+}
