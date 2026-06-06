@@ -20,7 +20,7 @@
 
 2011'de en iyi ImageNet sınıflandırıcısı yaklaşık %74 top-5 doğruluk puanı alıyordu. 2012'de AlexNet %85'e ulaştı. 2015'te ResNet %96'ya çıktı. Yeni veri yok. Yeni GPU nesli yok. Kazanımlar mimari fikirlerden geldi. Çalışan bir görüş mühendisi, hangi fikrin hangi makaleden geldiğini bilmek zorundadır çünkü 2026'da göndereceğiniz her üretim backbone'u aynı parçaların bir yeniden birleşimidir — ve fikirler aktarılmaya devam etmektedir: gruplandırılmış convolution'lar CNN'lerden transformer'lara gitti, artık bağlantılar ResNet'ten var olan her LLM'e geçti, batch normalisation difüzyon modellerinde yaşıyor.
 
-Bu ağları sırayla çalışmak sizi yaygın bir hatadan da korur: mevcut en büyük modele uzanmak, oysa LeNet boyutunda bir ağ problemi çözerdi. MNIST bir ResNet gerektirmez. Her ailenin ölçeklenme eğrisini bilmek, nerede duracağınızı söyler.
+Bu ağları sırayla incelemek sizi yaygın bir hatadan da korur: mevcut en büyük modele uzanmak, oysa LeNet boyutunda bir ağ problemi çözerdi. MNIST bir ResNet gerektirmez. Her ailenin ölçeklenme eğrisini bilmek, nerede duracağınızı söyler.
 
 ## Kavram
 
@@ -38,7 +38,7 @@ timeline
 #### Açıklama
 Dört büyük CNN ailesinin zaman çizelgesi: LeNet-5, AlexNet, VGG/Inception ve ResNet.
 
-Klasik görüş alanında bu dört sıçrama kadar önemli başka bir şey olmadı.
+Klasik görüntü işleme alanında bu dört sıçrama kadar önemli başka bir şey olmadı.
 
 ### LeNet-5 (1998)
 
@@ -59,7 +59,7 @@ input (1, 32, 32)
 #### Açıklama
 LeNet-5 mimarisi. İki convolution ve aşağı örnekleme bloğunu takiben üç yoğun (dense) katman.
 
-Modern dünyanın CNN dediği her şey — dönüşümlü convolution'lar ve küçük bir sınıflandırıcı kafa (classifier head) besleyen aşağı örnekleme — daha fazla katman, daha büyük kanallar ve daha iyi aktivasyonlarla LeNet'tir.
+Modern dünyanın CNN dediği her şey — dönüşümlü convolution'lar ve küçük bir sınıflandırıcı başlık (classifier head) besleyen aşağı örnekleme — daha fazla katman, daha büyük kanallar ve daha iyi aktivasyonlarla LeNet'tir.
 
 ### AlexNet (2012)
 
@@ -115,7 +115,7 @@ Her dal uzmanlaşır — 1x1 kanal karıştırma için, 3x3 yerel doku için, 5x
 
 ### Bozunma problemi (Degradation Problem)
 
-2015 itibarıyla VGG-19 çalışıyordu ve VGG-32 çalışmıyordu. Derinliğin yardımcı olması gerekiyordu, ancak yaklaşık 20 katmandan sonra hem eğitim hem test kaybı kötüleşti. Bu aşırı uyum (overfitting) değil. Optimizasyon aracının yararlı ağırlıklar bulamaması çünkü gradyanlar her katmanda çarpımsal olarak küçülüyor.
+2015 itibarıyla VGG-19 çalışıyordu ve VGG-32 çalışmıyordu. Derinliğin yardımcı olması gerekiyordu, ancak yaklaşık 20 katmandan sonra hem eğitim hem test kaybı kötüleşti. Bu aşırı uyum (overfitting) değil. Optimizasyon aracının yararlı ağırlıklar bulamamasının nedeni, gradyanların her katmanda çarpımsal olarak küçülmesidir.
 
 ```text
 Plain deep network:
@@ -142,7 +142,7 @@ standard block:   y = F(x)
 residual block:   y = F(x) + x
 ```
 
-`+ x`, katmanın `F(x)`'i sıfıra sürerek her zaman hiçbir şey yapmamayı seçebileceği anlamına gelir. 1.000 katmanlı bir ResNet artık en kötü ihtimalle 1 katmanlı bir ağ kadar kötüdür, çünkü her ekstra bloğun önemsiz bir kaçış kapağı vardır. Bu garantiyle, optimizasyon aracı her bloğu *biraz* yararlı hale getirmeye isteklidir — ve biraz yararlı, 100 kez istiflendiğinde, son teknolojidir.
+`+ x`, katmanın `F(x)`'i sıfıra iterek her zaman hiçbir şey yapmamayı seçebileceği anlamına gelir. 1.000 katmanlı bir ResNet artık en kötü ihtimalle 1 katmanlı bir ağ kadar kötüdür, çünkü her ekstra bloğun önemsiz bir kaçış kapağı vardır. Bu garantiyle, optimizasyon aracı her bloğu *biraz* yararlı hale getirmeye isteklidir — ve biraz yararlı, 100 kez istiflendiğinde, son teknolojidir.
 
 ```mermaid
 flowchart LR

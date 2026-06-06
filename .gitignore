@@ -28,3 +28,10 @@ uv.lock
 # Ajan ve raporlar (sadece yerel)
 agent/
 reports/
+
+loop/
+# OpenCode
+.opencode/
+
+# node_modules
+node_modules/

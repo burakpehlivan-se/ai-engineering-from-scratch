@@ -22,7 +22,7 @@ Tam bağlı (fully connected) bir katmanın 224x224 RGB görüntü üzerinde nö
 
 Bir görüntü modelinin ihtiyaç duyduğu iki özellik **translation equivariance** (girdi kaydığında çıktının da kayması) ve **parameter sharing** (parametre paylaşımıdır) (aynı özellik dedektörü her yerde çalışır). Yoğun katmanlar bunların hiçbirini sağlamaz. Convolution ise ikisini de ücretsiz verir.
 
-Convolution derin öğrenme için icat edilmemiştir. JPEG sıkıştırmayı, Photoshop'taki Gauss bulanıklaştırmayı, endüstriyel görüşteki kenar tespitini ve şimdiye kadar üretilmiş her ses filtresini çalıştıran aynı işlemdir. CNN'lerin 2012'den 2020'ye kadar ImageNet'e hakim olmasının nedeni, convolution'ın yakın değerlerin ilişkili olduğu ve aynı desenin her yerde görülebildiği veriler için doğru önsel (prior) olmasıdır.
+Convolution derin öğrenme için icat edilmemiştir. JPEG sıkıştırmayı, Photoshop'taki Gauss bulanıklaştırmayı, endüstriyel görüntülemedeki kenar tespitini ve şimdiye kadar üretilmiş her ses filtresini çalıştıran aynı işlemdir. CNN'lerin 2012'den 2020'ye kadar ImageNet'e hakim olmasının nedeni, convolution'ın yakın değerlerin ilişkili olduğu ve aynı desenin her yerde görülebildiği veriler için doğru önsel (prior) olmasıdır.
 
 ## Kavram
 
@@ -210,7 +210,7 @@ Receptive field, bir çıktı nöronunun girdide gördüğü bölgenin boyutudur
 
 ### Adım 1: Bir diziyi pad'leme
 
-En küçük temel ögeyle başlayın: bir H x W dizinin etrafına sıfır ekleyen bir fonksiyon.
+En küçük temel öğeyle başlayın: bir H x W dizinin etrafına sıfır ekleyen bir fonksiyon.
 
 ```python
 import numpy as np

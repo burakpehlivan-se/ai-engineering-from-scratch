@@ -50,7 +50,7 @@ Pipeline şeması: HTTP isteği ve görüntü baytları alınır, kod çözülü
 
 ### Pydantic ile veri sözleşmeleri (Data contracts)
 
-Her model sınırı, tipli bir nesne haline gelir. Bu, sessiz hataları gürültülü hatalara dönüştürür.
+Her model arayüzü, tipli bir nesne haline gelir. Bu, sessiz hataları gürültülü hatalara dönüştürür.
 
 ```
 Detection(
@@ -89,7 +89,7 @@ Dağılımı bilmek, optimizasyonu önceliklendirilmiş bir listeye dönüştür
 - **Bozuk yükleme** — 500 değil, belirli bir hata koduyla 400 yanıtı.
 - **Model yükleme hatası** — ilk istekte değil, servis başlangıcında hata ver.
 
-Bir üretim pipeline'ı, bunların her birini hatayı gizleyen genel `try/except` yazmadan ele alır. Her hata adlandırılmış bir kod ve bir yanıt alır.
+Bir üretim pipeline'ı, bunların her birini genel `try/except` yazarak hatayı gizlemeden ele alır. Her hata adlandırılmış bir kod ve bir yanıt alır.
 
 ### Toplu işleme (Batching)
 

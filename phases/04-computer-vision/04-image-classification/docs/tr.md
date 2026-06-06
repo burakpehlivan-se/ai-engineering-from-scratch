@@ -18,11 +18,11 @@
 
 ## Problem
 
-Gönderilen her görüş görevi bir düzeyde görüntü sınıflandırmaya indirgenir. Detection, bölgeleri sınıflandırır. Segmentation, pikselleri sınıflandırır. Retrieval, sınıf merkezlerine benzerlikle sıralar. Sınıflandırmayı doğru yapmak — veri kümesi döngüsü, augmentation politikası, loss, değerlendirme — fazdaki diğer her göreve aktarılan beceridir.
+Her görüntü işleme görevi bir düzeyde görüntü sınıflandırmaya indirgenir. Detection, bölgeleri sınıflandırır. Segmentation, pikselleri sınıflandırır. Retrieval, sınıf merkezlerine benzerlikle sıralar. Sınıflandırmayı doğru yapmak — veri kümesi döngüsü, augmentation politikası, loss, değerlendirme — fazdaki diğer her göreve aktarılan beceridir.
 
-Çoğu sınıflandırma hatası modelde değildir. Pipeline'da yaşarlar: bozuk bir normalizasyon, karıştırılmamış bir eğitim seti, etiketleri bozan augmentation, eğitim verisiyle kontamine olmuş bir doğrulama bölmesi, 30. epoch'tan sonra sessizce ıraksayan bir öğrenme oranı. Doğru kurulumla CIFAR-10'da %93'e ulaşacak bir CNN, bozuk bir kurulumla genellikle %70-75 puan alır ve loss eğrisi tüm süre boyunca makul görünür.
+Çoğu sınıflandırma hatası modelde değildir. Pipeline'da bulunurlar: bozuk bir normalizasyon, karıştırılmamış bir eğitim seti, etiketleri bozan augmentation, eğitim verisiyle kirlenmiş bir doğrulama bölümü, 30. epoch'tan sonra sessizce ıraksayan bir öğrenme oranı. Doğru kurulumla CIFAR-10'da %93'e ulaşacak bir CNN, bozuk bir kurulumla genellikle %70-75 puan alır ve loss eğrisi tüm süre boyunca makul görünür.
 
-Bu ders, her parçanın incelenebilir olması için tüm pipeline'ı elle kurar. Bir hatayı gizleyebilecek `torchvision.datasets`'ten hiçbir şey kullanmayacaksınız.
+Bu ders, her parçanın denetlenebilir olması için tüm pipeline'ı elle kurar. Bir hatayı gizleyebilecek `torchvision.datasets`'ten hiçbir şey kullanmayacaksınız.
 
 ## Kavram
 
@@ -49,9 +49,9 @@ flowchart LR
 ```
 
 #### Açıklama
-Sınıflandırma pipeline'ının tam akış şeması: veri kümesinden augmentation, normalizasyon, DataLoader, model, loss, geri yayılım ve optimizasyon.
+Sınıflandırma pipeline'ının tam akış diyagramı: veri kümesinden augmentation, normalizasyon, DataLoader, model, loss, geri yayılım ve optimizasyon.
 
-Bu döngüdeki her satır, bir hatanın yaşayabileceği yerdir. Cross-entropy ham logit'leri alır, softmax çıktılarını değil, bu nedenle loss'tan önce herhangi bir `model(x).softmax()` sessizce yanlış gradient hesaplar. Augmentasyonlar yalnızca girdilere uygulanır, etiketlere değil — mixup hariç, ikisini de karıştırır. `optimizer.zero_grad()` her adımda bir kez olmalıdır; atlamak gradient'leri biriktirir ve çılgınca kararsız bir öğrenme oranı gibi görünür. Bu hataların her biri hata vermeden öğrenme eğrisini düzleştirir.
+Bu döngüdeki her satır, bir hatanın yaşayabileceği yerdir. Cross-entropy ham logitleri alır, softmax çıktılarını değil, bu nedenle loss'tan önce herhangi bir `model(x).softmax()` sessizce yanlış gradient hesaplar. Augmentasyonlar yalnızca girdilere uygulanır, etiketlere değil — mixup hariç, ikisini de karıştırır. `optimizer.zero_grad()` her adımda bir kez olmalıdır; atlamak gradient'leri biriktirir ve son derece kararsız bir öğrenme oranı gibi görünür. Bu hataların her biri hata vermeden öğrenme eğrisini düzleştirir.
 
 ### Cross-entropy, logits ve softmax
 
@@ -68,11 +68,11 @@ CE(z, y) = -log( softmax(z)_y )
         = -z_y + log( sum_j exp(z_j) )
 ```
 
-Sağdaki form sayısal olarak kararlı olandır (log-sum-exp). PyTorch'un `nn.CrossEntropyLoss`'u softmax + NLL'yi tek bir işlemde birleştirir ve doğrudan ham logit'leri alır. Önce kendiniz softmax uygulamak neredeyse her zaman bir hatadır — log(softmax(softmax(z))) gibi anlamsız bir miktar hesaplarsınız.
+Sağdaki form sayısal olarak kararlı olandır (log-sum-exp). PyTorch'un `nn.CrossEntropyLoss`'u softmax + NLL'yi tek bir işlemde birleştirir ve doğrudan ham logitleri alır. Önce kendiniz softmax uygulamak neredeyse her zaman bir hatadır — log(softmax(softmax(z))) gibi anlamsız bir miktar hesaplarsınız.
 
 ### Augmentation neden işe yarar
 
-Bir CNN, öteleme için içsel bir yanlılığa (weight sharing'den) sahiptir, ancak kırpma, çevirme, renk jitter'ı veya tıkanmaya karşı yerleşik bir değişmezliği yoktur. Bu değişmezlikleri öğretmenin tek yolu, onları çalıştıran pikselleri göstermektir. Eğitim sırasındaki her rastgele dönüşüm şunu söylemenin bir yoludur: "bu iki görüntü aynı etikete sahip; farkı görmezden gelen özellikleri öğren."
+Bir CNN, öteleme için içsel bir yanlılığa (weight sharing'den) sahiptir, ancak kırpma, çevirme, renk jitter'ı veya örtülmeye karşı yerleşik bir değişmezliği yoktur. Bu değişmezlikleri öğretmenin tek yolu, onları çalıştıran pikselleri göstermektir. Eğitim sırasındaki her rastgele dönüşüm şunu söylemenin bir yoludur: "bu iki görüntü aynı etikete sahip; farkı görmezden gelen özellikleri öğren."
 
 ```
 Original crop:  "dog facing left"
@@ -82,7 +82,7 @@ Colour jitter:  "dog in warmer light"
 RandomErasing:  "dog with patch missing"
 ```
 
-Kural: augmentation etiketi korumalıdır. Bir rakamda cutout ve döndürme "6"yı "9"a çevirebilir; bu veri kümesi için daha küçük döndürme aralıkları kullanır ve rakama özgü değişmezliklere saygı gösteren augmentasyonlar seçersiniz.
+Kural: augmentation etiketi korumalıdır. Bir rakamın üzerinde cutout ve döndürme "6"yı "9"a dönüştürebilir; bu veri kümesi için daha küçük döndürme aralıkları kullanır ve rakama özgü değişmezliklere saygı gösteren augmentasyonlar seçersiniz.
 
 ### Mixup ve cutmix
 
@@ -99,7 +99,7 @@ Cutmix:
   y = area-weighted mix of y_i and y_j
 ```
 
-Neden yardımcı olur: model sivri one-hot hedefleri ezberlemeyi bırakır ve sınıflar arasında yumuşak enterpolasyonlar yapmayı öğrenir. Eğitim kaybı artar, test doğruluğu artar. Herhangi bir sınıflandırıcı için en ucuz sağlamlık (robustness) yükseltmesidir.
+Neden yardımcı olur: model keskin one-hot hedefleri ezberlemeyi bırakır ve sınıflar arasında yumuşak enterpolasyonlar yapmayı öğrenir. Eğitim kaybı artar, test doğruluğu artar. Herhangi bir sınıflandırıcı için en ucuz sağlamlık (robustness) yükseltmesidir.
 
 ### Label smoothing
 
@@ -112,7 +112,7 @@ Toplam doğruluk dengesizliği gizler. Her zaman çoğunluk sınıfını tahmin 
 - **Sınıf başına doğruluk (Per-class accuracy)** — sınıf başına bir sayı; düşük performans gösteren kategorileri hemen ortaya çıkarır.
 - **Confusion matrix** — C x C tablosu, satır i sütun j = gerçek sınıf i'nin sınıf j olarak tahmin edilme sayısı; köşegen doğrudur, köşegen dışı modelinizin yaşadığı yerdir.
 - **Top-1 / Top-5** — doğru sınıfın ilk 1 veya ilk 5 tahminde olup olmadığı; Top-5, "Norwich terrier" vs "Norfolk terrier" gibi sınıflar gerçekten belirsiz olduğu için ImageNet için önemlidir.
-- **Kalibrasyon (ECE)** — 0.8 güvenli bir tahmin, zamanın %80'inde doğru mu? Modern ağlar sistematik olarak aşırı güvenlidir; temperature scaling veya label smoothing ile düzeltin.
+- **Kalibrasyon (ECE)** — 0.8 güvenilir bir tahmin, zamanın %80'inde doğru mu? Modern ağlar sistematik olarak aşırı güvenlidir; temperature scaling veya label smoothing ile düzeltin.
 
 ## İnşa Et
 
@@ -171,7 +171,7 @@ Sentetik CIFAR veri kümesi: her sınıfın kendi renk paleti ve frekans deseni 
 
 ### Adım 2: Normalizasyon ve augmentation
 
-Her görüş pipeline'ının sahip olduğu iki dönüşüm.
+Her görüntü işleme pipeline'ının sahip olduğu iki dönüşüm.
 
 ```python
 def standardize(mean, std):
@@ -211,7 +211,7 @@ def compose(*fns):
 #### Açıklama
 Standart görüntü ön işleme fonksiyonları: standartlaştırma (mean/std), rastgele yatay çevirme ve rastgele kırpma (reflect-pad ile).
 
-Kırpmadan önce reflect-pad, zero-pad değil, çünkü siyah kenarlıklar modelin yararsız bir şekilde görmezden gelmeyi öğreneceği bir sinyaldir.
+Kırpmadan önce reflect-pad, zero-pad değil, çünkü siyah kenarlıklar modelin faydasız bir şekilde görmezden gelmeyi öğreneceği bir sinyaldir.
 
 ### Adım 3: Mixup
 
@@ -237,7 +237,7 @@ def soft_cross_entropy(logits, soft_targets):
 #### Açıklama
 Mixup: iki görüntü ve etiket, Beta dağılımından örneklenen bir lambda ile enterpole edilir. `soft_cross_entropy`, yumuşak etiket dağılımlarına karşı cross-entropy'dir.
 
-`soft_cross_entropy`, yumuşak etiket dağılımına karşı cross-entropy'dir. Hedef tam olarak one-hot olduğunda olağan one-hot durumuna indirgenir.
+`soft_cross_entropy`, yumuşak etiket dağılımına karşı cross-entropy'dir. Hedef tam olarak one-hot olduğunda normal one-hot durumuna indirgenir.
 
 ### Adım 4: Eğitim döngüsü
 

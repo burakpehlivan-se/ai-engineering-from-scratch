@@ -38,7 +38,7 @@ SH coefficients  c_lm       (3 * (L+1)^2,)   bakışa bağlı renk
 
 Dönüş + ölçek, 3x3'lük bir kovaryans oluşturur: `Sigma = R S S^T R^T`. Bu, Gaussian'ın 3B'deki şeklidir. Küresel harmonikler (spherical harmonics), rengin bakış yönüyle değişmesini sağlar — speküler vurgular, ince parlaklık, bakışa bağlı ışıltı — görüş başına doku saklamadan. SH derece 3 ile kanal başına 16 katsayı, sadece renk için Gauss başına 48 float elde edilir.
 
-Bir sahne tipik olarak 1-5 milyon Gaussian içerir. Her biri yaklaşık 60 float (3 + 4 + 3 + 1 + 48 + çeşitli) depolar. Bu, beş milyon Gauss'luk bir sahne için 240 MB'tır — nokta başına doku içeren eşdeğer nokta bulutundan (point cloud) çok daha küçük ve yüksek çözünürlükte yeniden render edilmiş bir NeRF'in MLP ağırlıklarından bir büyüklük sırası daha küçüktür.
+Bir sahne tipik olarak 1-5 milyon Gaussian içerir. Her biri yaklaşık 60 float (3 + 4 + 3 + 1 + 48 + diğer) depolar. Bu, beş milyon Gauss'luk bir sahne için 240 MB'tır — nokta başına doku içeren eşdeğer nokta bulutundan (point cloud) çok daha küçük ve yüksek çözünürlükte yeniden render edilmiş bir NeRF'in MLP ağırlıklarından bir büyüklük sırası daha küçüktür.
 
 ### Rasterizasyon, ray marching değil
 
@@ -302,7 +302,7 @@ def eval_sh_degree_3(sh_coeffs, dirs):
     result = result + C2[3] * xz[..., None] * sh_coeffs[..., 7, :]
     result = result + C2[4] * (x2 - y2)[..., None] * sh_coeffs[..., 8, :]
 
-    # derece 3 terimleri kısalık için burada atlanmıştır; tam 16-katsayılı versiyon kod dosyasında
+    # derece 3 terimleri, kısalık amacıyla burada atlanmıştır; tam 16-katsayılı versiyon kod dosyasında
     return result
 ```
 #### Açıklama
