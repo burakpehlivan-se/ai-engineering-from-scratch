@@ -33,11 +33,11 @@ Yüksek boyutlu uzaylar sezgiye aykırıdır. Üç şey boyutlarla birlikte bozu
 **Mesafe anlamsızlaşır.** Yüksek boyutlarda, rastgele iki nokta arasındaki mesafe aynı değere yakınsar. Her nokta diğerine yaklaşık aynı uzaklıkta ise, en yakın komşu arama çalışmaz.
 
 ```
-Boyut      Ortalama mesafe oranı (rastgele noktalar arası max/min)
-2          ~5.0
-10         ~1.8
-100        ~1.2
-1000       ~1.02
+Boyut Ortalama mesafe oranı (rastgele noktalar arası max/min)
+2 ~5.0
+10 ~1.8
+100 ~1.2
+1000 ~1.02
 ```
 
 **Hacim köşelere yoğunlaşır.** d boyutunda birim aşırı küpün 2^d köşesi vardır. 100 boyutta, neredeyse tüm hacim köşelerdedir, merkezden uzaktadır. Veri noktaları kenarlara yayılır ve modelleriniz içerde veriye muhtaç kalır.
@@ -59,23 +59,23 @@ Algoritma:
 import numpy as np
 
 def pca(X, n_bilesen):
-    # 1. Merkezle
-    X_merkezli = X - X.mean(axis=0)
-    
-    # 2. Kovaryans matrisi
-    C = np.cov(X_merkezli.T)
-    
-    # 3. Özdeğer ayrıştırması
-    ozdegerler, ozvektorler = np.linalg.eigh(C)
-    
-    # 4. Sırala (en yüksekten en düşüğe)
-    siralama = np.argsort(ozdegerler)[::-1]
-    ozdegerler = ozdegerler[siralama]
-    ozvektorler = ozvektorler[:, siralama]
-    
-    # 5. Projekte et
-    W = ozvektorler[:, :n_bilesen]
-    return X_merkezli @ W
+ # 1. Merkezle
+ X_merkezli = X - X.mean(axis=0)
+ 
+ # 2. Kovaryans matrisi
+ C = np.cov(X_merkezli. T)
+ 
+ # 3. Özdeğer ayrıştırması
+ ozdegerler, ozvektorler = np.linalg.eigh(C)
+ 
+ # 4. Sırala (en yüksekten en düşüğe)
+ siralama = np.argsort(ozdegerler)[::-1]
+ ozdegerler = ozdegerler[siralama]
+ ozvektorler = ozvektorler[:, siralama]
+ 
+ # 5. Projekte et
+ W = ozvektorler[:, :n_bilesen]
+ return X_merkezli @ W
 ```
 
 ### t-SNE

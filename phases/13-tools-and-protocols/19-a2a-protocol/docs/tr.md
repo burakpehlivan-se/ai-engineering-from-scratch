@@ -34,21 +34,21 @@ Her A2A uyumlu ajan `/.well-known/agent.json`'da bir kart yayınlar:
 
 ```json
 {
-  "schemaVersion": "1.0",
-  "name": "research-agent",
-  "description": "Akademik makaleleri özetler ve alıntılar taslağı çıkarır.",
-  "url": "https://research.example.com/a2a",
-  "version": "1.2.0",
-  "skills": [
-    {
-      "id": "summarize_paper",
-      "name": "Makaleyi özetle",
-      "description": "Bir makale PDF'ini okuyun ve 3 paragraflık bir özet üretin.",
-      "inputModes": ["text", "file"],
-      "outputModes": ["text", "artifact"]
-    }
-  ],
-  "capabilities": {"streaming": true, "pushNotifications": true}
+ "schemaVersion": "1.0",
+ "name": "research-agent",
+ "description": "Akademik makaleleri özetler ve alıntılar taslağı çıkarır.",
+ "url": "https://research.example.com/a2a",
+ "version": "1.2.0",
+ "skills": [
+ {
+ "id": "summarize_paper",
+ "name": "Makaleyi özetle",
+ "description": "Bir makale PDF'ini okuyun ve 3 paragraflık bir özet üretin.",
+ "inputModes": ["text", "file"],
+ "outputModes": ["text", "artifact"]
+ }
+ ],
+ "capabilities": {"streaming": true, "pushNotifications": true}
 }
 ```
 
@@ -62,7 +62,7 @@ AP2 eklentisi (Eylül 2025) Agent Card'lara kriptografik imzalar ekler. Bir yay�
 
 ```
 submitted -> working -> completed | failed | canceled | rejected
-             -> input_required -> working (mesaj yoluyla döngü)
+ -> input_required -> working (mesaj yoluyla döngü)
 ```
 
 İstemciler `tasks/send` ile başlatır. Çağrılan ajan durumlar arasında geçiş yapar; istemciler SSE veya sorgulama yoluyla durum güncellemelerine abone olur.
@@ -79,12 +79,12 @@ Bir mesaj bir veya daha fazla Parça (Part) taşır:
 
 ```json
 {
-  "role": "user",
-  "parts": [
-    {"type": "text", "text": "Bu makaleyi özetle."},
-    {"type": "file", "file": {"name": "paper.pdf", "mimeType": "application/pdf", "bytes": "..."}},
-    {"type": "data", "data": {"targetLength": "3 paragraf"}}
-  ]
+ "role": "user",
+ "parts": [
+ {"type": "text", "text": "Bu makaleyi özetle."},
+ {"type": "file", "file": {"name": "paper.pdf", "mimeType": "application/pdf", "bytes": "..."}},
+ {"type": "data", "data": {"targetLength": "3 paragraf"}}
+ ]
 }
 ```
 
@@ -94,9 +94,9 @@ Bir mesaj bir veya daha fazla Parça (Part) taşır:
 
 ```json
 {
-  "name": "summary",
-  "parts": [{"type": "text", "text": "..."}],
-  "mimeType": "text/markdown"
+ "name": "summary",
+ "parts": [{"type": "text", "text": "..."}],
+ "mimeType": "text/markdown"
 }
 ```
 

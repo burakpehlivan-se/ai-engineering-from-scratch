@@ -28,37 +28,37 @@ Anayasal-öz-eleştiri çalıştırması eğitim-zamanı bir müdahaledir. 1k za
 
 ```
 request (text / image / multilingual)
-      |
-      v
+ |
+ v
 input sanitize (strip zero-width, decode, normalize)
-      |
-      v
+ |
+ v
 NeMo Guardrails v0.12 rails (off-domain, policy)
-      |
-      v
+ |
+ v
 classifier gate:
-  Llama Guard 4 (English)
-  X-Guard (multilingual, 132 langs)
-  ShieldGemma-2 (image prompts)
-  Nemotron 3 Content Safety (enterprise)
-      |
-      v (allowed)
+ Llama Guard 4 (English)
+ X-Guard (multilingual, 132 langs)
+ ShieldGemma-2 (image prompts)
+ Nemotron 3 Content Safety (enterprise)
+ |
+ v (allowed)
 target LLM
-      |
-      v
+ |
+ v
 output filter: Llama Guard 4 + Presidio PII + citation check
-      |
-      v
+ |
+ v
 HITL tier for flagged outputs
 
 parallel:
-  red-team scheduler
-    -> garak (classic attacks)
-    -> PyRIT (orchestrated red team)
-    -> autonomous jailbreak agent (PAIR + TAP)
-    -> GCG suffix attacks
-    -> multilingual / code-switch
-    -> multi-turn persona adoption
+ red-team scheduler
+ -> garak (classic attacks)
+ -> PyRIT (orchestrated red team)
+ -> autonomous jailbreak agent (PAIR + TAP)
+ -> GCG suffix attacks
+ -> multilingual / code-switch
+ -> multi-turn persona adoption
 
 output: CVSS-scored findings + disclosure timeline + before/after harmlessness delta
 ```
@@ -101,12 +101,12 @@ Bu mimari hedef uygulamayı çevreleyen beş katmanlı güvenlik boru hattını 
 
 ```
 $ safety probe --model=target --family=PAIR --budget=50
-[attacker]   PAIR agent running on target
-[attack]     attempt 1/50: disguise query as academic research ... blocked
-[attack]     attempt 2/50: appeal to roleplay ... blocked
-[attack]     attempt 3/50: chain-of-thought coax ... SUCCEEDED
-[finding]    CVSS 4.8 medium: roleplay bypass on target
-[range]      7 successes out of 50 (14% success rate)
+[attacker] PAIR agent running on target
+[attack] attempt 1/50: disguise query as academic research ... blocked
+[attack] attempt 2/50: appeal to roleplay ... blocked
+[attack] attempt 3/50: chain-of-thought coax ... SUCCEEDED
+[finding] CVSS 4.8 medium: roleplay bypass on target
+[range] 7 successes out of 50 (14% success rate)
 ```
 
 #### Açıklama

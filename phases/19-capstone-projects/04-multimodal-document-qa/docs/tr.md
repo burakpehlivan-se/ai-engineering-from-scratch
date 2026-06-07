@@ -26,26 +26,26 @@ Değerlendirme iki boyutlu bir matristir. Bir eksen: içerik türü (düz metin 
 
 ```
 PDFs -> page renderer (PyMuPDF, 180 DPI)
-           |
-           v
-  ColQwen2.5-v0.2 embed (multi-vector per page, ~2048 patches)
-           |
-           +------> DocPruner 50% compression
-           |
-           v
-   multi-vector index (Vespa or Qdrant multi-vector)
-           |
+ |
+ v
+ ColQwen2.5-v0.2 embed (multi-vector per page, ~2048 patches)
+ |
+ +------> DocPruner 50% compression
+ |
+ v
+ multi-vector index (Vespa or Qdrant multi-vector)
+ |
 query ----+----> retrieve top-k pages (MaxSim)
-           |
-           v
-  VLM answerer: Qwen3-VL-30B | Gemini 2.5 Pro | InternVL3
-    inputs: query + top-k page images + optional OCR text
-           |
-           v
-  answer with cited page numbers + evidence regions
-           |
-           v
-  Streamlit / Next.js viewer: highlighted boxes on source page
+ |
+ v
+ VLM answerer: Qwen3-VL-30B | Gemini 2.5 Pro | InternVL3
+ inputs: query + top-k page images + optional OCR text
+ |
+ v
+ answer with cited page numbers + evidence regions
+ |
+ v
+ Streamlit / Next.js viewer: highlighted boxes on source page
 ```
 
 #### Açıklama
@@ -85,13 +85,13 @@ Bu mimari görüntü-öncelikli belge Soru-Cevap'ın tam boru hattını gösteri
 
 ```
 $ doc-qa ask "what was the 2024 operating margin change for segment EMEA?"
-[retrieve]   top-5 pages in 320ms (ColQwen2.5, MaxSim, Vespa)
-[synth]      qwen3-vl-30b, 1.4s, cited (form-10k-2024, p. 88) + (..., p. 92)
+[retrieve] top-5 pages in 320ms (ColQwen2.5, MaxSim, Vespa)
+[synth] qwen3-vl-30b, 1.4s, cited (form-10k-2024, p. 88) + (..., p. 92)
 answer:
-  EMEA operating margin moved from 18.2% to 16.8%, a 140bp decline.
-  cited: 10-K-2024.pdf p.88 (Table 4, Segment Operating Margin)
-         10-K-2024.pdf p.92 (MD&A, Operating Performance)
-[viewer]     open with highlighted bounding boxes overlaid on p.88 Table 4
+ EMEA operating margin moved from 18.2% to 16.8%, a 140bp decline.
+ cited: 10-K-2024.pdf p.88 (Table 4, Segment Operating Margin)
+ 10-K-2024.pdf p.92 (MD&A, Operating Performance)
+[viewer] open with highlighted bounding boxes overlaid on p.88 Table 4
 ```
 
 #### Açıklama
@@ -127,7 +127,7 @@ Bu örnek finansal bir 10-K üzerinde tipik bir sorgu akışını gösterir. Kul
 
 | Terim | İnsanların söylediği | Gerçekte ne anlama geldiği |
 |------|----------------------|----------------------------|
-| Geç etkileşim | "ColPali tarzı geri getirme" | Sorgu tokenları sayfa yamalarına karşı bağımsız olarak puanlanır; MaxSim toplar |
+| Geç etkileşim | "ColPali tarzı geri getirme" | Sorgu token'ları sayfa yamalarına karşı bağımsız olarak puanlanır; MaxSim toplar |
 | Çok-vektörlü | "Yama başına gömme" | Her belgenin bir havuzlanmış vektör değil birçok vektörü vardır |
 | MaxSim | "Geç etkileşim puanlaması" | Her sorgu tokenı için, belge vektörleri üzerinde maksimum benzerlik alın; toplayın |
 | DocPruner | "Yama sıkıştırma" | 2026 budaması, ihmal edilebilir doğruluk kaybıyla yamaların %50'sini tutar |

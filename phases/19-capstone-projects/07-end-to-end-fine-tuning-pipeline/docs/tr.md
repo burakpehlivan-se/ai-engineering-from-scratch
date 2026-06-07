@@ -1,6 +1,6 @@
 # Capstone 07 — Uçtan Uca İnce Ayar (Fine-Tuning) Boru Hattı (Veriden SFT'ye DPO'ya Servise)
 
-> Kendi verileriniz üzerinde eğitilmiş 8B bir model, kendi tercihleriniz üzerinde DPO-hizalanmış, nicelenmiş, spekülatif-çözülmüş ve ölçülebilir $/1M tokenlarla servis edilen. 2026'nın açık yığını Axolotl v0.8, TRL 0.15, yineleme için Unsloth, niceleme için GPTQ/AWQ/GGUF, EAGLE-3 ile servis için vLLM 0.7. Capstone tüm boru hattını tekrarlanabilir şekilde çalıştırmaktır — YAML girdi, servis edilen uç nokta çıktı — ve 2026 Model Açıklık Çerçevesi altında bir model kartı yayınlamaktır.
+> Kendi verileriniz üzerinde eğitilmiş 8B bir model, kendi tercihleriniz üzerinde DPO-hizalanmış, nicelenmiş, spekülatif-çözülmüş ve ölçülebilir $/1M token'larla servis edilen. 2026'nın açık yığını Axolotl v0.8, TRL 0.15, yineleme için Unsloth, niceleme için GPTQ/AWQ/GGUF, EAGLE-3 ile servis için vLLM 0.7. Capstone tüm boru hattını tekrarlanabilir şekilde çalıştırmaktır — YAML girdi, servis edilen uç nokta çıktı — ve 2026 Model Açıklık Çerçevesi altında bir model kartı yayınlamaktır.
 
 **Type:** Capstone
 **Languages:** Python (pipeline), YAML (configs), Bash (scripts)
@@ -24,32 +24,32 @@ Ablasyonlar teslim edilen şeydir: aynı üç görev-özgü kıyaslamada SFT-onl
 
 ```
 raw data (HF datasets + internal)
-    |
-    v
+ |
+ v
 Datatrove dedup + Nemotron-CC quality filter + PII scrub
-    |
-    v
+ |
+ v
 split hygiene (MMLU-Pro contamination check)
-    |
-    v
-Axolotl SFT config (YAML)  ---> 8xH100, ZeRO-3
-    |
-    v
-TRL DPO / GRPO config       ---> 4xH100, 1 epoch
-    |
-    v
+ |
+ v
+Axolotl SFT config (YAML) ---> 8xH100, ZeRO-3
+ |
+ v
+TRL DPO / GRPO config ---> 4xH100, 1 epoch
+ |
+ v
 GPTQ + AWQ + GGUF quantize
-    |
-    v
+ |
+ v
 vLLM 0.7 + EAGLE-3 speculative decoding
-    |
-    v
+ |
+ v
 K8s deployment, HPA on queue-wait
-    |
-    v
+ |
+ v
 lm-eval-harness + RewardBench-2 + MT-Bench-v2 + MMLU-Pro
-    |
-    v
+ |
+ v
 model card (2026 MOF) + safety eval (Llama Guard 4)
 ```
 
@@ -94,13 +94,13 @@ Bu mimari ham veriden servis edilen modele kadar tam boru hattını gösterir. H
 
 ```
 $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
-[data]    300k deduped, 12k filtered, 280k accepted (seed=7)
-[SFT]     3 epochs, 8xH100, 6h12m, val loss 1.42 -> 1.03
-[DPO]     1 epoch, beta=0.08, 4xH100, 1h40m
-[quant]   GPTQ-INT4 4.6 GB, AWQ-INT4 4.8 GB, GGUF-Q4_K_M 5.1 GB
-[serve]   vLLM 0.7, EAGLE-3 acceptance 0.74, p99 126ms @ bs=8
-[eval]    MMLU-Pro +3.2, MT-Bench-v2 +0.41, RewardBench-2 +0.08
-[card]    model-card.md generated under 2026 MOF
+[data] 300k deduped, 12k filtered, 280k accepted (seed=7)
+[SFT] 3 epochs, 8xH100, 6h12m, val loss 1.42 -> 1.03
+[DPO] 1 epoch, beta=0.08, 4xH100, 1h40m
+[quant] GPTQ-INT4 4.6 GB, AWQ-INT4 4.8 GB, GGUF-Q4_K_M 5.1 GB
+[serve] vLLM 0.7, EAGLE-3 acceptance 0.74, p99 126ms @ bs=8
+[eval] MMLU-Pro +3.2, MT-Bench-v2 +0.41, RewardBench-2 +0.08
+[card] model-card.md generated under 2026 MOF
 ```
 
 #### Açıklama
@@ -142,7 +142,7 @@ Bu boru hattı çalıştırma günlüğü her aşamanın somut çıktılarını 
 | EAGLE-3 | "Spekülatif çözme taslağı" | N token ileriyi tahmin eden taslak kafalar; vLLM hedef modelle doğrular |
 | MOF | "Model Açıklık Çerçevesi" | Veri, kod, lisans üzerinde model yayınlarını derecelendiren 2026 standardı |
 | Kontaminasyon kontrolü | "Bölünme hijyeni" | Eğitime test kümesi sızıntısının MinHash-tabanlı tespiti |
-| Kabul oranı | "EAGLE / MTP metriği" | Taslak tokenlardan hedef modelin kabul ettiği oran |
+| Kabul oranı | "EAGLE / MTP metriği" | Taslak token'lardan hedef modelin kabul ettiği oran |
 
 ## Further Reading
 

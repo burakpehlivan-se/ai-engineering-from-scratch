@@ -33,18 +33,18 @@ Bu bağımlılık cehennemidir. Yapay zeka/ML çalışmalarında sürekli olur �
 
 ```mermaid
 graph TD
-    subgraph without["Sanal ortamlar olmadan"]
-        SP[Sistem Python'u] --> T24["torch 2.4.0 (CUDA 12.4)\nProje A buna ihtiyaç duyuyor"]
-        SP --> T21["torch 2.1.0 (CUDA 11.8)\nProje B buna ihtiyaç duyuyor"]
-        SP --> CONFLICT["ÇAKIŞMA: sadece bir\ntorch sürümü var olabilir"]
-    end
+ subgraph without["Sanal ortamlar olmadan"]
+ SP[Sistem Python'u] --> T24["torch 2.4.0 (CUDA 12.4)\nProje A buna ihtiyaç duyuyor"]
+ SP --> T21["torch 2.1.0 (CUDA 11.8)\nProje B buna ihtiyaç duyuyor"]
+ SP --> CONFLICT["ÇAKIŞMA: sadece bir\ntorch sürümü var olabilir"]
+ end
 
-    subgraph with["Sanal ortamlarla"]
-        PA["Proje A (.venv/)"] --> PA1["torch 2.4.0 (CUDA 12.4)"]
-        PA --> PA2["transformers 4.44"]
-        PB["Proje B (.venv/)"] --> PB1["torch 2.1.0 (CUDA 11.8)"]
-        PB --> PB2["diffusers 0.28"]
-    end
+ subgraph with["Sanal ortamlarla"]
+ PA["Proje A (.venv/)"] --> PA1["torch 2.4.0 (CUDA 12.4)"]
+ PA --> PA2["transformers 4.44"]
+ PB["Proje B (.venv/)"] --> PB1["torch 2.1.0 (CUDA 11.8)"]
+ PB --> PB2["diffusers 0.28"]
+ end
 ```
 
 ## Uygulama
@@ -86,8 +86,8 @@ uv add torch numpy matplotlib
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate     # Windows
+source .venv/bin/activate # Linux/macOS
+.venv\Scripts\activate # Windows
 
 pip install torch numpy
 ```
@@ -126,16 +126,16 @@ Strateji:
 
 ```
 ai-engineering-from-scratch/
-├── .venv/                    <-- faz 0-3 için paylaşımlı hafif ortam
+├── .venv/ <-- faz 0-3 için paylaşımlı hafif ortam
 ├── phases/
-│   ├── 04-sinir-aglari/
-│   │   └── .venv/            <-- PyTorch ortamı
-│   ├── 05-cnns/
-│   │   └── .venv/            <-- aynı PyTorch ortamı (sembolik bağlantı veya paylaşımlı)
-│   ├── 08-transformers/
-│   │   └── .venv/            <-- farklı transformer sürümleri gerekebilir
-│   └── 11-llm-api/
-│       └── .venv/            <-- API SDK'ları, torch gerekmez
+│ ├── 04-sinir-aglari/
+│ │ └── .venv/ <-- PyTorch ortamı
+│ ├── 05-cnns/
+│ │ └── .venv/ <-- aynı PyTorch ortamı (sembolik bağlantı veya paylaşımlı)
+│ ├── 08-transformers/
+│ │ └── .venv/ <-- farklı transformer sürümleri gerekebilir
+│ └── 11-llm-api/
+│ └── .venv/ <-- API SDK'ları, torch gerekmez
 ```
 
 `code/env_setup.sh` dosyasındaki betik, bu kurs için temel ortamı oluşturur.
@@ -150,10 +150,10 @@ name = "ai-engineering-from-scratch"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
-    "numpy>=1.26",
-    "matplotlib>=3.8",
-    "jupyter>=1.0",
-    "scikit-learn>=1.4",
+ "numpy>=1.26",
+ "matplotlib>=3.8",
+ "jupyter>=1.0",
+ "scikit-learn>=1.4",
 ]
 
 [project.optional-dependencies]
@@ -164,8 +164,8 @@ llm = ["anthropic>=0.39", "openai>=1.50"]
 Sonra yükleyin:
 
 ```bash
-uv pip install -e ".[torch]"    # temel + PyTorch
-uv pip install -e ".[llm]"     # temel + LLM SDK'ları
+uv pip install -e ".[torch]" # temel + PyTorch
+uv pip install -e ".[llm]" # temel + LLM SDK'ları
 uv pip install -e ".[torch,llm]" # her şey
 ```
 
@@ -192,17 +192,17 @@ Kilit dosyanızı git'e commit edin. Birisi depoyu klonladığında kilit dosyas
 ### 1. Global kurulum
 
 ```bash
-pip install torch  # KÖTÜ: sistem Python'una yükler
+pip install torch # KÖTÜ: sistem Python'una yükler
 
 source .venv/bin/activate
-pip install torch  # İYİ: sanal ortama yükler
+pip install torch # İYİ: sanal ortama yükler
 ```
 
 Paketlerinizin nereye gittiğini kontrol edin:
 
 ```bash
-which python       # .venv/bin/python göstermeli, /usr/bin/python değil
-which pip           # .venv/bin/pip göstermeli
+which python # .venv/bin/python göstermeli, /usr/bin/python değil
+which pip # .venv/bin/pip göstermeli
 ```
 
 ### 2. pip ve conda karıştırma
@@ -211,7 +211,7 @@ which pip           # .venv/bin/pip göstermeli
 conda create -n benimortam python=3.12
 conda activate benimortam
 conda install pytorch -c pytorch
-pip install baska-paket   # KÖTÜ: conda'nın bağımlılık izlemesini bozabilir
+pip install baska-paket # KÖTÜ: conda'nın bağımlılık izlemesini bozabilir
 conda install baska-paket # İYİ: conda her şeyi yönetsin
 ```
 
@@ -220,9 +220,9 @@ Conda içinde pip kullanmanız gerekiyorsa (bazı paketler sadece pip'tedir), ö
 ### 3. Etkinleştirmeyi unutmak
 
 ```bash
-python train.py           # sistem Python'unu kullanır, paketler eksik
+python train.py # sistem Python'unu kullanır, paketler eksik
 source .venv/bin/activate
-python train.py           # proje Python'unu kullanır, paketler bulunur
+python train.py # proje Python'unu kullanır, paketler bulunur
 ```
 
 Kabuk istemeniz ortam adını göstermeli:
@@ -242,8 +242,8 @@ Sanal ortamlar 200MB-2GB arasındadır. Yereldir, makineler arası taşınmaz. B
 ### 5. CUDA sürüm uyumsuzluğu
 
 ```bash
-nvidia-smi                # sürücü CUDA sürümünü gösterir (örn., 12.4)
-python -c "import torch; print(torch.version.cuda)"  # PyTorch CUDA sürümünü gösterir
+nvidia-smi # sürücü CUDA sürümünü gösterir (örn., 12.4)
+python -c "import torch; print(torch.version.cuda)" # PyTorch CUDA sürümünü gösterir
 
 # Bunlar uyumlu olmalı.
 # PyTorch CUDA sürümü <= sürücü CUDA sürümü olmalı.

@@ -33,10 +33,10 @@ Bir dayanıklı-yürütme motoru, her "adımdan" (LangGraph'ın dilinde süper-a
 
 ```
 işçi adım ortasında çöker
-  -> kira zaman aşımı
-  -> başka bir işçi thread_id'yi alır
-  -> son kontrol noktasından devam eder
-  -> tekrar eden yan etki yok
+ -> kira zaman aşımı
+ -> başka bir işçi thread_id'yi alır
+ -> son kontrol noktasından devam eder
+ -> tekrar eden yan etki yok
 ```
 
 #### Açıklama
@@ -60,13 +60,13 @@ arXiv:2408.09955 bir ölçek deneyi tanımlar: bir kümede binlerce eşzamanlı 
 
 ```
 ajan i:
-  durum ∈ {Boşta, İşleniyor, Yanıt}
-  gelen_kuyruk  <- ajan i'ye adreslenmiş mesajlar
-  giden_kuyruk  -> yanıtlar + yan etkiler
+ durum ∈ {Boşta, İşleniyor, Yanıt}
+ gelen_kuyruk <- ajan i'ye adreslenmiş mesajlar
+ giden_kuyruk -> yanıtlar + yan etkiler
 
 koordinatörler:
-  grup-içi sohbet     (aynı gruptaki ajanlar)
-  gruplar-arası yönetici sohbet  (yüksek-düzey yönlendirme)
+ grup-içi sohbet (aynı gruptaki ajanlar)
+ gruplar-arası yönetici sohbet (yüksek-düzey yönlendirme)
 ```
 
 #### Açıklama

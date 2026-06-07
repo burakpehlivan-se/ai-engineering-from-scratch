@@ -81,20 +81,20 @@ See `code/main.py`. This is the full Leviathan speculative loop with all the pie
 
 ```python
 def accept(q_prob, p_prob, u):
-    if p_prob <= 0:
-        return True
-    return u < min(1.0, q_prob / p_prob)
+ if p_prob <= 0:
+ return True
+ return u < min(1.0, q_prob / p_prob)
 ```
 
 ### Step 2: residual distribution
 
 ```python
 def residual(q, p):
-    raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
-    s = sum(raw)
-    if s == 0:
-        return list(q)
-    return [r / s for r in raw]
+ raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
+ s = sum(raw)
+ if s == 0:
+ return list(q)
+ return [r / s for r in raw]
 ```
 
 ### Step 3: a full speculative step
@@ -119,11 +119,11 @@ Production-level `vllm serve` with EAGLE-3:
 
 ```bash
 vllm serve meta-llama/Llama-3.3-70B-Instruct \
-  --speculative-config '{
-    "model": "yuhuili/EAGLE3-LLaMA3.3-Instruct-70B",
-    "num_speculative_tokens": 5,
-    "method": "eagle3"
-  }'
+ --speculative-config '{
+ "model": "yuhuili/EAGLE3-LLaMA3.3-Instruct-70B",
+ "num_speculative_tokens": 5,
+ "method": "eagle3"
+ }'
 ```
 
 SGLang with EAGLE-3 at batch 64 on H100: roughly 1.38× more throughput than batch-64 vanilla decoding, per the EAGLE-3 paper.

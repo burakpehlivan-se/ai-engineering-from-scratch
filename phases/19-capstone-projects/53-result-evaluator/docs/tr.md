@@ -24,12 +24,12 @@ Koşucudan gelen tek bir sayı, değişikliğin gerçek olup olmadığını söy
 Ders, testi sıfırdan uygular. `scipy.stats` yoktur. Matematik tek bir ekranda okunacak kadar küçüktür.
 
 ```text
-diffs    = [a_i - b_i for i in seeds]
-mean     = sum(diffs) / n
+diffs = [a_i - b_i for i in seeds]
+mean = sum(diffs) / n
 variance = sum((d - mean) ** 2 for d in diffs) / (n - 1)
-t_stat   = mean / sqrt(variance / n)
-df       = n - 1
-p_value  = two_sided_p(t_stat, df)
+t_stat = mean / sqrt(variance / n)
+df = n - 1
+p_value = two_sided_p(t_stat, df)
 ```
 
 İki taraflı p değeri, düzenli hale getirilmiş eksik beta fonksiyonunu kullanır. Ders, Lentz sürekli kesrini kullanan küçük bir uygulama gönderir. Her şey stdlib matematiğinin altmış satırıdır.
@@ -40,9 +40,9 @@ Bazı metrikler yükseldiğinde gelişir (doğruluk, çıktı). Diğerleri düş
 
 ```text
 if direction == "higher_is_better":
-    improvement = (candidate - baseline) / abs(baseline)
+ improvement = (candidate - baseline) / abs(baseline)
 elif direction == "lower_is_better":
-    improvement = (baseline - candidate) / abs(baseline)
+ improvement = (baseline - candidate) / abs(baseline)
 ```
 
 Gelişme işaretlidir. Daha yüksek-daha iyi bir metrik üzerindeki negatif bir gelişme, adayın daha kötü olduğu anlamına gelir. Hüküm yolu, işareti ve büyüklüğü birlikte okur.
@@ -53,14 +53,14 @@ Düz bir eşik (`improvement_threshold=0.02`, yüzde iki), değişikliğin arama
 
 ```mermaid
 flowchart TD
-    A[ExperimentResult aday] --> N[metrikleri normalize et]
-    B[ExperimentResult taban çizgisi] --> N
-    N --> I[yön farkında gelişme]
-    N --> T[eşleştirilmiş t testi]
-    I --> V[hüküm yolu]
-    T --> V
-    V --> O[Hüküm kaydı]
-    O --> Q[hipotez kuyruğuna ekle]
+ A[ExperimentResult aday] --> N[metrikleri normalize et]
+ B[ExperimentResult taban çizgisi] --> N
+ N --> I[yön farkında gelişme]
+ N --> T[eşleştirilmiş t testi]
+ I --> V[hüküm yolu]
+ T --> V
+ V --> O[Hüküm kaydı]
+ O --> Q[hipotez kuyruğuna ekle]
 ```
 
 Değerlendirici, üç bağımsız hesaplama çalıştırır ve onları hüküm yolunda birleştirir. Her hesaplama, paylaşılan durumu olmayan saf bir fonksiyondur.
@@ -73,11 +73,11 @@ Ders, `scale` alanı `"log"` olan herhangi bir metriği, gelişmeyi hesaplamadan
 
 ```text
 if scale == "log":
-    a = log(candidate)
-    b = log(baseline)
+ a = log(candidate)
+ b = log(baseline)
 else:
-    a = candidate
-    b = baseline
+ a = candidate
+ b = baseline
 ```
 
 `scale="linear"` (varsayılan) olan metrikler dönüşümü atlar. Aynı kod yolu her ikisini de ele alır.
@@ -92,28 +92,28 @@ Değerlendirici, onları seed'e göre eşleştirir (seed `result.metrics["seed"]
 
 ```text
 Verdict
-  hypothesis_id          : int
-  metric                 : str
-  direction              : "higher_is_better" | "lower_is_better"
-  scale                  : "linear" | "log"
-  candidate_mean         : float
-  baseline_mean          : float
-  improvement            : float       (işaretli, kesir; yön kurallarına bakın)
-  p_value                : float | None  (n < 2 ise Yok)
-  significance_threshold : float
-  improvement_threshold  : float
-  verdict                : "improved" | "regressed" | "noise" | "failed"
-  rationale              : str
+ hypothesis_id : int
+ metric : str
+ direction : "higher_is_better" | "lower_is_better"
+ scale : "linear" | "log"
+ candidate_mean : float
+ baseline_mean : float
+ improvement : float (işaretli, kesir; yön kurallarına bakın)
+ p_value : float | None (n < 2 ise Yok)
+ significance_threshold : float
+ improvement_threshold : float
+ verdict : "improved" | "regressed" | "noise" | "failed"
+ rationale : str
 ```
 
 Hüküm yolu küçük bir karar tablosudur:
 
 ```text
 1. Herhangi bir aday sonucunun terminal'ı != "ok" ise: hüküm = "failed"
-2. yoksa |gelişme| < gelişme_eşiği ise:             hüküm = "noise"
-3. yoksa p_value Yok veya p_value > anlamlılık ise:  hüküm = "noise"
-4. yoksa gelişme > 0 ise:                            hüküm = "improved"
-5. yoksa:                                              hüküm = "regressed"
+2. yoksa |gelişme| < gelişme_eşiği ise: hüküm = "noise"
+3. yoksa p_value Yok veya p_value > anlamlılık ise: hüküm = "noise"
+4. yoksa gelişme > 0 ise: hüküm = "improved"
+5. yoksa: hüküm = "regressed"
 ```
 
 Gerekçe, orkestratörün hipotez kimliğine karşı loglayabileceği tek satırlık insan-okunabilir bir cümledir.
@@ -130,15 +130,15 @@ Elli numaralı ders hipotez kuyruğunu üretti. Elli bir numaralı ders, literat
 
 ```text
 for hypothesis in queue:
-    literature = retrieval.search(hypothesis.text)
-    if literature_settles(hypothesis, literature):
-        attach(hypothesis, verdict="settled")
-        continue
-    candidates = runner.run_all(specs_for(hypothesis))
-    baselines  = runner.run_all(baseline_specs_for(hypothesis))
-    metric_spec = MetricSpec("perplexity", direction=LOWER, scale=LOG)
-    verdict = evaluator.evaluate(hypothesis.id, metric_spec, candidates, baselines)
-    attach(hypothesis, verdict)
+ literature = retrieval.search(hypothesis.text)
+ if literature_settles(hypothesis, literature):
+ attach(hypothesis, verdict="settled")
+ continue
+ candidates = runner.run_all(specs_for(hypothesis))
+ baselines = runner.run_all(baseline_specs_for(hypothesis))
+ metric_spec = MetricSpec("perplexity", direction=LOWER, scale=LOG)
+ verdict = evaluator.evaluate(hypothesis.id, metric_spec, candidates, baselines)
+ attach(hypothesis, verdict)
 ```
 
 O orkestratör bu derste değildir; dört ders, her birinin tanımladığı veri sınıflarının ötesinde herhangi bir yapıştırıcı olmadan onu oluşturur.

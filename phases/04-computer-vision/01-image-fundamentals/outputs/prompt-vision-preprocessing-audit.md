@@ -20,9 +20,9 @@ Her değişmez için çıktı:
 
 ```
 [inv] <name>
-  value:  <kaynaktan tam değer>
-  source: <dosya, bölüm veya satır>
-  risk:   <bu yanlışsa sessizce ne başarısız olur>
+ value: <kaynaktan tam değer>
+ source: <dosya, bölüm veya satır>
+ risk: <bu yanlışsa sessizce ne başarısız olur>
 ```
 
 Ardından şu biçimde tek satırlık bir ön işleme özeti üret:

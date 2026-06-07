@@ -54,7 +54,7 @@ Bunları doğru yaparsanız Faz 6'nın geri kalanı kolaylaşır. Yanlış yapar
 
 ```python
 import soundfile as sf
-waveform, sr = sf.read("clip.wav", dtype="float32")  # shape (T,), sr=int
+waveform, sr = sf.read("clip.wav", dtype="float32") # shape (T,), sr=int
 ```
 
 #### Açıklama
@@ -66,8 +66,8 @@ waveform, sr = sf.read("clip.wav", dtype="float32")  # shape (T,), sr=int
 import math
 
 def sine(freq_hz, sr, seconds, amp=0.5):
-    n = int(sr * seconds)
-    return [amp * math.sin(2 * math.pi * freq_hz * i / sr) for i in range(n)]
+ n = int(sr * seconds)
+ return [amp * math.sin(2 * math.pi * freq_hz * i / sr) for i in range(n)]
 ```
 
 #### Açıklama
@@ -77,13 +77,13 @@ Verilen frekans ve sürede bir sinüs dalgası üretir. 440 Hz (konser la'sı) 1
 
 ```python
 def dft(x):
-    N = len(x)
-    out = []
-    for k in range(N):
-        re = sum(x[n] * math.cos(-2 * math.pi * k * n / N) for n in range(N))
-        im = sum(x[n] * math.sin(-2 * math.pi * k * n / N) for n in range(N))
-        out.append((re, im))
-    return out
+ N = len(x)
+ out = []
+ for k in range(N):
+ re = sum(x[n] * math.cos(-2 * math.pi * k * n / N) for n in range(N))
+ im = sum(x[n] * math.sin(-2 * math.pi * k * n / N) for n in range(N))
+ out.append((re, im))
+ return out
 ```
 
 #### Açıklama
@@ -104,7 +104,7 @@ Genlik tepe indeksi `k_star` frekansı `k_star * sr / N`'e eşlenir. 440 Hz sin�
 | Görev | Kütüphane | Neden |
 |------|---------|-------|
 | WAV/FLAC/OGG okuma/yazma | `soundfile` (libsndfile sarmalayıcı) | En hızlı, kararlı, float32 döndürür. |
-| Yeniden örnekleme | `torchaudio.transforms.Resample` veya `librosa.resample` | Doğru anti-aliasing dahildir. |
+| Yeniden örnekleme | `torchaudio.transforms. Resample` veya `librosa.resample` | Doğru anti-aliasing dahildir. |
 | STFT / Mel | `torchaudio` veya `librosa` | GPU dostu; PyTorch ekosistemi. |
 | Gerçek zamanlı streaming | `sounddevice` veya `pyaudio` | Çapraz platformlu PortAudio bağları. |
 | Dosya inceleme | `ffprobe` veya `soxi` | CLI, hızlı, sr/kanal/kodek raporlar. |
@@ -118,7 +118,7 @@ Karar kuralı: **örneklem hızını her şeyden önce eşleştirin**. Whisper 1
 ## Alıştırmalar
 
 1. **Kolay.** 16 kHz'de 1 saniyelik 220 Hz + 440 Hz + 880 Hz karışımı sentezleyin. DFT çalıştırın. Beklenen bin'lerde üç tepe doğrulayın.
-2. **Orta.** 48 kHz'de sesinizin 3 saniyelik WAV'ını kaydedin. `torchaudio.transforms.Resample` ile (anti-aliasing ile) 16 kHz'e downsample edin, sonra her üçüncü örneği alarak naive decimation ile 16 kHz'e downsample edin. Her ikisini de FFT'ye sokun. Aliasing nerede görünür?
+2. **Orta.** 48 kHz'de sesinizin 3 saniyelik WAV'ını kaydedin. `torchaudio.transforms. Resample` ile (anti-aliasing ile) 16 kHz'e downsample edin, sonra her üçüncü örneği alarak naive decimation ile 16 kHz'e downsample edin. Her ikisini de FFT'ye sokun. Aliasing nerede görünür?
 3. **Zor.** Yalnızca `math` ve Adım 3'teki DFT'yi kullanarak STFT'yi sıfırdan oluşturun. Çerçeve boyutu 400, adım 160, Hann penceresi. `matplotlib.pyplot.imshow` ile genlikleri çizin. Bu Ders 02'nin spektrogramıdır.
 
 ## Anahtar Terimler

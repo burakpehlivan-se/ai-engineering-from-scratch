@@ -61,18 +61,18 @@ Yapı:
 
 ```
 ajan durumu:
-  kendi_inançları:    {ajanın inandığı olgular}
-  diğer_modeller:    {diğer_ajan_kimliği -> {ajanın ona atfettiği inançlar}}
-  son_N_eylemler:    [diğerlerinin eylemlerinin geçmişi]
+ kendi_inançları: {ajanın inandığı olgular}
+ diğer_modeller: {diğer_ajan_kimliği -> {ajanın ona atfettiği inançlar}}
+ son_N_eylemler: [diğerlerinin eylemlerinin geçmişi]
 
 gözlem güncelleme:
-  - kendi_inançları doğrudan gözlemden güncellenir
-  - diğer_modeller[ajan_kimliği] onun eylemi + önceki inançlardan güncellenir
+ - kendi_inançları doğrudan gözlemden güncellenir
+ - diğer_modeller[ajan_kimliği] onun eylemi + önceki inançlardan güncellenir
 
 eylem seçimi:
-  - aday eylemleri say
-  - her biri için, modellenen inançları altında her diğer ajanın ne yapacağını öngör
-  - bu öngörüler altında ortak sonucu en üst düzeye çıkaran eylemi seç
+ - aday eylemleri say
+ - her biri için, modellenen inançları altında her diğer ajanın ne yapacağını öngör
+ - bu öngörüler altında ortak sonucu en üst düzeye çıkaran eylemi seç
 ```
 
 #### Açıklama

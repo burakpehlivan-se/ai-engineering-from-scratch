@@ -38,25 +38,25 @@ import re
 
 
 class RulePattern:
-    def __init__(self, pattern, response_template):
-        self.regex = re.compile(pattern, re.IGNORECASE)
-        self.template = response_template
+ def __init__(self, pattern, response_template):
+ self.regex = re.compile(pattern, re. IGNORECASE)
+ self.template = response_template
 
 
 PATTERNS = [
-    RulePattern(r"my name is (\w+)", "Nice to meet you, {0}."),
-    RulePattern(r"i (need|want) (.+)", "Why do you {0} {1}?"),
-    RulePattern(r"i feel (.+)", "Why do you feel {0}?"),
-    RulePattern(r"(.*)", "Tell me more about that."),
+ RulePattern(r"my name is (\w+)", "Nice to meet you, {0}."),
+ RulePattern(r"i (need|want) (.+)", "Why do you {0} {1}?"),
+ RulePattern(r"i feel (.+)", "Why do you feel {0}?"),
+ RulePattern(r"(.*)", "Tell me more about that."),
 ]
 
 
 def rule_based_respond(user_input):
-    for pattern in PATTERNS:
-        m = pattern.regex.match(user_input.strip())
-        if m:
-            return pattern.template.format(*m.groups())
-    return "I don't understand."
+ for pattern in PATTERNS:
+ m = pattern.regex.match(user_input.strip())
+ if m:
+ return pattern.template.format(*m.groups())
+ return "I don't understand."
 ```
 
 #### Açıklama
@@ -72,9 +72,9 @@ import numpy as np
 
 
 FAQ = [
-    ("how do i reset my password", "Go to Settings > Security > Reset Password."),
-    ("how do i cancel my order", "Go to Orders, find the order, click Cancel."),
-    ("what is your return policy", "30-day returns on unused items, original packaging."),
+ ("how do i reset my password", "Go to Settings > Security > Reset Password."),
+ ("how do i cancel my order", "Go to Orders, find the order, click Cancel."),
+ ("what is your return policy", "30-day returns on unused items, original packaging."),
 ]
 
 
@@ -84,12 +84,12 @@ faq_embeddings = encoder.encode(faq_questions, normalize_embeddings=True)
 
 
 def faq_respond(user_input, threshold=0.5):
-    q_emb = encoder.encode([user_input], normalize_embeddings=True)[0]
-    sims = faq_embeddings @ q_emb
-    best = int(np.argmax(sims))
-    if sims[best] < threshold:
-        return None
-    return FAQ[best][1]
+ q_emb = encoder.encode([user_input], normalize_embeddings=True)[0]
+ sims = faq_embeddings @ q_emb
+ best = int(np.argmax(sims))
+ if sims[best] < threshold:
+ return None
+ return FAQ[best][1]
 ```
 
 #### Açıklama
@@ -117,28 +117,28 @@ FLAN-T5, instruction-tuning ile metin-girdi → metin-çıkıtlı pipeline'larda
 
 ```python
 def agent_loop(user_message, tools, llm, max_steps=5):
-    history = [{"role": "user", "content": user_message}]
-    for _ in range(max_steps):
-        response = llm(history, tools=tools)
-        tool_call = response.get("tool_call")
-        if tool_call:
-            tool_name = tool_call.get("name")
-            args = tool_call.get("arguments")
-            if not isinstance(tool_name, str) or tool_name not in tools:
-                history.append({"role": "assistant", "tool_call": tool_call})
-                history.append({"role": "tool", "name": str(tool_name), "content": f"error: unknown tool {tool_name!r}"})
-                continue
-            if not isinstance(args, dict):
-                history.append({"role": "assistant", "tool_call": tool_call})
-                history.append({"role": "tool", "name": tool_name, "content": f"error: arguments must be a dict, got {type(args).__name__}"})
-                continue
-            fn = tools[tool_name]
-            result = fn(**args)
-            history.append({"role": "assistant", "tool_call": tool_call})
-            history.append({"role": "tool", "name": tool_name, "content": result})
-        else:
-            return response["content"]
-    return "I could not complete the task in the step budget."
+ history = [{"role": "user", "content": user_message}]
+ for _ in range(max_steps):
+ response = llm(history, tools=tools)
+ tool_call = response.get("tool_call")
+ if tool_call:
+ tool_name = tool_call.get("name")
+ args = tool_call.get("arguments")
+ if not isinstance(tool_name, str) or tool_name not in tools:
+ history.append({"role": "assistant", "tool_call": tool_call})
+ history.append({"role": "tool", "name": str(tool_name), "content": f"error: unknown tool {tool_name!r}"})
+ continue
+ if not isinstance(args, dict):
+ history.append({"role": "assistant", "tool_call": tool_call})
+ history.append({"role": "tool", "name": tool_name, "content": f"error: arguments must be a dict, got {type(args).__name__}"})
+ continue
+ fn = tools[tool_name]
+ result = fn(**args)
+ history.append({"role": "assistant", "tool_call": tool_call})
+ history.append({"role": "tool", "name": tool_name, "content": result})
+ else:
+ return response["content"]
+ return "I could not complete the task in the step budget."
 ```
 
 #### Açıklama
@@ -150,19 +150,19 @@ Gerçek production ekleri: retrieval-öncelikli temelleme (her LLM çağrısınd
 
 ```python
 def hybrid_chat(user_input):
-    if is_destructive_action(user_input):
-        return structured_flow(user_input)
+ if is_destructive_action(user_input):
+ return structured_flow(user_input)
 
-    faq_answer = faq_respond(user_input, threshold=0.6)
-    if faq_answer:
-        return faq_answer
+ faq_answer = faq_respond(user_input, threshold=0.6)
+ if faq_answer:
+ return faq_answer
 
-    return agent_loop(user_input, tools, llm)
+ return agent_loop(user_input, tools, llm)
 
 
 def is_destructive_action(text):
-    danger_words = ["delete", "cancel", "charge", "refund", "transfer"]
-    return any(w in text.lower() for w in danger_words)
+ danger_words = ["delete", "cancel", "charge", "refund", "transfer"]
+ return any(w in text.lower() for w in danger_words)
 ```
 
 #### Açıklama
@@ -187,11 +187,11 @@ Production'da her zaman hibrit yönlendirme kullanın. Tek bir mimari her isteğ
 - **Kendinden emin uydurma.** LLM ajanı yapmadığı bir eylemi tamamladığını iddia eder. Hafifletme: sonuçları doğrulayın, araç çağrılarını loglayın, LLM'ın başarılı bir araç dönüşü olmadan bir şey yaptığını iddia etmesine asla izin verin.
 - **Prompt enjeksiyonu (prompt injection).** Kullanıcı system prompt'u geçersiz kılan metin girer. OWASP Top 10 for LLM Applications 2025'te LLM01 olarak sıralanmıştır. İki türü var: doğrudan enjeksiyon (sohbete yapıştırılan) ve dolaylı enjeksiyon (ajanın okuduğu belgelerde, e-postalarda veya araç çıktılarında gizli).
 
-  Saldırı oranları senaryoya göre değişir. Ölçülen başarı oranları, genel araç kullanımı ve kodlama benchmark'larında öncü modeller arasında ~%0.5-8.5 arasında değişir. Belirli yüksek riskli kurulumlar (kodlama ajanlarına yönelik uyarlanabilir saldırılar, kırılgan orkestrasyon) ~%84'e ulaşmıştır. Production CVE'leri EchoLeak'i (CVE-2025-32711, CVSS 9.3) içerir — Microsoft 365 Copilot'ta saldırgan kontrollü e-posta ile tetiklenen sıfır tıklama veri sızıntısı kusuru.
+ Saldırı oranları senaryoya göre değişir. Ölçülen başarı oranları, genel araç kullanımı ve kodlama benchmark'larında öncü modeller arasında ~%0.5-8.5 arasında değişir. Belirli yüksek riskli kurulumlar (kodlama ajanlarına yönelik uyarlanabilir saldırılar, kırılgan orkestrasyon) ~%84'e ulaşmıştır. Production CVE'leri EchoLeak'i (CVE-2025-32711, CVSS 9.3) içerir — Microsoft 365 Copilot'ta saldırgan kontrollü e-posta ile tetiklenen sıfır tıklama veri sızıntısı kusuru.
 
-  Hafifletme: kullanıcı girişini döngü boyunca güvensiz kabul edin; araç çağrısından önce temizleyin; araç çıktılarını ana prompt'tan izole edin; Planla-Doğrula-Gerçekleştir (PVE) kalıbını kullanın (ajan önce planlar, ardından gerçekleştirme önce her eylemi plana karşı doğrular — bu, araç sonuçlarının yeni planlanmamış eylemler enjekte etmesini engeller); yıkıcı eylemler için kullanıcı onayı gerektirin; araç kapsamlarına asgari ayrıcalık (least-privilege) uygulayın.
+ Hafifletme: kullanıcı girişini döngü boyunca güvensiz kabul edin; araç çağrısından önce temizleyin; araç çıktılarını ana prompt'tan izole edin; Planla-Doğrula-Gerçekleştir (PVE) kalıbını kullanın (ajan önce planlar, ardından gerçekleştirme önce her eylemi plana karşı doğrular — bu, araç sonuçlarının yeni planlanmamış eylemler enjekte etmesini engeller); yıkıcı eylemler için kullanıcı onayı gerektirin; araç kapsamlarına asgari ayrıcalık (least-privilege) uygulayın.
 
-  Hiçbir mühendislik düzeyi bu riski tamamen ortadan kaldırmaz. Çalışma zamanı savunma katmanları (LLM Guard, izin listesi doğrulama, anormal algılama) gereklidir.
+ Hiçbir mühendislik düzeyi bu riski tamamen ortadan kaldırmaz. Çalışma zamanı savunma katmanları (LLM Guard, izin listesi doğrulama, anormal algılama) gereklidir.
 - **Kapsam kayması (scope creep).** Araç çağrısı yandan ilişkili bilgi döndürdüğünde ajan görevden sapar. Hafifletme: dar araç sözleşmeleri; system prompt'u odaklı tutun; görev dışı oranı için değerlendirmeler ekleyin.
 - **Sonsuz döngüler.** Aynı aracı tekrar tekrar çağırır. Hafifletme: adım bütçesi, araç çağrısı tekrar kaldırma, "ilerleme kaydediyor muyuz?" üzerine LLM judge.
 - **Bağlam penceresi tükenmesi (context window exhaustion).** Uzun konuşmalar en erken turları bağlam dışına iter. Hafifletme: daha eski turları özetleyin, benzerliğe göre ilgili geçmiş turları getirin veya uzun bağlam modeli kullanın.

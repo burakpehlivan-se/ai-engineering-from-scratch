@@ -41,7 +41,7 @@ Hibrit arama her ikisini de çalıştırır, sonra sonuçları birleştirir.
 
 ```
 BM25(q, d) = sum over terms t in q:
-    IDF(t) * (tf(t,d) * (k1 + 1)) / (tf(t,d) + k1 * (1 - b + b * |d| / avgdl))
+ IDF(t) * (tf(t,d) * (k1 + 1)) / (tf(t,d) + k1 * (1 - b + b * |d| / avgdl))
 ```
 
 Burada tf(t,d) t teriminin belge d'deki terim sıklığıdır, IDF(t) ters belge sıklığıdır, |d| belge uzunluğudur, avgdl ortalama belge uzunluğudur, k1 terim sıklığı doygunluğunu kontrol eder (varsayılan 1.2), b ise uzunluk normalizasyonunu kontrol eder (varsayılan 0.75).
@@ -54,7 +54,7 @@ Düz bir ifadeyle: BM25, belgeleri sorgu terimlerini (özellikle nadir olanları
 
 ```
 RRF_score(d) = sum over rankings R:
-    1 / (k + rank_R(d))
+ 1 / (k + rank_R(d))
 ```
 
 Burada k, en yüksek sıralı sonucun baskın olmasını önleyen bir sabittir (tipik olarak 60).
@@ -75,12 +75,12 @@ Reranking cross-encoder kullanır: sorgu ve bir aday belge birlikte bir modele b
 
 ```mermaid
 graph LR
-    Q["Sorgu"] --> H["Hibrit Arama"]
-    H --> C50["En iyi 50 aday"]
-    C50 --> RR["Cross-Encoder Reranker"]
-    RR --> C5["En iyi 5 nihai sonuç"]
-    C5 --> P["Prompt oluştur"]
-    P --> LLM["Yanıt üret"]
+ Q["Sorgu"] --> H["Hibrit Arama"]
+ H --> C50["En iyi 50 aday"]
+ C50 --> RR["Cross-Encoder Reranker"]
+ RR --> C5["En iyi 5 nihai sonuç"]
+ C5 --> P["Prompt oluştur"]
+ P --> LLM["Yanıt üret"]
 ```
 
 Yaygın reranking modelleri (2026 listesi):
@@ -123,19 +123,19 @@ Retrieval için küçük chunk'ları (128 token) indeksleyin. Bir küçük chunk
 
 ```mermaid
 graph TD
-    P["Ebeveyn chunk (512 token)<br/>İade politikası hakkında tam bölüm"]
-    C1["Çocuk chunk (128 token)<br/>Standart plan: 30 günlük iade"]
-    C2["Çocuk chunk (128 token)<br/>Enterprise: 60 gün orantılı"]
-    C3["Çocuk chunk (128 token)<br/>İşlem süresi: 5-7 gün"]
-    C4["Çocuk chunk (128 token)<br/>Nasıl başvurulur"]
+ P["Ebeveyn chunk (512 token)<br/>İade politikası hakkında tam bölüm"]
+ C1["Çocuk chunk (128 token)<br/>Standart plan: 30 günlük iade"]
+ C2["Çocuk chunk (128 token)<br/>Enterprise: 60 gün orantılı"]
+ C3["Çocuk chunk (128 token)<br/>İşlem süresi: 5-7 gün"]
+ C4["Çocuk chunk (128 token)<br/>Nasıl başvurulur"]
 
-    P --> C1
-    P --> C2
-    P --> C3
-    P --> C4
+ P --> C1
+ P --> C2
+ P --> C3
+ P --> C4
 
-    Q["Sorgu: enterprise iade?"] -.->|"çocuğu eşleşir"| C2
-    C2 -.->|"ebeveyni döndür"| P
+ Q["Sorgu: enterprise iade?"] -.->|"çocuğu eşleşir"| C2
+ C2 -.->|"ebeveyni döndür"| P
 ```
 
 Sorgu "enterprise iade?" C2 çocuk chunk'ını hassas bir şekilde eşler. Ama prompt tam ebeveyn chunk P'yi alır, bu da işlem süresi ve başvuru süreci hakkındaki çevresel context'i içerir.
@@ -162,12 +162,12 @@ Basit bir sadakat kontrolü: üretilen yanıttaki her iddiayı alın ve (özünd
 
 ```mermaid
 graph TD
-    subgraph "Değerlendirme Çerçevesi"
-        Q["Test soruları<br/>+ beklenen yanıtlar<br/>+ alakalı belge ID'leri"]
-        Q --> Ret["Retrieval değerlendirmesi<br/>Recall@k: doğru<br/>belgeler getirildi mi?"]
-        Q --> Faith["Sadakat değerlendirmesi<br/>Yanıt getirilen<br/>belgelere mi dayanıyor?"]
-        Q --> Correct["Doğruluk değerlendirmesi<br/>Yanıt beklenen<br/>yanıtla eşleşiyor mu?"]
-    end
+ subgraph "Değerlendirme Çerçevesi"
+ Q["Test soruları<br/>+ beklenen yanıtlar<br/>+ alakalı belge ID'leri"]
+ Q --> Ret["Retrieval değerlendirmesi<br/>Recall@k: doğru<br/>belgeler getirildi mi?"]
+ Q --> Faith["Sadakat değerlendirmesi<br/>Yanıt getirilen<br/>belgelere mi dayanıyor?"]
+ Q --> Correct["Doğruluk değerlendirmesi<br/>Yanıt beklenen<br/>yanıtla eşleşiyor mu?"]
+ end
 ```
 
 ## Yap
@@ -179,78 +179,78 @@ import math
 from collections import Counter
 
 class BM25:
-    def __init__(self, k1=1.2, b=0.75):
-        self.k1 = k1
-        self.b = b
-        self.docs = []
-        self.doc_lengths = []
-        self.avg_dl = 0
-        self.doc_freqs = {}
-        self.n_docs = 0
+ def __init__(self, k1=1.2, b=0.75):
+ self.k1 = k1
+ self.b = b
+ self.docs = []
+ self.doc_lengths = []
+ self.avg_dl = 0
+ self.doc_freqs = {}
+ self.n_docs = 0
 
-    def index(self, documents):
-        self.docs = documents
-        self.n_docs = len(documents)
-        self.doc_lengths = []
-        self.doc_freqs = {}
+ def index(self, documents):
+ self.docs = documents
+ self.n_docs = len(documents)
+ self.doc_lengths = []
+ self.doc_freqs = {}
 
-        for doc in documents:
-            words = doc.lower().split()
-            self.doc_lengths.append(len(words))
-            unique_words = set(words)
-            for word in unique_words:
-                self.doc_freqs[word] = self.doc_freqs.get(word, 0) + 1
+ for doc in documents:
+ words = doc.lower().split()
+ self.doc_lengths.append(len(words))
+ unique_words = set(words)
+ for word in unique_words:
+ self.doc_freqs[word] = self.doc_freqs.get(word, 0) + 1
 
-        self.avg_dl = sum(self.doc_lengths) / self.n_docs if self.n_docs else 1
+ self.avg_dl = sum(self.doc_lengths) / self.n_docs if self.n_docs else 1
 
-    def score(self, query, doc_idx):
-        query_words = query.lower().split()
-        doc_words = self.docs[doc_idx].lower().split()
-        doc_len = self.doc_lengths[doc_idx]
-        word_counts = Counter(doc_words)
-        score = 0.0
+ def score(self, query, doc_idx):
+ query_words = query.lower().split()
+ doc_words = self.docs[doc_idx].lower().split()
+ doc_len = self.doc_lengths[doc_idx]
+ word_counts = Counter(doc_words)
+ score = 0.0
 
-        for term in query_words:
-            if term not in word_counts:
-                continue
-            tf = word_counts[term]
-            df = self.doc_freqs.get(term, 0)
-            idf = math.log((self.n_docs - df + 0.5) / (df + 0.5) + 1)
-            numerator = tf * (self.k1 + 1)
-            denominator = tf + self.k1 * (1 - self.b + self.b * doc_len / self.avg_dl)
-            score += idf * numerator / denominator
+ for term in query_words:
+ if term not in word_counts:
+ continue
+ tf = word_counts[term]
+ df = self.doc_freqs.get(term, 0)
+ idf = math.log((self.n_docs - df + 0.5) / (df + 0.5) + 1)
+ numerator = tf * (self.k1 + 1)
+ denominator = tf + self.k1 * (1 - self.b + self.b * doc_len / self.avg_dl)
+ score += idf * numerator / denominator
 
-        return score
+ return score
 
-    def search(self, query, top_k=10):
-        scores = [(i, self.score(query, i)) for i in range(self.n_docs)]
-        scores.sort(key=lambda x: x[1], reverse=True)
-        return scores[:top_k]
+ def search(self, query, top_k=10):
+ scores = [(i, self.score(query, i)) for i in range(self.n_docs)]
+ scores.sort(key=lambda x: x[1], reverse=True)
+ return scores[:top_k]
 ```
 
 ### Adım 2: Reciprocal Rank Fusion
 
 ```python
 def reciprocal_rank_fusion(ranked_lists, k=60):
-    scores = {}
-    for ranked_list in ranked_lists:
-        for rank, (doc_id, _) in enumerate(ranked_list):
-            if doc_id not in scores:
-                scores[doc_id] = 0.0
-            scores[doc_id] += 1.0 / (k + rank + 1)
-    fused = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    return fused
+ scores = {}
+ for ranked_list in ranked_lists:
+ for rank, (doc_id, _) in enumerate(ranked_list):
+ if doc_id not in scores:
+ scores[doc_id] = 0.0
+ scores[doc_id] += 1.0 / (k + rank + 1)
+ fused = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+ return fused
 ```
 
 ### Adım 3: Hibrit Arama Hattı
 
 ```python
 def hybrid_search(query, chunks, vector_embeddings, vocab, idf, bm25_index, top_k=5, fusion_k=60):
-    query_emb = tfidf_embed(query, vocab, idf)
-    vector_results = search(query_emb, vector_embeddings, top_k=top_k * 3)
-    bm25_results = bm25_index.search(query, top_k=top_k * 3)
-    fused = reciprocal_rank_fusion([vector_results, bm25_results], k=fusion_k)
-    return fused[:top_k]
+ query_emb = tfidf_embed(query, vocab, idf)
+ vector_results = search(query_emb, vector_embeddings, top_k=top_k * 3)
+ bm25_results = bm25_index.search(query, top_k=top_k * 3)
+ fused = reciprocal_rank_fusion([vector_results, bm25_results], k=fusion_k)
+ return fused[:top_k]
 ```
 
 ### Adım 4: Basit Reranker
@@ -259,160 +259,160 @@ def hybrid_search(query, chunks, vector_embeddings, vocab, idf, bm25_index, top_
 
 ```python
 def rerank(query, candidates, chunks):
-    query_words = set(query.lower().split())
-    stop_words = {"the", "a", "an", "is", "are", "was", "were", "what", "how",
-                  "why", "when", "where", "do", "does", "for", "of", "in", "to",
-                  "and", "or", "on", "at", "by", "it", "its", "this", "that",
-                  "with", "from", "be", "has", "have", "had", "not", "but"}
-    query_terms = query_words - stop_words
+ query_words = set(query.lower().split())
+ stop_words = {"the", "a", "an", "is", "are", "was", "were", "what", "how",
+ "why", "when", "where", "do", "does", "for", "of", "in", "to",
+ "and", "or", "on", "at", "by", "it", "its", "this", "that",
+ "with", "from", "be", "has", "have", "had", "not", "but"}
+ query_terms = query_words - stop_words
 
-    scored = []
-    for doc_id, initial_score in candidates:
-        chunk = chunks[doc_id].lower()
-        chunk_words = set(chunk.split())
+ scored = []
+ for doc_id, initial_score in candidates:
+ chunk = chunks[doc_id].lower()
+ chunk_words = set(chunk.split())
 
-        term_overlap = len(query_terms & chunk_words)
+ term_overlap = len(query_terms & chunk_words)
 
-        query_bigrams = set()
-        q_list = [w for w in query.lower().split() if w not in stop_words]
-        for i in range(len(q_list) - 1):
-            query_bigrams.add(q_list[i] + " " + q_list[i + 1])
-        bigram_matches = sum(1 for bg in query_bigrams if bg in chunk)
+ query_bigrams = set()
+ q_list = [w for w in query.lower().split() if w not in stop_words]
+ for i in range(len(q_list) - 1):
+ query_bigrams.add(q_list[i] + " " + q_list[i + 1])
+ bigram_matches = sum(1 for bg in query_bigrams if bg in chunk)
 
-        position_boost = 0
-        for term in query_terms:
-            pos = chunk.find(term)
-            if pos != -1 and pos < len(chunk) // 3:
-                position_boost += 0.5
+ position_boost = 0
+ for term in query_terms:
+ pos = chunk.find(term)
+ if pos != -1 and pos < len(chunk) // 3:
+ position_boost += 0.5
 
-        rerank_score = (
-            term_overlap * 1.0
-            + bigram_matches * 2.0
-            + position_boost
-            + initial_score * 5.0
-        )
-        scored.append((doc_id, rerank_score))
+ rerank_score = (
+ term_overlap * 1.0
+ + bigram_matches * 2.0
+ + position_boost
+ + initial_score * 5.0
+ )
+ scored.append((doc_id, rerank_score))
 
-    scored.sort(key=lambda x: x[1], reverse=True)
-    return scored
+ scored.sort(key=lambda x: x[1], reverse=True)
+ return scored
 ```
 
 ### Adım 5: HyDE (Hypothetical Document Embeddings)
 
 ```python
 def hyde_generate_hypothesis(query):
-    templates = {
-        "what": "The answer to '{query}' is as follows: Based on our documentation, {topic} involves specific policies and procedures that define how the process works.",
-        "how": "To address '{query}': The process involves several steps. First, you need to initiate the request. Then, the system processes it according to the defined rules.",
-        "default": "Regarding '{query}': Our records indicate specific details and policies related to this topic that provide a comprehensive answer."
-    }
-    query_lower = query.lower()
-    if query_lower.startswith("what"):
-        template = templates["what"]
-    elif query_lower.startswith("how"):
-        template = templates["how"]
-    else:
-        template = templates["default"]
+ templates = {
+ "what": "The answer to '{query}' is as follows: Based on our documentation, {topic} involves specific policies and procedures that define how the process works.",
+ "how": "To address '{query}': The process involves several steps. First, you need to initiate the request. Then, the system processes it according to the defined rules.",
+ "default": "Regarding '{query}': Our records indicate specific details and policies related to this topic that provide a comprehensive answer."
+ }
+ query_lower = query.lower()
+ if query_lower.startswith("what"):
+ template = templates["what"]
+ elif query_lower.startswith("how"):
+ template = templates["how"]
+ else:
+ template = templates["default"]
 
-    topic_words = [w for w in query.lower().split()
-                   if w not in {"what", "is", "the", "how", "do", "does", "a", "an",
-                                "for", "of", "to", "in", "on", "at", "by", "and", "or"}]
-    topic = " ".join(topic_words) if topic_words else "this topic"
+ topic_words = [w for w in query.lower().split()
+ if w not in {"what", "is", "the", "how", "do", "does", "a", "an",
+ "for", "of", "to", "in", "on", "at", "by", "and", "or"}]
+ topic = " ".join(topic_words) if topic_words else "this topic"
 
-    return template.format(query=query, topic=topic)
+ return template.format(query=query, topic=topic)
 
 
 def hyde_search(query, chunks, vector_embeddings, vocab, idf, top_k=5):
-    hypothesis = hyde_generate_hypothesis(query)
-    hypothesis_emb = tfidf_embed(hypothesis, vocab, idf)
-    results = search(hypothesis_emb, vector_embeddings, top_k)
-    return results, hypothesis
+ hypothesis = hyde_generate_hypothesis(query)
+ hypothesis_emb = tfidf_embed(hypothesis, vocab, idf)
+ results = search(hypothesis_emb, vector_embeddings, top_k)
+ return results, hypothesis
 ```
 
 ### Adım 6: Ebeveyn-Çocuk Chunking'i
 
 ```python
 def create_parent_child_chunks(text, parent_size=200, child_size=50):
-    words = text.split()
-    parents = []
-    children = []
-    child_to_parent = {}
+ words = text.split()
+ parents = []
+ children = []
+ child_to_parent = {}
 
-    parent_idx = 0
-    start = 0
-    while start < len(words):
-        parent_end = min(start + parent_size, len(words))
-        parent_text = " ".join(words[start:parent_end])
-        parents.append(parent_text)
+ parent_idx = 0
+ start = 0
+ while start < len(words):
+ parent_end = min(start + parent_size, len(words))
+ parent_text = " ".join(words[start:parent_end])
+ parents.append(parent_text)
 
-        child_start = start
-        while child_start < parent_end:
-            child_end = min(child_start + child_size, parent_end)
-            child_text = " ".join(words[child_start:child_end])
-            child_idx = len(children)
-            children.append(child_text)
-            child_to_parent[child_idx] = parent_idx
-            child_start += child_size
+ child_start = start
+ while child_start < parent_end:
+ child_end = min(child_start + child_size, parent_end)
+ child_text = " ".join(words[child_start:child_end])
+ child_idx = len(children)
+ children.append(child_text)
+ child_to_parent[child_idx] = parent_idx
+ child_start += child_size
 
-        parent_idx += 1
-        start += parent_size
+ parent_idx += 1
+ start += parent_size
 
-    return parents, children, child_to_parent
+ return parents, children, child_to_parent
 ```
 
 ### Adım 7: Sadakat Değerlendirmesi
 
 ```python
 def evaluate_faithfulness(answer, retrieved_chunks):
-    answer_sentences = [s.strip() for s in answer.split(".") if len(s.strip()) > 10]
-    if not answer_sentences:
-        return 1.0, []
+ answer_sentences = [s.strip() for s in answer.split(".") if len(s.strip()) > 10]
+ if not answer_sentences:
+ return 1.0, []
 
-    grounded = 0
-    ungrounded = []
-    context = " ".join(retrieved_chunks).lower()
+ grounded = 0
+ ungrounded = []
+ context = " ".join(retrieved_chunks).lower()
 
-    for sentence in answer_sentences:
-        words = set(sentence.lower().split())
-        stop_words = {"the", "a", "an", "is", "are", "was", "were", "and", "or",
-                      "to", "of", "in", "for", "on", "at", "by", "it", "this", "that"}
-        content_words = words - stop_words
-        if not content_words:
-            grounded += 1
-            continue
+ for sentence in answer_sentences:
+ words = set(sentence.lower().split())
+ stop_words = {"the", "a", "an", "is", "are", "was", "were", "and", "or",
+ "to", "of", "in", "for", "on", "at", "by", "it", "this", "that"}
+ content_words = words - stop_words
+ if not content_words:
+ grounded += 1
+ continue
 
-        matched = sum(1 for w in content_words if w in context)
-        ratio = matched / len(content_words) if content_words else 0
+ matched = sum(1 for w in content_words if w in context)
+ ratio = matched / len(content_words) if content_words else 0
 
-        if ratio >= 0.5:
-            grounded += 1
-        else:
-            ungrounded.append(sentence)
+ if ratio >= 0.5:
+ grounded += 1
+ else:
+ ungrounded.append(sentence)
 
-    score = grounded / len(answer_sentences) if answer_sentences else 1.0
-    return score, ungrounded
+ score = grounded / len(answer_sentences) if answer_sentences else 1.0
+ return score, ungrounded
 
 
 def evaluate_retrieval_recall(queries_with_relevant, retrieval_fn, k=5):
-    total_recall = 0.0
-    results = []
+ total_recall = 0.0
+ results = []
 
-    for query, relevant_indices in queries_with_relevant:
-        retrieved = retrieval_fn(query, k)
-        retrieved_indices = set(idx for idx, _ in retrieved)
-        relevant_set = set(relevant_indices)
-        hits = len(retrieved_indices & relevant_set)
-        recall = hits / len(relevant_set) if relevant_set else 1.0
-        total_recall += recall
-        results.append({
-            "query": query,
-            "recall": recall,
-            "hits": hits,
-            "total_relevant": len(relevant_set)
-        })
+ for query, relevant_indices in queries_with_relevant:
+ retrieved = retrieval_fn(query, k)
+ retrieved_indices = set(idx for idx, _ in retrieved)
+ relevant_set = set(relevant_indices)
+ hits = len(retrieved_indices & relevant_set)
+ recall = hits / len(relevant_set) if relevant_set else 1.0
+ total_recall += recall
+ results.append({
+ "query": query,
+ "recall": recall,
+ "hits": hits,
+ "total_relevant": len(relevant_set)
+ })
 
-    avg_recall = total_recall / len(queries_with_relevant) if queries_with_relevant else 0
-    return avg_recall, results
+ avg_recall = total_recall / len(queries_with_relevant) if queries_with_relevant else 0
+ return avg_recall, results
 ```
 
 ## Kullan
@@ -425,11 +425,11 @@ from sentence_transformers import CrossEncoder
 reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 def rerank_with_cross_encoder(query, candidates, chunks, top_k=5):
-    pairs = [(query, chunks[doc_id]) for doc_id, _ in candidates]
-    scores = reranker.predict(pairs)
-    scored = list(zip([doc_id for doc_id, _ in candidates], scores))
-    scored.sort(key=lambda x: x[1], reverse=True)
-    return scored[:top_k]
+ pairs = [(query, chunks[doc_id]) for doc_id, _ in candidates]
+ scores = reranker.predict(pairs)
+ scored = list(zip([doc_id for doc_id, _ in candidates], scores))
+ scored.sort(key=lambda x: x[1], reverse=True)
+ return scored[:top_k]
 ```
 
 Cohere'nin yönetilen reranker'ı ile:
@@ -437,17 +437,17 @@ Cohere'nin yönetilen reranker'ı ile:
 ```python
 import cohere
 
-co = cohere.Client()
+co = cohere. Client()
 
 def rerank_with_cohere(query, candidates, chunks, top_k=5):
-    docs = [chunks[doc_id] for doc_id, _ in candidates]
-    response = co.rerank(
-        model="rerank-english-v3.0",
-        query=query,
-        documents=docs,
-        top_n=top_k
-    )
-    return [(candidates[r.index][0], r.relevance_score) for r in response.results]
+ docs = [chunks[doc_id] for doc_id, _ in candidates]
+ response = co.rerank(
+ model="rerank-english-v3.0",
+ query=query,
+ documents=docs,
+ top_n=top_k
+ )
+ return [(candidates[r.index][0], r.relevance_score) for r in response.results]
 ```
 
 Gerçek bir LLM ile HyDE:
@@ -455,18 +455,18 @@ Gerçek bir LLM ile HyDE:
 ```python
 import anthropic
 
-client = anthropic.Anthropic()
+client = anthropic. Anthropic()
 
 def hyde_with_llm(query):
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=256,
-        messages=[{
-            "role": "user",
-            "content": f"Write a short paragraph that would be a good answer to this question. Do not say you don't know. Just write what the answer would look like.\n\nQuestion: {query}"
-        }]
-    )
-    return response.content[0].text
+ response = client.messages.create(
+ model="claude-sonnet-4-20250514",
+ max_tokens=256,
+ messages=[{
+ "role": "user",
+ "content": f"Write a short paragraph that would be a good answer to this question. Do not say you don't know. Just write what the answer would look like.\n\nQuestion: {query}"
+ }]
+ )
+ return response.content[0].text
 ```
 
 Weaviate ile üretim hibrit araması:
@@ -478,9 +478,9 @@ client = weaviate.connect_to_local()
 
 collection = client.collections.get("Documents")
 response = collection.query.hybrid(
-    query="enterprise refund policy",
-    alpha=0.5,
-    limit=10
+ query="enterprise refund policy",
+ alpha=0.5,
+ limit=10
 )
 ```
 

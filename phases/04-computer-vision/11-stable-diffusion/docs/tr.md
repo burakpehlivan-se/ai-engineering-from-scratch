@@ -28,21 +28,21 @@ Neredeyse tüm modern görüntü üretim modelleri — SDXL, SD3, FLUX, HunyuanD
 
 ```mermaid
 flowchart LR
-    TXT["Metin promptu"] --> TE["Metin kodlayıcı<br/>(CLIP-L veya T5)"]
-    TE --> CT["Metin<br/>gömmesi"]
+ TXT["Metin promptu"] --> TE["Metin kodlayıcı<br/>(CLIP-L veya T5)"]
+ TE --> CT["Metin<br/>gömmesi"]
 
-    NOISE["Gürültü<br/>4x64x64"] --> UNET["UNet<br/>(gürültü giderici,<br/>metne çapraz dikkatli)"]
-    CT --> UNET
+ NOISE["Gürültü<br/>4x64x64"] --> UNET["UNet<br/>(gürültü giderici,<br/>metne çapraz dikkatli)"]
+ CT --> UNET
 
-    UNET --> SCHED["Scheduler<br/>(DPM-Solver++,<br/>Euler)"]
-    SCHED --> LATENT["Temiz latent<br/>4x64x64"]
-    LATENT --> VAE["VAE çözücü"]
-    VAE --> IMG["512x512<br/>RGB görüntü"]
+ UNET --> SCHED["Scheduler<br/>(DPM-Solver++,<br/>Euler)"]
+ SCHED --> LATENT["Temiz latent<br/>4x64x64"]
+ LATENT --> VAE["VAE çözücü"]
+ VAE --> IMG["512x512<br/>RGB görüntü"]
 
-    style TE fill:#dbeafe,stroke:#2563eb
-    style UNET fill:#fef3c7,stroke:#d97706
-    style SCHED fill:#fecaca,stroke:#dc2626
-    style IMG fill:#dcfce7,stroke:#16a34a
+ style TE fill:#dbeafe,stroke:#2563eb
+ style UNET fill:#fef3c7,stroke:#d97706
+ style SCHED fill:#fecaca,stroke:#dc2626
+ style IMG fill:#dcfce7,stroke:#16a34a
 ```
 
 - **VAE** — dondurulmuş otokodlayıcı. Kodlayıcı (encoder) görüntüyü latentlere dönüştürür (img2img ve eğitim için kullanılır). Çözücü (decoder) latentleri tekrar görüntüye dönüştürür.
@@ -87,8 +87,8 @@ SD 1.5'te toplam parametre: ~860M. SDXL: ~2.6B. FLUX: ~12B. Parametre artışı 
 Stable Diffusion'ın tam ince ayarı 20+ GB VRAM gerektirir ve 860M parametreyi günceller. LoRA (Low-Rank Adaptation — Düşük Dereceli Adaptasyon), temel modeli dondurulmuş tutar ve dikkat katmanlarına küçük derece-ayrışım matrisleri (rank-decomposition matrices) enjekte eder. SD için bir LoRA adaptörü tipik olarak 10-50 MB'tır, tek bir tüketici GPU'sunda 10-60 dakikada eğitilir ve çıkarım zamanında anında değiştirilebilir bir modifikasyon olarak yüklenir.
 
 ```
-Orijinal: W_q : (d_in, d_out)   dondurulmuş
-LoRA:     W_q + alpha * (A @ B)   burada A : (d_in, r), B : (r, d_out)
+Orijinal: W_q : (d_in, d_out) dondurulmuş
+LoRA: W_q + alpha * (A @ B) burada A : (d_in, r), B : (r, d_out)
 
 r tipik olarak 4-32'dir.
 ```
@@ -115,15 +115,15 @@ import torch
 from diffusers import StableDiffusionPipeline
 
 pipe = StableDiffusionPipeline.from_pretrained(
-    "runwayml/stable-diffusion-v1-5",
-    torch_dtype=torch.float16,
+ "runwayml/stable-diffusion-v1-5",
+ torch_dtype=torch.float16,
 ).to("cuda")
 
 image = pipe(
-    prompt="bir köpek Tokyo'da kaykay sürüyor, Studio Ghibli stili",
-    guidance_scale=7.5,
-    num_inference_steps=25,
-    generator=torch.Generator("cuda").manual_seed(42),
+ prompt="bir köpek Tokyo'da kaykay sürüyor, Studio Ghibli stili",
+ guidance_scale=7.5,
+ num_inference_steps=25,
+ generator=torch. Generator("cuda").manual_seed(42),
 ).images[0]
 image.save("kopek.png")
 ```
@@ -150,16 +150,16 @@ from diffusers import StableDiffusionImg2ImgPipeline
 from PIL import Image
 
 img2img = StableDiffusionImg2ImgPipeline.from_pretrained(
-    "runwayml/stable-diffusion-v1-5",
-    torch_dtype=torch.float16,
+ "runwayml/stable-diffusion-v1-5",
+ torch_dtype=torch.float16,
 ).to("cuda")
 
 init_image = Image.open("kopek.png").convert("RGB").resize((512, 512))
 out = img2img(
-    prompt="kaykay süren bir köpek, yağlı boya",
-    image=init_image,
-    strength=0.6,
-    guidance_scale=7.5,
+ prompt="kaykay süren bir köpek, yağlı boya",
+ image=init_image,
+ strength=0.6,
+ guidance_scale=7.5,
 ).images[0]
 ```
 
@@ -172,18 +172,18 @@ out = img2img(
 from diffusers import StableDiffusionInpaintPipeline
 
 inpaint = StableDiffusionInpaintPipeline.from_pretrained(
-    "runwayml/stable-diffusion-inpainting",
-    torch_dtype=torch.float16,
+ "runwayml/stable-diffusion-inpainting",
+ torch_dtype=torch.float16,
 ).to("cuda")
 
 image = Image.open("kopek.png").convert("RGB").resize((512, 512))
 mask = Image.open("kopek_maske.png").convert("L").resize((512, 512))
 
 out = inpaint(
-    prompt="bir kedi",
-    image=image,
-    mask_image=mask,
-    guidance_scale=7.5,
+ prompt="bir kedi",
+ image=image,
+ mask_image=mask,
+ guidance_scale=7.5,
 ).images[0]
 ```
 
@@ -209,20 +209,20 @@ Gerçek LoRA eğitimi `peft` veya `diffusers.training` içinde yaşar. Ana hat:
 ```python
 # Sözde kod
 for step, batch in enumerate(dataloader):
-    images, prompts = batch
-    latents = vae.encode(images).latent_dist.sample() * 0.18215
+ images, prompts = batch
+ latents = vae.encode(images).latent_dist.sample() * 0.18215
 
-    t = torch.randint(0, num_train_timesteps, (batch_size,))
-    noise = torch.randn_like(latents)
-    noisy_latents = scheduler.add_noise(latents, noise, t)
+ t = torch.randint(0, num_train_timesteps, (batch_size,))
+ noise = torch.randn_like(latents)
+ noisy_latents = scheduler.add_noise(latents, noise, t)
 
-    text_emb = text_encoder(tokenizer(prompts))
+ text_emb = text_encoder(tokenizer(prompts))
 
-    pred_noise = unet(noisy_latents, t, text_emb)  # LoRA ağırlıkları burada enjekte edilir
+ pred_noise = unet(noisy_latents, t, text_emb) # LoRA ağırlıkları burada enjekte edilir
 
-    loss = F.mse_loss(pred_noise, noise)
-    loss.backward()
-    optimizer.step()
+ loss = F.mse_loss(pred_noise, noise)
+ loss.backward()
+ optimizer.step()
 ```
 
 #### Açıklama

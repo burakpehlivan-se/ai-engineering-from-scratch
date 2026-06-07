@@ -14,10 +14,10 @@ Her optimizasyon birini veya her ikisini hedefler.
 
 ```
 İstek -> Ön Dolgu (prompt'u işle) -> Kod Çözme (token üret) -> Yanıt
-              |                            |
-          Hesaplama bağımlı          Bellek bağımlı
-          Optimize et: füzyon,       Optimize et: toplu iş,
-          önek önbellekleme         nicemleme, spekülasyon
+ | |
+ Hesaplama bağımlı Bellek bağımlı
+ Optimize et: füzyon, Optimize et: toplu iş,
+ önek önbellekleme nicemleme, spekülasyon
 ```
 
 ## Karar çerçevesi

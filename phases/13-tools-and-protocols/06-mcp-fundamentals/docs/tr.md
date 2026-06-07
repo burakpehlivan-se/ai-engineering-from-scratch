@@ -77,9 +77,9 @@ Her iki taraf taşımayı kapatır. MCP'ta yapılandırılmış bir kapatma meth
 
 ```json
 {
-  "tools": {"listChanged": true},
-  "resources": {"subscribe": true, "listChanged": true},
-  "prompts": {"listChanged": true}
+ "tools": {"listChanged": true},
+ "resources": {"subscribe": true, "listChanged": true},
+ "prompts": {"listChanged": true}
 }
 #### Açıklama
 Sunucu, tools/list_changed bildirimleri üretebileceğini ve resources/subscribe'ı desteklediğini beyan eder.
@@ -89,9 +89,9 @@ Sunucu `tools/list_changed` bildirimleri üretebileceğini ve `resources/subscri
 
 ```json
 {
-  "roots": {"listChanged": true},
-  "sampling": {},
-  "elicitation": {}
+ "roots": {"listChanged": true},
+ "sampling": {},
+ "elicitation": {}
 }
 #### Açıklama
 İstemci, kök listesi değişikliği, örnekleme ve ricada bulunma yeteneklerini beyan eder.

@@ -49,8 +49,8 @@ Burada `tau` öğrenilen bir sıcaklıktır (CLIP 0.07 ile başlatır; log-uzay�
 CLIP, satırlar ve sütunlar üzerinde simetrik bir çapraz entropi (cross-entropy) kullanır:
 
 ```
-loss_i2t = CE(S, labels=identity)     # her görüntünün pozitifi kendi açıklamasıdır
-loss_t2i = CE(S^T, labels=identity)   # her açıklamanın pozitifi kendi görüntüsüdür
+loss_i2t = CE(S, labels=identity) # her görüntünün pozitifi kendi açıklamasıdır
+loss_t2i = CE(S^T, labels=identity) # her açıklamanın pozitifi kendi görüntüsüdür
 loss = (loss_i2t + loss_t2i) / 2
 ```
 

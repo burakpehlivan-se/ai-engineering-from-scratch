@@ -30,18 +30,18 @@ Kurallar yukarıdan aşağıya çalışır; ilk eşleşme kazanır. Çıkarım y
 
 ```
 [pick]
-  model:      <spesifik isim>
-  pretrain:   ImageNet-21k | ImageNet-1k | MAE | DINOv2 | JFT
-  params:     <yaklaşık>
-  fine-tune:  linear_probe | full | discriminative_LR
+ model: <spesifik isim>
+ pretrain: ImageNet-21k | ImageNet-1k | MAE | DINOv2 | JFT
+ params: <yaklaşık>
+ fine-tune: linear_probe | full | discriminative_LR
 
 [reason]
-  tek cümle
+ tek cümle
 
 [risks]
-  - <ilgiliyse ONNX dönüşüm uyarıları>
-  - <kenar NPU nicelleştirme desteği>
-  - <küçük-veri-kümesi aşırı uyumu>
+ - <ilgiliyse ONNX dönüşüm uyarıları>
+ - <kenar NPU nicelleştirme desteği>
+ - <küçük-veri-kümesi aşırı uyumu>
 ```
 
 ## Kurallar

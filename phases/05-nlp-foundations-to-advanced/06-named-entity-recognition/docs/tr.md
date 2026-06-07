@@ -20,18 +20,18 @@ Bu ders klasik yolu (kural tabanlı, HMM, CRF) moderne (BiLSTM-CRF, sonra transf
 **BIO etiketleme** (veya BILOU) varlık çıkarmasını bir dizi-etiketleme (sequence-labeling) sorununa dönüştürür. Her token'ı `B-TYPE` (varlığın başlangıcı), `I-TYPE` (varlığın içinde) veya `O` (herhangi bir varlığın dışında) olarak etiketleyin.
 
 ```
-Apple    B-ORG
-sued     O
-Google   B-ORG
-over     O
-its      O
-iPhone   B-PRODUCT
-search   O
-deal     O
-in       O
-the      O
-US       B-GPE
-.        O
+Apple B-ORG
+sued O
+Google B-ORG
+over O
+its O
+iPhone B-PRODUCT
+search O
+deal O
+in O
+the O
+US B-GPE
+. O
 ```
 
 Çok tokenlı varlıklar zincirlenir: `New B-GPE`, `York I-GPE`, `City I-GPE`. BIO'yu anlayan bir model keyfi aralıkları çıkarabilir.
@@ -50,31 +50,31 @@ Mimari ilerleme:
 
 ```python
 def spans_to_bio(tokens, spans):
-    labels = ["O"] * len(tokens)
-    for start, end, label in spans:
-        labels[start] = f"B-{label}"
-        for i in range(start + 1, end):
-            labels[i] = f"I-{label}"
-    return labels
+ labels = ["O"] * len(tokens)
+ for start, end, label in spans:
+ labels[start] = f"B-{label}"
+ for i in range(start + 1, end):
+ labels[i] = f"I-{label}"
+ return labels
 
 
 def bio_to_spans(tokens, labels):
-    spans = []
-    current = None
-    for i, label in enumerate(labels):
-        if label.startswith("B-"):
-            if current:
-                spans.append(current)
-            current = (i, i + 1, label[2:])
-        elif label.startswith("I-") and current and current[2] == label[2:]:
-            current = (current[0], i + 1, current[2])
-        else:
-            if current:
-                spans.append(current)
-                current = None
-    if current:
-        spans.append(current)
-    return spans
+ spans = []
+ current = None
+ for i, label in enumerate(labels):
+ if label.startswith("B-"):
+ if current:
+ spans.append(current)
+ current = (i, i + 1, label[2:])
+ elif label.startswith("I-") and current and current[2] == label[2:]:
+ current = (current[0], i + 1, current[2])
+ else:
+ if current:
+ spans.append(current)
+ current = None
+ if current:
+ spans.append(current)
+ return spans
 ```
 
 ```python
@@ -90,30 +90,30 @@ Klasik (sinir olmayan) NER için özellikler oyunun kurallarıdır. Yararlı ola
 
 ```python
 def token_features(token, prev_token, next_token):
-    return {
-        "lower": token.lower(),
-        "is_upper": token.isupper(),
-        "is_title": token.istitle(),
-        "has_digit": any(c.isdigit() for c in token),
-        "suffix_3": token[-3:].lower(),
-        "shape": word_shape(token),
-        "prev_lower": prev_token.lower() if prev_token else "<BOS>",
-        "next_lower": next_token.lower() if next_token else "<EOS>",
-    }
+ return {
+ "lower": token.lower(),
+ "is_upper": token.isupper(),
+ "is_title": token.istitle(),
+ "has_digit": any(c.isdigit() for c in token),
+ "suffix_3": token[-3:].lower(),
+ "shape": word_shape(token),
+ "prev_lower": prev_token.lower() if prev_token else "<BOS>",
+ "next_lower": next_token.lower() if next_token else "<EOS>",
+ }
 
 
 def word_shape(word):
-    out = []
-    for c in word:
-        if c.isupper():
-            out.append("X")
-        elif c.islower():
-            out.append("x")
-        elif c.isdigit():
-            out.append("d")
-        else:
-            out.append(c)
-    return "".join(out)
+ out = []
+ for c in word:
+ if c.isupper():
+ out.append("X")
+ elif c.islower():
+ out.append("x")
+ elif c.isdigit():
+ out.append("d")
+ else:
+ out.append(c)
+ return "".join(out)
 ```
 
 `word_shape("iPhone")` `xXxxxx` döndürür. `word_shape("USA-2024")` `XXX-dddd` döndürür. Büyük harf desenleri özel isimler için yüksek sinyaldir.
@@ -127,17 +127,17 @@ PRODUCT_GAZETTEER = {"iPhone", "Android", "Windows", "ChatGPT", "Claude"}
 
 
 def rule_based_ner(tokens):
-    labels = []
-    for token in tokens:
-        if token in ORG_GAZETTEER:
-            labels.append("B-ORG")
-        elif token in GPE_GAZETTEER:
-            labels.append("B-GPE")
-        elif token in PRODUCT_GAZETTEER:
-            labels.append("B-PRODUCT")
-        else:
-            labels.append("O")
-    return labels
+ labels = []
+ for token in tokens:
+ if token in ORG_GAZETTEER:
+ labels.append("B-ORG")
+ elif token in GPE_GAZETTEER:
+ labels.append("B-GPE")
+ elif token in PRODUCT_GAZETTEER:
+ labels.append("B-PRODUCT")
+ else:
+ labels.append("O")
+ return labels
 ```
 
 Üretim sözlükleri (gazetteers) Wikipedia ve DBpedia'dan kazılmış milyonlarca girişe sahiptir. Kapsama iyidir. Ayırt etme (`Apple` şirketi vs meyve) berbattır. Bu yüzden istatistiksel modeller kazandı.
@@ -150,26 +150,26 @@ def rule_based_ner(tokens):
 import sklearn_crfsuite
 
 def to_features(tokens):
-    out = []
-    for i, tok in enumerate(tokens):
-        prev = tokens[i - 1] if i > 0 else ""
-        nxt = tokens[i + 1] if i + 1 < len(tokens) else ""
-        out.append({
-            "word.lower()": tok.lower(),
-            "word.isupper()": tok.isupper(),
-            "word.istitle()": tok.istitle(),
-            "word.isdigit()": tok.isdigit(),
-            "word.suffix3": tok[-3:].lower(),
-            "word.shape": word_shape(tok),
-            "prev.word.lower()": prev.lower(),
-            "next.word.lower()": nxt.lower(),
-            "BOS": i == 0,
-            "EOS": i == len(tokens) - 1,
-        })
-    return out
+ out = []
+ for i, tok in enumerate(tokens):
+ prev = tokens[i - 1] if i > 0 else ""
+ nxt = tokens[i + 1] if i + 1 < len(tokens) else ""
+ out.append({
+ "word.lower()": tok.lower(),
+ "word.isupper()": tok.isupper(),
+ "word.istitle()": tok.istitle(),
+ "word.isdigit()": tok.isdigit(),
+ "word.suffix3": tok[-3:].lower(),
+ "word.shape": word_shape(tok),
+ "prev.word.lower()": prev.lower(),
+ "next.word.lower()": nxt.lower(),
+ "BOS": i == 0,
+ "EOS": i == len(tokens) - 1,
+ })
+ return out
 
 
-crf = sklearn_crfsuite.CRF(algorithm="lbfgs", c1=0.1, c2=0.1, max_iterations=100, all_possible_transitions=True)
+crf = sklearn_crfsuite. CRF(algorithm="lbfgs", c1=0.1, c2=0.1, max_iterations=100, all_possible_transitions=True)
 X_train = [to_features(s) for s in sentences_tokenized]
 crf.fit(X_train, bio_labels_train)
 ```
@@ -185,21 +185,21 @@ import torch
 import torch.nn as nn
 
 
-class BiLSTM_CRF_Head(nn.Module):
-    def __init__(self, vocab_size, embed_dim, hidden_dim, n_labels):
-        super().__init__()
-        self.embed = nn.Embedding(vocab_size, embed_dim)
-        self.lstm = nn.LSTM(embed_dim, hidden_dim, bidirectional=True, batch_first=True)
-        self.fc = nn.Linear(hidden_dim * 2, n_labels)
+class BiLSTM_CRF_Head(nn. Module):
+ def __init__(self, vocab_size, embed_dim, hidden_dim, n_labels):
+ super().__init__()
+ self.embed = nn. Embedding(vocab_size, embed_dim)
+ self.lstm = nn. LSTM(embed_dim, hidden_dim, bidirectional=True, batch_first=True)
+ self.fc = nn. Linear(hidden_dim * 2, n_labels)
 
-    def forward(self, token_ids):
-        e = self.embed(token_ids)
-        h, _ = self.lstm(e)
-        emissions = self.fc(h)
-        return emissions
+ def forward(self, token_ids):
+ e = self.embed(token_ids)
+ h, _ = self.lstm(e)
+ emissions = self.fc(h)
+ return emissions
 ```
 
-CRF katmanı için `torchcrf.CRF` kullanın (pip install pytorch-crf). El yapımı CRF'e göre kazanç, on binlerce etiketlenmiş cümleniz olmadıkça beklediğinizden daha küçüktür.
+CRF katmanı için `torchcrf. CRF` kullanın (pip install pytorch-crf). El yapımı CRF'e göre kazanç, on binlerce etiketlenmiş cümleniz olmadıkça beklediğinizden daha küçüktür.
 
 ## Kullan
 
@@ -211,14 +211,14 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 doc = nlp("Apple sued Google over its iPhone search deal in the US.")
 for ent in doc.ents:
-    print(f"{ent.text:20s} {ent.label_}")
+ print(f"{ent.text:20s} {ent.label_}")
 ```
 
 ```
-Apple                ORG
-Google               ORG
-iPhone               ORG
-US                   GPE
+Apple ORG
+Google ORG
+iPhone ORG
+US GPE
 ```
 
 `iPhone`'un `ORG` olarak etiketlendiğine dikkat edin, `PRODUCT` olarak değil — spaCy'in küçük modelinin ürün varlığı kapsaması zayıftır. Büyük model (`en_core_web_lg`) daha iyidir. Transformer modeli (`en_core_web_trf`) daha da iyidir.

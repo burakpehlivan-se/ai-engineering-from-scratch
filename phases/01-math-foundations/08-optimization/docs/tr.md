@@ -32,8 +32,8 @@ Optimizasyon, bir fonksiyonu asgari yapan (veya maksimum yapan) girdi değerleri
 
 ```
 L(w)'yi asgari yap nerede:
-  L = kayıp fonksiyonu
-  w = model ağırlıkları (milyonlarca parametre olabilir)
+ L = kayıp fonksiyonu
+ w = model ağırlıkları (milyonlarca parametre olabilir)
 ```
 
 ### Gradyan inişi (sade)
@@ -48,9 +48,9 @@ Bu tüm algoritmadır. Tek satır.
 
 ```mermaid
 graph TD
-    A["* Başlangıç noktası (yüksek kayıp)"] --> B["Gradyan boyunca aşağı inme"]
-    B --> C["Minimuma yaklaşma"]
-    C --> D["minimuma ulaştı"]
+ A["* Başlangıç noktası (yüksek kayıp)"] --> B["Gradyan boyunca aşağı inme"]
+ B --> C["Minimuma yaklaşma"]
+ C --> D["minimuma ulaştı"]
 ```
 
 ### SGD (Stokastik Gradyan İnişi)
@@ -85,9 +85,9 @@ Momentum, önceki gradyanların yönünü hatırlayarak hızlıca alçalan bölg
 En popüler optimize edici. Momentum ve adaptif öğrenme hızını birleştirir.
 
 ```
-m = β1 × m + (1-β1) × gradyan           # 1. moment (ortalama)
-v = β2 × v + (1-β2) × gradyan²          # 2. moment (kare ortalama)
-m_duzeltme = m / (1-β1^t)                # Önyargı düzeltmesi
+m = β1 × m + (1-β1) × gradyan # 1. moment (ortalama)
+v = β2 × v + (1-β2) × gradyan² # 2. moment (kare ortalama)
+m_duzeltme = m / (1-β1^t) # Önyargı düzeltmesi
 v_duzeltme = v / (1-β2^t)
 w = w - lr × m_duzeltme / (√v_duzeltme + ε)
 ```

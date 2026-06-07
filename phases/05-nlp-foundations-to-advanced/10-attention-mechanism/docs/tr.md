@@ -65,19 +65,19 @@ import numpy as np
 
 
 def additive_attention(decoder_state, encoder_states, W_a, U_a, v_a):
-    projected_dec = W_a @ decoder_state
-    projected_enc = encoder_states @ U_a.T
-    combined = np.tanh(projected_enc + projected_dec)
-    scores = combined @ v_a
-    weights = softmax(scores)
-    context = weights @ encoder_states
-    return context, weights
+ projected_dec = W_a @ decoder_state
+ projected_enc = encoder_states @ U_a. T
+ combined = np.tanh(projected_enc + projected_dec)
+ scores = combined @ v_a
+ weights = softmax(scores)
+ context = weights @ encoder_states
+ return context, weights
 
 
 def softmax(x):
-    x = x - np.max(x)
-    e = np.exp(x)
-    return e / e.sum()
+ x = x - np.max(x)
+ e = np.exp(x)
+ return e / e.sum()
 ```
 
 Şekillerinizi yukarıdaki tabloyla kontrol edin. `encoder_states` `(T_enc, d_h)` şeklindedir. `projected_enc` `(T_enc, d_attn)` şeklindedir. `projected_dec` `(d_attn,)` şeklindedir ve broadcast yapar. `combined` `(T_enc, d_attn)` şeklindedir. `scores` `(T_enc,)` şeklindedir. `weights` `(T_enc,)` şeklindedir. `context` `(d_h,)` şeklindedir. Hazır.
@@ -86,16 +86,16 @@ def softmax(x):
 
 ```python
 def dot_attention(decoder_state, encoder_states):
-    scores = encoder_states @ decoder_state
-    weights = softmax(scores)
-    return weights @ encoder_states, weights
+ scores = encoder_states @ decoder_state
+ weights = softmax(scores)
+ return weights @ encoder_states, weights
 
 
 def general_attention(decoder_state, encoder_states, W):
-    projected = W.T @ decoder_state
-    scores = encoder_states @ projected
-    weights = softmax(scores)
-    return weights @ encoder_states, weights
+ projected = W. T @ decoder_state
+ scores = encoder_states @ projected
+ weights = softmax(scores)
+ return weights @ encoder_states, weights
 ```
 
 Her biri üç satır. İşte Luong'un makalesinin neden ses getirdiği. Çoğu görevde aynı doğruluk, çok daha az kod.
@@ -106,9 +106,9 @@ Her biri üç satır. İşte Luong'un makalesinin neden ses getirdiği. Çoğu g
 
 ```python
 H = np.array([
-    [1.0, 0.0, 0.2],
-    [0.5, 0.5, 0.1],
-    [0.1, 0.9, 0.3],
+ [1.0, 0.0, 0.2],
+ [0.5, 0.5, 0.1],
+ [0.1, 0.9, 0.3],
 ])
 
 s_close_to_cat = np.array([0.9, 0.1, 0.2])
@@ -142,7 +142,7 @@ PyTorch ve TensorFlow attention'ı doğrudan sunar.
 import torch
 import torch.nn as nn
 
-mha = nn.MultiheadAttention(embed_dim=128, num_heads=8, batch_first=True)
+mha = nn. MultiheadAttention(embed_dim=128, num_heads=8, batch_first=True)
 query = torch.randn(2, 5, 128)
 key = torch.randn(2, 10, 128)
 value = torch.randn(2, 10, 128)
@@ -152,7 +152,7 @@ print(output.shape, weights.shape)
 ```
 
 ```
-torch.Size([2, 5, 128]) torch.Size([2, 5, 10])
+torch. Size([2, 5, 128]) torch. Size([2, 5, 10])
 ```
 
 İşte bu bir transformer attention katmanıdır. 5 pozisyonluk sorgu batch'i, 10 pozisyonluk anahtar/değer batch'i, herbiri 128 boyutlu, 8 baş (head). `output` bağlam zenginleştirilmiş yeni sorgulardır. `weights` görselleştirebileceğiniz 5x10 hizalama matrisidir.

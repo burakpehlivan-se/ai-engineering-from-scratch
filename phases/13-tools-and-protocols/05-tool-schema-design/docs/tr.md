@@ -98,7 +98,7 @@ Kural: `action` argümanı üçten fazla değere sahipse, aracı bölün.
 Bir araç çağrısı başarısız olduğunda, hata mesajı modele ulaşır. Model için hata yazın.
 
 ```
-KÖTÜ  : TypeError: 'NoneType' türünde nesnenin 'lower' niteliği yok
+KÖTÜ : TypeError: 'NoneType' türünde nesnenin 'lower' niteliği yok
 İYİ : Geçersiz girdi: 'city' zorunludur. Örnek: {"city": "Bengaluru"}
 #### Açıklama
 Kötü hata mesajı teknik bir istisna içerir, iyi hata mesajı modele bir sonraki adımı öğretir.

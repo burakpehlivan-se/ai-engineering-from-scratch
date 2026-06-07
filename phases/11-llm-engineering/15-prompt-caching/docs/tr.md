@@ -34,12 +34,12 @@ O seçenek prompt caching. Anthropic bunu Ağustos 2024'te yayımladı (2025'te 
 ### Önbelleğe uygun düzen
 
 ```
-[system prompt]          <-- bunu önbelleğe al
-[tool definitions]       <-- bunu önbelleğe al
-[few-shot examples]      <-- bunu önbelleğe al
-[retrieved documents]    <-- yeniden kullanılıyorsa önbelleğe al, aksi takdirde alma
-[conversation history]   <-- son tur'a kadar önbelleğe al
-[current user message]   <-- asla önbelleğe alma (her seferinde farklı)
+[system prompt] <-- bunu önbelleğe al
+[tool definitions] <-- bunu önbelleğe al
+[few-shot examples] <-- bunu önbelleğe al
+[retrieved documents] <-- yeniden kullanılıyorsa önbelleğe al, aksi takdirde alma
+[conversation history] <-- son tur'a kadar önbelleğe al
+[current user message] <-- asla önbelleğe alma (her seferinde farklı)
 ```
 
 Düzeni ihlal edin — kullanıcı mesajını system prompt'un üstüne koyun, few-shot'lar arasında dinamik retrieval'ları harmanlayın — ve cache asla eşleşmez.
@@ -55,23 +55,23 @@ Anthropic'in %25 yazma primi, bir önbellek bloğunun paradan tasarruf etmek iç
 ```python
 import anthropic
 
-client = anthropic.Anthropic()
+client = anthropic. Anthropic()
 
 SYSTEM = [
-    {
-        "type": "text",
-        "text": "You are a senior Python reviewer. Follow the rubric exactly.\n\n" + RUBRIC_15K_TOKENS,
-        "cache_control": {"type": "ephemeral"},
-    }
+ {
+ "type": "text",
+ "text": "You are a senior Python reviewer. Follow the rubric exactly.\n\n" + RUBRIC_15K_TOKENS,
+ "cache_control": {"type": "ephemeral"},
+ }
 ]
 
 def review(code: str):
-    return client.messages.create(
-        model="claude-opus-4-7",
-        max_tokens=1024,
-        system=SYSTEM,
-        messages=[{"role": "user", "content": code}],
-    )
+ return client.messages.create(
+ model="claude-opus-4-7",
+ max_tokens=1024,
+ system=SYSTEM,
+ messages=[{"role": "user", "content": code}],
+ )
 ```
 
 `cache_control` işaretleyicisi Anthropic'e bloğu 5 dakika süreyle depolamasını söyler. Pencere içinde yeniden kullanma eşleşir; sonra kullanma süresi dolar ve yeniden yazar.
@@ -82,16 +82,16 @@ def review(code: str):
 response = review(code_a)
 response.usage
 # InputTokensUsage(
-#     input_tokens=120,
-#     cache_creation_input_tokens=15023,   # 1.25x ücretlendirilir
-#     cache_read_input_tokens=0,
-#     output_tokens=340,
+# input_tokens=120,
+# cache_creation_input_tokens=15023, # 1.25x ücretlendirilir
+# cache_read_input_tokens=0,
+# output_tokens=340,
 # )
 
 response_b = review(code_b)
 response_b.usage
 # cache_creation_input_tokens=0
-# cache_read_input_tokens=15023           # 0.1x ücretlendirilir
+# cache_read_input_tokens=15023 # 0.1x ücretlendirilir
 ```
 
 CI'da her iki alanı da kontrol edin — `cache_read_input_tokens` istekler arasında sıfırdaysa, cache anahtarlarınız kayıyor demektir.
@@ -115,13 +115,13 @@ from openai import OpenAI
 client = OpenAI()
 
 resp = client.chat.completions.create(
-    model="gpt-5",
-    messages=[
-        {"role": "system", "content": SYSTEM_PROMPT},   # uzun ve sabit
-        {"role": "user", "content": user_msg},
-    ],
+ model="gpt-5",
+ messages=[
+ {"role": "system", "content": SYSTEM_PROMPT}, # uzun ve sabit
+ {"role": "user", "content": user_msg},
+ ],
 )
-resp.usage.prompt_tokens_details.cached_tokens  # indirimli kısım
+resp.usage.prompt_tokens_details.cached_tokens # indirimli kısım
 ```
 
 Aynı önbelleğe uygun düzen kuralı geçerlidir. Anthropic'in cache'ini öldüren iki şey OpenAI'ninkini de öldürür: `user` alanını değiştirme (cache anahtarı bileşeni olarak kullanılır) ve araçları yeniden sıralama.
@@ -134,22 +134,22 @@ Gemini, cache'i oluşturduğunuz ve adlandırdığınız bir birinci sınıf nes
 from google import genai
 from google.genai import types
 
-client = genai.Client()
+client = genai. Client()
 
 cache = client.caches.create(
-    model="gemini-3-pro",
-    config=types.CreateCachedContentConfig(
-        display_name="rubric-v3",
-        system_instruction=RUBRIC,
-        contents=[FEW_SHOT_EXAMPLES],
-        ttl="3600s",
-    ),
+ model="gemini-3-pro",
+ config=types. CreateCachedContentConfig(
+ display_name="rubric-v3",
+ system_instruction=RUBRIC,
+ contents=[FEW_SHOT_EXAMPLES],
+ ttl="3600s",
+ ),
 )
 
 resp = client.models.generate_content(
-    model="gemini-3-pro",
-    contents=["Review this code:\n" + code],
-    config=types.GenerateContentConfig(cached_content=cache.name),
+ model="gemini-3-pro",
+ contents=["Review this code:\n" + code],
+ config=types. GenerateContentConfig(cached_content=cache.name),
 )
 ```
 

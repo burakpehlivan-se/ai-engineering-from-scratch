@@ -48,12 +48,12 @@ Ders 01'deki aynı 4×4 GridWorld'ü kullanın. Stokastik bir varyant ekliyoruz:
 SLIP = 0.1
 
 def transitions(state, action):
-    if state == TERMINAL:
-        return [(state, 0.0, 1.0)]
-    outcomes = []
-    for direction, prob in action_probs(action):
-        outcomes.append((apply_move(state, direction), -1.0, prob))
-    return outcomes
+ if state == TERMINAL:
+ return [(state, 0.0, 1.0)]
+ outcomes = []
+ for direction, prob in action_probs(action):
+ outcomes.append((apply_move(state, direction), -1.0, prob))
+ return outcomes
 ```
 
 #### Açıklama
@@ -65,17 +65,17 @@ Verilen bir politika `π(s) = {action: prob}` için, `V` değişmeyene kadar Bel
 
 ```python
 def policy_evaluation(policy, gamma=0.99, tol=1e-6):
-    V = {s: 0.0 for s in states()}
-    while True:
-        delta = 0.0
-        for s in states():
-            v = sum(pi_a * sum(p * (r + gamma * V[s_prime])
-                              for s_prime, r, p in transitions(s, a))
-                   for a, pi_a in policy(s).items())
-            delta = max(delta, abs(v - V[s]))
-            V[s] = v
-        if delta < tol:
-            return V
+ V = {s: 0.0 for s in states()}
+ while True:
+ delta = 0.0
+ for s in states():
+ v = sum(pi_a * sum(p * (r + gamma * V[s_prime])
+ for s_prime, r, p in transitions(s, a))
+ for a, pi_a in policy(s).items())
+ delta = max(delta, abs(v - V[s]))
+ V[s] = v
+ if delta < tol:
+ return V
 ```
 
 #### Açıklama
@@ -87,15 +87,15 @@ Politikanın her durumdaki beklenen diskontlu getirisini hesaplar.
 
 ```python
 def policy_improvement(V, gamma=0.99):
-    new_policy = {}
-    for s in states():
-        best_a = max(
-            ACTIONS,
-            key=lambda a: sum(p * (r + gamma * V[s_prime])
-                              for s_prime, r, p in transitions(s, a)),
-        )
-        new_policy[s] = best_a
-    return new_policy
+ new_policy = {}
+ for s in states():
+ best_a = max(
+ ACTIONS,
+ key=lambda a: sum(p * (r + gamma * V[s_prime])
+ for s_prime, r, p in transitions(s, a)),
+ )
+ new_policy[s] = best_a
+ return new_policy
 ```
 
 #### Açıklama
@@ -105,13 +105,13 @@ Her durum için en yüksek beklenen getiriyi veren eylemi seçer.
 
 ```python
 def policy_iteration(gamma=0.99):
-    policy = {s: "up" for s in states()}   # rastgele başlangıç
-    for _ in range(100):
-        V = policy_evaluation(lambda s: {policy[s]: 1.0}, gamma)
-        new_policy = policy_improvement(V, gamma)
-        if new_policy == policy:
-            return V, policy
-        policy = new_policy
+ policy = {s: "up" for s in states()} # rastgele başlangıç
+ for _ in range(100):
+ V = policy_evaluation(lambda s: {policy[s]: 1.0}, gamma)
+ new_policy = policy_improvement(V, gamma)
+ if new_policy == policy:
+ return V, policy
+ policy = new_policy
 ```
 
 #### Açıklama
@@ -121,19 +121,19 @@ Politika değerlendirme ve iyileştirmeyi alternatif olarak çalıştırır.
 
 ```python
 def value_iteration(gamma=0.99, tol=1e-6):
-    V = {s: 0.0 for s in states()}
-    while True:
-        delta = 0.0
-        for s in states():
-            v = max(sum(p * (r + gamma * V[s_prime])
-                       for s_prime, r, p in transitions(s, a))
-                   for a in ACTIONS)
-            delta = max(delta, abs(v - V[s]))
-            V[s] = v
-        if delta < tol:
-            break
-    policy = policy_improvement(V, gamma)
-    return V, policy
+ V = {s: 0.0 for s in states()}
+ while True:
+ delta = 0.0
+ for s in states():
+ v = max(sum(p * (r + gamma * V[s_prime])
+ for s_prime, r, p in transitions(s, a))
+ for a in ACTIONS)
+ delta = max(delta, abs(v - V[s]))
+ V[s] = v
+ if delta < tol:
+ break
+ policy = policy_improvement(V, gamma)
+ return V, policy
 ```
 
 #### Açıklama

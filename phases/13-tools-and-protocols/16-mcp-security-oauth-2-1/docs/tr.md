@@ -55,9 +55,9 @@ Kaynak sunucusu bir `.well-known/oauth-protected-resource` belgesi yayımlar:
 
 ```json
 {
-  "resource": "https://notes.example.com",
-  "authorization_servers": ["https://auth.example.com"],
-  "scopes_supported": ["notes:read", "notes:write", "notes:delete"]
+ "resource": "https://notes.example.com",
+ "authorization_servers": ["https://auth.example.com"],
+ "scopes_supported": ["notes:read", "notes:write", "notes:delete"]
 }
 ```
 
@@ -84,7 +84,7 @@ Kullanıcı `notes:read` veriyor. Sonra ajanın bir notu silmesini istiyor. Sunu
 ```
 HTTP/1.1 403 Forbidden
 WWW-Authenticate: Bearer error="insufficient_scope",
-    scope="notes:delete", resource="https://notes.example.com"
+ scope="notes:delete", resource="https://notes.example.com"
 ```
 
 İstemci insufficient_scope hatasını görür, kullanıcıya ek kapsam için bir onay dialogu gösterir, bunun için mini bir OAuth akışı çalıştırır, yeni token ile isteği yeniden dener.
@@ -93,7 +93,7 @@ WWW-Authenticate: Bearer error="insufficient_scope",
 
 Her istekte: sunucu `token.aud == self.resource_url` kontrol eder. Eşleşmezse = 401. Bu, çapraz sunucu token suistimalini önler.
 
-### Kısa ömürlü tokenlar ve döndürme
+### Kısa ömürlü token'lar ve döndürme
 
 Erişim jetonları kısa ömürlü OLMALIDIR (varsayılan 1 saat). Yenileme jetonları (refresh token) her yenilemede döndürülür. İstemci sessiz yenilemeyi arka planda ele alır.
 
@@ -111,7 +111,7 @@ Her MCP istemcisi meta verilerini sabit bir URL'de yayımlar. Yetkilendirme sunu
 
 ### Ağ geçitleri ve OAuth
 
-Faz 13 · 17, bir kurumsal ağ geçidinin OAuth'u nasıl ele aldığını gösterir: ağ geçidi yukarı akış sunucuları için kimlik bilgilerini tutar, istemcilere verilen tokenlar ağ geçidi tarafından verilir ve yukarı akış tokenları ağ geçidinden asla çıkmaz. Bu güven modelini tersine çevirir — kullanıcılar ağ geçidine bir kez kimlik doğrulama yapar; ağ geçidi N sunucu yetkilendirmesini ele alır.
+Faz 13 · 17, bir kurumsal ağ geçidinin OAuth'u nasıl ele aldığını gösterir: ağ geçidi yukarı akış sunucuları için kimlik bilgilerini tutar, istemcilere verilen token'lar ağ geçidi tarafından verilir ve yukarı akış token'ları ağ geçidinden asla çıkmaz. Bu güven modelini tersine çevirir — kullanıcılar ağ geçidine bir kez kimlik doğrulama yapar; ağ geçidi N sunucu yetkilendirmesini ele alır.
 
 ## Kullan
 

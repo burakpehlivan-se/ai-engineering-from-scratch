@@ -45,13 +45,13 @@ Burada sinir ağı yok — temel darboğazı sayısal olarak simüle ediyoruz, b
 
 ```python
 def rnn_style(xs):
-    h = 0.0
-    for x in xs:
-        h = 0.9 * h + x   # paralelleştirilemez: h önceki h'ye bağlı
-    return h
+ h = 0.0
+ for x in xs:
+ h = 0.9 * h + x # paralelleştirilemez: h önceki h'ye bağlı
+ return h
 
 def attention_style(xs):
-    return sum(xs) / len(xs)  # her x bağımsızdır
+ return sum(xs) / len(xs) # her x bağımsızdır
 ```
 
 #### Açıklama

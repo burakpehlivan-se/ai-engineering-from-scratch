@@ -28,16 +28,16 @@ Isınmalı kosinüs zamanlamasının üç bölgesi vardır. Sıfır adımdan `wa
 
 ```mermaid
 flowchart TD
-  Step[Eğitim adımı] --> Branch{adım durumu}
-  Branch -- adım <= warmup --> Linear[0'dan lr_max'a doğrusal rampa]
-  Branch -- warmup < adım <= total --> Cosine[lr_max'tan lr_min'e kosinüs azalma]
-  Branch -- adım > total --> Floor[lr_min'de sabitle]
-  Linear --> Apply[AdamW.step]
-  Cosine --> Apply
-  Floor --> Apply
-  Apply --> GradNorm[Gradyan L2 normunu hesapla]
-  GradNorm --> Log[Adım log satırı]
-  Log --> Plot[Metin çizimi + CSV]
+ Step[Eğitim adımı] --> Branch{adım durumu}
+ Branch -- adım <= warmup --> Linear[0'dan lr_max'a doğrusal rampa]
+ Branch -- warmup < adım <= total --> Cosine[lr_max'tan lr_min'e kosinüs azalma]
+ Branch -- adım > total --> Floor[lr_min'de sabitle]
+ Linear --> Apply[AdamW.step]
+ Cosine --> Apply
+ Floor --> Apply
+ Apply --> GradNorm[Gradyan L2 normunu hesapla]
+ GradNorm --> Log[Adım log satırı]
+ Log --> Plot[Metin çizimi + CSV]
 ```
 
 ### Isınma formülü
@@ -68,7 +68,7 @@ Eğitim sağlığının yarısı zamanlamadır. Diğer yarısı gradyan normudur
 - `plot_schedule_ascii` - zamanlamayı gözün okuyabileceği bir metin çizimi olarak oluşturur.
 - `write_schedule_csv` - öğrenme oranıyla adım başına bir satır yayar.
 
-Dosyanın altındaki bir demo, küçük bir `nn.Linear` modeli kurar, sabit bir giriş batchı üzerinde 20 adım eğitir ve adım başına öğrenme oranını, gradyan normunu ve kaybı yazdırır. Zamanlama, görsel sağlamlık kontrolü için ayrıca metin çizimi olarak oluşturulur.
+Dosyanın altındaki bir demo, küçük bir `nn. Linear` modeli kurar, sabit bir giriş batchı üzerinde 20 adım eğitir ve adım başına öğrenme oranını, gradyan normunu ve kaybı yazdırır. Zamanlama, görsel sağlamlık kontrolü için ayrıca metin çizimi olarak oluşturulur.
 
 Çalıştırın:
 
@@ -107,7 +107,7 @@ Dört örüntü, zamanlamayı bir üretim yapıtına yükseltir.
 1. Zamanlamanın ters kare kök varyantını ekleyin ve 200 adımlık bir oyuncak eğitim çalıştırmasında karşılaştırın. Hangi eğri daha düşük son kayıp üretir?
 2. `total_steps / 2`'de ikinci bir ısınma ekleyen bir `--restart` bayrağı ekleyin. Sıcak yeniden başlatmaların oyuncak çalıştırmada iyileştirip iyileştirmediğini savunun.
 3. Zamanlamanın sürekli olduğunu doğrulayan bir birim testi ekleyin: `[0, total_steps]` aralığındaki her adım için `|lr(step+1) - lr(step)|` farkı `lr_max / warmup_steps` ile sınırlıdır.
-4. Zamanlamayı, çerçeve koduyla oluşturulacak şekilde `torch.optim.lr_scheduler.LambdaLR`'ye bağlayın. Ders düz bir adım fonksiyonu kullanır; sarmalayıcı neyi değiştirir?
+4. Zamanlamayı, çerçeve koduyla oluşturulacak şekilde `torch.optim.lr_scheduler. LambdaLR`'ye bağlayın. Ders düz bir adım fonksiyonu kullanır; sarmalayıcı neyi değiştirir?
 5. `matplotlib` aracılığıyla gerçek bir çizim yazan bir `--plot-png` bayrağı ekleyin. CI çalıştırmaları için dersin metin çiziminin mi yoksa PNG'nin mi daha iyi varsayılan olduğunu savunun.
 
 ## Temel Terimler

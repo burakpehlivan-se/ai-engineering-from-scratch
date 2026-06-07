@@ -24,10 +24,10 @@
 
 ```mermaid
 sequenceDiagram
-    participant C as Kodunuz
-    participant S as API Sunucusu
-    C->>S: HTTP İsteği (API anahtarı ile)
-    S->>C: HTTP Yanıtı (JSON)
+ participant C as Kodunuz
+ participant S as API Sunucusu
+ C->>S: HTTP İsteği (API anahtarı ile)
+ S->>C: HTTP Yanıtı (JSON)
 ```
 
 Her API çağrısında şunlar vardır:
@@ -62,12 +62,12 @@ OPENAI_API_KEY=sk-...
 ```python
 import anthropic
 
-client = anthropic.Anthropic()
+client = anthropic. Anthropic()
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=256,
-    messages=[{"role": "user", "content": "Sinir ağı tek cümlede nedir?"}]
+ model="claude-sonnet-4-20250514",
+ max_tokens=256,
+ messages=[{"role": "user", "content": "Sinir ağı tek cümlede nedir?"}]
 )
 
 print(response.content[0].text)
@@ -84,9 +84,9 @@ import Anthropic from "@anthropic-ai/sdk";
 const client = new Anthropic();
 
 const response = await client.messages.create({
-  model: "claude-sonnet-4-20250514",
-  max_tokens: 256,
-  messages: [{ role: "user", content: "Sinir ağı tek cümlede nedir?" }],
+ model: "claude-sonnet-4-20250514",
+ max_tokens: 256,
+ messages: [{ role: "user", content: "Sinir ağı tek cümlede nedir?" }],
 });
 
 console.log(response.content[0].text);
@@ -104,20 +104,20 @@ import json
 
 url = "https://api.anthropic.com/v1/messages"
 headers = {
-    "Content-Type": "application/json",
-    "x-api-key": os.environ["ANTHROPIC_API_KEY"],
-    "anthropic-version": "2023-06-01",
+ "Content-Type": "application/json",
+ "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+ "anthropic-version": "2023-06-01",
 }
 body = json.dumps({
-    "model": "claude-sonnet-4-20250514",
-    "max_tokens": 256,
-    "messages": [{"role": "user", "content": "Sinir ağı tek cümlede nedir?"}],
+ "model": "claude-sonnet-4-20250514",
+ "max_tokens": 256,
+ "messages": [{"role": "user", "content": "Sinir ağı tek cümlede nedir?"}],
 }).encode()
 
-req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+req = urllib.request. Request(url, data=body, headers=headers, method="POST")
 with urllib.request.urlopen(req) as resp:
-    result = json.loads(resp.read())
-    print(result["content"][0]["text"])
+ result = json.loads(resp.read())
+ print(result["content"][0]["text"])
 ```
 
 #### Açıklama

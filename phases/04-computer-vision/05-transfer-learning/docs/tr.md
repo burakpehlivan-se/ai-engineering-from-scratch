@@ -32,17 +32,17 @@ Transfer'i doğru yapmanın sizi bekleyen üç hatası vardır: çok yüksek bir
 
 ```mermaid
 flowchart TB
-    subgraph FE["Feature extraction — backbone frozen"]
-        FE1["Pretrained backbone<br/>(no gradient)"] --> FE2["New head<br/>(trained)"]
-    end
-    subgraph FT["Fine-tuning — end-to-end"]
-        FT1["Pretrained backbone<br/>(tiny LR)"] --> FT2["New head<br/>(normal LR)"]
-    end
+ subgraph FE["Feature extraction — backbone frozen"]
+ FE1["Pretrained backbone<br/>(no gradient)"] --> FE2["New head<br/>(trained)"]
+ end
+ subgraph FT["Fine-tuning — end-to-end"]
+ FT1["Pretrained backbone<br/>(tiny LR)"] --> FT2["New head<br/>(normal LR)"]
+ end
 
-    style FE1 fill:#e5e7eb,stroke:#6b7280
-    style FE2 fill:#dcfce7,stroke:#16a34a
-    style FT1 fill:#fef3c7,stroke:#d97706
-    style FT2 fill:#dcfce7,stroke:#16a34a
+ style FE1 fill:#e5e7eb,stroke:#6b7280
+ style FE2 fill:#dcfce7,stroke:#16a34a
+ style FT1 fill:#fef3c7,stroke:#d97706
+ style FT2 fill:#dcfce7,stroke:#16a34a
 ```
 
 #### Açıklama
@@ -70,11 +70,11 @@ Bir CNN'in öğrendiği ImageNet özellikleri 1.000 kategoriye özelleşmemişti
 ```text
 Typical recipe:
 
-  stage 0 (stem + first group): lr = base_lr / 100    (mostly fixed)
-  stage 1:                       lr = base_lr / 10
-  stage 2:                       lr = base_lr / 3
-  stage 3 (last backbone group): lr = base_lr
-  head:                          lr = base_lr  (or slightly higher)
+ stage 0 (stem + first group): lr = base_lr / 100 (mostly fixed)
+ stage 1: lr = base_lr / 10
+ stage 2: lr = base_lr / 3
+ stage 3 (last backbone group): lr = base_lr
+ head: lr = base_lr (or slightly higher)
 ```
 
 PyTorch'ta bu, optimizer'a iletilen bir parametre grubu listesidir. Bir model, beş öğrenme oranı, sıfır ekstra kod.
@@ -94,9 +94,9 @@ Bunu yanlış yapmak doğruluğu sessizce %5-15 düşürür.
 Sınıflandırıcı kafa (head), 1-3 linear katman artı isteğe bağlı bir dropout'tur. Her torchvision backbone, değiştirdiğiniz varsayılan bir kafayla gelir:
 
 ```
-backbone.fc = nn.Linear(backbone.fc.in_features, num_classes)          # ResNet
-backbone.classifier[1] = nn.Linear(..., num_classes)                    # EfficientNet, MobileNet
-backbone.heads.head = nn.Linear(..., num_classes)                       # torchvision ViT
+backbone.fc = nn. Linear(backbone.fc.in_features, num_classes) # ResNet
+backbone.classifier[1] = nn. Linear(..., num_classes) # EfficientNet, MobileNet
+backbone.heads.head = nn. Linear(..., num_classes) # torchvision ViT
 ```
 
 Küçük veri kümeleri için tek bir linear katman genellikle yeterlidir. Görev dağılımı backbone'un eğitim dağılımından daha uzak olduğunda, gizli bir katman (Linear -> ReLU -> Dropout -> Linear) eklemek yardımcı olur.
@@ -129,7 +129,7 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet18, ResNet18_Weights
 
-backbone = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+backbone = resnet18(weights=ResNet18_Weights. IMAGENET1K_V1)
 print(backbone)
 print()
 print("classifier head:", backbone.fc)
@@ -145,17 +145,17 @@ print("feature dim:", backbone.fc.in_features)
 
 ```python
 def make_feature_extractor(num_classes=10):
-    model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
-    for p in model.parameters():
-        p.requires_grad = False
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
-    return model
+ model = resnet18(weights=ResNet18_Weights. IMAGENET1K_V1)
+ for p in model.parameters():
+ p.requires_grad = False
+ model.fc = nn. Linear(model.fc.in_features, num_classes)
+ return model
 
 model = make_feature_extractor(num_classes=10)
 trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
 frozen = sum(p.numel() for p in model.parameters() if not p.requires_grad)
 print(f"trainable: {trainable:>10,}")
-print(f"frozen:    {frozen:>10,}")
+print(f"frozen: {frozen:>10,}")
 ```
 
 #### Açıklama
@@ -169,31 +169,31 @@ Aşamaya özgü öğrenme oranlarıyla parametre grupları oluşturan bir yardı
 
 ```python
 def discriminative_param_groups(model, base_lr=1e-3, decay=0.3):
-    stages = [
-        ["conv1", "bn1"],
-        ["layer1"],
-        ["layer2"],
-        ["layer3"],
-        ["layer4"],
-        ["fc"],
-    ]
-    groups = []
-    for i, names in enumerate(stages):
-        lr = base_lr * (decay ** (len(stages) - 1 - i))
-        params = [p for n, p in model.named_parameters()
-                  if any(n.startswith(k) for k in names)]
-        if params:
-            groups.append({"params": params, "lr": lr, "name": "_".join(names)})
-    return groups
+ stages = [
+ ["conv1", "bn1"],
+ ["layer1"],
+ ["layer2"],
+ ["layer3"],
+ ["layer4"],
+ ["fc"],
+ ]
+ groups = []
+ for i, names in enumerate(stages):
+ lr = base_lr * (decay ** (len(stages) - 1 - i))
+ params = [p for n, p in model.named_parameters()
+ if any(n.startswith(k) for k in names)]
+ if params:
+ groups.append({"params": params, "lr": lr, "name": "_".join(names)})
+ return groups
 
-model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
-model.fc = nn.Linear(model.fc.in_features, 10)
+model = resnet18(weights=ResNet18_Weights. IMAGENET1K_V1)
+model.fc = nn. Linear(model.fc.in_features, 10)
 for p in model.parameters():
-    p.requires_grad = True
+ p.requires_grad = True
 
 groups = discriminative_param_groups(model)
 for g in groups:
-    print(f"{g['name']:>10s}  lr={g['lr']:.2e}  params={sum(p.numel() for p in g['params']):>8,}")
+ print(f"{g['name']:>10s} lr={g['lr']:.2e} params={sum(p.numel() for p in g['params']):>8,}")
 ```
 
 #### Açıklama
@@ -207,12 +207,12 @@ BN çalışan istatistiklerini ağırlıklarını dondurmadan dondurmak için ya
 
 ```python
 def freeze_bn_stats(model):
-    for m in model.modules():
-        if isinstance(m, (nn.BatchNorm1d, nn.BatchNorm2d, nn.BatchNorm3d)):
-            m.eval()
-            for p in m.parameters():
-                p.requires_grad = False
-    return model
+ for m in model.modules():
+ if isinstance(m, (nn. BatchNorm1d, nn. BatchNorm2d, nn. BatchNorm3d)):
+ m.eval()
+ for p in m.parameters():
+ p.requires_grad = False
+ return model
 ```
 
 #### Açıklama
@@ -229,39 +229,39 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 import torch.nn.functional as F
 
 def fine_tune(model, train_loader, val_loader, device, epochs=5, base_lr=1e-3, freeze_bn=False):
-    model = model.to(device)
-    groups = discriminative_param_groups(model, base_lr=base_lr)
-    optimizer = SGD(groups, momentum=0.9, weight_decay=1e-4, nesterov=True)
-    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
+ model = model.to(device)
+ groups = discriminative_param_groups(model, base_lr=base_lr)
+ optimizer = SGD(groups, momentum=0.9, weight_decay=1e-4, nesterov=True)
+ scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
 
-    for epoch in range(epochs):
-        model.train()
-        if freeze_bn:
-            freeze_bn_stats(model)
-        tr_loss, tr_correct, tr_total = 0.0, 0, 0
-        for x, y in train_loader:
-            x, y = x.to(device), y.to(device)
-            logits = model(x)
-            loss = F.cross_entropy(logits, y, label_smoothing=0.1)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            tr_loss += loss.item() * x.size(0)
-            tr_total += x.size(0)
-            tr_correct += (logits.argmax(-1) == y).sum().item()
-        scheduler.step()
+ for epoch in range(epochs):
+ model.train()
+ if freeze_bn:
+ freeze_bn_stats(model)
+ tr_loss, tr_correct, tr_total = 0.0, 0, 0
+ for x, y in train_loader:
+ x, y = x.to(device), y.to(device)
+ logits = model(x)
+ loss = F.cross_entropy(logits, y, label_smoothing=0.1)
+ optimizer.zero_grad()
+ loss.backward()
+ optimizer.step()
+ tr_loss += loss.item() * x.size(0)
+ tr_total += x.size(0)
+ tr_correct += (logits.argmax(-1) == y).sum().item()
+ scheduler.step()
 
-        model.eval()
-        va_total, va_correct = 0, 0
-        with torch.no_grad():
-            for x, y in val_loader:
-                x, y = x.to(device), y.to(device)
-                pred = model(x).argmax(-1)
-                va_total += x.size(0)
-                va_correct += (pred == y).sum().item()
-        print(f"epoch {epoch}  train {tr_loss/tr_total:.3f}/{tr_correct/tr_total:.3f}  "
-              f"val {va_correct/va_total:.3f}")
-    return model
+ model.eval()
+ va_total, va_correct = 0, 0
+ with torch.no_grad():
+ for x, y in val_loader:
+ x, y = x.to(device), y.to(device)
+ pred = model(x).argmax(-1)
+ va_total += x.size(0)
+ va_correct += (pred == y).sum().item()
+ print(f"epoch {epoch} train {tr_loss/tr_total:.3f}/{tr_correct/tr_total:.3f} "
+ f"val {va_correct/va_total:.3f}")
+ return model
 ```
 
 #### Açıklama
@@ -275,26 +275,26 @@ Her epoch'ta sondan başa doğru bir aşamayı çözen bir program. Özellik kay
 
 ```python
 def progressive_unfreeze_schedule(model):
-    stages = ["layer4", "layer3", "layer2", "layer1"]
-    yielded = set()
+ stages = ["layer4", "layer3", "layer2", "layer1"]
+ yielded = set()
 
-    def start():
-        for p in model.parameters():
-            p.requires_grad = False
-        for p in model.fc.parameters():
-            p.requires_grad = True
+ def start():
+ for p in model.parameters():
+ p.requires_grad = False
+ for p in model.fc.parameters():
+ p.requires_grad = True
 
-    def unfreeze(epoch):
-        if epoch < len(stages):
-            name = stages[epoch]
-            yielded.add(name)
-            for n, p in model.named_parameters():
-                if n.startswith(name):
-                    p.requires_grad = True
-            return name
-        return None
+ def unfreeze(epoch):
+ if epoch < len(stages):
+ name = stages[epoch]
+ yielded.add(name)
+ for n, p in model.named_parameters():
+ if n.startswith(name):
+ p.requires_grad = True
+ return name
+ return None
 
-    return start, unfreeze
+ return start, unfreeze
 ```
 
 #### Açıklama
@@ -309,15 +309,15 @@ Aşamalı çözme: her epoch'ta bir aşama (sondan başa doğru) çözülür. `s
 ```python
 from torchvision.models import resnet50, ResNet50_Weights
 
-model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
-model.fc = nn.Linear(model.fc.in_features, num_classes)
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
+model = resnet50(weights=ResNet50_Weights. IMAGENET1K_V2)
+model.fc = nn. Linear(model.fc.in_features, num_classes)
+optimizer = torch.optim. AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
 ```
 
 Diğer iki üretim kalitesi varsayılanı:
 
 - `timm`, tutarlı bir API ile yaklaşık 800 önceden eğitilmiş görüş backbone'u sunar (`timm.create_model("resnet50", pretrained=True, num_classes=10)`). Torchvision hayvanat bahçesinin ötesindeki herhangi bir fine-tune için standarttır.
-- Transformer'lar için `transformers.AutoModelForImageClassification.from_pretrained(name, num_labels=N)`, size metin modelleriyle aynı yükleme semantiğiyle ViT / BEiT / DeiT verir.
+- Transformer'lar için `transformers. AutoModelForImageClassification.from_pretrained(name, num_labels=N)`, size metin modelleriyle aynı yükleme semantiğiyle ViT / BEiT / DeiT verir.
 
 ## Çıktılar
 

@@ -22,14 +22,14 @@ A2A, o çağrı için evrensel kablo protokolüdür. Standart keşif, standart g
 ```
 GET https://agent.example.com/.well-known/agent.json
 → {
-    "name": "code-review-agent",
-    "skills": ["review-python", "review-typescript"],
-    "endpoints": {
-      "tasks": "https://agent.example.com/tasks"
-    },
-    "auth": {"type": "bearer"},
-    "modalities": ["text", "structured"]
-  }
+ "name": "code-review-agent",
+ "skills": ["review-python", "review-typescript"],
+ "endpoints": {
+ "tasks": "https://agent.example.com/tasks"
+ },
+ "auth": {"type": "bearer"},
+ "modalities": ["text", "structured"]
+ }
 ```
 
 **Task.** İş birimi. Bir yaşam döngüsüne sahip eşzamansız, durum bilgisi olan bir nesne: `submitted → working → completed / failed / canceled`. Bir istemci bir görev gönderir, güncellemeleri yoklar veya abone olur.
@@ -48,15 +48,15 @@ GET https://agent.example.com/.well-known/agent.json
 ### Keşif akışı
 
 ```
-İstemci                    Agent sunucusu
-  ├──GET /.well-known/agent.json──>
-  <──Agent Card JSON─────────────
-  ├──POST /tasks {skill, input}──>
-  <──201 task_id, state=submitted
-  ├──GET /tasks/{id}──────────────>
-  <──state=working, 42% done──────
-  ├──GET /tasks/{id}──────────────>
-  <──state=completed, artifacts──
+İstemci Agent sunucusu
+ ├──GET /.well-known/agent.json──>
+ <──Agent Card JSON─────────────
+ ├──POST /tasks {skill, input}──>
+ <──201 task_id, state=submitted
+ ├──GET /tasks/{id}──────────────>
+ <──state=working, 42% done──────
+ ├──GET /tasks/{id}──────────────>
+ <──state=completed, artifacts──
 ```
 
 Veya streaming ile: itme güncellemeleri için `/tasks/{id}/events`'a SSE aboneliği.

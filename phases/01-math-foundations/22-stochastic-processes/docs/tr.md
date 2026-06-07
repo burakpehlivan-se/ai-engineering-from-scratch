@@ -38,12 +38,12 @@ MCMC örnekleme — Bayes çıkarımının omurgası — durağan dağılımı �
 import numpy as np
 
 def rastgele_yuruyus(n_adim):
-    konum = 0
-    yolu = [konum]
-    for _ in range(n_adim):
-        konum += np.random.choice([-1, 1])
-        yolu.append(konum)
-    return yolu
+ konum = 0
+ yolu = [konum]
+ for _ in range(n_adim):
+ konum += np.random.choice([-1, 1])
+ yolu.append(konum)
+ return yolu
 ```
 
 #### Açıklama
@@ -66,19 +66,19 @@ Herhangi bir dağılımdan örnekleme yapmak için Markov zincirleri kullanır.
 
 ```python
 def metropolis_hastings(ornekleme_fonksiyonu, n_ornek):
-    mevcut = np.random.randn()
-    ornekler = []
-    
-    for _ in range(n_ornek):
-        aday = mevcut + np.random.randn() * 0.5
-        kabul_orani = ornekleme_fonksiyonu(aday) / ornekleme_fonksiyonu(mevcut)
-        
-        if np.random.rand() < kabul_orani:
-            mevcut = aday
-        
-        ornekler.append(mevcut)
-    
-    return ornekler
+ mevcut = np.random.randn()
+ ornekler = []
+ 
+ for _ in range(n_ornek):
+ aday = mevcut + np.random.randn() * 0.5
+ kabul_orani = ornekleme_fonksiyonu(aday) / ornekleme_fonksiyonu(mevcut)
+ 
+ if np.random.rand() < kabul_orani:
+ mevcut = aday
+ 
+ ornekler.append(mevcut)
+ 
+ return ornekler
 ```
 
 #### Açıklama

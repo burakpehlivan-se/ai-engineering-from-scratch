@@ -44,18 +44,18 @@ Toplam GPU belleğini aşarsa, paylaştırma (sharding) gereklidir. Sırayla den
 ### Karar Ağacı
 
 1. **Tek bir katman bir GPU'ya sığıyor mu?**
-   - Hayır: Tensör paralelliğine ihtiyacınız var. TP = 2, 4 veya 8 ayarlayın (bir düğüm içinde).
-   - Evet: Tensör paralelliğini atlayın.
+ - Hayır: Tensör paralelliğine ihtiyacınız var. TP = 2, 4 veya 8 ayarlayın (bir düğüm içinde).
+ - Evet: Tensör paralelliğini atlayın.
 
 2. **Tam model (paylaştırma ile) bir düğümdeki GPU'lara sığıyor mu?**
-   - Hayır: İşlem hattı paralelliğine ihtiyacınız var. PP = düğüm sayısı / gruplar ayarlayın.
-   - Evet: İşlem hattı paralelliğini atlayın.
+ - Hayır: İşlem hattı paralelliğine ihtiyacınız var. PP = düğüm sayısı / gruplar ayarlayın.
+ - Evet: İşlem hattı paralelliğini atlayın.
 
 3. **Veri paralelliği için kaç GPU kaldı?**
-   - DP = toplam_gpu / (TP x PP)
+ - DP = toplam_gpu / (TP x PP)
 
 4. **Veri paralel grubu içinde hangi paylaştırma seviyesi?**
-   - FSDP (ZeRO-3) ile başlayın. İletişim darboğazsa ZeRO-2 veya ZeRO-1'e düşürün.
+ - FSDP (ZeRO-3) ile başlayın. İletişim darboğazsa ZeRO-2 veya ZeRO-1'e düşürün.
 
 ### Tipik Yapılandırmalar
 

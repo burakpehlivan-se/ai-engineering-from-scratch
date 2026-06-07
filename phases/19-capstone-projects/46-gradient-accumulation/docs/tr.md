@@ -26,13 +26,13 @@ Risk, kaybın artık büyük batch'teki aynı sayı olmamasıdır. 16 mini-batch
 
 ```mermaid
 flowchart LR
-  start[başla] --> zero[gradyanları sıfırla]
-  zero --> mb1[mikro batch 1: ileri + ölçeklenmiş geri]
-  mb1 --> mb2[mikro batch 2: ileri + ölçeklenmiş geri]
-  mb2 --> dots[...]
-  dots --> mbN[mikro batch N: ileri + ölçeklenmiş geri + senkron]
-  mbN --> step[optimize edici adımı]
-  step --> next[sonraki etkin adım]
+ start[başla] --> zero[gradyanları sıfırla]
+ zero --> mb1[mikro batch 1: ileri + ölçeklenmiş geri]
+ mb1 --> mb2[mikro batch 2: ileri + ölçeklenmiş geri]
+ mb2 --> dots[...]
+ dots --> mbN[mikro batch N: ileri + ölçeklenmiş geri + senkron]
+ mbN --> step[optimize edici adımı]
+ step --> next[sonraki etkin adım]
 ```
 
 Sözleşme kısadır:
@@ -54,8 +54,8 @@ opt.step()
 
 ```python
 for x, y in chunks(x_full, y_full, n):
-    scaled = criterion(model(x), y) / n
-    scaled.backward()
+ scaled = criterion(model(x), y) / n
+ scaled.backward()
 opt.step()
 ```
 
@@ -67,12 +67,12 @@ Her mikro-batch, bir ileri ve bir geri geçişe mal olur. Birikimle bellek için
 
 ```mermaid
 flowchart TD
-  micro[sabit mikro batch] --> small[küçük birikim: düşük kayıp gürültü bütçesi, yüksek adımcı churn]
-  micro --> large[büyük birikim: düzgün kayıp, nadir optimize edici adımı]
-  small --> sps1[saniyedeki örnekler donanım sınırında doygunlaşır]
-  large --> sps2[saniyedeki örnekler hâlâ donanım sınırına ulaşır]
-  sps1 --> note[optimize edici adımı başına toplam örnek doğrusal olarak birikimle ölçeklenir]
-  sps2 --> note
+ micro[sabit mikro batch] --> small[küçük birikim: düşük kayıp gürültü bütçesi, yüksek adımcı churn]
+ micro --> large[büyük birikim: düzgün kayıp, nadir optimize edici adımı]
+ small --> sps1[saniyedeki örnekler donanım sınırında doygunlaşır]
+ large --> sps2[saniyedeki örnekler hâlâ donanım sınırına ulaşır]
+ sps1 --> note[optimize edici adımı başına toplam örnek doğrusal olarak birikimle ölçeklenir]
+ sps2 --> note
 ```
 
 Bedava yemek yok. `accum_steps`'i ikiye katlamak, optimize edici adımı başına duvar zamanını ikiye katlar. Değişen, gradyan tahmininin varyansıdır: aynı duvar bütçesinde daha az optimize edici adımı yapmışsınızdır, ancak her biri daha fazla örnek üzerinden ortalanmıştır. Literatür, büyük batch ve küçük batch'i farklı optimizasyon problemleri olarak ele alır; buradaki ders mekaniktir, istatistiksel değil.

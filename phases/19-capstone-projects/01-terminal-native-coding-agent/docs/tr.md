@@ -23,31 +23,31 @@ Korumalı alan E2B veya Daytona. Her görev, okunabilir-yazılır bağlanmış b
 ## Architecture
 
 ```
-  user CLI  ->  harness (Bun + Ink TUI)
-                   |
-                   v
-            plan / act / observe loop  <--->  Claude Sonnet 4.7 / GPT-5.4-Codex / Gemini 3 Pro
-                   |                          (OpenRouter üzerinden, model-donanımı-agnostik)
-                   v
-            tool dispatcher (MCP StreamableHTTP client)
-                   |
-      +------------+------------+----------+
-      v            v            v          v
-   read/edit    ripgrep     tree-sitter   git/run
-      |            |            |          |
-      +------------+------------+----------+
-                   |
-                   v
-            E2B / Daytona sandbox  (worktree yalıtılmış)
-                   |
-                   v
-            hooks: Pre/Post, Session, Prompt, Compact
-                   |
-                   v
-            OpenTelemetry -> Langfuse (spans, tokens, $)
-                   |
-                   v
-            PR via GitHub app
+ user CLI -> harness (Bun + Ink TUI)
+ |
+ v
+ plan / act / observe loop <---> Claude Sonnet 4.7 / GPT-5.4-Codex / Gemini 3 Pro
+ | (OpenRouter üzerinden, model-donanımı-agnostik)
+ v
+ tool dispatcher (MCP StreamableHTTP client)
+ |
+ +------------+------------+----------+
+ v v v v
+ read/edit ripgrep tree-sitter git/run
+ | | | |
+ +------------+------------+----------+
+ |
+ v
+ E2B / Daytona sandbox (worktree yalıtılmış)
+ |
+ v
+ hooks: Pre/Post, Session, Prompt, Compact
+ |
+ v
+ OpenTelemetry -> Langfuse (spans, tokens, $)
+ |
+ v
+ PR via GitHub app
 ```
 
 #### Açıklama
@@ -88,15 +88,15 @@ Bu diyagram bir terminal tabanlı kodlama ajanının (coding agent) tam veri ak�
 
 ```
 $ agent run ./my-repo "Fix the race condition in worker.rs"
-[plan]  1 locate worker.rs and enumerate mutex uses
-        2 identify shared state under contention
-        3 propose fix, verify tests
-[tool]  ripgrep mutex.*lock -t rust           (44 matches, truncated)
-[tool]  read_file src/worker.rs 120..180
-[tool]  edit_file src/worker.rs (+8 -3)
-[tool]  run_shell cargo test worker::          (passed)
-[plan]  1 done · 2 done · 3 done
-[done]  PR opened: #482   turns=9   tokens=38k   cost=$0.41
+[plan] 1 locate worker.rs and enumerate mutex uses
+ 2 identify shared state under contention
+ 3 propose fix, verify tests
+[tool] ripgrep mutex.*lock -t rust (44 matches, truncated)
+[tool] read_file src/worker.rs 120..180
+[tool] edit_file src/worker.rs (+8 -3)
+[tool] run_shell cargo test worker:: (passed)
+[plan] 1 done · 2 done · 3 done
+[done] PR opened: #482 turns=9 tokens=38k cost=$0.41
 ```
 
 #### Açıklama

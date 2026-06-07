@@ -29,15 +29,15 @@ Ders, sabit promptlar için senaryolaştırılmış token dizileri döndüren bi
 
 ```text
 Hypothesis
-  id             : int           (bir çalıştırma içinde tekdüze)
-  text           : str           (iddia)
-  variables      : list[str]     (koşullar arasında ne değişir)
-  metric         : str           (koşucu neyi ölçecek)
-  baseline_ref   : str | None    (karşılaştırmanın alıntı yaptığı hangi makale veya çalıştırma)
-  draft_pass     : int           (bu hipotezi hangi örnekleyici geçişi üretti)
-  temperature    : float         (taslak zamanında örnekleyici ayarı)
-  novelty_score  : float         (önceki hayatta kalanlardan mesafe, 0..1)
-  rank_score     : float         (sıralama için kullanılan ağırlıklı toplam)
+ id : int (bir çalıştırma içinde tekdüze)
+ text : str (iddia)
+ variables : list[str] (koşullar arasında ne değişir)
+ metric : str (koşucu neyi ölçecek)
+ baseline_ref : str | None (karşılaştırmanın alıntı yaptığı hangi makale veya çalıştırma)
+ draft_pass : int (bu hipotezi hangi örnekleyici geçişi üretti)
+ temperature : float (taslak zamanında örnekleyici ayarı)
+ novelty_score : float (önceki hayatta kalanlardan mesafe, 0..1)
+ rank_score : float (sıralama için kullanılan ağırlıklı toplam)
 ```
 
 `variables` ve `metric` serbest metin değildir. Ayrıştırıcı bunları etiketli bir yanıttan çeker. Elli iki numaralı dersteki koşucu, deney yapılandırmasını kurarken bu alanları doğrudan okur.
@@ -48,16 +48,16 @@ Hypothesis
 
 ```mermaid
 flowchart TD
-    A[seed promptu] --> B[sıcaklık yükseltme]
-    B --> C[mock dil modeli taslağı]
-    C --> D[etiketli yanıtı ayrıştır]
-    D --> E{yenilik filtresi}
-    E -- kopya --> F[at]
-    E -- yeni --> G[hayatta kalanlara ekle]
-    G --> H{geçiş bütçesi doldu mu?}
-    H -- hayır --> B
-    H -- evet --> I[hayatta kalanları sırala]
-    I --> J[hipotez kuyruğu]
+ A[seed promptu] --> B[sıcaklık yükseltme]
+ B --> C[mock dil modeli taslağı]
+ C --> D[etiketli yanıtı ayrıştır]
+ D --> E{yenilik filtresi}
+ E -- kopya --> F[at]
+ E -- yeni --> G[hayatta kalanlara ekle]
+ G --> H{geçiş bütçesi doldu mu?}
+ H -- hayır --> B
+ H -- evet --> I[hayatta kalanları sırala]
+ I --> J[hipotez kuyruğu]
 ```
 
 Döngü düz ileri. İlginç kısım, her kutunun sert bir sözleşmeye sahip olmasıdır.
@@ -78,8 +78,8 @@ Hashlenmiş gömme gösterişli değildir. Deterministiktir, sıfır bağımlıl
 
 ```text
 rank_score = w_novelty * novelty_score
-           + w_specificity * specificity_score
-           + w_testability * testability_score
+ + w_specificity * specificity_score
+ + w_testability * testability_score
 ```
 
 Üç alt skor. `novelty_score`, önceki hayatta kalanlardan minimum gömme mesafesidir. `specificity_score`, hipotezdeki somut değişkenlerin sayısının bir hedef sayıya bölünmesidir. `testability_score`, hipotez hem bir metrik hem bir taban çizgisi belirtiyorsa birdir, yalnızca metrik varsa yarımdır, aksi takdirde sıfırdır.
@@ -90,8 +90,8 @@ Varsayılan ağırlıklar `0.4`, `0.3`, `0.3`'tür. Ağırlıklar, üretici conf
 
 ```python
 class MockLLM:
-    def sample(self, prompt: str, temperature: float, seed: int) -> str:
-        ...
+ def sample(self, prompt: str, temperature: float, seed: int) -> str:
+ ...
 ```
 
 Örnekleyici, verilen bir `(prompt, temperature, seed)` üçlüsüne göre deterministiktir. Mock, `(prompt_signature, temperature_bucket)` üzerinde anahtarlanmış senaryolaştırılmış bir yanıt tablosu tutar. Anahtar için tabloda bir girdi yoksa, örnekleyici ayrıştırıcıda başarısız olan bir geri dönüş döndürür. Geri dönüş yolu, testlerden biri tarafından çalıştırılır.

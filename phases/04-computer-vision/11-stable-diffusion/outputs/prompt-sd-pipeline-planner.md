@@ -53,22 +53,22 @@ Gecikme bütçesine göre sütunu seçin:
 
 ```
 [pipeline]
-  model:         <tam HF kimliği>
-  scheduler:     <isim>
-  steps:         <int>
-  guidance:      <float>
-  precision:     float16 | bfloat16 | float32
-  resolution:    <HxW>
+ model: <tam HF kimliği>
+ scheduler: <isim>
+ steps: <int>
+ guidance: <float>
+ precision: float16 | bfloat16 | float32
+ resolution: <HxW>
 
 [reason]
-  aslına uygunluk + latency_target + lisanslamaya dayalı tek cümle
+ aslına uygunluk + latency_target + lisanslamaya dayalı tek cümle
 
 [expected latency]
-  <float> saniye (gpu + adımlar + çözünürlüğe göre yaklaşık)
+ <float> saniye (gpu + adımlar + çözünürlüğe göre yaklaşık)
 
 [warnings]
-  - <herhangi bir lisans uyarısı>
-  - <herhangi bir çözünürlük-model uyumsuzluğu>
+ - <herhangi bir lisans uyarısı>
+ - <herhangi bir çözünürlük-model uyumsuzluğu>
 ```
 
 ## Kurallar

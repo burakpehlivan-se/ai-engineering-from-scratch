@@ -32,12 +32,12 @@ Bir karar ağacı, evet/hayır soruları dizisi sorarak özellik uzayını dikd�
 
 ```mermaid
 graph TD
-    A["Yaş < 30?"] -->|Evet| B["Gelir > 50K?"]
-    A -->|Hayır| C["Kredi Notu > 700?"]
-    B -->|Evet| D["Onayla"]
-    B -->|Hayır| E["Reddet"]
-    C -->|Evet| F["Onayla"]
-    C -->|Hayır| G["Reddet"]
+ A["Yaş < 30?"] -->|Evet| B["Gelir > 50K?"]
+ A -->|Hayır| C["Kredi Notu > 700?"]
+ B -->|Evet| D["Onayla"]
+ B -->|Hayır| E["Reddet"]
+ C -->|Evet| F["Onayla"]
+ C -->|Hayır| G["Reddet"]
 ```
 
 Her dahili düğüm bir özelliği bir eşikle test eder. Her yaprak düğüm bir tahmin yapar. Yeni bir veri noktasını sınıflandırmak için kökten başlarsınız ve dalları takip ederek yaprağa ulaşırsınız.

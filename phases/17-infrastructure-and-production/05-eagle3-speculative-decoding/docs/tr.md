@@ -1,6 +1,6 @@
 # Üretimde EAGLE-3 Spekülatif Decode
 
-> Spekülatif decode, hızlı bir draft modelini hedef modelle eşleştirir. Draft K token önerir; hedef tek bir forward'da doğrular; kabul edilen tokenlar bedavadır. 2026'da EAGLE-3 üretim kalitesinde varyanttır — draft head'ı ham tokenlar yerine hedef modelin gizli durumları (hidden state) üzerinde eğitir, kabul oranı alpha'yı genel sohbette 0,6-0,8 bandına iter. Doğru soru "draft ne kadar hızlı" değil, "benim trafikte alpha ne?" Eğer alpha ~0,55'in altına düşerse, spekülatif decode yüksek eşzamanlılıkta net negatiftir çünkü her reddedilen draft ikinci bir hedef forward pass'a mal olur. Bu ders, önce alpha'yı ölçmeyi ve sonra bayrağı çevirmeyi öğretir.
+> Spekülatif decode, hızlı bir draft modelini hedef modelle eşleştirir. Draft K token önerir; hedef tek bir forward'da doğrular; kabul edilen token'lar bedavadır. 2026'da EAGLE-3 üretim kalitesinde varyanttır — draft head'ı ham token'lar yerine hedef modelin gizli durumları (hidden state) üzerinde eğitir, kabul oranı alpha'yı genel sohbette 0,6-0,8 bandına iter. Doğru soru "draft ne kadar hızlı" değil, "benim trafikte alpha ne?" Eğer alpha ~0,55'in altına düşerse, spekülatif decode yüksek eşzamanlılıkta net negatiftir çünkü her reddedilen draft ikinci bir hedef forward pass'a mal olur. Bu ders, önce alpha'yı ölçmeyi ve sonra bayrağı çevirmeyi öğretir.
 
 **Tür:** Öğrenme
 **Diller:** Python (stdlib, oyuncak kabul oranı simülatörü)
@@ -32,7 +32,7 @@ Spec decode olmadan, token başına maliyet bir hedef forward'tur. K draft uzunl
 
 ### Alpha neden tek önemli metriktir
 
-Reddedilen tokenlar yok olmaz — ilk reddedilen token için ikinci bir hedef forward zorlar. Alpha'nın 0,4'e düştüğü bir iş yükünde, draft ek yükü artı doğrulama artı yeniden atış ödersiniz. Yüksek eşzamanlılıkta (diyelim 256 eşzamanlı), decode batch'i "yalnız hedef" ile "doğrulamayla hedef" arasındaki bellek bant genişliği farkını daraltacak kadar zaten büyüktür. Çoğu 2026 donanımında 0,55 alpha'nın altında, spec decode net negatiftir.
+Reddedilen token'lar yok olmaz — ilk reddedilen token için ikinci bir hedef forward zorlar. Alpha'nın 0,4'e düştüğü bir iş yükünde, draft ek yükü artı doğrulama artı yeniden atış ödersiniz. Yüksek eşzamanlılıkta (diyelim 256 eşzamanlı), decode batch'i "yalnız hedef" ile "doğrulamayla hedef" arasındaki bellek bant genişliği farkını daraltacak kadar zaten büyüktür. Çoğu 2026 donanımında 0,55 alpha'nın altında, spec decode net negatiftir.
 
 Alpha iş yüküne göre değişir. ShareGPT-tarzı genel sohbette, ShareGPT üzerinde eğitilmiş EAGLE-3 0,6-0,8'e ulaşır. Alana özgü trafikte (kod, tıbbi, hukuki) genel veri üzerinde eğitilmiş draft head 0,4-0,6'ya düşer. Alana özgü bir draft head eğitmek alpha'yı kurtarır — hedef ince ayarına kıyasla hafif, hızlı bir eğitim işidir.
 
@@ -91,7 +91,7 @@ Bu ders `outputs/skill-eagle3-rollout.md` üretir. Hedef model, trafik dağılı
 | Terim | İnsanların söylediği | Gerçekte ne anlama geldiği |
 |-------|----------------------|----------------------------|
 | Spekülatif decode | "draft artı doğrulama" | K token'ı ucuz bir modelle öner, tüm K'yı tek bir hedef forward'ta doğrula |
-| Kabul oranı alpha | "spec kabul oranı" | Draft tokenlarının hedef tarafından kabul edilen kesri; tek önemli metrik |
+| Kabul oranı alpha | "spec kabul oranı" | Draft token'larının hedef tarafından kabul edilen kesri; tek önemli metrik |
 | Draft uzunluğu K | "spec k" | Draft'ın hedef forward başına kaç token önerdiği; tipik 4-8 |
 | Doğrulama ek yükü epsilon | "spec ek yükü" | Düz hedef forward'a kıyasla doğrulama-ve-yeniden atış ekstra maliyeti; batch ile büyür |
 | EAGLE-3 | "en son EAGLE" | 2025-2026 varyantı; draft head'ı birden çok hedef katmanı üzerinde eğitir; genel sohbette alpha 0,6-0,8 |

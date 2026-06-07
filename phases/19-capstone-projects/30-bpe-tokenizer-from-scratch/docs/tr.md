@@ -27,16 +27,16 @@ Bayt düzeyinde varyantı inşa edeceğiz. Alfabe 256 ham bayttır, Unicode kod 
 
 ```mermaid
 flowchart LR
-    A[ham derlem metni] --> B[kelime başına bayt bölme]
-    B --> C[bitişik çift frekanslarını say]
-    C --> D{çift tablosu boş mu?}
-    D -- hayır --> E[en sık çifti birleştir]
-    E --> F[birleştirmeyi birleştirme tablosuna ekle]
-    F --> G[sözlüğü bir kimlikle büyüt]
-    G --> C
-    D -- evet --> H[son sözlük + birleştirmeler]
-    H --> I[yeni metni kodla]
-    H --> J[kimlikleri baytlara geri kod çöz]
+ A[ham derlem metni] --> B[kelime başına bayt bölme]
+ B --> C[bitişik çift frekanslarını say]
+ C --> D{çift tablosu boş mu?}
+ D -- hayır --> E[en sık çifti birleştir]
+ E --> F[birleştirmeyi birleştirme tablosuna ekle]
+ F --> G[sözlüğü bir kimlikle büyüt]
+ G --> C
+ D -- evet --> H[son sözlük + birleştirmeler]
+ H --> I[yeni metni kodla]
+ H --> J[kimlikleri baytlara geri kod çöz]
 ```
 
 #### Açıklama
@@ -56,15 +56,15 @@ Her eğitim adımı için döngü üç şey yapar. Derlemdeki her kelimeyi yür�
 
 ```mermaid
 sequenceDiagram
-    participant Corpus
-    participant PairCount
-    participant MergeTable
-    participant Vocab
-    Corpus->>PairCount: bitişik çiftleri say
-    PairCount->>MergeTable: en üst çifti seç (a,b)
-    MergeTable->>Vocab: yeni kimlik ata = a+b
-    MergeTable->>Corpus: her (a,b)'yi yeni kimliğe yeniden yaz
-    Corpus->>PairCount: sonraki adım için yeniden say
+ participant Corpus
+ participant PairCount
+ participant MergeTable
+ participant Vocab
+ Corpus->>PairCount: bitişik çiftleri say
+ PairCount->>MergeTable: en üst çifti seç (a,b)
+ MergeTable->>Vocab: yeni kimlik ata = a+b
+ MergeTable->>Corpus: her (a,b)'yi yeni kimliğe yeniden yaz
+ Corpus->>PairCount: sonraki adım için yeniden say
 ```
 
 #### Açıklama

@@ -34,17 +34,17 @@ Makine öğrenmesi sistemlerinde entropi, çapraz entropi, KL diverjansı ve kar
 ## Temel ilişkiler
 
 ```
-Çapraz entropi  = Entropi + KL diverjansı
-H(P, Q)         = H(P)   + D_KL(P || Q)
+Çapraz entropi = Entropi + KL diverjansı
+H(P, Q) = H(P) + D_KL(P || Q)
 
 Eğitim sırasında H(P) sabit olduğundan:
-  Çapraz entropiyi enküçültmek = KL diverjansını enküçültmek
+ Çapraz entropiyi enküçültmek = KL diverjansını enküçültmek
 
 Karşılıklı bilgi = Entropi - Koşullu entropi
 I(X; Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)
 
 Perplexity = exp(çapraz entropi, nat cinsinden)
-           = 2^(çapraz entropi, bit cinsinden)
+ = 2^(çapraz entropi, bit cinsinden)
 ```
 
 ## Hızlı başvuru: formüller ve birimler
@@ -85,7 +85,7 @@ Perplexity = exp(çapraz entropi, nat cinsinden)
 
 | Kavram | Nerede karşına çıkar |
 |---|---|
-| Çapraz entropi kaybı | Her sınıflandırma modeli (nn.CrossEntropyLoss) |
+| Çapraz entropi kaybı | Her sınıflandırma modeli (nn. CrossEntropyLoss) |
 | KL diverjansı | VAE ELBO, PPO kırpma, bilgi damıtma |
 | Entropi düzenlileştirmesi | RL'de keşif bonusu (daha yüksek entropi = daha fazla keşif) |
 | Karşılıklı bilgi | Özellik seçimi, InfoNCE kaybı (karşılaştırmalı öğrenme) |

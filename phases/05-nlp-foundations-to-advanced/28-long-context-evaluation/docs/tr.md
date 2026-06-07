@@ -54,30 +54,30 @@ Teknik sayfa için iki sayı: retrieval-etkili ve çıkarsama-etkili. Genellikle
 
 ```python
 def build_haystack(filler_text, needle, depth_ratio, total_tokens):
-    if not (0.0 <= depth_ratio <= 1.0):
-        raise ValueError(f"depth_ratio must be in [0, 1], got {depth_ratio}")
-    if total_tokens <= 0:
-        raise ValueError(f"total_tokens must be positive, got {total_tokens}")
+ if not (0.0 <= depth_ratio <= 1.0):
+ raise ValueError(f"depth_ratio must be in [0, 1], got {depth_ratio}")
+ if total_tokens <= 0:
+ raise ValueError(f"total_tokens must be positive, got {total_tokens}")
 
-    filler_tokens = tokenize(filler_text)
-    needle_tokens = tokenize(needle)
-    if not filler_tokens:
-        raise ValueError("filler_text produced no tokens")
+ filler_tokens = tokenize(filler_text)
+ needle_tokens = tokenize(needle)
+ if not filler_tokens:
+ raise ValueError("filler_text produced no tokens")
 
-    # Repeat filler until long enough to fill the haystack body.
-    body_len = max(total_tokens - len(needle_tokens), 0)
-    while len(filler_tokens) < body_len:
-        filler_tokens = filler_tokens + filler_tokens
-    filler_tokens = filler_tokens[:body_len]
+ # Repeat filler until long enough to fill the haystack body.
+ body_len = max(total_tokens - len(needle_tokens), 0)
+ while len(filler_tokens) < body_len:
+ filler_tokens = filler_tokens + filler_tokens
+ filler_tokens = filler_tokens[:body_len]
 
-    insert_at = min(int(body_len * depth_ratio), body_len)
-    haystack = filler_tokens[:insert_at] + needle_tokens + filler_tokens[insert_at:]
-    return " ".join(haystack)
+ insert_at = min(int(body_len * depth_ratio), body_len)
+ haystack = filler_tokens[:insert_at] + needle_tokens + filler_tokens[insert_at:]
+ return " ".join(haystack)
 
 
 def score_niah(model, haystack, question, expected):
-    answer = model.complete(f"Context: {haystack}\nQ: {question}\nA:", max_tokens=50)
-    return 1 if expected.lower() in answer.lower() else 0
+ answer = model.complete(f"Context: {haystack}\nQ: {question}\nA:", max_tokens=50)
+ return 1 if expected.lower() in answer.lower() else 0
 ```
 
 #### Açıklama
@@ -87,13 +87,13 @@ def score_niah(model, haystack, question, expected):
 
 ```python
 def build_multi_needle(filler, needles, total_tokens):
-    depths = [0.1, 0.4, 0.7]
-    chunks = [filler[:int(total_tokens * 0.1)]]
-    for depth, needle in zip(depths, needles):
-        chunks.append(needle)
-        next_chunk = filler[int(total_tokens * depth): int(total_tokens * (depth + 0.3))]
-        chunks.append(next_chunk)
-    return " ".join(chunks)
+ depths = [0.1, 0.4, 0.7]
+ chunks = [filler[:int(total_tokens * 0.1)]]
+ for depth, needle in zip(depths, needles):
+ chunks.append(needle)
+ next_chunk = filler[int(total_tokens * depth): int(total_tokens * (depth + 0.3))]
+ chunks.append(next_chunk)
+ return " ".join(chunks)
 ```
 
 #### Açıklama
@@ -116,13 +116,13 @@ from datasets import load_dataset
 longbench = load_dataset("THUDM/LongBench-v2")
 
 def eval_model_on_longbench(model, subset="single-doc-qa"):
-    tasks = [x for x in longbench["test"] if x["task"] == subset]
-    correct = 0
-    for x in tasks:
-        answer = model.complete(x["context"] + "\n\nQ: " + x["question"], max_tokens=20)
-        if normalize(answer) == normalize(x["answer"]):
-            correct += 1
-    return correct / len(tasks)
+ tasks = [x for x in longbench["test"] if x["task"] == subset]
+ correct = 0
+ for x in tasks:
+ answer = model.complete(x["context"] + "\n\nQ: " + x["question"], max_tokens=20)
+ if normalize(answer) == normalize(x["answer"]):
+ correct += 1
+ return correct / len(tasks)
 ```
 
 #### Açıklama

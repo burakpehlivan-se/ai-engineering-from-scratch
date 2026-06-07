@@ -26,20 +26,20 @@ Bu dersteki döngü üç şekilde ölçer. Her adımda eğitim batch'i üzerinde
 
 ```mermaid
 flowchart TB
-  D[(Token tensörü<br/>eğitim + val)] --> B[Batch'ler yap<br/>girdi + hedef bir kaydır]
-  B --> F[İleri<br/>logitler]
-  F --> L[Çapraz entropi<br/>batch ve zaman üzerinde düzleştir]
-  L --> Bw[Geri]
-  Bw --> Cg[Gradyan normunu kırp]
-  Cg --> Step[AdamW adımı]
-  Step --> Z[Cosine LR zamanlaması]
-  Z --> JL[Adım kaydını<br/>losses.jsonl'ye ekle]
-  JL --> Probe{Adım bir sonda adımı mı?}
-  Probe -- evet --> Eval[val üzerinde evaluate_model]
-  Probe -- evet --> Sample[generate_and_print_sample]
-  Probe -- hayır --> Next[Sonraki adım]
-  Eval --> Next
-  Sample --> Next
+ D[(Token tensörü<br/>eğitim + val)] --> B[Batch'ler yap<br/>girdi + hedef bir kaydır]
+ B --> F[İleri<br/>logitler]
+ F --> L[Çapraz entropi<br/>batch ve zaman üzerinde düzleştir]
+ L --> Bw[Geri]
+ Bw --> Cg[Gradyan normunu kırp]
+ Cg --> Step[AdamW adımı]
+ Step --> Z[Cosine LR zamanlaması]
+ Z --> JL[Adım kaydını<br/>losses.jsonl'ye ekle]
+ JL --> Probe{Adım bir sonda adımı mı?}
+ Probe -- evet --> Eval[val üzerinde evaluate_model]
+ Probe -- evet --> Sample[generate_and_print_sample]
+ Probe -- hayır --> Next[Sonraki adım]
+ Eval --> Next
+ Sample --> Next
 ```
 
 #### Açıklama
@@ -124,7 +124,7 @@ Bu komut, eğitim döngüsü demolarını çalıştırır, JSONL günlüğüne y
 
 | Terim | İnsanların söylediği | Gerçek anlamı |
 |------|------------------------|----------------|
-| Kayıp hizalaması | "Bir kaydır" | Konum 0..T-1'deki girdi token'ları, konum 1..T'deki hedef token'ları; çapraz entropi düzleştirilmiş şekiller üzerinde hesaplanır |
+| Kayıp hizalaması | "Bir kaydır" | Konum 0.. T-1'deki girdi token'ları, konum 1.. T'deki hedef token'ları; çapraz entropi düzleştirilmiş şekiller üzerinde hesaplanır |
 | Çürüme bölünmesi | "İki grup" | AdamW, matris şeklindeki tensörleri ağırlık çürümesiyle, ölçek veya bias tensörlerini çürüme olmadan alır |
 | Isınma | "Rampa" | Öğrenme oranının sıfırdan hedefine sabit sayıda adımda tırmanması, böylece optimizer durumu dolabilir |
 | Değerlendirme batch'leri | "Elde tutulan batch'ler" | Doğrulama token tensörünün sabit bir dilimi, betik başlangıcında bir kez dilimlenir, her sondada aynı şekilde kullanılır |

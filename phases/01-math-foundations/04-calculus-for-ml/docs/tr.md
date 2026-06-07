@@ -34,19 +34,19 @@ Geometrik olarak, türev bir noktadaki teğet çizgisinin eğimidir.
 
 | x | f(x) | f'(x) (eğim) |
 |---|------|---------------|
-| 0 | 0    | 0 (düz, altta) |
-| 1 | 1    | 2 |
-| 2 | 4    | 4 (bu noktadaki teğet çizgisi eğimi) |
-| 3 | 9    | 6 |
+| 0 | 0 | 0 (düz, altta) |
+| 1 | 1 | 2 |
+| 2 | 4 | 4 (bu noktadaki teğet çizgisi eğimi) |
+| 3 | 9 | 6 |
 
 x=2'de, eğim 4'tür. x'i çok az sağa kaydırırsanız, y yaklaşık 4 katı kadar artar. x=0'da, eğim 0'dır. Kabağın altındasınız.
 
 Resmi tanım:
 
 ```
-f'(x) = lim   f(x + h) - f(x)
-        h->0  -----------------
-                     h
+f'(x) = lim f(x + h) - f(x)
+ h->0 -----------------
+ h
 ```
 
 Kodda, limiti atlar ve çok küçük bir h kullanırsınız. Bu sayısal türevdir.
@@ -58,8 +58,8 @@ Gerçek fonksiyonların birçok girdisi vardır. Bir sinir ağı kaybı binlerce
 ```
 f(x, y) = x^2 + 3xy + y^2
 
-df/dx = 2x + 3y     (y'yi sabit say)
-df/dy = 3x + 2y     (x'i sabit say)
+df/dx = 2x + 3y (y'yi sabit say)
+df/dy = 3x + 2y (x'i sabit say)
 ```
 
 Yapay zekada gradyan, tüm ağırlıklarla ilgili kısmi türevlerin vektörüdür. Her ağırlığın kaybı nasıl etkilediğini söyler.

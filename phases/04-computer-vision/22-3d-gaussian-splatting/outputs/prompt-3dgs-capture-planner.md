@@ -44,23 +44,23 @@ Sen bir 3DGS çekim planlayıcısısın. Sahne ve donanım verildiğinde, spesif
 
 ```
 [capture plan]
-  scene:           <tür>
-  hardware:        <cihaz>
-  photo count:     <N>
-  capture path:    <orbit / figure-8 / hemisphere / grid>
-  exposure:        <settings>'da kilitli
-  focal length:    fixed | zoom-locked
+ scene: <tür>
+ hardware: <cihaz>
+ photo count: <N>
+ capture path: <orbit / figure-8 / hemisphere / grid>
+ exposure: <settings>'da kilitli
+ focal length: fixed | zoom-locked
 
 [processing pipeline]
-  1. SfM: COLMAP | GLOMAP
-  2. 3DGS train: nerfstudio splatfacto | gsplat
-  3. cleanup: SuperSplat (yüzen öğeleri kaldır)
-  4. export: <.ply | glTF KHR_gaussian_splatting | USD>
+ 1. SfM: COLMAP | GLOMAP
+ 2. 3DGS train: nerfstudio splatfacto | gsplat
+ 3. cleanup: SuperSplat (yüzen öğeleri kaldır)
+ 4. export: <.ply | glTF KHR_gaussian_splatting | USD>
 
 [quality expectations]
-  Eğitimden sonra Gaussian sayısı: <yaklaşık>
-  İşlenen fps:                    <yaklaşık>
-  bilinen başarısızlık modları:     <liste>
+ Eğitimden sonra Gaussian sayısı: <yaklaşık>
+ İşlenen fps: <yaklaşık>
+ bilinen başarısızlık modları: <liste>
 ```
 
 ## Kurallar

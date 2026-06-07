@@ -30,7 +30,7 @@ Kirchenbauer ve ark. 2023 mekanizması, Google tarafından üretimleştirildi:
 2. Yeşil logitlerine δ ekleyerek örneklemeyi yeşil kümeye doğru yönlendirin.
 3. Nesil, şansın üreteceğinden daha fazla yeşil token içerir.
 
-Tespit: her öneki yeniden hashleyin, nesildeki yeşil tokenları sayın, bir z-skoru hesaplayın. z-skoru filigranlı metin için >0, insan metni için ~0'dır.
+Tespit: her öneki yeniden hashleyin, nesildeki yeşil token'ları sayın, bir z-skoru hesaplayın. z-skoru filigranlı metin için >0, insan metni için ~0'dır.
 
 Özellikler:
 - Okuyucular için fark edilemez (δ kalite kaybının küçük olduğu kadar küçüktür).
@@ -77,7 +77,7 @@ Dersler 22-23, modelin ne yaptığı (özel veri, köken sinyali) hakkındadır.
 
 ## Uygulama
 
-`code/main.py` bir oyuncak metin filigranı inşa eder. Tokenlar 0..N-1 tamsayılarıdır; filigranlı örnekleme, hash-tarafından-tanımlanmış yeşil kümeye doğru yönlendirir. Bir detektör yeşil-token z-skorunu hesaplar. 1000 tokenlık nesillerde tespiti gözlemleyebilir, özet çıkarmanın sinyali yok ettiğini izleyebilir ve insan metnindeki yanlış-pozitif oranını ölçebilirsiniz.
+`code/main.py` bir oyuncak metin filigranı inşa eder. Tokenlar 0.. N-1 tamsayılarıdır; filigranlı örnekleme, hash-tarafından-tanımlanmış yeşil kümeye doğru yönlendirir. Bir detektör yeşil-token z-skorunu hesaplar. 1000 tokenlık nesillerde tespiti gözlemleyebilir, özet çıkarmanın sinyali yok ettiğini izleyebilir ve insan metnindeki yanlış-pozitif oranını ölçebilirsiniz.
 
 ## Ship It
 

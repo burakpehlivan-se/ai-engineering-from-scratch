@@ -44,9 +44,9 @@ Eğitim sırasında her iki yol da çalışır. Sorgular ve metin paylaşımlı 
 BLIP-2 iki aşamada ön-eğitir:
 
 1. Aşama: temsel öğrenme (LLM yok). Üç kayıp:
-   - ITC (görüntü-metin karşıtlıklı): havuzlanmış sorgu token'ları ile metin CLS token'ı arasında CLIP tarzı karşıtlık.
-   - ITM (görüntü-metin eşleme): ikili sınıflandırıcı — bu görüntü-metin çifti eşleşme mi? Sert negatif çıkarmalı.
-   - ITG (görüntüye dayalı metin üretimi): sorgular koşullu olarak metin üzerinde nedensel (causal) dil modeli kafası. Sorguların metin üretilebilir içerik kodlamasını zorlar.
+ - ITC (görüntü-metin karşıtlıklı): havuzlanmış sorgu token'ları ile metin CLS token'ı arasında CLIP tarzı karşıtlık.
+ - ITM (görüntü-metin eşleme): ikili sınıflandırıcı — bu görüntü-metin çifti eşleşme mi? Sert negatif çıkarmalı.
+ - ITG (görüntüye dayalı metin üretimi): sorgular koşullu olarak metin üzerinde nedensel (causal) dil modeli kafası. Sorguların metin üretilebilir içerik kodlamasını zorlar.
 
 Yalnızca Q-Former eğitilir. ViT donmuştur. LLM yoktur.
 

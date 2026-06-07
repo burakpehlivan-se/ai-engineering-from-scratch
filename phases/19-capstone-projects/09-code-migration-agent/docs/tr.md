@@ -26,29 +26,29 @@ Başarısızlık taksonomisi teslim edilen şeydir. 50 repo boyunca, ne kırıld
 
 ```
 target repo
-      |
-      v
+ |
+ v
 OpenRewrite / libcst deterministic recipes
-   (safe, fast, auditable, ~70-80% of fixes)
-      |
-      v
+ (safe, fast, auditable, ~70-80% of fixes)
+ |
+ v
 Daytona sandbox per branch
-      |
-      v
+ |
+ v
 agent loop (Claude Opus 4.7 / GPT-5.4-Codex):
-   - run build -> capture failures
-   - classify failures (build, test, lint)
-   - apply fix (patch or retry recipe)
-   - rerun
-   - budget: 30 min, $8, 20 turns
-      |
-      v
+ - run build -> capture failures
+ - classify failures (build, test, lint)
+ - apply fix (patch or retry recipe)
+ - rerun
+ - budget: 30 min, $8, 20 turns
+ |
+ v
 test + coverage delta gate
-      |
-      v (passed)
+ |
+ v (passed)
 open PR
-      |
-      v (failed)
+ |
+ v (failed)
 file under failure class + attach repro
 ```
 
@@ -89,18 +89,18 @@ Bu mimari bir hedef repodan taşıma PR'ına (veya başarısızlık kaydına) ka
 
 ```
 $ migrate legacy-java-service --target java17
-[recipe]   27 rewrites applied (JUnit 4->5, HashMap initializer, try-with-resources)
-[build]    FAIL: cannot find symbol sun.misc.BASE64Encoder
-[agent]    turn 1 classify: removed_jdk_api
-[agent]    turn 2 apply: sun.misc.BASE64Encoder -> java.util.Base64
-[build]    OK
-[tests]    412/412 passing; coverage 84.1% -> 84.3%
-[pr]       opened #1841  cost=$3.20  turns=4
+[recipe] 27 rewrites applied (JUnit 4->5, HashMap initializer, try-with-resources)
+[build] FAIL: cannot find symbol sun.misc. BASE64Encoder
+[agent] turn 1 classify: removed_jdk_api
+[agent] turn 2 apply: sun.misc. BASE64Encoder -> java.util. Base64
+[build] OK
+[tests] 412/412 passing; coverage 84.1% -> 84.3%
+[pr] opened #1841 cost=$3.20 turns=4
 ```
 
 #### Açıklama
 
-Bu oturum günlüğü tipik bir Java 8'den 17'ye taşıma işlemini gösterir. Reçete aşaması 27 deterministik yeniden yazma uygular (JUnit 4'ten 5'e, HashMap initializer, try-with-resources). Derleme aşaması `sun.misc.BASE64Encoder` simgesinin Java 17'de kaldırıldığını tespit eder. Ajan iki dönüşte sorunu sınıflandırır ve `java.util.Base64`'e geçirir. Test paketi 412/412 geçer, kapsam %84.1'den %84.3'e hafifçe yükselir. Toplam 4 dönüş ve 3.20 dolar maliyetle PR açılır.
+Bu oturum günlüğü tipik bir Java 8'den 17'ye taşıma işlemini gösterir. Reçete aşaması 27 deterministik yeniden yazma uygular (JUnit 4'ten 5'e, HashMap initializer, try-with-resources). Derleme aşaması `sun.misc. BASE64Encoder` simgesinin Java 17'de kaldırıldığını tespit eder. Ajan iki dönüşte sorunu sınıflandırır ve `java.util. Base64`'e geçirir. Test paketi 412/412 geçer, kapsam %84.1'den %84.3'e hafifçe yükselir. Toplam 4 dönüş ve 3.20 dolar maliyetle PR açılır.
 
 ## Ship It
 

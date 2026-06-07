@@ -13,9 +13,9 @@ tags: [vllm, production-stack, lmcache, kv-offload, connector-api]
 
 1. **Yığın.** vLLM production-stack Helm şemasını (yeni dağıtımlar için önerilen) kullan veya kendininkini kur. Hangi operatörlerin/CRD'lerin geçerli olduğunu belirt.
 2. **KV offload.** Şunlardan seç:
-   - Yok (kısa istemler, düşük eşzamanlılık — yükü faydayı aşar).
-   - Yerel vLLM CPU offload (tek motorlu HBM baskısı, basit).
-   - LMCache bağlayıcısı (çok motorlu önek yeniden kullanımı, yoğun önceleme veya çok-kiracılı paylaşılan istemler).
+ - Yok (kısa istemler, düşük eşzamanlılık — yükü faydayı aşar).
+ - Yerel vLLM CPU offload (tek motorlu HBM baskısı, basit).
+ - LMCache bağlayıcısı (çok motorlu önek yeniden kullanımı, yoğun önceleme veya çok-kiracılı paylaşılan istemler).
 3. **HBM kullanımı izleme.** Başlık payıyla `--gpu-memory-utilization` ayarla; %92+ sürekli izlemde, önceleme-öncesi sinyal olarak uyar.
 4. **Yönlendirici entegrasyonu.** Önbellek-farkında yönlendirici (Phase 17 · 11). KV-olay kanalının yapılandırıldığını doğrula.
 5. **Gözlemlenebilirlik.** Prometheus her motor için scrape, OTel GenAI öznitelikleri (Phase 17 · 13), production-stack'ten Grafana pano şablonu.

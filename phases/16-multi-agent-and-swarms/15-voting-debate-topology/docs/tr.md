@@ -35,13 +35,13 @@ Heterojen tartışmanın 2026'da kanonik adı **A-HMAD**'dır — Adversarial He
 ### Dört topoloji
 
 ```
-yıldız (star)         zincir (chain)         ağaç (tree)            grafik (graph)
+yıldız (star) zincir (chain) ağaç (tree) grafik (graph)
 
-    ┌─A─┐           A─B─C─D         ┌──A──┐              A───B
-    │   │                           │     │              │ × │
-    B   C                           B     C              D───C
-    │   │                          / \   / \
-    D   E                         D   E F   G           (tam bağlı)
+ ┌─A─┐ A─B─C─D ┌──A──┐ A───B
+ │ │ │ │ │ × │
+ B C B C D───C
+ │ │ / \ / \
+ D E D E F G (tam bağlı)
 ```
 
 #### Açıklama

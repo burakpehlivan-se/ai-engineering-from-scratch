@@ -56,10 +56,10 @@ Burada `y_scale` ve `y_bias`, `w`'nin afin projeksiyonlarından gelir. Özellik 
 
 ```python
 def mapping(z, M):
-    h = z
-    for i in range(num_layers):
-        h = leaky_relu(add(matmul(M[f"W{i}"], h), M[f"b{i}"]))
-    return h
+ h = z
+ for i in range(num_layers):
+ h = leaky_relu(add(matmul(M[f"W{i}"], h), M[f"b{i}"]))
+ return h
 ```
 
 #### Açıklama
@@ -69,10 +69,10 @@ Mapping network, gizli uzayı veri istatistiklerinden ayırır.
 
 ```python
 def adain(x, w_scale, w_bias):
-    mu = mean(x)
-    sd = std(x)
-    x_norm = [(xi - mu) / (sd + 1e-8) for xi in x]
-    return [w_scale * xi + w_bias for xi in x_norm]
+ mu = mean(x)
+ sd = std(x)
+ x_norm = [(xi - mu) / (sd + 1e-8) for xi in x]
+ return [w_scale * xi + w_bias for xi in x_norm]
 ```
 
 #### Açıklama
@@ -82,7 +82,7 @@ def adain(x, w_scale, w_bias):
 
 ```python
 def add_noise(x, sigma, rng):
-    return [xi + sigma * rng.gauss(0, 1) for xi in x]
+ return [xi + sigma * rng.gauss(0, 1) for xi in x]
 ```
 
 #### Açıklama

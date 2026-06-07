@@ -30,21 +30,21 @@ Bir dedektör, nesnelerin tek bir karede nerede olduğunu söyler. Bir izleyici 
 
 ```mermaid
 flowchart LR
-    F1["Kare t"] --> DET["Dedektör"] --> D1["t anındaki tespitler"]
-    PREV["t-1'e kadar izler"] --> PREDICT["Hareket tahmini<br/>(Kalman)"]
-    PREDICT --> PRED["t anında tahmin edilen izler"]
-    D1 --> ASSOC["Hungarian ataması<br/>(IoU / kosinüs / hareket)"]
-    PRED --> ASSOC
-    ASSOC --> UPDATE["Eşleşen izleri güncelle"]
-    ASSOC --> NEW["Yeni izler oluştur"]
-    ASSOC --> DEAD["Eşleşmeyen izleri yaşlandır; N sonra sil"]
-    UPDATE --> NEXT["t anındaki izler"]
-    NEW --> NEXT
-    DEAD --> NEXT
+ F1["Kare t"] --> DET["Dedektör"] --> D1["t anındaki tespitler"]
+ PREV["t-1'e kadar izler"] --> PREDICT["Hareket tahmini<br/>(Kalman)"]
+ PREDICT --> PRED["t anında tahmin edilen izler"]
+ D1 --> ASSOC["Hungarian ataması<br/>(IoU / kosinüs / hareket)"]
+ PRED --> ASSOC
+ ASSOC --> UPDATE["Eşleşen izleri güncelle"]
+ ASSOC --> NEW["Yeni izler oluştur"]
+ ASSOC --> DEAD["Eşleşmeyen izleri yaşlandır; N sonra sil"]
+ UPDATE --> NEXT["t anındaki izler"]
+ NEW --> NEXT
+ DEAD --> NEXT
 
-    style DET fill:#dbeafe,stroke:#2563eb
-    style ASSOC fill:#fef3c7,stroke:#d97706
-    style NEXT fill:#dcfce7,stroke:#16a34a
+ style DET fill:#dbeafe,stroke:#2563eb
+ style ASSOC fill:#fef3c7,stroke:#d97706
+ style NEXT fill:#dcfce7,stroke:#16a34a
 ```
 
 2026'da karşılaşacağınız her izleyici bu döngünün bir varyasyonudur. Farklar:
@@ -107,21 +107,21 @@ import numpy as np
 
 
 def bbox_iou(a, b):
-    """
-    a, b: (N, 4) dizileri [x1, y1, x2, y2].
-    (N_a, N_b) IoU matrisi döndürür.
-    """
-    ax1, ay1, ax2, ay2 = a[:, 0], a[:, 1], a[:, 2], a[:, 3]
-    bx1, by1, bx2, by2 = b[:, 0], b[:, 1], b[:, 2], b[:, 3]
-    inter_x1 = np.maximum(ax1[:, None], bx1[None, :])
-    inter_y1 = np.maximum(ay1[:, None], by1[None, :])
-    inter_x2 = np.minimum(ax2[:, None], bx2[None, :])
-    inter_y2 = np.minimum(ay2[:, None], by2[None, :])
-    inter = np.clip(inter_x2 - inter_x1, 0, None) * np.clip(inter_y2 - inter_y1, 0, None)
-    area_a = (ax2 - ax1) * (ay2 - ay1)
-    area_b = (bx2 - bx1) * (by2 - by1)
-    union = area_a[:, None] + area_b[None, :] - inter
-    return inter / np.clip(union, 1e-8, None)
+ """
+ a, b: (N, 4) dizileri [x1, y1, x2, y2].
+ (N_a, N_b) IoU matrisi döndürür.
+ """
+ ax1, ay1, ax2, ay2 = a[:, 0], a[:, 1], a[:, 2], a[:, 3]
+ bx1, by1, bx2, by2 = b[:, 0], b[:, 1], b[:, 2], b[:, 3]
+ inter_x1 = np.maximum(ax1[:, None], bx1[None, :])
+ inter_y1 = np.maximum(ay1[:, None], by1[None, :])
+ inter_x2 = np.minimum(ax2[:, None], bx2[None, :])
+ inter_y2 = np.minimum(ay2[:, None], by2[None, :])
+ inter = np.clip(inter_x2 - inter_x1, 0, None) * np.clip(inter_y2 - inter_y1, 0, None)
+ area_a = (ax2 - ax1) * (ay2 - ay1)
+ area_b = (bx2 - bx1) * (by2 - by1)
+ union = area_a[:, None] + area_b[None, :] - inter
+ return inter / np.clip(union, 1e-8, None)
 ```
 
 #### Açıklama
@@ -136,55 +136,55 @@ from scipy.optimize import linear_sum_assignment
 
 
 class Track:
-    def __init__(self, tid, bbox, frame):
-        self.id = tid
-        self.bbox = bbox
-        self.last_frame = frame
-        self.hits = 1
+ def __init__(self, tid, bbox, frame):
+ self.id = tid
+ self.bbox = bbox
+ self.last_frame = frame
+ self.hits = 1
 
-    def update(self, bbox, frame):
-        self.bbox = bbox
-        self.last_frame = frame
-        self.hits += 1
+ def update(self, bbox, frame):
+ self.bbox = bbox
+ self.last_frame = frame
+ self.hits += 1
 
 
 class SimpleTracker:
-    def __init__(self, iou_threshold=0.3, max_age=5):
-        self.tracks = []
-        self.next_id = 1
-        self.iou_threshold = iou_threshold
-        self.max_age = max_age
+ def __init__(self, iou_threshold=0.3, max_age=5):
+ self.tracks = []
+ self.next_id = 1
+ self.iou_threshold = iou_threshold
+ self.max_age = max_age
 
-    def step(self, detections, frame):
-        if not self.tracks:
-            for d in detections:
-                self.tracks.append(Track(self.next_id, d, frame))
-                self.next_id += 1
-            return [(t.id, t.bbox) for t in self.tracks]
+ def step(self, detections, frame):
+ if not self.tracks:
+ for d in detections:
+ self.tracks.append(Track(self.next_id, d, frame))
+ self.next_id += 1
+ return [(t.id, t.bbox) for t in self.tracks]
 
-        track_boxes = np.array([t.bbox for t in self.tracks])
-        det_boxes = np.array(detections) if len(detections) else np.empty((0, 4))
+ track_boxes = np.array([t.bbox for t in self.tracks])
+ det_boxes = np.array(detections) if len(detections) else np.empty((0, 4))
 
-        iou = bbox_iou(track_boxes, det_boxes) if len(det_boxes) else np.zeros((len(track_boxes), 0))
-        cost = 1 - iou
-        cost[iou < self.iou_threshold] = 1e6
+ iou = bbox_iou(track_boxes, det_boxes) if len(det_boxes) else np.zeros((len(track_boxes), 0))
+ cost = 1 - iou
+ cost[iou < self.iou_threshold] = 1e6
 
-        matched_track = set()
-        matched_det = set()
-        if cost.size > 0:
-            row, col = linear_sum_assignment(cost)
-            for r, c in zip(row, col):
-                if cost[r, c] < 1.0:
-                    self.tracks[r].update(det_boxes[c], frame)
-                    matched_track.add(r); matched_det.add(c)
+ matched_track = set()
+ matched_det = set()
+ if cost.size > 0:
+ row, col = linear_sum_assignment(cost)
+ for r, c in zip(row, col):
+ if cost[r, c] < 1.0:
+ self.tracks[r].update(det_boxes[c], frame)
+ matched_track.add(r); matched_det.add(c)
 
-        for i, d in enumerate(det_boxes):
-            if i not in matched_det:
-                self.tracks.append(Track(self.next_id, d, frame))
-                self.next_id += 1
+ for i, d in enumerate(det_boxes):
+ if i not in matched_det:
+ self.tracks.append(Track(self.next_id, d, frame))
+ self.next_id += 1
 
-        self.tracks = [t for t in self.tracks if frame - t.last_frame <= self.max_age]
-        return [(t.id, t.bbox) for t in self.tracks]
+ self.tracks = [t for t in self.tracks if frame - t.last_frame <= self.max_age]
+ return [(t.id, t.bbox) for t in self.tracks]
 ```
 
 #### Açıklama
@@ -194,22 +194,22 @@ class SimpleTracker:
 
 ```python
 def synthetic_frames(num_frames=20, num_objects=3, H=240, W=320, seed=0):
-    rng = np.random.default_rng(seed)
-    starts = rng.uniform(20, 200, size=(num_objects, 2))
-    velocities = rng.uniform(-5, 5, size=(num_objects, 2))
-    frames = []
-    for f in range(num_frames):
-        dets = []
-        for i in range(num_objects):
-            cx, cy = starts[i] + f * velocities[i]
-            dets.append([cx - 10, cy - 10, cx + 10, cy + 10])
-        frames.append(dets)
-    return frames
+ rng = np.random.default_rng(seed)
+ starts = rng.uniform(20, 200, size=(num_objects, 2))
+ velocities = rng.uniform(-5, 5, size=(num_objects, 2))
+ frames = []
+ for f in range(num_frames):
+ dets = []
+ for i in range(num_objects):
+ cx, cy = starts[i] + f * velocities[i]
+ dets.append([cx - 10, cy - 10, cx + 10, cy + 10])
+ frames.append(dets)
+ return frames
 
 
 tracker = SimpleTracker()
 for f, dets in enumerate(synthetic_frames()):
-    tracks = tracker.step(dets, f)
+ tracks = tracker.step(dets, f)
 ```
 
 #### Açıklama
@@ -219,27 +219,27 @@ Düz çizgilerde hareket eden üç nesne, ID'lerini 20 kare boyunca korumalıdı
 
 ```python
 def count_id_switches(tracks_per_frame, gt_per_frame):
-    """
-    tracks_per_frame:  (track_id, bbox) listelerinin listesi
-    gt_per_frame:      (gt_id, bbox) listelerinin listesi
-    ID değişimi sayısını döndürür.
-    """
-    prev_assignment = {}
-    switches = 0
-    for tracks, gts in zip(tracks_per_frame, gt_per_frame):
-        if not tracks or not gts:
-            continue
-        t_boxes = np.array([b for _, b in tracks])
-        g_boxes = np.array([b for _, b in gts])
-        iou = bbox_iou(g_boxes, t_boxes)
-        for g_idx, (gt_id, _) in enumerate(gts):
-            j = iou[g_idx].argmax()
-            if iou[g_idx, j] > 0.5:
-                t_id = tracks[j][0]
-                if gt_id in prev_assignment and prev_assignment[gt_id] != t_id:
-                    switches += 1
-                prev_assignment[gt_id] = t_id
-    return switches
+ """
+ tracks_per_frame: (track_id, bbox) listelerinin listesi
+ gt_per_frame: (gt_id, bbox) listelerinin listesi
+ ID değişimi sayısını döndürür.
+ """
+ prev_assignment = {}
+ switches = 0
+ for tracks, gts in zip(tracks_per_frame, gt_per_frame):
+ if not tracks or not gts:
+ continue
+ t_boxes = np.array([b for _, b in tracks])
+ g_boxes = np.array([b for _, b in gts])
+ iou = bbox_iou(g_boxes, t_boxes)
+ for g_idx, (gt_id, _) in enumerate(gts):
+ j = iou[g_idx].argmax()
+ if iou[g_idx, j] > 0.5:
+ t_id = tracks[j][0]
+ if gt_id in prev_assignment and prev_assignment[gt_id] != t_id:
+ switches += 1
+ prev_assignment[gt_id] = t_id
+ return switches
 ```
 
 #### Açıklama

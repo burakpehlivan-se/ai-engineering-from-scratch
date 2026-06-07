@@ -37,8 +37,8 @@ Bu ders o akıcılığı sıfırdan oluşturur.
 Bir vektör, yönü ve büyüklüğü olan bir sayı listesidir. Yapay zekada vektörler veri noktalarını, özellikleri veya parametreleri temsil eder.
 
 ```
-v = [3, 4]        -- 2B vektör
-w = [1, 0, -2]    -- 3B vektör
+v = [3, 4] -- 2B vektör
+w = [1, 0, -2] -- 3B vektör
 ```
 
 2B vektör `[3, 4]` düzlemde (3, 4) koordinatlarına yönlenir. Uzunluğu (büyüklüğü) 5'tir (3-4-5 üçgeni).
@@ -48,8 +48,8 @@ w = [1, 0, -2]    -- 3B vektör
 Bir matris 2B bir ızgaradır. Satırlar ve sütunlar. m x n matrisi m satır ve n sütun içerir.
 
 ```
-A = | 1  2  3 |     -- 2x3 matris (2 satır, 3 sütun)
-    | 4  5  6 |
+A = | 1 2 3 | -- 2x3 matris (2 satır, 3 sütun)
+ | 4 5 6 |
 ```
 
 Sinir ağlarında ağırlık matrisleri, girdi vektörlerini çıktı vektörlerine dönüştürür. 784 girdili ve 128 çıkışlı bir katman 128x784 ağırlık matrisi kullanır.
@@ -60,9 +60,9 @@ Matris çarpımının katı bir kuralı vardır: `(m x n) @ (n x p) = (m x p)`. 
 
 ```
 (128 x 784) @ (784 x 1) = (128 x 1)
-  ağırlıklar       girdi       çıktı
+ ağırlıklar girdi çıktı
 
-İç boyutlar: 784 = 784  -- geçerli
+İç boyutlar: 784 = 784 -- geçerli
 ```
 
 PyTorch'ta şekil uyumsuzluğu hatası alırsanız, nedeni budur.
@@ -83,10 +83,10 @@ PyTorch'ta şekil uyumsuzluğu hatası alırsanız, nedeni budur.
 
 ```python
 # Eleman bazlı çarpım (Hadamard)
-A * B   # Her eleman çarpılır: (i,j) * (i,j)
+A * B # Her eleman çarpılır: (i,j) * (i,j)
 
 # Matris çarpımı
-A @ B   # Satır-sütun çarpımı: satır · sütun
+A @ B # Satır-sütun çarpımı: satır · sütun
 ```
 
 #### Açıklama

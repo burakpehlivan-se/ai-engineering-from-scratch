@@ -27,11 +27,11 @@ Kurallar 2025-2026'da OpenTelemetry anlamsal kurallar grubu altında yerleşti. 
 ### Aralık hiyerarşisi
 
 ```
-agent.invoke_agent  (üst, INTERNAL aralığı)
- ├── llm.chat       (CLIENT aralığı)
- ├── tool.execute   (INTERNAL)
- │    └── mcp.call  (CLIENT aralığı)
- ├── llm.chat       (CLIENT aralığı)
+agent.invoke_agent (üst, INTERNAL aralığı)
+ ├── llm.chat (CLIENT aralığı)
+ ├── tool.execute (INTERNAL)
+ │ └── mcp.call (CLIENT aralığı)
+ ├── llm.chat (CLIENT aralığı)
  └── subagent.invoke (INTERNAL)
 ```
 
@@ -60,8 +60,8 @@ Ajan aralıkları için:
 
 ### Aralık türleri
 
-- `SpanKind.CLIENT` süreç sınırını aşan çağrılar için (LLM sağlayıcısı, MCP sunucusu).
-- `SpanKind.INTERNAL` ajanın kendi döngü adımları ve araç çalıştırması için.
+- `SpanKind. CLIENT` süreç sınırını aşan çağrılar için (LLM sağlayıcısı, MCP sunucusu).
+- `SpanKind. INTERNAL` ajanın kendi döngü adımları ve araç çalıştırması için.
 
 ### İsteğe bağlı içerik yakalama
 

@@ -30,7 +30,7 @@ Doğruluk (accuracy) başarısız olur çünkü tüm doğru tahminleri eşit de�
 
 1000 örnekli bir veri seti düşünün: 990 negatif, 10 pozitif. Her zaman negatif tahmin eden bir model:
 
-|  | Pozitif Tahmin | Negatif Tahmin |
+| | Pozitif Tahmin | Negatif Tahmin |
 |--|---|---|
 | Gerçek Pozitif | 0 (TP) | 10 (FN) |
 | Gerçek Negatif | 0 (FP) | 990 (TN) |
@@ -59,18 +59,18 @@ Yukarıdaki "her zaman negatif tahmin et" modeli için: precision = 0/0 (tanıms
 
 ```mermaid
 flowchart TD
-    A[Imbalanced Dataset] --> B{Imbalance Ratio?}
-    B -->|"Mild: 80/20"| C[Class Weights]
-    B -->|"Moderate: 95/5"| D[SMOTE + Threshold Tuning]
-    B -->|"Severe: 99/1"| E[SMOTE + Class Weights + Threshold]
-    C --> F[Train Model]
-    D --> F
-    E --> F
-    F --> G[Evaluate with F1 / AUPRC / MCC]
-    G --> H{Good Enough?}
-    H -->|No| I[Try Different Strategy]
-    H -->|Yes| J[Deploy with Monitoring]
-    I --> B
+ A[Imbalanced Dataset] --> B{Imbalance Ratio?}
+ B -->|"Mild: 80/20"| C[Class Weights]
+ B -->|"Moderate: 95/5"| D[SMOTE + Threshold Tuning]
+ B -->|"Severe: 99/1"| E[SMOTE + Class Weights + Threshold]
+ C --> F[Train Model]
+ D --> F
+ E --> F
+ F --> G[Evaluate with F1 / AUPRC / MCC]
+ G --> H{Good Enough?}
+ H -->|No| I[Try Different Strategy]
+ H -->|Yes| J[Deploy with Monitoring]
+ I --> B
 ```
 
 #### Açıklama
@@ -92,27 +92,27 @@ Gerçek minority noktaları arasında interpolasyon yaparak, mevcut veriyi yaln�
 
 ```mermaid
 flowchart LR
-    subgraph Original["Original Minority Points"]
-        P1["x1 (1.0, 2.0)"]
-        P2["x2 (1.5, 2.5)"]
-        P3["x3 (2.0, 1.5)"]
-    end
-    subgraph SMOTE["SMOTE Generation"]
-        direction TB
-        S1["Pick x1, neighbor x2"]
-        S2["random t = 0.4"]
-        S3["new = x1 + 0.4*(x2-x1)"]
-        S4["new = (1.2, 2.2)"]
-        S1 --> S2 --> S3 --> S4
-    end
-    Original --> SMOTE
-    subgraph Result["Augmented Set"]
-        R1["x1 (1.0, 2.0)"]
-        R2["x2 (1.5, 2.5)"]
-        R3["x3 (2.0, 1.5)"]
-        R4["synthetic (1.2, 2.2)"]
-    end
-    SMOTE --> Result
+ subgraph Original["Original Minority Points"]
+ P1["x1 (1.0, 2.0)"]
+ P2["x2 (1.5, 2.5)"]
+ P3["x3 (2.0, 1.5)"]
+ end
+ subgraph SMOTE["SMOTE Generation"]
+ direction TB
+ S1["Pick x1, neighbor x2"]
+ S2["random t = 0.4"]
+ S3["new = x1 + 0.4*(x2-x1)"]
+ S4["new = (1.2, 2.2)"]
+ S1 --> S2 --> S3 --> S4
+ end
+ Original --> SMOTE
+ subgraph Result["Augmented Set"]
+ R1["x1 (1.0, 2.0)"]
+ R2["x2 (1.5, 2.5)"]
+ R3["x3 (2.0, 1.5)"]
+ R4["synthetic (1.2, 2.2)"]
+ end
+ SMOTE --> Result
 ```
 
 #### Açıklama
@@ -171,11 +171,11 @@ Süreç:
 
 ```mermaid
 flowchart LR
-    A[Model] --> B[Predict Probabilities]
-    B --> C[Sweep Thresholds 0.0 to 1.0]
-    C --> D[Compute F1 at Each]
-    D --> E[Pick Best Threshold]
-    E --> F[Use in Production]
+ A[Model] --> B[Predict Probabilities]
+ B --> C[Sweep Thresholds 0.0 to 1.0]
+ C --> D[Compute F1 at Each]
+ D --> E[Pick Best Threshold]
+ E --> F[Use in Production]
 ```
 
 #### Açıklama
@@ -200,24 +200,24 @@ Bu, gerçek dünya maliyetlerini tahmin edebildiğinizde en ilkeli yaklaşımdı
 
 ```mermaid
 flowchart TD
-    A[Start: Imbalanced Dataset] --> B{How imbalanced?}
-    B -->|"< 70/30"| C["Mild: try class weights first"]
-    B -->|"70/30 to 95/5"| D["Moderate: SMOTE + class weights"]
-    B -->|"> 95/5"| E["Severe: combine multiple strategies"]
-    C --> F{Enough data?}
-    D --> F
-    E --> F
-    F -->|"< 1000 samples"| G["Oversample or SMOTE, avoid undersampling"]
-    F -->|"1000-10000"| H["SMOTE + threshold tuning"]
-    F -->|"> 10000"| I["Undersampling OK, or class weights"]
-    G --> J[Train + Evaluate with F1/AUPRC]
-    H --> J
-    I --> J
-    J --> K{Recall high enough?}
-    K -->|No| L[Lower threshold]
-    K -->|Yes| M{Precision acceptable?}
-    M -->|No| N[Raise threshold or add features]
-    M -->|Yes| O[Ship it]
+ A[Start: Imbalanced Dataset] --> B{How imbalanced?}
+ B -->|"< 70/30"| C["Mild: try class weights first"]
+ B -->|"70/30 to 95/5"| D["Moderate: SMOTE + class weights"]
+ B -->|"> 95/5"| E["Severe: combine multiple strategies"]
+ C --> F{Enough data?}
+ D --> F
+ E --> F
+ F -->|"< 1000 samples"| G["Oversample or SMOTE, avoid undersampling"]
+ F -->|"1000-10000"| H["SMOTE + threshold tuning"]
+ F -->|"> 10000"| I["Undersampling OK, or class weights"]
+ G --> J[Train + Evaluate with F1/AUPRC]
+ H --> J
+ I --> J
+ J --> K{Recall high enough?}
+ K -->|No| L[Lower threshold]
+ K -->|Yes| M{Precision acceptable?}
+ M -->|No| N[Raise threshold or add features]
+ M -->|Yes| O[Ship it]
 ```
 
 #### Açıklama
@@ -232,16 +232,16 @@ import numpy as np
 
 
 def make_imbalanced_data(n_majority=950, n_minority=50, seed=42):
-    rng = np.random.RandomState(seed)
+ rng = np.random. RandomState(seed)
 
-    X_maj = rng.randn(n_majority, 2) * 1.0 + np.array([0.0, 0.0])
-    X_min = rng.randn(n_minority, 2) * 0.8 + np.array([2.5, 2.5])
+ X_maj = rng.randn(n_majority, 2) * 1.0 + np.array([0.0, 0.0])
+ X_min = rng.randn(n_minority, 2) * 0.8 + np.array([2.5, 2.5])
 
-    X = np.vstack([X_maj, X_min])
-    y = np.concatenate([np.zeros(n_majority), np.ones(n_minority)])
+ X = np.vstack([X_maj, X_min])
+ y = np.concatenate([np.zeros(n_majority), np.ones(n_minority)])
 
-    shuffle_idx = rng.permutation(len(y))
-    return X[shuffle_idx], y[shuffle_idx]
+ shuffle_idx = rng.permutation(len(y))
+ return X[shuffle_idx], y[shuffle_idx]
 ```
 
 #### Açıklama
@@ -251,35 +251,35 @@ def make_imbalanced_data(n_majority=950, n_minority=50, seed=42):
 
 ```python
 def euclidean_distance(a, b):
-    return np.sqrt(np.sum((a - b) ** 2))
+ return np.sqrt(np.sum((a - b) ** 2))
 
 
 def find_k_neighbors(X, idx, k):
-    distances = []
-    for i in range(len(X)):
-        if i == idx:
-            continue
-        d = euclidean_distance(X[idx], X[i])
-        distances.append((i, d))
-    distances.sort(key=lambda x: x[1])
-    return [d[0] for d in distances[:k]]
+ distances = []
+ for i in range(len(X)):
+ if i == idx:
+ continue
+ d = euclidean_distance(X[idx], X[i])
+ distances.append((i, d))
+ distances.sort(key=lambda x: x[1])
+ return [d[0] for d in distances[:k]]
 
 
 def smote(X_minority, k=5, n_synthetic=100, seed=42):
-    rng = np.random.RandomState(seed)
-    n_samples = len(X_minority)
-    k = min(k, n_samples - 1)
-    synthetic = []
+ rng = np.random. RandomState(seed)
+ n_samples = len(X_minority)
+ k = min(k, n_samples - 1)
+ synthetic = []
 
-    for _ in range(n_synthetic):
-        idx = rng.randint(0, n_samples)
-        neighbors = find_k_neighbors(X_minority, idx, k)
-        neighbor_idx = neighbors[rng.randint(0, len(neighbors))]
-        t = rng.random()
-        new_point = X_minority[idx] + t * (X_minority[neighbor_idx] - X_minority[idx])
-        synthetic.append(new_point)
+ for _ in range(n_synthetic):
+ idx = rng.randint(0, n_samples)
+ neighbors = find_k_neighbors(X_minority, idx, k)
+ neighbor_idx = neighbors[rng.randint(0, len(neighbors))]
+ t = rng.random()
+ new_point = X_minority[idx] + t * (X_minority[neighbor_idx] - X_minority[idx])
+ synthetic.append(new_point)
 
-    return np.array(synthetic)
+ return np.array(synthetic)
 ```
 
 #### Açıklama
@@ -289,45 +289,45 @@ SMOTE, minority class örnekleri arasında k-en yakın komşu (k-NN) interpolasy
 
 ```python
 def random_oversample(X, y, seed=42):
-    rng = np.random.RandomState(seed)
-    classes, counts = np.unique(y, return_counts=True)
-    max_count = counts.max()
+ rng = np.random. RandomState(seed)
+ classes, counts = np.unique(y, return_counts=True)
+ max_count = counts.max()
 
-    X_resampled = list(X)
-    y_resampled = list(y)
+ X_resampled = list(X)
+ y_resampled = list(y)
 
-    for cls, count in zip(classes, counts):
-        if count < max_count:
-            cls_indices = np.where(y == cls)[0]
-            n_needed = max_count - count
-            chosen = rng.choice(cls_indices, size=n_needed, replace=True)
-            X_resampled.extend(X[chosen])
-            y_resampled.extend(y[chosen])
+ for cls, count in zip(classes, counts):
+ if count < max_count:
+ cls_indices = np.where(y == cls)[0]
+ n_needed = max_count - count
+ chosen = rng.choice(cls_indices, size=n_needed, replace=True)
+ X_resampled.extend(X[chosen])
+ y_resampled.extend(y[chosen])
 
-    X_out = np.array(X_resampled)
-    y_out = np.array(y_resampled)
-    shuffle = rng.permutation(len(y_out))
-    return X_out[shuffle], y_out[shuffle]
+ X_out = np.array(X_resampled)
+ y_out = np.array(y_resampled)
+ shuffle = rng.permutation(len(y_out))
+ return X_out[shuffle], y_out[shuffle]
 
 
 def random_undersample(X, y, seed=42):
-    rng = np.random.RandomState(seed)
-    classes, counts = np.unique(y, return_counts=True)
-    min_count = counts.min()
+ rng = np.random. RandomState(seed)
+ classes, counts = np.unique(y, return_counts=True)
+ min_count = counts.min()
 
-    X_resampled = []
-    y_resampled = []
+ X_resampled = []
+ y_resampled = []
 
-    for cls in classes:
-        cls_indices = np.where(y == cls)[0]
-        chosen = rng.choice(cls_indices, size=min_count, replace=False)
-        X_resampled.extend(X[chosen])
-        y_resampled.extend(y[chosen])
+ for cls in classes:
+ cls_indices = np.where(y == cls)[0]
+ chosen = rng.choice(cls_indices, size=min_count, replace=False)
+ X_resampled.extend(X[chosen])
+ y_resampled.extend(y[chosen])
 
-    X_out = np.array(X_resampled)
-    y_out = np.array(y_resampled)
-    shuffle = rng.permutation(len(y_out))
-    return X_out[shuffle], y_out[shuffle]
+ X_out = np.array(X_resampled)
+ y_out = np.array(y_resampled)
+ shuffle = rng.permutation(len(y_out))
+ return X_out[shuffle], y_out[shuffle]
 ```
 
 #### Açıklama
@@ -337,37 +337,37 @@ Rastgele oversampling, azınlık sınıfı örneklerini kopyalayarak sınıflar�
 
 ```python
 def sigmoid(z):
-    return 1.0 / (1.0 + np.exp(-np.clip(z, -500, 500)))
+ return 1.0 / (1.0 + np.exp(-np.clip(z, -500, 500)))
 
 
 def logistic_regression_weighted(X, y, weights, lr=0.01, epochs=200):
-    n_samples, n_features = X.shape
-    w = np.zeros(n_features)
-    b = 0.0
+ n_samples, n_features = X.shape
+ w = np.zeros(n_features)
+ b = 0.0
 
-    for _ in range(epochs):
-        z = X @ w + b
-        pred = sigmoid(z)
-        error = pred - y
-        weighted_error = error * weights
+ for _ in range(epochs):
+ z = X @ w + b
+ pred = sigmoid(z)
+ error = pred - y
+ weighted_error = error * weights
 
-        gradient_w = (X.T @ weighted_error) / n_samples
-        gradient_b = np.mean(weighted_error)
+ gradient_w = (X. T @ weighted_error) / n_samples
+ gradient_b = np.mean(weighted_error)
 
-        w -= lr * gradient_w
-        b -= lr * gradient_b
+ w -= lr * gradient_w
+ b -= lr * gradient_b
 
-    return w, b
+ return w, b
 
 
 def compute_class_weights(y):
-    classes, counts = np.unique(y, return_counts=True)
-    n_samples = len(y)
-    n_classes = len(classes)
-    weight_map = {}
-    for cls, count in zip(classes, counts):
-        weight_map[cls] = n_samples / (n_classes * count)
-    return np.array([weight_map[yi] for yi in y])
+ classes, counts = np.unique(y, return_counts=True)
+ n_samples = len(y)
+ n_classes = len(classes)
+ weight_map = {}
+ for cls, count in zip(classes, counts):
+ weight_map[cls] = n_samples / (n_classes * count)
+ return np.array([weight_map[yi] for yi in y])
 ```
 
 #### Açıklama
@@ -377,29 +377,29 @@ Class weights ile eğitimde, her örneğin hatası sınıf ağırlığıyla çar
 
 ```python
 def find_optimal_threshold(y_true, y_probs, metric="f1"):
-    best_threshold = 0.5
-    best_score = -1.0
+ best_threshold = 0.5
+ best_score = -1.0
 
-    for threshold in np.arange(0.05, 0.96, 0.01):
-        y_pred = (y_probs >= threshold).astype(int)
-        tp = np.sum((y_pred == 1) & (y_true == 1))
-        fp = np.sum((y_pred == 1) & (y_true == 0))
-        fn = np.sum((y_pred == 0) & (y_true == 1))
+ for threshold in np.arange(0.05, 0.96, 0.01):
+ y_pred = (y_probs >= threshold).astype(int)
+ tp = np.sum((y_pred == 1) & (y_true == 1))
+ fp = np.sum((y_pred == 1) & (y_true == 0))
+ fn = np.sum((y_pred == 0) & (y_true == 1))
 
-        if metric == "f1":
-            precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-            recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-            score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
-        elif metric == "recall":
-            score = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-        elif metric == "precision":
-            score = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+ if metric == "f1":
+ precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+ recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+ score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+ elif metric == "recall":
+ score = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+ elif metric == "precision":
+ score = tp / (tp + fp) if (tp + fp) > 0 else 0.0
 
-        if score > best_score:
-            best_score = score
-            best_threshold = threshold
+ if score > best_score:
+ best_score = score
+ best_threshold = threshold
 
-    return best_threshold, best_score
+ return best_threshold, best_score
 ```
 
 #### Açıklama
@@ -409,30 +409,30 @@ Threshold'lar 0.05'ten 0.95'e 0.01 adımlarla taranır. Her threshold'da seçile
 
 ```python
 def confusion_matrix_values(y_true, y_pred):
-    tp = np.sum((y_pred == 1) & (y_true == 1))
-    tn = np.sum((y_pred == 0) & (y_true == 0))
-    fp = np.sum((y_pred == 1) & (y_true == 0))
-    fn = np.sum((y_pred == 0) & (y_true == 1))
-    return tp, tn, fp, fn
+ tp = np.sum((y_pred == 1) & (y_true == 1))
+ tn = np.sum((y_pred == 0) & (y_true == 0))
+ fp = np.sum((y_pred == 1) & (y_true == 0))
+ fn = np.sum((y_pred == 0) & (y_true == 1))
+ return tp, tn, fp, fn
 
 
 def compute_metrics(y_true, y_pred):
-    tp, tn, fp, fn = confusion_matrix_values(y_true, y_pred)
-    accuracy = (tp + tn) / (tp + tn + fp + fn)
-    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+ tp, tn, fp, fn = confusion_matrix_values(y_true, y_pred)
+ accuracy = (tp + tn) / (tp + tn + fp + fn)
+ precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+ recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+ f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
 
-    denom = np.sqrt(float((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
-    mcc = (tp * tn - fp * fn) / denom if denom > 0 else 0.0
+ denom = np.sqrt(float((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+ mcc = (tp * tn - fp * fn) / denom if denom > 0 else 0.0
 
-    return {
-        "accuracy": accuracy,
-        "precision": precision,
-        "recall": recall,
-        "f1": f1,
-        "mcc": mcc,
-    }
+ return {
+ "accuracy": accuracy,
+ "precision": precision,
+ "recall": recall,
+ "f1": f1,
+ "mcc": mcc,
+ }
 ```
 
 #### Açıklama
@@ -448,7 +448,7 @@ y_train, y_test = y[:split], y[split:]
 
 # Baseline: no treatment
 w_base, b_base = logistic_regression_weighted(
-    X_train, y_train, np.ones(len(y_train)), lr=0.1, epochs=300
+ X_train, y_train, np.ones(len(y_train)), lr=0.1, epochs=300
 )
 probs_base = sigmoid(X_test @ w_base + b_base)
 preds_base = (probs_base >= 0.5).astype(int)
@@ -456,7 +456,7 @@ preds_base = (probs_base >= 0.5).astype(int)
 # Oversampled
 X_over, y_over = random_oversample(X_train, y_train)
 w_over, b_over = logistic_regression_weighted(
-    X_over, y_over, np.ones(len(y_over)), lr=0.1, epochs=300
+ X_over, y_over, np.ones(len(y_over)), lr=0.1, epochs=300
 )
 preds_over = (sigmoid(X_test @ w_over + b_over) >= 0.5).astype(int)
 
@@ -467,14 +467,14 @@ synthetic = smote(X_minority, k=5, n_synthetic=len(y_train) - 2 * int(minority_m
 X_smote = np.vstack([X_train, synthetic])
 y_smote = np.concatenate([y_train, np.ones(len(synthetic))])
 w_sm, b_sm = logistic_regression_weighted(
-    X_smote, y_smote, np.ones(len(y_smote)), lr=0.1, epochs=300
+ X_smote, y_smote, np.ones(len(y_smote)), lr=0.1, epochs=300
 )
 preds_smote = (sigmoid(X_test @ w_sm + b_sm) >= 0.5).astype(int)
 
 # Class weights
 sample_weights = compute_class_weights(y_train)
 w_cw, b_cw = logistic_regression_weighted(
-    X_train, y_train, sample_weights, lr=0.1, epochs=300
+ X_train, y_train, sample_weights, lr=0.1, epochs=300
 )
 probs_cw = sigmoid(X_test @ w_cw + b_cw)
 preds_cw = (probs_cw >= 0.5).astype(int)
@@ -515,8 +515,8 @@ model_smote.fit(X_resampled, y_resampled)
 print(classification_report(y_test, model_smote.predict(X_test)))
 
 pipeline = Pipeline([
-    ("smote", SMOTE()),
-    ("model", LogisticRegression(class_weight="balanced")),
+ ("smote", SMOTE()),
+ ("model", LogisticRegression(class_weight="balanced")),
 ])
 pipeline.fit(X_train, y_train)
 print(classification_report(y_test, pipeline.predict(X_test)))

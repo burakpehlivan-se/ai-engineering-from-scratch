@@ -44,14 +44,14 @@ Grid search, belirtilen değerlerin her kombinasyonunu değerlendirir. Kapsamlı
 ```
 2 hiperparametre için grid:
 
-  learning_rate: [0.01, 0.1, 1.0]
-  max_depth:     [3, 5, 7]
+ learning_rate: [0.01, 0.1, 1.0]
+ max_depth: [3, 5, 7]
 
-  Değerlendirme: 3 x 3 = 9 kombinasyon
+ Değerlendirme: 3 x 3 = 9 kombinasyon
 
-  (0.01, 3)  (0.01, 5)  (0.01, 7)
-  (0.1,  3)  (0.1,  5)  (0.1,  7)
-  (1.0,  3)  (1.0,  5)  (1.0,  7)
+ (0.01, 3) (0.01, 5) (0.01, 7)
+ (0.1, 3) (0.1, 5) (0.1, 7)
+ (1.0, 3) (1.0, 5) (1.0, 7)
 ```
 
 Grid search'in temel bir kusuru vardır: eğer bir hiperparametre önemliyken diğeri önemsizse, çoğu değerlendirme boşa gider. 9 değerlendirmeden önemli parametrenin yalnızca 3 benzersiz değerini elde edersiniz.
@@ -62,17 +62,17 @@ Random search, hiperparametreleri bir grid yerine dağılımlardan örnekler. Ay
 
 ```mermaid
 flowchart LR
-    subgraph Grid Search
-        G1[3 benzersiz learning rate]
-        G2[3 benzersiz max depth]
-        G3[9 toplam değerlendirme]
-    end
+ subgraph Grid Search
+ G1[3 benzersiz learning rate]
+ G2[3 benzersiz max depth]
+ G3[9 toplam değerlendirme]
+ end
 
-    subgraph Random Search
-        R1[9 benzersiz learning rate]
-        R2[9 benzersiz max depth]
-        R3[9 toplam değerlendirme]
-    end
+ subgraph Random Search
+ R1[9 benzersiz learning rate]
+ R2[9 benzersiz max depth]
+ R3[9 toplam değerlendirme]
+ end
 ```
 
 Random'ın grid'i neden yendiği (Bergstra & Bengio, 2012):
@@ -88,13 +88,13 @@ Random search sonuçları görmezden gelir. Yüksek öğrenme oranlarının ıra
 
 ```mermaid
 flowchart TD
-    A[Arama uzayını tanımla] --> B[İlk rastgele noktaları değerlendir]
-    B --> C[Sonuçlara vekil model uydur]
-    C --> D[Kazanım fonksiyonu ile sonraki noktayı seç]
-    D --> E[Modeli o noktada değerlendir]
-    E --> F{Bütçe tükendi mi?}
-    F -->|Hayır| C
-    F -->|Evet| G[Bulunan en iyi hiperparametreleri döndür]
+ A[Arama uzayını tanımla] --> B[İlk rastgele noktaları değerlendir]
+ B --> C[Sonuçlara vekil model uydur]
+ C --> D[Kazanım fonksiyonu ile sonraki noktayı seç]
+ D --> E[Modeli o noktada değerlendir]
+ E --> F{Bütçe tükendi mi?}
+ F -->|Hayır| C
+ F -->|Evet| G[Bulunan en iyi hiperparametreleri döndür]
 ```
 
 İki temel bileşen:
@@ -157,11 +157,11 @@ Tüm hiperparametreler eşit derecede önemli değildir. Random forest (Probst v
 
 ```mermaid
 flowchart TD
-    A[Varsayılanlarla başla] --> B[Kaba random search: 20-50 deneme]
-    B --> C[Önemli hiperparametreleri belirle]
-    C --> D[Daraltılmış uzayda ince random veya Bayesian search: 50-100 deneme]
-    D --> E[En iyi hiperparametrelerle nihai model]
-    E --> F[Tüm eğitim verisinde yeniden eğit]
+ A[Varsayılanlarla başla] --> B[Kaba random search: 20-50 deneme]
+ B --> C[Önemli hiperparametreleri belirle]
+ C --> D[Daraltılmış uzayda ince random veya Bayesian search: 50-100 deneme]
+ D --> E[En iyi hiperparametrelerle nihai model]
+ E --> F[Tüm eğitim verisinde yeniden eğit]
 ```
 
 Somut iş akışı:
@@ -181,19 +181,19 @@ Hiperparametreleri tek bir validasyon bölmesinde (split) ayarlamak risklidir. E
 
 ```mermaid
 flowchart TD
-    D[Tüm Veri Seti] --> O1[Dış Kat 1: Test]
-    D --> O2[Dış Kat 2: Test]
-    D --> O3[Dış Kat 3: Test]
-    D --> O4[Dış Kat 4: Test]
-    D --> O5[Dış Kat 5: Test]
+ D[Tüm Veri Seti] --> O1[Dış Kat 1: Test]
+ D --> O2[Dış Kat 2: Test]
+ D --> O3[Dış Kat 3: Test]
+ D --> O4[Dış Kat 4: Test]
+ D --> O5[Dış Kat 5: Test]
 
-    O1 --> I1[Kalan veride iç 5-katlı CV]
-    I1 --> T1[Kat 1 için en iyi hiperparametreler]
-    T1 --> E1[Dış test katı 1'de değerlendir]
+ O1 --> I1[Kalan veride iç 5-katlı CV]
+ I1 --> T1[Kat 1 için en iyi hiperparametreler]
+ T1 --> E1[Dış test katı 1'de değerlendir]
 
-    O2 --> I2[Kalan veride iç 5-katlı CV]
-    I2 --> T2[Kat 2 için en iyi hiperparametreler]
-    T2 --> E2[Dış test katı 2'de değerlendir]
+ O2 --> I2[Kalan veride iç 5-katlı CV]
+ I2 --> T2[Kat 2 için en iyi hiperparametreler]
+ T2 --> E2[Dış test katı 2'de değerlendir]
 ```
 
 Her dış kat, kendi en iyi hiperparametrelerini bağımsız olarak bulur. Dış skorlar, genelleme performansının tarafsız bir tahminidir.
@@ -205,18 +205,18 @@ from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.ensemble import GradientBoostingRegressor
 
 inner_cv = GridSearchCV(
-    GradientBoostingRegressor(),
-    param_grid={
-        "learning_rate": [0.01, 0.05, 0.1],
-        "max_depth": [2, 3, 5],
-        "n_estimators": [50, 100, 200],
-    },
-    cv=5,
-    scoring="neg_mean_squared_error",
+ GradientBoostingRegressor(),
+ param_grid={
+ "learning_rate": [0.01, 0.05, 0.1],
+ "max_depth": [2, 3, 5],
+ "n_estimators": [50, 100, 200],
+ },
+ cv=5,
+ scoring="neg_mean_squared_error",
 )
 
 outer_scores = cross_val_score(
-    inner_cv, X, y, cv=5, scoring="neg_mean_squared_error"
+ inner_cv, X, y, cv=5, scoring="neg_mean_squared_error"
 )
 
 print(f"Nested CV MSE: {-outer_scores.mean():.4f} +/- {outer_scores.std():.4f}")
@@ -254,24 +254,24 @@ Bu kod, nested cross-validation (iç içe çapraz doğrulama) uygular. `GridSear
 
 ```python
 def grid_search(model_fn, param_grid, X_train, y_train, X_val, y_val):
-    keys = list(param_grid.keys())
-    values = list(param_grid.values())
-    best_score = -float("inf")
-    best_params = None
-    n_evals = 0
+ keys = list(param_grid.keys())
+ values = list(param_grid.values())
+ best_score = -float("inf")
+ best_params = None
+ n_evals = 0
 
-    for combo in itertools.product(*values):
-        params = dict(zip(keys, combo))
-        model = model_fn(**params)
-        model.fit(X_train, y_train)
-        score = evaluate(model, X_val, y_val)
-        n_evals += 1
+ for combo in itertools.product(*values):
+ params = dict(zip(keys, combo))
+ model = model_fn(**params)
+ model.fit(X_train, y_train)
+ score = evaluate(model, X_val, y_val)
+ n_evals += 1
 
-        if score > best_score:
-            best_score = score
-            best_params = params
+ if score > best_score:
+ best_score = score
+ best_params = params
 
-    return best_params, best_score, n_evals
+ return best_params, best_score, n_evals
 ```
 
 #### Açıklama
@@ -281,22 +281,22 @@ Bu fonksiyon grid search'i sıfırdan uygular. `param_grid` sözlüğündeki tü
 
 ```python
 def random_search(model_fn, param_distributions, X_train, y_train,
-                  X_val, y_val, n_iter=50, seed=42):
-    rng = np.random.RandomState(seed)
-    best_score = -float("inf")
-    best_params = None
+ X_val, y_val, n_iter=50, seed=42):
+ rng = np.random. RandomState(seed)
+ best_score = -float("inf")
+ best_params = None
 
-    for _ in range(n_iter):
-        params = {k: sample(v, rng) for k, v in param_distributions.items()}
-        model = model_fn(**params)
-        model.fit(X_train, y_train)
-        score = evaluate(model, X_val, y_val)
+ for _ in range(n_iter):
+ params = {k: sample(v, rng) for k, v in param_distributions.items()}
+ model = model_fn(**params)
+ model.fit(X_train, y_train)
+ score = evaluate(model, X_val, y_val)
 
-        if score > best_score:
-            best_score = score
-            best_params = params
+ if score > best_score:
+ best_score = score
+ best_params = params
 
-    return best_params, best_score, n_iter
+ return best_params, best_score, n_iter
 ```
 
 #### Açıklama
@@ -306,54 +306,54 @@ Bu fonksiyon random search'ü uygular. Grid'deki tüm kombinasyonları denemek y
 
 ```python
 class SimpleBayesianOptimizer:
-    def __init__(self, search_space, n_initial=5):
-        self.search_space = search_space
-        self.n_initial = n_initial
-        self.X_observed = []
-        self.y_observed = []
+ def __init__(self, search_space, n_initial=5):
+ self.search_space = search_space
+ self.n_initial = n_initial
+ self. X_observed = []
+ self.y_observed = []
 
-    def _kernel(self, x1, x2, length_scale=1.0):
-        dists = np.sum((x1[:, None, :] - x2[None, :, :]) ** 2, axis=2)
-        return np.exp(-0.5 * dists / length_scale ** 2)
+ def _kernel(self, x1, x2, length_scale=1.0):
+ dists = np.sum((x1[:, None, :] - x2[None, :, :]) ** 2, axis=2)
+ return np.exp(-0.5 * dists / length_scale ** 2)
 
-    def _fit_gp(self, X_new):
-        X_obs = np.array(self.X_observed)
-        y_obs = np.array(self.y_observed)
-        y_mean = y_obs.mean()
-        y_centered = y_obs - y_mean
+ def _fit_gp(self, X_new):
+ X_obs = np.array(self. X_observed)
+ y_obs = np.array(self.y_observed)
+ y_mean = y_obs.mean()
+ y_centered = y_obs - y_mean
 
-        K = self._kernel(X_obs, X_obs) + 1e-4 * np.eye(len(X_obs))
-        K_star = self._kernel(X_new, X_obs)
+ K = self._kernel(X_obs, X_obs) + 1e-4 * np.eye(len(X_obs))
+ K_star = self._kernel(X_new, X_obs)
 
-        L = np.linalg.cholesky(K)
-        alpha = np.linalg.solve(L.T, np.linalg.solve(L, y_centered))
-        mu = K_star @ alpha + y_mean
+ L = np.linalg.cholesky(K)
+ alpha = np.linalg.solve(L. T, np.linalg.solve(L, y_centered))
+ mu = K_star @ alpha + y_mean
 
-        v = np.linalg.solve(L, K_star.T)
-        var = 1.0 - np.sum(v ** 2, axis=0)
-        var = np.maximum(var, 1e-6)
+ v = np.linalg.solve(L, K_star. T)
+ var = 1.0 - np.sum(v ** 2, axis=0)
+ var = np.maximum(var, 1e-6)
 
-        return mu, var
+ return mu, var
 
-    def _expected_improvement(self, mu, var, best_y):
-        sigma = np.sqrt(var)
-        z = (mu - best_y) / (sigma + 1e-10)
-        ei = sigma * (z * norm_cdf(z) + norm_pdf(z))
-        return ei
+ def _expected_improvement(self, mu, var, best_y):
+ sigma = np.sqrt(var)
+ z = (mu - best_y) / (sigma + 1e-10)
+ ei = sigma * (z * norm_cdf(z) + norm_pdf(z))
+ return ei
 
-    def suggest(self):
-        if len(self.X_observed) < self.n_initial:
-            return sample_random(self.search_space)
+ def suggest(self):
+ if len(self. X_observed) < self.n_initial:
+ return sample_random(self.search_space)
 
-        candidates = [sample_random(self.search_space) for _ in range(500)]
-        X_cand = np.array([to_vector(c) for c in candidates])
-        mu, var = self._fit_gp(X_cand)
-        ei = self._expected_improvement(mu, var, max(self.y_observed))
-        return candidates[np.argmax(ei)]
+ candidates = [sample_random(self.search_space) for _ in range(500)]
+ X_cand = np.array([to_vector(c) for c in candidates])
+ mu, var = self._fit_gp(X_cand)
+ ei = self._expected_improvement(mu, var, max(self.y_observed))
+ return candidates[np.argmax(ei)]
 
-    def observe(self, params, score):
-        self.X_observed.append(to_vector(params))
-        self.y_observed.append(score)
+ def observe(self, params, score):
+ self. X_observed.append(to_vector(params))
+ self.y_observed.append(score)
 ```
 
 #### Açıklama
@@ -363,50 +363,50 @@ Bu sınıf Bayesian optimizasyonunu basitleştirilmiş bir şekilde uygular. Tem
 
 ```python
 def synthetic_objective(params):
-    lr = params["learning_rate"]
-    depth = params["max_depth"]
-    return -(np.log10(lr) + 2) ** 2 - (depth - 4) ** 2 + 10
+ lr = params["learning_rate"]
+ depth = params["max_depth"]
+ return -(np.log10(lr) + 2) ** 2 - (depth - 4) ** 2 + 10
 
 param_grid = {
-    "learning_rate": [0.001, 0.01, 0.1, 1.0],
-    "max_depth": [2, 3, 4, 5, 6, 7, 8],
+ "learning_rate": [0.001, 0.01, 0.1, 1.0],
+ "max_depth": [2, 3, 4, 5, 6, 7, 8],
 }
 
 grid_best = None
 grid_score = -float("inf")
 grid_history = []
 for combo in itertools.product(*param_grid.values()):
-    params = dict(zip(param_grid.keys(), combo))
-    score = synthetic_objective(params)
-    grid_history.append((params, score))
-    if score > grid_score:
-        grid_score = score
-        grid_best = params
+ params = dict(zip(param_grid.keys(), combo))
+ score = synthetic_objective(params)
+ grid_history.append((params, score))
+ if score > grid_score:
+ grid_score = score
+ grid_best = params
 
 param_dist = {
-    "learning_rate": ("log_float", 0.001, 1.0),
-    "max_depth": ("int", 2, 8),
+ "learning_rate": ("log_float", 0.001, 1.0),
+ "max_depth": ("int", 2, 8),
 }
 
 rand_best = None
 rand_score = -float("inf")
 rand_history = []
-rng = np.random.RandomState(42)
+rng = np.random. RandomState(42)
 for _ in range(28):
-    params = {k: sample(v, rng) for k, v in param_dist.items()}
-    score = synthetic_objective(params)
-    rand_history.append((params, score))
-    if score > rand_score:
-        rand_score = score
-        rand_best = params
+ params = {k: sample(v, rng) for k, v in param_dist.items()}
+ score = synthetic_objective(params)
+ rand_history.append((params, score))
+ if score > rand_score:
+ rand_score = score
+ rand_best = params
 
 optimizer = SimpleBayesianOptimizer(param_dist, n_initial=5)
 bayes_history = []
 for _ in range(28):
-    params = optimizer.suggest()
-    score = synthetic_objective(params)
-    optimizer.observe(params, score)
-    bayes_history.append((params, score))
+ params = optimizer.suggest()
+ score = synthetic_objective(params)
+ optimizer.observe(params, score)
+ bayes_history.append((params, score))
 bayes_score = max(s for _, s in bayes_history)
 
 print(f"{'Method':<20} {'Best Score':>12} {'Evaluations':>12}")
@@ -429,17 +429,17 @@ Optuna, ciddi hiperparametre ayarı için önerilen kütüphanedir. Kullanıma h
 import optuna
 
 def objective(trial):
-    lr = trial.suggest_float("learning_rate", 1e-4, 1e-1, log=True)
-    n_est = trial.suggest_int("n_estimators", 50, 500)
-    max_depth = trial.suggest_int("max_depth", 2, 10)
+ lr = trial.suggest_float("learning_rate", 1e-4, 1e-1, log=True)
+ n_est = trial.suggest_int("n_estimators", 50, 500)
+ max_depth = trial.suggest_int("max_depth", 2, 10)
 
-    model = GradientBoostingRegressor(
-        learning_rate=lr,
-        n_estimators=n_est,
-        max_depth=max_depth,
-    )
-    model.fit(X_train, y_train)
-    return mean_squared_error(y_val, model.predict(X_val))
+ model = GradientBoostingRegressor(
+ learning_rate=lr,
+ n_estimators=n_est,
+ max_depth=max_depth,
+ )
+ model.fit(X_train, y_train)
+ return mean_squared_error(y_val, model.predict(X_val))
 
 study = optuna.create_study(direction="minimize")
 study.optimize(objective, n_trials=100)
@@ -460,25 +460,25 @@ import optuna
 from sklearn.model_selection import cross_val_score
 
 def objective(trial):
-    params = {
-        "learning_rate": trial.suggest_float("lr", 1e-4, 0.5, log=True),
-        "max_depth": trial.suggest_int("max_depth", 2, 10),
-        "n_estimators": trial.suggest_int("n_estimators", 50, 500),
-        "subsample": trial.suggest_float("subsample", 0.5, 1.0),
-    }
+ params = {
+ "learning_rate": trial.suggest_float("lr", 1e-4, 0.5, log=True),
+ "max_depth": trial.suggest_int("max_depth", 2, 10),
+ "n_estimators": trial.suggest_int("n_estimators", 50, 500),
+ "subsample": trial.suggest_float("subsample", 0.5, 1.0),
+ }
 
-    model = GradientBoostingRegressor(**params)
-    scores = cross_val_score(model, X_train, y_train, cv=3,
-                             scoring="neg_mean_squared_error")
-    mean_score = -scores.mean()
+ model = GradientBoostingRegressor(**params)
+ scores = cross_val_score(model, X_train, y_train, cv=3,
+ scoring="neg_mean_squared_error")
+ mean_score = -scores.mean()
 
-    trial.report(mean_score, step=0)
-    if trial.should_prune():
-        raise optuna.TrialPruned()
+ trial.report(mean_score, step=0)
+ if trial.should_prune():
+ raise optuna. TrialPruned()
 
-    return mean_score
+ return mean_score
 
-pruner = optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=5)
+pruner = optuna.pruners. MedianPruner(n_startup_trials=10, n_warmup_steps=5)
 study = optuna.create_study(direction="minimize", pruner=pruner)
 study.optimize(objective, n_trials=200)
 ```
@@ -495,19 +495,19 @@ from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import loguniform, randint
 
 param_dist = {
-    "learning_rate": loguniform(1e-4, 0.5),
-    "max_depth": randint(2, 10),
-    "n_estimators": randint(50, 500),
+ "learning_rate": loguniform(1e-4, 0.5),
+ "max_depth": randint(2, 10),
+ "n_estimators": randint(50, 500),
 }
 
 search = RandomizedSearchCV(
-    GradientBoostingRegressor(),
-    param_dist,
-    n_iter=100,
-    cv=5,
-    scoring="neg_mean_squared_error",
-    random_state=42,
-    n_jobs=-1,
+ GradientBoostingRegressor(),
+ param_dist,
+ n_iter=100,
+ cv=5,
+ scoring="neg_mean_squared_error",
+ random_state=42,
+ n_jobs=-1,
 )
 search.fit(X_train, y_train)
 print(f"Best params: {search.best_params_}")

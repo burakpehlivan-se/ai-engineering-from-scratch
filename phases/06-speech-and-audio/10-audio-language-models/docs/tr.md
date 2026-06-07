@@ -92,11 +92,11 @@ model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Omni-7B", torch_dtype
 
 audio, sr = load_wav("clip.wav", sr=16000)
 messages = [{
-    "role": "user",
-    "content": [
-        {"type": "audio", "audio": audio},
-        {"type": "text", "text": "What sounds do you hear, and what's happening?"},
-    ],
+ "role": "user",
+ "content": [
+ {"type": "audio", "audio": audio},
+ {"type": "text", "text": "What sounds do you hear, and what's happening?"},
+ ],
 }]
 inputs = processor.apply_chat_template(messages, tokenize=True, return_tensors="pt")
 output = model.generate(**inputs, max_new_tokens=200)
@@ -111,15 +111,15 @@ Qwen2.5-Omni'ya bir ses klibi ve soru besleyerek ses anlama çıktısını alır
 ```python
 import torch.nn as nn
 
-class AudioProjector(nn.Module):
-    def __init__(self, audio_dim=1280, llm_dim=4096):
-        super().__init__()
-        self.down = nn.Linear(audio_dim, llm_dim)
-        self.act = nn.GELU()
-        self.up = nn.Linear(llm_dim, llm_dim)
+class AudioProjector(nn. Module):
+ def __init__(self, audio_dim=1280, llm_dim=4096):
+ super().__init__()
+ self.down = nn. Linear(audio_dim, llm_dim)
+ self.act = nn. GELU()
+ self.up = nn. Linear(llm_dim, llm_dim)
 
-    def forward(self, audio_features):
-        return self.up(self.act(self.down(audio_features)))
+ def forward(self, audio_features):
+ return self.up(self.act(self.down(audio_features)))
 ```
 
 #### Açıklama
@@ -133,9 +133,9 @@ mmau = load_dataset("MMAU/MMAU-Pro")
 
 correct = 0
 for item in mmau["test"]:
-    answer = call_model(item["audio"], item["question"], item["choices"])
-    if answer == item["correct_choice"]:
-        correct += 1
+ answer = call_model(item["audio"], item["question"], item["choices"])
+ if answer == item["correct_choice"]:
+ correct += 1
 print(f"Accuracy: {correct / len(mmau['test']):.3f}")
 ```
 

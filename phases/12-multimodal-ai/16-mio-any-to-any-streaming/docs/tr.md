@@ -39,11 +39,11 @@ MIO'nun tokenizer yığını:
 Her modallık tamsayı token'ları üretir. Token'lar ortak sözcük dağarcığında birbirinden ayrı ID aralıklarına sahiptir:
 
 ```
-text:   0..31999
-image:  32000..36095  (4096 görüntü token'ı)
-speech: 36096..40191  (4096 konuşma temel token'ı, artı arta kalan katmanlar)
-music:  40192..48383  (8192 müzik token'ı)
-sep:    48384..48390  (<image>, <speech>, <music>, </...> vb.)
+text: 0..31999
+image: 32000..36095 (4096 görüntü token'ı)
+speech: 36096..40191 (4096 konuşma temel token'ı, artı arta kalan katmanlar)
+music: 40192..48383 (8192 müzik token'ı)
+sep: 48384..48390 (<image>, <speech>, <music>, </...> vb.)
 ```
 
 Toplam: ~48k sözcük dağarcığı. Girdi embedding'i ve çıktı projeksiyonu bunun tamamını kapsar.

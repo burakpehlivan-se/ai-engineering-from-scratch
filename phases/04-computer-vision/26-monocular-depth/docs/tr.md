@@ -37,14 +37,14 @@ MiDaS ve Depth Anything V3 göreceli derinlik üretir. Marigold göreceli derinl
 
 ```mermaid
 flowchart LR
-    IMG["Görüntü (H x W x 3)"] --> ENC["Donmuş ViT kodlayıcı<br/>(DINOv2 / DINOv3)"]
-    ENC --> FEATS["Yoğun öznitelikler<br/>(H/14, W/14, d)"]
-    FEATS --> DEC["Derinlik kodçözücü<br/>(conv yukarı örnekleyici,<br/>DPT-style)"]
-    DEC --> DEPTH["Derinlik haritası<br/>(H, W, 1)"]
+ IMG["Görüntü (H x W x 3)"] --> ENC["Donmuş ViT kodlayıcı<br/>(DINOv2 / DINOv3)"]
+ ENC --> FEATS["Yoğun öznitelikler<br/>(H/14, W/14, d)"]
+ FEATS --> DEC["Derinlik kodçözücü<br/>(conv yukarı örnekleyici,<br/>DPT-style)"]
+ DEC --> DEPTH["Derinlik haritası<br/>(H, W, 1)"]
 
-    style ENC fill:#dbeafe,stroke:#2563eb
-    style DEC fill:#fef3c7,stroke:#d97706
-    style DEPTH fill:#dcfce7,stroke:#16a34a
+ style ENC fill:#dbeafe,stroke:#2563eb
+ style DEC fill:#fef3c7,stroke:#d97706
+ style DEPTH fill:#dcfce7,stroke:#16a34a
 ```
 
 Depth Anything V3 kodlayıcıyı dondurur ve yalnızca DPT tarzı kodçözücüyü (decoder) eğitir. Kodlayıcı zengin öznitelikler sağlar; kodçözücü bunları görüntü çözünürlüğüne geri enterpole eder ve derinliği tahmin eder.
@@ -111,18 +111,18 @@ Göreceli derinlik için (Depth Anything V3, MiDaS), değerlendirme her iki metr
 import torch
 
 def abs_rel_error(pred, target, mask=None):
-    if mask is not None:
-        pred = pred[mask]
-        target = target[mask]
-    return (torch.abs(pred - target) / target.clamp(min=1e-6)).mean().item()
+ if mask is not None:
+ pred = pred[mask]
+ target = target[mask]
+ return (torch.abs(pred - target) / target.clamp(min=1e-6)).mean().item()
 
 
 def delta_accuracy(pred, target, threshold=1.25, mask=None):
-    if mask is not None:
-        pred = pred[mask]
-        target = target[mask]
-    ratio = torch.maximum(pred / target.clamp(min=1e-6), target / pred.clamp(min=1e-6))
-    return (ratio < threshold).float().mean().item()
+ if mask is not None:
+ pred = pred[mask]
+ target = target[mask]
+ ratio = torch.maximum(pred / target.clamp(min=1e-6), target / pred.clamp(min=1e-6))
+ return (ratio < threshold).float().mean().item()
 ```
 
 #### Açıklama
@@ -134,16 +134,16 @@ Göreceli derinlik modelleri için, metrikleri hesaplamadan önce tahmini gerçe
 
 ```python
 def align_scale_shift(pred, target, mask=None):
-    if mask is not None:
-        p = pred[mask]
-        t = target[mask]
-    else:
-        p = pred.flatten()
-        t = target.flatten()
-    A = torch.stack([p, torch.ones_like(p)], dim=1)
-    coeffs, *_ = torch.linalg.lstsq(A, t.unsqueeze(-1))
-    a, b = coeffs[:2, 0]
-    return a * pred + b
+ if mask is not None:
+ p = pred[mask]
+ t = target[mask]
+ else:
+ p = pred.flatten()
+ t = target.flatten()
+ A = torch.stack([p, torch.ones_like(p)], dim=1)
+ coeffs, *_ = torch.linalg.lstsq(A, t.unsqueeze(-1))
+ a, b = coeffs[:2, 0]
+ return a * pred + b
 ```
 
 #### Açıklama
@@ -155,19 +155,19 @@ MiDaS / Depth Anything değerlendirirken `abs_rel_error`'dan önce `align_scale_
 import numpy as np
 
 def depth_to_point_cloud(depth, intrinsics):
-    H, W = depth.shape
-    fx, fy, cx, cy = intrinsics
-    v, u = np.meshgrid(np.arange(H), np.arange(W), indexing="ij")
-    z = depth
-    x = (u - cx) * z / fx
-    y = (v - cy) * z / fy
-    return np.stack([x, y, z], axis=-1)
+ H, W = depth.shape
+ fx, fy, cx, cy = intrinsics
+ v, u = np.meshgrid(np.arange(H), np.arange(W), indexing="ij")
+ z = depth
+ x = (u - cx) * z / fx
+ y = (v - cy) * z / fy
+ return np.stack([x, y, z], axis=-1)
 
 
 depth = np.random.uniform(0.5, 4.0, (240, 320))
 intr = (320.0, 320.0, 160.0, 120.0)
 pc = depth_to_point_cloud(depth, intr)
-print(f"point cloud shape: {pc.shape}  (H, W, 3)")
+print(f"point cloud shape: {pc.shape} (H, W, 3)")
 ```
 
 #### Açıklama
@@ -177,19 +177,19 @@ Tek bir fonksiyon, her 3D yükseltilmiş uygulama. Nokta bulutunu `.ply` olarak 
 
 ```python
 def synthetic_depth(size=96):
-    yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
-    # Zemin: yakından (üst) uzağa (alt) doğrusal gradyan
-    depth = 1.0 + (yy / size) * 4.0
-    # Ortada kutu: daha yakın
-    mask = (np.abs(xx - size / 2) < size / 6) & (np.abs(yy - size * 0.6) < size / 6)
-    depth[mask] = 2.0
-    return depth.astype(np.float32)
+ yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
+ # Zemin: yakından (üst) uzağa (alt) doğrusal gradyan
+ depth = 1.0 + (yy / size) * 4.0
+ # Ortada kutu: daha yakın
+ mask = (np.abs(xx - size / 2) < size / 6) & (np.abs(yy - size * 0.6) < size / 6)
+ depth[mask] = 2.0
+ return depth.astype(np.float32)
 
 
 gt = torch.from_numpy(synthetic_depth(96))
-pred = gt + 0.3 * torch.randn_like(gt)  # simüle edilmiş tahmin
+pred = gt + 0.3 * torch.randn_like(gt) # simüle edilmiş tahmin
 aligned = align_scale_shift(pred, gt)
-print(f"hizalama öncesi  absRel = {abs_rel_error(pred, gt):.3f}")
+print(f"hizalama öncesi absRel = {abs_rel_error(pred, gt):.3f}")
 print(f"hizalama sonrası absRel = {abs_rel_error(aligned, gt):.3f}")
 ```
 

@@ -36,10 +36,10 @@ Herhangi bir şeyi modellemeden önce verinizin neye benzediğini bilmeniz gerek
 
 ```
 Ortalama: tüm değerlerin toplamı / sayı
-          μ = (1/n) × Σ x_i
+ μ = (1/n) × Σ x_i
 
 Mediana: sıralandığında orta değer
-         Aykırı değerlerden kararlıdır. [1, 2, 3, 4, 1000] ise ortalama 202'dir ama mediana 3'tür
+ Aykırı değerlerden kararlıdır. [1, 2, 3, 4, 1000] ise ortalama 202'dir ama mediana 3'tür
 
 Mod: en sık görülen değer
 ```
@@ -48,10 +48,10 @@ Mod: en sık görülen değer
 
 ```
 Varyans: ortalamadan ortalama kare sapma
-         σ² = (1/n) × Σ (x_i - μ)²
+ σ² = (1/n) × Σ (x_i - μ)²
 
 Standart sapma: varyansın karekökü
-                 σ = √(σ²)
+ σ = √(σ²)
 
 Aralık: max - min
 ```

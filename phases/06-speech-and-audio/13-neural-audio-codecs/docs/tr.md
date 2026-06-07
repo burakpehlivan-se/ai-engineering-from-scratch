@@ -83,11 +83,11 @@ from encodec import EncodecModel
 import torch
 
 model = EncodecModel.encodec_model_24khz()
-model.set_target_bandwidth(6.0)  # kbps
+model.set_target_bandwidth(6.0) # kbps
 
 wav = torch.randn(1, 1, 24000)
 with torch.no_grad():
-    encoded = model.encode(wav)
+ encoded = model.encode(wav)
 codes, scale = encoded[0]
 # codes: (1, n_codebooks, n_frames), dtype=int64
 ```
@@ -99,7 +99,7 @@ codes, scale = encoded[0]
 
 ```python
 with torch.no_grad():
-    wav_recon = model.decode([(codes, scale)])
+ wav_recon = model.decode([(codes, scale)])
 
 from torchaudio.functional import compute_deltas
 import torch.nn.functional as F
@@ -117,7 +117,7 @@ from moshi.models import loaders
 mimi = loaders.get_mimi()
 
 with torch.no_grad():
-    codes = mimi.encode(wav)  # boyut (1, 8, kareler@12.5Hz)
+ codes = mimi.encode(wav) # boyut (1, 8, kareler@12.5Hz)
 
 anlamsal = codes[:, 0]
 akustik = codes[:, 1:]

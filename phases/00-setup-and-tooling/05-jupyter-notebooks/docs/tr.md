@@ -28,18 +28,18 @@ Bir defter hücrelerin bir listesidir. Her hücre ya koddur ya da metin.
 
 ```mermaid
 graph TD
-    A["**Markdown Hücresi**\n# Denemem\nÖğrenme hızı 0.01 testi"] --> B["**Kod Hücresi** ► Çalıştır\nmodel.fit(X, y, lr=0.01)\n---\nÇıktı: kayıp = 0.342"]
-    B --> C["**Kod Hücresi** ► Çalıştır\nplt.plot(kayıplar)\n---\nÇıktı: satır içi grafik"]
+ A["**Markdown Hücresi**\n# Denemem\nÖğrenme hızı 0.01 testi"] --> B["**Kod Hücresi** ► Çalıştır\nmodel.fit(X, y, lr=0.01)\n---\nÇıktı: kayıp = 0.342"]
+ B --> C["**Kod Hücresi** ► Çalıştır\nplt.plot(kayıplar)\n---\nÇıktı: satır içi grafik"]
 ```
 
 Çekirdek, arka planda çalışan bir Python sürecidir. Bir hücreyi çalıştırdığınızda, kodu çekirdeğe gönderir, çekirdek bunu çalıştırır ve sonucu geri gönderir. Tüm hücreler aynı çekirdeği paylaşır, böylece değişkenler hücreler arasında kalır.
 
 ```mermaid
 graph LR
-    A[Defter Arayüzü] <--> B[Çekirdek\nPython süreci]
-    B --> C[Bellekte değişkenleri tutar]
-    B --> D[Hücreleri tıkladığın sırada çalıştırır]
-    B --> E[Yeniden başlattığında ölür]
+ A[Defter Arayüzü] <--> B[Çekirdek\nPython süreci]
+ B --> C[Bellekte değişkenleri tutar]
+ B --> D[Hücreleri tıkladığın sırada çalıştırır]
+ B --> E[Yeniden başlattığında ölür]
 ```
 
 Bu "tıkladığın sırada" özelliği hem büyük bir avantaj hem de ciddi bir risktir.
@@ -166,10 +166,10 @@ Defterler bir hücredeki son ifadeyi otomatik görüntüler. Ama bunu kontrol ed
 ```python
 import pandas as pd
 
-df = pd.DataFrame({
-    "model": ["Doğrusal", "Rastgele Orman", "Sinir Ağı"],
-    "doğruluk": [0.72, 0.89, 0.94],
-    "eğitim_süresi": [0.1, 2.3, 45.6]
+df = pd. DataFrame({
+ "model": ["Doğrusal", "Rastgele Orman", "Sinir Ağı"],
+ "doğruluk": [0.72, 0.89, 0.94],
+ "eğitim_süresi": [0.1, 2.3, 45.6]
 })
 df
 ```

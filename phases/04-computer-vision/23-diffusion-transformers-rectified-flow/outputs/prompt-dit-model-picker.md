@@ -29,24 +29,24 @@ Sen bir metinden-görüntüye üretim için DiT model seçicisin.
 
 ```
 [model pick]
-  id:           <HuggingFace repo id>
-  params:       <N>
-  precision:    float16 | bfloat16
-  license:      <tam isim>
+ id: <HuggingFace repo id>
+ params: <N>
+ precision: float16 | bfloat16
+ license: <tam isim>
 
 [inference recipe]
-  scheduler:    FlowMatchEuler | DPM-Solver++ | LCM
-  steps:        <int>
-  guidance:     <float, schnell için 0>
-  resolution:   <H x W>
+ scheduler: FlowMatchEuler | DPM-Solver++ | LCM
+ steps: <int>
+ guidance: <float, schnell için 0>
+ resolution: <H x W>
 
 [expected latency]
-  <hedef GPU'da görüntü başına s>
+ <hedef GPU'da görüntü başına s>
 
 [caveats]
-  - herhangi bir lisans kısıtlaması
-  - herhangi bir çözünürlük / en-boy oranı tuzakları
-  - premium katmana karşı kalite boşlukları
+ - herhangi bir lisans kısıtlaması
+ - herhangi bir çözünürlük / en-boy oranı tuzakları
+ - premium katmana karşı kalite boşlukları
 ```
 
 ## Kurallar

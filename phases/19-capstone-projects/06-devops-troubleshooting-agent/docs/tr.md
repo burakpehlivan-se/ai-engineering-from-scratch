@@ -26,31 +26,31 @@ Bir uyarı tetiklendiğinde, ajan etkilenen nesneden kök-neden çıkarır. Kena
 
 ```
 PagerDuty / Alertmanager webhook
-           |
-           v
-     FastAPI receiver
-           |
-           v
-   LangGraph root-cause agent
-           |
-           +---- read-only MCP tools ----+
-           |                             |
-           v                             v
-   K8s knowledge graph              telemetry slices
-     (Neo4j / kuzu)              Prometheus, Loki, Tempo
-   ownership + scheduling          last 15m, scoped
-           |
-           v
-   hypothesis ranking (evidence weight)
-           |
-           v
-   Slack brief + approval buttons
-           |
-           v (approved)
-   ArgoCD rollback hook / PagerDuty escalate
-           |
-           v
-   audit log: considered vs executed, every command
+ |
+ v
+ FastAPI receiver
+ |
+ v
+ LangGraph root-cause agent
+ |
+ +---- read-only MCP tools ----+
+ | |
+ v v
+ K8s knowledge graph telemetry slices
+ (Neo4j / kuzu) Prometheus, Loki, Tempo
+ ownership + scheduling last 15m, scoped
+ |
+ v
+ hypothesis ranking (evidence weight)
+ |
+ v
+ Slack brief + approval buttons
+ |
+ v (approved)
+ ArgoCD rollback hook / PagerDuty escalate
+ |
+ v
+ audit log: considered vs executed, every command
 ```
 
 #### Açıklama
@@ -92,14 +92,14 @@ Bu mimari bir PagerDuty uyarısından Slack onayına kadar tam veri akışını 
 
 ```
 webhook: alert.pagerduty.com -> checkout-api SLO breach, error rate 14%
-[graph]   affected: Deployment checkout-api (3 Pods, Node ip-10-2-3-4)
-[walk]    neighbors: ReplicaSet checkout-api-abc, Service checkout-api,
-           recent rollout 14m ago
-[sample]  prometheus error_rate 14%, up-trend; loki 500s on /api/v2/pay
-[hypo]    #1 bad rollout: latest image checkout-api:v2.41 fails /healthz
-          citations: deploy.yaml (rev 42), prometheus errorRate, loki 500 stack
-[slack]   [ROLL BACK to v2.40]  [ESCALATE]  [IGNORE]
-          (approval required; agent does not roll back unilaterally)
+[graph] affected: Deployment checkout-api (3 Pods, Node ip-10-2-3-4)
+[walk] neighbors: ReplicaSet checkout-api-abc, Service checkout-api,
+ recent rollout 14m ago
+[sample] prometheus error_rate 14%, up-trend; loki 500s on /api/v2/pay
+[hypo] #1 bad rollout: latest image checkout-api:v2.41 fails /healthz
+ citations: deploy.yaml (rev 42), prometheus errorRate, loki 500 stack
+[slack] [ROLL BACK to v2.40] [ESCALATE] [IGNORE]
+ (approval required; agent does not roll back unilaterally)
 ```
 
 #### Açıklama

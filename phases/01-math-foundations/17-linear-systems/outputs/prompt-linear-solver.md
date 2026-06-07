@@ -12,12 +12,12 @@ Kullanıcı bir doğrusal sistemi tanımladığında veya bir matris sağladığ
 Yanıtını şu yapıda düzenle:
 
 1. **Matrisi sınıflandır.** Hangi özelliklerin geçerli olduğunu belirle:
-   - Boyut: küçük (n < 100), orta (100-10.000), büyük (> 10.000)
-   - Şekil: kare (n x n), uzun (m > n, aşırı belirlenmiş), geniş (m < n, eksik belirlenmiş)
-   - Yapı: yoğun, seyrek, bantlı, üçgensel, köşegen
-   - Simetri: simetrik (A = A^T) veya değil
-   - Kesinlik: pozitif tanımlı, pozitif yarı tanımlı, belirsiz, veya bilinmiyor
-   - Koşullandırma: iyi koşullandırılmış (kappa < 100) veya kötü koşullandırılmış (kappa > 10^6)
+ - Boyut: küçük (n < 100), orta (100-10.000), büyük (> 10.000)
+ - Şekil: kare (n x n), uzun (m > n, aşırı belirlenmiş), geniş (m < n, eksik belirlenmiş)
+ - Yapı: yoğun, seyrek, bantlı, üçgensel, köşegen
+ - Simetri: simetrik (A = A^T) veya değil
+ - Kesinlik: pozitif tanımlı, pozitif yarı tanımlı, belirsiz, veya bilinmiyor
+ - Koşullandırma: iyi koşullandırılmış (kappa < 100) veya kötü koşullandırılmış (kappa > 10^6)
 
 2. **Algoritmayı öner.** Aşağıdaki karar ağacından seç.
 
@@ -29,38 +29,38 @@ Bu karar çerçevesini kullan:
 
 ```
 Sistem kare mi (m = n)?
-  Evet --> A üçgensel mi?
-    Evet --> İleri/geri yerine koyma (back/forward substitution). O(n^2). Tamam.
-  A köşegen mi?
-    Evet --> b'yi köşegen girişlere böl. O(n). Tamam.
-  A simetrik pozitif tanımlı mı?
-    Evet --> Cholesky (A = LL^T). O(n^3/3). Bu sınıf için en hızlısı.
-          Kullanım: kovaryans matrisleri, çekirdek matrisleri, ridge regresyonu.
-  A simetrik ama belirsiz mi?
-    Evet --> LDL^T ayrıştırması. Cholesky'ye benzer maliyet.
-  A genel yoğun mu?
-    Evet --> Kısmi pivotlamalı LU (PA = LU). O(2n^3/3).
-          Birçok b vektörü için çözüyorsan, bir kez faktörize et, her biri O(n^2) çöz.
-  A büyük ve seyrek mi?
-    A simetrik pozitif tanımlı mı?
-      Evet --> Eşlenik gradyan (CG). k iterasyon için O(k * nnz).
-    A genel seyrek mi?
-      Evet --> GMRES veya BiCGSTAB. İteratif, önişlemci (preconditioner) ile iyi.
-    Alternatif: Seyrek LU (scipy.sparse.linalg.spsolve).
+ Evet --> A üçgensel mi?
+ Evet --> İleri/geri yerine koyma (back/forward substitution). O(n^2). Tamam.
+ A köşegen mi?
+ Evet --> b'yi köşegen girişlere böl. O(n). Tamam.
+ A simetrik pozitif tanımlı mı?
+ Evet --> Cholesky (A = LL^T). O(n^3/3). Bu sınıf için en hızlısı.
+ Kullanım: kovaryans matrisleri, çekirdek matrisleri, ridge regresyonu.
+ A simetrik ama belirsiz mi?
+ Evet --> LDL^T ayrıştırması. Cholesky'ye benzer maliyet.
+ A genel yoğun mu?
+ Evet --> Kısmi pivotlamalı LU (PA = LU). O(2n^3/3).
+ Birçok b vektörü için çözüyorsan, bir kez faktörize et, her biri O(n^2) çöz.
+ A büyük ve seyrek mi?
+ A simetrik pozitif tanımlı mı?
+ Evet --> Eşlenik gradyan (CG). k iterasyon için O(k * nnz).
+ A genel seyrek mi?
+ Evet --> GMRES veya BiCGSTAB. İteratif, önişlemci (preconditioner) ile iyi.
+ Alternatif: Seyrek LU (scipy.sparse.linalg.spsolve).
 
 Sistem aşırı belirlenmiş mi (m > n)?
-  Evet --> Bu bir en küçük kareler problemidir: ||Ax - b||^2'yi enküçült.
-  A^T A iyi koşullandırılmış mı?
-    Evet --> Normal denklemler: Cholesky ile A^T A x = A^T b çöz. O(mn^2 + n^3/3).
-  A^T A kötü koşullandırılmış mı?
-    Evet --> QR ayrıştırması: A = QR, Rx = Q^T b çöz. O(2mn^2). Daha kararlı.
-  A muhtemelen rank yetersiz mi?
-    Evet --> SVD: A = USV^T, sözde ters. O(mn^2). En sağlam, en yavaş.
-  Düzenlileştirme (regularization) mi gerekli?
-    Evet --> Ridge: Cholesky ile (A^T A + lambda I) x = A^T b çöz. Her zaman iyi koşullandırılmış.
+ Evet --> Bu bir en küçük kareler problemidir: ||Ax - b||^2'yi enküçült.
+ A^T A iyi koşullandırılmış mı?
+ Evet --> Normal denklemler: Cholesky ile A^T A x = A^T b çöz. O(mn^2 + n^3/3).
+ A^T A kötü koşullandırılmış mı?
+ Evet --> QR ayrıştırması: A = QR, Rx = Q^T b çöz. O(2mn^2). Daha kararlı.
+ A muhtemelen rank yetersiz mi?
+ Evet --> SVD: A = USV^T, sözde ters. O(mn^2). En sağlam, en yavaş.
+ Düzenlileştirme (regularization) mi gerekli?
+ Evet --> Ridge: Cholesky ile (A^T A + lambda I) x = A^T b çöz. Her zaman iyi koşullandırılmış.
 
 Sistem eksik belirlenmiş mi (m < n)?
-  Evet --> Sonsuz çözüm. Minimum norm çözümü için SVD sözde tersini kullan.
+ Evet --> Sonsuz çözüm. Minimum norm çözümü için SVD sözde tersini kullan.
 ```
 
 Öneri için hızlı başvuru:

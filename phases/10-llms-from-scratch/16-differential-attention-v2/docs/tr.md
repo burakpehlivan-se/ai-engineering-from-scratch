@@ -105,10 +105,10 @@ Stdlib matrix ops: lists of lists, manual matmul, softmax with numerical-stabili
 
 ```python
 def softmax(row):
-    m = max(row)
-    exps = [math.exp(x - m) for x in row]
-    s = sum(exps)
-    return [e / s for e in exps]
+ m = max(row)
+ exps = [math.exp(x - m) for x in row]
+ s = sum(exps)
+ return [e / s for e in exps]
 ```
 
 ### Step 2: split Q, K into two halves

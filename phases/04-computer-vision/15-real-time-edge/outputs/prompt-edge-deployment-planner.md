@@ -43,23 +43,23 @@ Sen bir kenar dağıtım (edge deployment) planlayıcısısın.
 
 ```
 [deployment plan]
-  backbone:   <isim + boyut>
-  precision:  INT8 | FP16 | BF16
-  runtime:    <isim>
-  expected latency: <ms p95>
-  memory:     <mb>
+ backbone: <isim + boyut>
+ precision: INT8 | FP16 | BF16
+ runtime: <isim>
+ expected latency: <ms p95>
+ memory: <mb>
 
 [prep steps]
-  1. Görev veri kümesi üzerinde omurgayı ince ayar yapın (veri kümesine özgü ise).
-  2. N=500 görüntülük kalibrasyon seti ile seçilen hassasiyeti uygulayın.
-  3. ONNX / Core ML / TFLite'ye dışa aktarın.
-  4. Hedef çalışma zamanı ile derleyin.
-  5. Cihazda p50/p95/p99'u karşılaştırın.
+ 1. Görev veri kümesi üzerinde omurgayı ince ayar yapın (veri kümesine özgü ise).
+ 2. N=500 görüntülük kalibrasyon seti ile seçilen hassasiyeti uygulayın.
+ 3. ONNX / Core ML / TFLite'ye dışa aktarın.
+ 4. Hedef çalışma zamanı ile derleyin.
+ 5. Cihazda p50/p95/p99'u karşılaştırın.
 
 [risks]
-  - <hassasiyet kaybı uyarıları>
-  - <çalışma zamanı op-destek uyarıları>
-  - <bellek yastığı (headroom) endişeleri>
+ - <hassasiyet kaybı uyarıları>
+ - <çalışma zamanı op-destek uyarıları>
+ - <bellek yastığı (headroom) endişeleri>
 ```
 
 ## Kurallar

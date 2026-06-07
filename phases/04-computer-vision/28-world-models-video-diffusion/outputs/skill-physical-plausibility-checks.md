@@ -46,19 +46,19 @@ Kullanıcı istemi tırnak içinde bir dize içeriyorsa, üretilen çerçeveler 
 
 ```
 [plausibility]
-  video frames:           <T>
-  permanence violations:  <N>
-  smoothness violations:  <N>
-  gravity violations:     <N>
-  identity drift:         <5 çerçevelik pencere sayısı>
-  limb anomalies:         <N>
-  OCR CER vs requested:   <float>
+ video frames: <T>
+ permanence violations: <N>
+ smoothness violations: <N>
+ gravity violations: <N>
+ identity drift: <5 çerçevelik pencere sayısı>
+ limb anomalies: <N>
+ OCR CER vs requested: <float>
 
 [verdict]
-  ship | hold | reject
+ ship | hold | reject
 
 [samples for review]
-  her başarısızlığın oluştuğu çerçeve aralıkları
+ her başarısızlığın oluştuğu çerçeve aralıkları
 ```
 
 ## Kurallar

@@ -37,7 +37,7 @@ Bir graf şu şekilde tanımlanır:
 
 Her düğümden sonra, runtime state'i serileştirir ve bir checkpoint'e (SQLite, Postgres, Redis, özel) yazar. N. adımda başarısızlıkta, runtime `resume(session_id)` yapabilir ve tam state ile N+1. adımdan devam edebilir.
 
-LangGraph dokümanları production kullanıcılarını açıkça vurgular: Klarna, Uber, J.P. Morgan. İddia graf şekli değil; graf şekli artı checkpointing'i kurtarmayı ucuza yapar.
+LangGraph dokümanları production kullanıcılarını açıkça vurgular: Klarna, Uber, J. P. Morgan. İddia graf şekli değil; graf şekli artı checkpointing'i kurtarmayı ucuza yapar.
 
 ### Streaming
 

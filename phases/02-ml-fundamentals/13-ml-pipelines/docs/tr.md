@@ -32,11 +32,11 @@ Pipeline, ardından bir model gelen, sıralı veri dönüşümleridir. Her adım
 
 ```mermaid
 flowchart LR
-    A[Ham Veri] --> B[Eksik Değerleri Doldur]
-    B --> C[Sayısal Feature'ları Ölçekle]
-    C --> D[Kategorikleri Kodla]
-    D --> E[Model Eğit]
-    E --> F[Tahmin]
+ A[Ham Veri] --> B[Eksik Değerleri Doldur]
+ B --> C[Sayısal Feature'ları Ölçekle]
+ C --> D[Kategorikleri Kodla]
+ D --> E[Model Eğit]
+ E --> F[Tahmin]
 ```
 
 Pipeline şunları garanti eder:
@@ -84,8 +84,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 
 pipe = Pipeline([
-    ("scaler", StandardScaler()),
-    ("model", LogisticRegression()),
+ ("scaler", StandardScaler()),
+ ("model", LogisticRegression()),
 ])
 
 pipe.fit(X_train, y_train)
@@ -112,23 +112,23 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 
 numeric_pipe = Pipeline([
-    ("impute", SimpleImputer(strategy="median")),
-    ("scale", StandardScaler()),
+ ("impute", SimpleImputer(strategy="median")),
+ ("scale", StandardScaler()),
 ])
 
 categorical_pipe = Pipeline([
-    ("impute", SimpleImputer(strategy="most_frequent")),
-    ("encode", OneHotEncoder(handle_unknown="ignore")),
+ ("impute", SimpleImputer(strategy="most_frequent")),
+ ("encode", OneHotEncoder(handle_unknown="ignore")),
 ])
 
 preprocessor = ColumnTransformer([
-    ("num", numeric_pipe, ["age", "income", "score"]),
-    ("cat", categorical_pipe, ["city", "gender", "plan"]),
+ ("num", numeric_pipe, ["age", "income", "score"]),
+ ("cat", categorical_pipe, ["city", "gender", "plan"]),
 ])
 
 full_pipeline = Pipeline([
-    ("preprocess", preprocessor),
-    ("model", GradientBoostingClassifier()),
+ ("preprocess", preprocessor),
+ ("model", GradientBoostingClassifier()),
 ])
 ```
 #### Açıklama
@@ -144,15 +144,15 @@ Bir pipeline eğitimi tekrarlanabilir kılar, ancak deneyler arasında neler old
 import mlflow
 
 with mlflow.start_run():
-    mlflow.log_param("max_depth", 5)
-    mlflow.log_param("n_estimators", 100)
-    mlflow.log_param("learning_rate", 0.1)
+ mlflow.log_param("max_depth", 5)
+ mlflow.log_param("n_estimators", 100)
+ mlflow.log_param("learning_rate", 0.1)
 
-    pipe.fit(X_train, y_train)
-    accuracy = pipe.score(X_test, y_test)
+ pipe.fit(X_train, y_train)
+ accuracy = pipe.score(X_test, y_test)
 
-    mlflow.log_metric("accuracy", accuracy)
-    mlflow.sklearn.log_model(pipe, "model")
+ mlflow.log_metric("accuracy", accuracy)
+ mlflow.sklearn.log_model(pipe, "model")
 ```
 #### Açıklama
 Her çalışma, parametreler, metrikler, yapıtlar (artifacts) ve modelin tamamıyla kaydedilir. Çalışmaları karşılaştırabilir, herhangi bir deneyi yeniden oluşturabilir ve herhangi bir model sürümünü dağıtabilirsiniz.
@@ -213,15 +213,15 @@ import numpy as np
 import random
 
 def set_seed(seed=42):
-    random.seed(seed)
-    np.random.seed(seed)
-    try:
-        import torch
-        torch.manual_seed(seed)
-        torch.cuda.manual_seed_all(seed)
-        torch.backends.cudnn.deterministic = True
-    except ImportError:
-        pass
+ random.seed(seed)
+ np.random.seed(seed)
+ try:
+ import torch
+ torch.manual_seed(seed)
+ torch.cuda.manual_seed_all(seed)
+ torch.backends.cudnn.deterministic = True
+ except ImportError:
+ pass
 ```
 #### Açıklama
 Bu fonksiyon, rastgele sayı üreteçlerini sabit bir tohumla başlatarak aynı kodun her çalıştırıldığında aynı sonuçları üretmesini sağlar.
@@ -230,16 +230,16 @@ Bu fonksiyon, rastgele sayı üreteçlerini sabit bir tohumla başlatarak aynı 
 
 ```mermaid
 flowchart TD
-    A[Jupyter Notebook] --> B[Fonksiyonları çıkar]
-    B --> C[Pipeline nesnesi oluştur]
-    C --> D[Hiperparametreler için config dosyası ekle]
-    D --> E[Deney takibi ekle]
-    E --> F[Veri doğrulama ekle]
-    F --> G[Test ekle]
-    G --> H[Dağıtım için paketle]
+ A[Jupyter Notebook] --> B[Fonksiyonları çıkar]
+ B --> C[Pipeline nesnesi oluştur]
+ C --> D[Hiperparametreler için config dosyası ekle]
+ D --> E[Deney takibi ekle]
+ E --> F[Veri doğrulama ekle]
+ F --> G[Test ekle]
+ G --> H[Dağıtım için paketle]
 
-    style A fill:#fdd,stroke:#333
-    style H fill:#dfd,stroke:#333
+ style A fill:#fdd,stroke:#333
+ style H fill:#dfd,stroke:#333
 ```
 
 Tipik ilerleme:
@@ -272,21 +272,21 @@ Tipik ilerleme:
 
 ```python
 class CustomTransformer:
-    def __init__(self):
-        self.means = None
-        self.stds = None
+ def __init__(self):
+ self.means = None
+ self.stds = None
 
-    def fit(self, X):
-        self.means = np.mean(X, axis=0)
-        self.stds = np.std(X, axis=0)
-        self.stds[self.stds == 0] = 1.0
-        return self
+ def fit(self, X):
+ self.means = np.mean(X, axis=0)
+ self.stds = np.std(X, axis=0)
+ self.stds[self.stds == 0] = 1.0
+ return self
 
-    def transform(self, X):
-        return (X - self.means) / self.stds
+ def transform(self, X):
+ return (X - self.means) / self.stds
 
-    def fit_transform(self, X):
-        return self.fit(X).transform(X)
+ def fit_transform(self, X):
+ return self.fit(X).transform(X)
 ```
 #### Açıklama
 Bu sınıf, sklearn'in StandardScaler'ına benzer bir standardizasyon yapar. `fit`, verinin ortalama ve standart sapmasını hesaplar; `transform` bu istatistikleri kullanarak veriyi ölçekler. Sıfır standart sapma durumunda bölme hatasını önlemek için 1.0'e ayarlar.
@@ -295,23 +295,23 @@ Bu sınıf, sklearn'in StandardScaler'ına benzer bir standardizasyon yapar. `fi
 
 ```python
 class PipelineFromScratch:
-    def __init__(self, steps):
-        self.steps = steps
+ def __init__(self, steps):
+ self.steps = steps
 
-    def fit(self, X, y=None):
-        X_current = X.copy()
-        for name, step in self.steps[:-1]:
-            X_current = step.fit_transform(X_current)
-        name, model = self.steps[-1]
-        model.fit(X_current, y)
-        return self
+ def fit(self, X, y=None):
+ X_current = X.copy()
+ for name, step in self.steps[:-1]:
+ X_current = step.fit_transform(X_current)
+ name, model = self.steps[-1]
+ model.fit(X_current, y)
+ return self
 
-    def predict(self, X):
-        X_current = X.copy()
-        for name, step in self.steps[:-1]:
-            X_current = step.transform(X_current)
-        name, model = self.steps[-1]
-        return model.predict(X_current)
+ def predict(self, X):
+ X_current = X.copy()
+ for name, step in self.steps[:-1]:
+ X_current = step.transform(X_current)
+ name, model = self.steps[-1]
+ return model.predict(X_current)
 ```
 #### Açıklama
 Bu sınıf, sklearn Pipeline mantığını sıfırdan uygular. Tüm transformer'ları sırayla fit eder ve dönüştürür, ardından son adımdaki modeli eğitir. Tahmin sırasında transformer'ları `fit_transform` yerine `transform` ile çağırarak veri sızıntısını önler.

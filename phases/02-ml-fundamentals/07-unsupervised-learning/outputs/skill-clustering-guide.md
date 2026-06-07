@@ -14,27 +14,27 @@ Kümeleme için tek bir en iyi algoritma yoktur. Doğru seçim küme şekline, k
 ## Karar Kontrol Listesi
 
 1. Küme sayısını biliyor musun?
-   - Evet: K-Means veya GMM
-   - Hayır: DBSCAN (kümeleri otomatik bulur) veya hiyerarşik (dendrogramı farklı seviyelerde kes)
+ - Evet: K-Means veya GMM
+ - Hayır: DBSCAN (kümeleri otomatik bulur) veya hiyerarşik (dendrogramı farklı seviyelerde kes)
 
 2. Kümelerin şekli nedir?
-   - Kabaca küresel (blob benzeri): K-Means
-   - Farklı boyutlarda eliptik: GMM
-   - Keyfi şekiller (hilal, halka, zincir): DBSCAN
-   - İç içe veya hiyerarşik: hiyerarşik kümeleme
+ - Kabaca küresel (blob benzeri): K-Means
+ - Farklı boyutlarda eliptik: GMM
+ - Keyfi şekiller (hilal, halka, zincir): DBSCAN
+ - İç içe veya hiyerarşik: hiyerarşik kümeleme
 
 3. Veri gürültü veya aykırı değer içeriyor mu?
-   - Evet: DBSCAN (gürültü noktalarını açıkça etiketler) veya GMM (düşük olasılıklı noktalar aykırı değerdir)
-   - Hayır: K-Means yeterlidir
+ - Evet: DBSCAN (gürültü noktalarını açıkça etiketler) veya GMM (düşük olasılıklı noktalar aykırı değerdir)
+ - Hayır: K-Means yeterlidir
 
 4. Yumuşak atamalar (olasılıklar) mı gerekiyor?
-   - Evet: GMM, her küme için P(küme | veri noktası) verir
-   - Hayır: K-Means veya DBSCAN sert atamalar verir
+ - Evet: GMM, her küme için P(küme | veri noktası) verir
+ - Hayır: K-Means veya DBSCAN sert atamalar verir
 
 5. Veri kümesi ne kadar büyük?
-   - 10.000'in altında: her algoritma çalışır
-   - 10.000 ile 1.000.000 arası: K-Means (hızlı), Mini-Batch K-Means (daha hızlı)
-   - 1.000.000'un üzerinde: Mini-Batch K-Means veya BIRCH. Hiyerarşik çok yavaş.
+ - 10.000'in altında: her algoritma çalışır
+ - 10.000 ile 1.000.000 arası: K-Means (hızlı), Mini-Batch K-Means (daha hızlı)
+ - 1.000.000'un üzerinde: Mini-Batch K-Means veya BIRCH. Hiyerarşik çok yavaş.
 
 ## Her yaklaşımın ne zaman kullanılacağı
 

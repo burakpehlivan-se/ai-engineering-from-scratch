@@ -95,7 +95,7 @@ Muon optimize edicisi (Kimi Moonlight, 2024), eşleşen veride AdamW'a kıyasla 
 
 ```python
 def chinchilla_loss(N, D, A=406.4, B=410.7, alpha=0.34, beta=0.28, E=1.69):
-    return A / N ** alpha + B / D ** beta + E
+ return A / N ** alpha + B / D ** beta + E
 ```
 
 #### Açıklama

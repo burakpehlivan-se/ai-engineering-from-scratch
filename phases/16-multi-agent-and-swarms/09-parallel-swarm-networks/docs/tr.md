@@ -18,17 +18,17 @@ Swarm mimarileri tasarımı tersine çevirir. Merkezi bir planlayıcı işi dağ
 ### Şekil
 
 ```
-                ┌──── paylaşılan kuyruk ────┐
-                │                      │
-       ┌────────┼────────┐  ◄──────┬───┘
-       ▼        ▼        ▼         │
-     İşçi    İşçi    İşçi     İşçi
-      A       B       C        D
-       │        │        │         │
-       └────────┴────────┴─────────┘
-                 │
-                 ▼
-            sonuç havuzu
+ ┌──── paylaşılan kuyruk ────┐
+ │ │
+ ┌────────┼────────┐ ◄──────┬───┘
+ ▼ ▼ ▼ │
+ İşçi İşçi İşçi İşçi
+ A B C D
+ │ │ │ │
+ └────────┴────────┴─────────┘
+ │
+ ▼
+ sonuç havuzu
 ```
 
 Orkestratör yok. Her işçi tekrar eder: bir görev çek, işle, sonucu yaz (ve isteğe bağlı olarak takip görevlerini kuyruğa ekle).
@@ -70,7 +70,7 @@ Swarm, içerik tabanlı yönlendirmeyle (Ders 22) doğal olarak eşleşir. Genel
 
 ## İnşa Et
 
-`code/main.py` paylaşılan bir `queue.Queue`'dan çeken 4 iş parçacıklı bir swarm uygular. Görevlerin değişken süreleri vardır (bazıları hızlı, bazıları yavaş). Demo kontrastları:
+`code/main.py` paylaşılan bir `queue. Queue`'dan çeken 4 iş parçacıklı bir swarm uygular. Görevlerin değişken süreleri vardır (bazıları hızlı, bazıları yavaş). Demo kontrastları:
 
 - **Sıralı temel:** bir işçi tüm görevleri seri olarak işler.
 - **Sabit atama:** her görev önceden belirli bir işçiye atanır (supervisor tarzı).
@@ -96,17 +96,17 @@ Kontrol listesi:
 
 - **Yaşlandırmalı öncelik kuyruğu.** Uzun-görev açlığını önleyin.
 - **İşçi idempotansı (idempotency).** Bir işçi çalışırken çökerse bir görev birden fazla çekilebilir. İşçiler idempotent olmalıdır.
-- **Dayanıklı kuyruk.** Üretim için Kafka, Redis Streams veya veritabanı destekli kuyruk kullanın. `queue.Queue` yalnızca bellek içidir.
+- **Dayanıklı kuyruk.** Üretim için Kafka, Redis Streams veya veritabanı destekli kuyruk kullanın. `queue. Queue` yalnızca bellek içidir.
 - **Görev başına gözlemlenebilirlik.** Her görevin bir iz kimliği (trace ID) vardır; her işçi onunla başlangıç/bitiş kaydeder.
 - **Geri basınç (back-pressure).** Kuyruk, işçilerin boşaltmasından daha hızlı büyürse, üreticiyi yavaşlatın.
 
 ## Alıştırmalar
 
 1. `code/main.py`'yi çalıştırın. Değişken süreli iş yükünde swarm, sıralıdan ne kadar hızlıdır? Sabit atamadan ne kadar hızlıdır?
-2. Bir öncelik kuyruğu varyantı ekleyin (`queue.PriorityQueue` kullanın). Önceliği görevin "önem" alanına göre atayın. Sürekli yük altında düşük öncelikli görevlerin asla aç kalmadığını gözlemleyin.
+2. Bir öncelik kuyruğu varyantı ekleyin (`queue. PriorityQueue` kullanın). Önceliği görevin "önem" alanına göre atayın. Sürekli yük altında düşük öncelikli görevlerin asla aç kalmadığını gözlemleyin.
 3. Bir sıcak nokta (hot-spot) dedektörü uygulayın: herhangi bir işçi en yavaş işçiden 3× daha fazla görev işlediğinde günlüğe kaydedin. Bu, görev-süresi dağılımı hakkında ne gösterir?
 4. Matrix makalesini (arXiv:2511.21686) özetini ve Bölüm 3'ü okuyun. Matrix'in kabul ettiği somut bir ödünleşimi (ölçeklenebilirlik kazancı) ve verdiği bir şeyi (izlenebilirlik, determinizm) belirleyin.
-5. Swarm demoyu `(task_type, payload)` tuple'larından oluşan bir `queue.Queue` kullanacak şekilde dönüştürün, işçiler yalnızca belirli türlere abone olsun. Görevler heterojen olduğunda hangi yönlendirme kuralları anlamlıdır?
+5. Swarm demoyu `(task_type, payload)` tuple'larından oluşan bir `queue. Queue` kullanacak şekilde dönüştürün, işçiler yalnızca belirli türlere abone olsun. Görevler heterojen olduğunda hangi yönlendirme kuralları anlamlıdır?
 
 ## Anahtar Terimler
 

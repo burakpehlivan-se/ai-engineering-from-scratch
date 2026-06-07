@@ -14,25 +14,25 @@ Regresyon, sürekli değerleri tahmin eder. Doğru yaklaşım, özellikler ile h
 ## Karar Kontrol Listesi
 
 1. Özellikler ile hedef arasındaki ilişki yaklaşık olarak doğrusal mı?
-   - Evet: sıradan doğrusal regresyonla başla
-   - Hayır: polinom özellikler veya doğrusal olmayan bir model dene
+ - Evet: sıradan doğrusal regresyonla başla
+ - Hayır: polinom özellikler veya doğrusal olmayan bir model dene
 
 2. Örneklemlere göre kaç özelliğin var?
-   - Az özellik, çok örnek: sıradan doğrusal regresyon yeterlidir
-   - Çok özellik, az örnek: düzenlileştirme (Ridge veya Lasso) kullan
-   - Örneklerden fazla özellik: özellik seçmek için Lasso (L1) veya tüm ağırlıkları küçültmek için Ridge (L2)
+ - Az özellik, çok örnek: sıradan doğrusal regresyon yeterlidir
+ - Çok özellik, az örnek: düzenlileştirme (Ridge veya Lasso) kullan
+ - Örneklerden fazla özellik: özellik seçmek için Lasso (L1) veya tüm ağırlıkları küçültmek için Ridge (L2)
 
 3. Yorumlanabilirliğe ihtiyacın var mı?
-   - Evet: az özellikli doğrusal regresyon veya otomatik özellik seçimi için Lasso
-   - Hayır: polinom özellikler veya ağaç tabanlı modellere ya da sinir ağlarına geç
+ - Evet: az özellikli doğrusal regresyon veya otomatik özellik seçimi için Lasso
+ - Hayır: polinom özellikler veya ağaç tabanlı modellere ya da sinir ağlarına geç
 
 4. Veri kümen küçük mü (10.000 satırın altında)?
-   - Hız için normal denklemi (kapalı form çözüm) kullan
-   - Güvenilir değerlendirme için çapraz doğrulama şarttır
+ - Hız için normal denklemi (kapalı form çözüm) kullan
+ - Güvenilir değerlendirme için çapraz doğrulama şarttır
 
 5. Veri kümen büyük mü (milyonlarca satır)?
-   - Stokastik gradyan inişi (SGD) veya mini-batch gradyan inişi kullan
-   - O(n^3) matris tersi nedeniyle normal denklem çok yavaştır
+ - Stokastik gradyan inişi (SGD) veya mini-batch gradyan inişi kullan
+ - O(n^3) matris tersi nedeniyle normal denklem çok yavaştır
 
 ## Her yaklaşımın ne zaman kullanılacağı
 

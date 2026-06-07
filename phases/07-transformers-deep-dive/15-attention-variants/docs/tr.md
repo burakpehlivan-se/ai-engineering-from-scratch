@@ -26,17 +26,17 @@ Bunlar bir arada var olur. 2026 sınır modeli genellikle bunları karıştırı
 `i` konumundaki her sorgu, `[i - W, i]` (nedensel SWA) veya `[i - W/2, i + W/2]` (çift yönlü) konumlarındaki pencerelere dikkat eder. Pencere dışındaki token'lara puan matrisinde `-inf` verilir.
 
 ```
-full causal:           sliding window (W=4):
-positions 0-7          positions 0-7, W=4
-    0 1 2 3 4 5 6 7        0 1 2 3 4 5 6 7
-0 | x                0 |  x
-1 | x x              1 |  x x
-2 | x x x            2 |  x x x
-3 | x x x x          3 |  x x x x
-4 | x x x x x        4 |    x x x x
-5 | x x x x x x      5 |      x x x x
-6 | x x x x x x x    6 |        x x x x
-7 | x x x x x x x x  7 |          x x x x
+full causal: sliding window (W=4):
+positions 0-7 positions 0-7, W=4
+ 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+0 | x 0 | x
+1 | x x 1 | x x
+2 | x x x 2 | x x x
+3 | x x x x 3 | x x x x
+4 | x x x x x 4 | x x x x
+5 | x x x x x x 5 | x x x x
+6 | x x x x x x x 6 | x x x x
+7 | x x x x x x x x 7 | x x x x
 ```
 
 #### Açıklama
@@ -94,7 +94,7 @@ Bildirilen sonuçlar (Microsoft 2024): %5–10 daha düşük perplexity, aynı e
 
 ```python
 def causal_mask(n):
-    return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
+ return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
 ```
 
 #### Açıklama
@@ -104,12 +104,12 @@ Ders 07'den temel çizgi. Alt-üçgen; diyagonalin üzerinde sıfır ağırlık.
 
 ```python
 def swa_mask(n, window):
-    M = [[float("-inf")] * n for _ in range(n)]
-    for i in range(n):
-        lo = max(0, i - window + 1)
-        for j in range(lo, i + 1):
-            M[i][j] = 0.0
-    return M
+ M = [[float("-inf")] * n for _ in range(n)]
+ for i in range(n):
+ lo = max(0, i - window + 1)
+ for j in range(lo, i + 1):
+ M[i][j] = 0.0
+ return M
 ```
 
 #### Açıklama
@@ -119,14 +119,14 @@ Tek parametre — `pencere`. `pencere >= n` için tam nedensel dikkat elde eders
 
 ```python
 def strided_mask(n, window, stride):
-    M = [[float("-inf")] * n for _ in range(n)]
-    for i in range(n):
-        lo = max(0, i - window + 1)
-        for j in range(lo, i + 1):
-            M[i][j] = 0.0
-        for j in range(0, i + 1, stride):
-            M[i][j] = 0.0
-    return M
+ M = [[float("-inf")] * n for _ in range(n)]
+ for i in range(n):
+ lo = max(0, i - window + 1)
+ for j in range(lo, i + 1):
+ M[i][j] = 0.0
+ for j in range(0, i + 1, stride):
+ M[i][j] = 0.0
+ return M
 ```
 
 #### Açıklama
@@ -136,9 +136,9 @@ Yoğun yerel pencere artı dizinin başından itibaren her `stride`. token. Ek k
 
 ```python
 def diff_attention(Q1, K1, Q2, K2, V, lam):
-    A1 = softmax_causal(Q1 @ K1.T / sqrt_d)
-    A2 = softmax_causal(Q2 @ K2.T / sqrt_d)
-    return (A1 - lam * A2) @ V
+ A1 = softmax_causal(Q1 @ K1. T / sqrt_d)
+ A2 = softmax_causal(Q2 @ K2. T / sqrt_d)
+ return (A1 - lam * A2) @ V
 ```
 
 #### Açıklama
@@ -165,7 +165,7 @@ PyTorch 2.5+ FlexAttention bir maske fonksiyonu kabul eder:
 from torch.nn.attention.flex_attention import flex_attention, create_block_mask
 
 def swa_pattern(b, h, q_idx, kv_idx):
-    return (q_idx - kv_idx < 1024) & (q_idx >= kv_idx)
+ return (q_idx - kv_idx < 1024) & (q_idx >= kv_idx)
 
 mask = create_block_mask(swa_pattern, B=batch, H=heads, Q_LEN=n, KV_LEN=n)
 out = flex_attention(q, k, v, block_mask=mask)

@@ -74,20 +74,20 @@ Her katman için belirt:
 Örnek çıktı:
 
 ```python
-model = nn.Sequential(
-    nn.Linear(input_dim, 128),
-    nn.BatchNorm1d(128),
-    nn.ReLU(),
-    nn.Dropout(0.2),
-    nn.Linear(128, 64),
-    nn.BatchNorm1d(64),
-    nn.ReLU(),
-    nn.Dropout(0.2),
-    nn.Linear(64, num_classes),
+model = nn. Sequential(
+ nn. Linear(input_dim, 128),
+ nn. BatchNorm1d(128),
+ nn. ReLU(),
+ nn. Dropout(0.2),
+ nn. Linear(128, 64),
+ nn. BatchNorm1d(64),
+ nn. ReLU(),
+ nn. Dropout(0.2),
+ nn. Linear(64, num_classes),
 )
 
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+criterion = nn. CrossEntropyLoss()
+optimizer = optim. Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 scheduler = CosineAnnealingLR(optimizer, T_max=100)
 loader = DataLoader(dataset, batch_size=64, shuffle=True)
 ```

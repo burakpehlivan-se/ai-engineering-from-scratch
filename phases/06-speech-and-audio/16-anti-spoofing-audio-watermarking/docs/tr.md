@@ -76,21 +76,21 @@ Bir ML tekniği değil — bir manifesto biçimi. Ses dosyaları oluşturma arac
 
 ```python
 def spectral_rolloff(spec, percentile=0.85):
-    cum = 0
-    total = sum(spec)
-    if total == 0:
-        return 0
-    threshold = total * percentile
-    for k, v in enumerate(spec):
-        cum += v
-        if cum >= threshold:
-            return k
-    return len(spec) - 1
+ cum = 0
+ total = sum(spec)
+ if total == 0:
+ return 0
+ threshold = total * percentile
+ for k, v in enumerate(spec):
+ cum += v
+ if cum >= threshold:
+ return k
+ return len(spec) - 1
 
 def is_suspicious(audio):
-    spec = magnitude_spectrum(audio)
-    rolloff = spectral_rolloff(spec)
-    return rolloff / len(spec) > 0.92
+ spec = magnitude_spectrum(audio)
+ rolloff = spectral_rolloff(spec)
+ return rolloff / len(spec) > 0.92
 ```
 
 #### Açıklama
@@ -122,14 +122,14 @@ AudioSeal üreteci ile sese 16-bit filigran yerleştirir, dedektörle geri çık
 
 ```python
 def eer(real_scores, fake_scores):
-    thresholds = sorted(set(real_scores + fake_scores))
-    best = (1.0, 0.0)
-    for t in thresholds:
-        far = sum(1 for s in fake_scores if s >= t) / len(fake_scores)
-        frr = sum(1 for s in real_scores if s < t) / len(real_scores)
-        if abs(far - frr) < best[0]:
-            best = (abs(far - frr), (far + frr) / 2)
-    return best[1]
+ thresholds = sorted(set(real_scores + fake_scores))
+ best = (1.0, 0.0)
+ for t in thresholds:
+ far = sum(1 for s in fake_scores if s >= t) / len(fake_scores)
+ frr = sum(1 for s in real_scores if s < t) / len(real_scores)
+ if abs(far - frr) < best[0]:
+ best = (abs(far - frr), (far + frr) / 2)
+ return best[1]
 ```
 
 #### Açıklama
@@ -139,12 +139,12 @@ Gerçek ve sahte puanlar kümesi üzerinde Eşit Hata Oranı (EER) hesaplar.
 
 ```python
 def safe_tts(text, voice, clone_reference=None):
-    if clone_reference is not None:
-        verify_consent(user_id, clone_reference)
-    audio = tts_model.synthesize(text, voice)
-    audio_with_wm = audioseal_embed(audio, payload=build_payload(user_id, model_id))
-    manifest = c2pa_sign(audio_with_wm, user_id, timestamp=now())
-    return audio_with_wm, manifest
+ if clone_reference is not None:
+ verify_consent(user_id, clone_reference)
+ audio = tts_model.synthesize(text, voice)
+ audio_with_wm = audioseal_embed(audio, payload=build_payload(user_id, model_id))
+ manifest = c2pa_sign(audio_with_wm, user_id, timestamp=now())
+ return audio_with_wm, manifest
 ```
 
 #### Açıklama

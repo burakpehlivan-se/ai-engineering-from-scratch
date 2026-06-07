@@ -61,23 +61,23 @@ Bağımsız bir FSM uygulaması için `code/main.py`'ye bakın. 30 satırlık te
 
 ```python
 def mask_logits(logits, valid_token_ids):
-    mask = [float("-inf")] * len(logits)
-    for tid in valid_token_ids:
-        mask[tid] = logits[tid]
-    return mask
+ mask = [float("-inf")] * len(logits)
+ for tid in valid_token_ids:
+ mask[tid] = logits[tid]
+ return mask
 
 
 def generate_constrained(model, tokenizer, prompt, fsm):
-    ids = tokenizer.encode(prompt)
-    state = fsm.initial_state
-    while not fsm.is_accept(state):
-        logits = model.next_token_logits(ids)
-        valid = fsm.valid_tokens(state, tokenizer)
-        logits = mask_logits(logits, valid)
-        tok = sample(logits)
-        ids.append(tok)
-        state = fsm.transition(state, tok)
-    return tokenizer.decode(ids)
+ ids = tokenizer.encode(prompt)
+ state = fsm.initial_state
+ while not fsm.is_accept(state):
+ logits = model.next_token_logits(ids)
+ valid = fsm.valid_tokens(state, tokenizer)
+ logits = mask_logits(logits, valid)
+ tok = sample(logits)
+ ids.append(tok)
+ state = fsm.transition(state, tok)
+ return tokenizer.decode(ids)
 ```
 
 #### Açıklama
@@ -92,9 +92,9 @@ import outlines
 
 
 class Review(BaseModel):
-    sentiment: Literal["positive", "negative", "neutral"]
-    confidence: float
-    evidence_span: str
+ sentiment: Literal["positive", "negative", "neutral"]
+ confidence: float
+ evidence_span: str
 
 
 model = outlines.models.transformers("meta-llama/Llama-3.2-3B-Instruct")
@@ -117,17 +117,17 @@ from pydantic import BaseModel, Field
 
 
 class Invoice(BaseModel):
-    vendor: str
-    total_usd: float = Field(ge=0)
-    line_items: list[str]
+ vendor: str
+ total_usd: float = Field(ge=0)
+ line_items: list[str]
 
 
 client = instructor.from_anthropic(Anthropic())
 invoice = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=1024,
-    response_model=Invoice,
-    messages=[{"role": "user", "content": "Extract from: 'Acme Corp $420. Widget, Gizmo.'"}],
+ model="claude-opus-4-7",
+ max_tokens=1024,
+ response_model=Invoice,
+ messages=[{"role": "user", "content": "Extract from: 'Acme Corp $420. Widget, Gizmo.'"}],
 )
 ```
 
@@ -141,12 +141,12 @@ from openai import OpenAI
 
 client = OpenAI()
 response = client.responses.create(
-    model="gpt-5",
-    input=[{"role": "user", "content": "Classify: 'The food was cold.'"}],
-    text={"format": {"type": "json_schema", "name": "sentiment",
-          "schema": {"type": "object", "required": ["sentiment"],
-                     "properties": {"sentiment": {"type": "string",
-                                                  "enum": ["positive", "negative", "neutral"]}}}}},
+ model="gpt-5",
+ input=[{"role": "user", "content": "Classify: 'The food was cold.'"}],
+ text={"format": {"type": "json_schema", "name": "sentiment",
+ "schema": {"type": "object", "required": ["sentiment"],
+ "properties": {"sentiment": {"type": "string",
+ "enum": ["positive", "negative", "neutral"]}}}}},
 )
 print(response.output_parsed)
 ```

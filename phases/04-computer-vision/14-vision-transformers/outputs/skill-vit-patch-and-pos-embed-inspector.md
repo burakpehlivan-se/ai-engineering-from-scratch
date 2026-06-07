@@ -19,7 +19,7 @@ En yaygın ViT taşıma hatası: 224x224'te önceden eğitilmiş bir kontrol nok
 
 ## Girdiler
 
-- `model`: somutlaştırılmış bir ViT `nn.Module`.
+- `model`: somutlaştırılmış bir ViT `nn. Module`.
 - `expected_image_size`: modelin üretimde göreceği H x W.
 - `patch_size`: beklenen yama boyutu.
 
@@ -36,18 +36,18 @@ En yaygın ViT taşıma hatası: 224x224'te önceden eğitilmiş bir kontrol nok
 
 ```
 [vit-inspector]
-  image_size:         HxW
-  patch_size:         <int>
-  num_patches (computed): <int>
-  patch_conv:         k=<int>  s=<int>  in=<int>  out=<int>
-  pos_embed shape:    (1, N, dim)
-  has CLS token:      yes | no
-  pos_embed N:        <int>    expected: <int>
-  verdict:            ok | mismatch
+ image_size: HxW
+ patch_size: <int>
+ num_patches (computed): <int>
+ patch_conv: k=<int> s=<int> in=<int> out=<int>
+ pos_embed shape: (1, N, dim)
+ has CLS token: yes | no
+ pos_embed N: <int> expected: <int>
+ verdict: ok | mismatch
 
 [if mismatch]
-  action:  yeni dizi uzunluğu için pos_embed'i yeniden başlat
-  tool:    timm.models.vision_transformer.resize_pos_embed
+ action: yeni dizi uzunluğu için pos_embed'i yeniden başlat
+ tool: timm.models.vision_transformer.resize_pos_embed
 ```
 
 ## Kurallar

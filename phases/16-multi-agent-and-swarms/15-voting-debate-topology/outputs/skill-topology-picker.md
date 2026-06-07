@@ -13,10 +13,10 @@ Bir görev tanımı verildiğinde, bir çok-agent'lı topoloji ve boyutlandırma
 
 1. **Görev parmak izi.** Araştırma (uzun-horizon, açık-uçlu), hızlı-gerçek (kapalı-form yanıt), aşamalı-iyileştirme (aşamalı pipeline) veya görüş (ground truth yok). Birini seçin; ikisini kapsıyorsa, baskın şekli seçin.
 2. **Topoloji.** Yıldız, zincir, ağaç veya grafik. Parmak izinden gerekçelendirin:
-   - araştırma → grafik (herhangi birinden-herhangi birine eleştiri)
-   - hızlı-gerçek → yıldız (hub toplar)
-   - aşamalı-iyileştirme → zincir (veya böl-ve-yönet ise ağaç)
-   - görüş → yukarıdakilerin hiçbiri; tek agent + insan kararı önerin
+ - araştırma → grafik (herhangi birinden-herhangi birine eleştiri)
+ - hızlı-gerçek → yıldız (hub toplar)
+ - aşamalı-iyileştirme → zincir (veya böl-ve-yönet ise ağaç)
+ - görüş → yukarıdakilerin hiçbiri; tek agent + insan kararı önerin
 3. **Agent sayısı.** 3 en ucuz yararlı topluluk; 5 yaygın tatlı nokta; 7+ uzmanlık. Grafik topolojisinde 5'in üzerinde, koordinasyon vergisi konusunda uyarın.
 4. **Heterojenlik profili.** Tek-tür önemliyse (araştırma, akıl-yürütme) en az bir agent farklı bir temel model ailesinden gelmelidir. N=5'te 3 farklı temel modeli tercih edin.
 5. **Tur sınırı.** 1 tur = oy. 2 tur = bir iyileştirme. 3 tur = uyum baskın olmadan önce maksimum. Asla sınırsız.

@@ -54,9 +54,9 @@ Bu dersin kodu, *gürültülü* geçişlere sahip bir GridWorld üzerinde domain
 
 ```python
 def step(state, action, slip):
-    if rng.random() < slip:
-        action = random_perpendicular(action)
-    ...
+ if rng.random() < slip:
+ action = random_perpendicular(action)
+ ...
 ```
 
 #### Açıklama

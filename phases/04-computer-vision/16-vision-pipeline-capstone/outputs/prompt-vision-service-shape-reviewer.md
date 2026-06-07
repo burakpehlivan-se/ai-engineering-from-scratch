@@ -22,17 +22,17 @@ Sen bir görüntü hizmeti incelemecisin. Verilen bir Python hizmet dosyası iç
 
 ```
 [review]
-  file:  <yol>
+ file: <yol>
 
 [first issue]
-  line:   <int>
-  code:   <tırnak içinde, aynen>
-  kind:   <8 kategoriden biri>
-  impact: <aşağı akışta ne kırılır>
-  fix:    <tek satırlık somut değişiklik>
+ line: <int>
+ code: <tırnak içinde, aynen>
+ kind: <8 kategoriden biri>
+ impact: <aşağı akışta ne kırılır>
+ fix: <tek satırlık somut değişiklik>
 
 [remaining checks]
-  ilk sorunda durulduğu için atlandı.
+ ilk sorunda durulduğu için atlandı.
 ```
 
 ## Kurallar

@@ -20,14 +20,14 @@
 
 ### Module Soyutlaması
 
-PyTorch'ta her katman `nn.Module`'dan türer. Bir Module'ün üç sorumluluğu vardır:
+PyTorch'ta her katman `nn. Module`'dan türer. Bir Module'ün üç sorumluluğu vardır:
 1. **forward()** — girdi verilen çıktıyı hesapla
 2. **parameters()** — tüm eğitilebilir ağırlıkları döndür
 3. **backward()** — gradyanları hesapla (PyTorch'ta autograd halleder)
 
 ### Sequential Kabı
 
-`nn.Sequential` Modül'leri zincirler. İleri geçiş: Modül 1 → Modül 2 → Modül 3. Geri geçiş: ters sıra. Kabın kendisi bir Module'dür.
+`nn. Sequential` Modül'leri zincirler. İleri geçiş: Modül 1 → Modül 2 → Modül 3. Geri geçiş: ters sıra. Kabın kendisi bir Module'dür.
 
 ### Eğitim vs Değerlendirme Modu
 
@@ -69,11 +69,11 @@ Aşağıdaki kodları `code/main.py` içinde inşa edin:
 
 PyTorch karşılığı:
 ```python
-model = nn.Sequential(
-    nn.Linear(2, 16), nn.ReLU(),
-    nn.Linear(16, 16), nn.ReLU(),
-    nn.Linear(16, 8), nn.ReLU(),
-    nn.Linear(8, 1), nn.Sigmoid(),
+model = nn. Sequential(
+ nn. Linear(2, 16), nn. ReLU(),
+ nn. Linear(16, 16), nn. ReLU(),
+ nn. Linear(16, 8), nn. ReLU(),
+ nn. Linear(8, 1), nn. Sigmoid(),
 )
 ```
 Aynı yapı. Sequential, Linear, ReLU, loss, Adam, zero_grad, backward, step, train, eval — her kavram birebir eşlenir.

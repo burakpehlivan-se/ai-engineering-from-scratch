@@ -29,10 +29,10 @@ Bu iki makale birlikte 2026 varsayılanını tanımlar: üret, mümkünse harici
 Tek bir LLM, üç rol:
 
 ```text
-generate(task)            -> output_0
-feedback(task, output_0)  -> critique_0
+generate(task) -> output_0
+feedback(task, output_0) -> critique_0
 refine(task, output_0, critique_0, history) -> output_1
-feedback(task, output_1)  -> critique_1
+feedback(task, output_1) -> critique_1
 refine(task, output_1, critique_1, history) -> output_2
 ...
 feedback "sorun yok" dediğinde veya bütçe tükendiğinde dur.

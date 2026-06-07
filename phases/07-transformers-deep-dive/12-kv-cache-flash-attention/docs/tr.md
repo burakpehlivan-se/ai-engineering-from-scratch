@@ -30,8 +30,8 @@ Decoder katmanı başına, token başına, baş başına:
 
 ```
 bytes_per_token_per_layer = 2 * d_head * dtype_size
-                          ^
-                          K and V
+ ^
+ K and V
 ```
 
 32 katmanlı, 32 başlı, d_head=128, fp16 olan 7B model için:
@@ -59,9 +59,9 @@ Bu 10 GB, Llama 3 70B'nin 128K bağlamda toplu boyutu 1'de KV-çerez için 40 GB
 Standart dikkat:
 
 ```
-S = Q @ K^T          (HBM okuma, N×N, HBM yazma)
-P = softmax(S)       (HBM okuma, HBM yazma)
-O = P @ V            (HBM okuma, HBM yazma)
+S = Q @ K^T (HBM okuma, N×N, HBM yazma)
+P = softmax(S) (HBM okuma, HBM yazma)
+O = P @ V (HBM okuma, HBM yazma)
 ```
 
 Üç HBM turu. H100'de HBM bant genişliği 3 TB/s'dir; SRAM 30 TB/s'dir. Her HBM yolculuğu, her şeyi çipte tutmaya kıyasla 10 kat yavaşlamadır.
@@ -70,13 +70,13 @@ Flash Attention:
 
 ```
 for each block of Q (tile size ~128 × 128):
-    load Q_tile into SRAM
-    for each block of K, V:
-        load K_tile, V_tile into SRAM
-        compute S_tile = Q_tile @ K_tile^T     (SRAM)
-        running softmax aggregation             (SRAM)
-        accumulate into O_tile                  (SRAM)
-    write O_tile to HBM
+ load Q_tile into SRAM
+ for each block of K, V:
+ load K_tile, V_tile into SRAM
+ compute S_tile = Q_tile @ K_tile^T (SRAM)
+ running softmax aggregation (SRAM)
+ accumulate into O_tile (SRAM)
+ write O_tile to HBM
 ```
 
 #### Açıklama
@@ -126,16 +126,16 @@ vLLM'in başlık özelliği. KV-çerez 16 token'lık bloklar halinde ayrılmış
 
 ```python
 class KVCache:
-    def __init__(self, n_layers, n_heads, d_head):
-        self.K = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
-        self.V = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
+ def __init__(self, n_layers, n_heads, d_head):
+ self. K = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
+ self. V = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
 
-    def append(self, layer, head, k, v):
-        self.K[layer][head].append(k)
-        self.V[layer][head].append(v)
+ def append(self, layer, head, k, v):
+ self. K[layer][head].append(k)
+ self. V[layer][head].append(v)
 
-    def read(self, layer, head):
-        return self.K[layer][head], self.V[layer][head]
+ def read(self, layer, head):
+ return self. K[layer][head], self. V[layer][head]
 ```
 
 #### Açıklama
@@ -145,22 +145,22 @@ Basit: katman-başına, baş-başına listelerde token-başına K, V vektörleri
 
 ```python
 def tiled_softmax_dot(q, K, V, tile=4):
-    """Flash-attention-style softmax(qK^T)V with running max/sum."""
-    m = float("-inf")
-    s = 0.0
-    out = [0.0] * len(V[0])
-    for start in range(0, len(K), tile):
-        k_block = K[start:start + tile]
-        v_block = V[start:start + tile]
-        scores = [sum(qi * ki for qi, ki in zip(q, k)) for k in k_block]
-        new_m = max(m, *scores)
-        exp_old = math.exp(m - new_m) if m != float("-inf") else 0.0
-        exp_new = [math.exp(sc - new_m) for sc in scores]
-        s = s * exp_old + sum(exp_new)
-        for j in range(len(out)):
-            out[j] = out[j] * exp_old + sum(e * v[j] for e, v in zip(exp_new, v_block))
-        m = new_m
-    return [o / s for o in out]
+ """Flash-attention-style softmax(qK^T)V with running max/sum."""
+ m = float("-inf")
+ s = 0.0
+ out = [0.0] * len(V[0])
+ for start in range(0, len(K), tile):
+ k_block = K[start:start + tile]
+ v_block = V[start:start + tile]
+ scores = [sum(qi * ki for qi, ki in zip(q, k)) for k in k_block]
+ new_m = max(m, *scores)
+ exp_old = math.exp(m - new_m) if m != float("-inf") else 0.0
+ exp_new = [math.exp(sc - new_m) for sc in scores]
+ s = s * exp_old + sum(exp_new)
+ for j in range(len(out)):
+ out[j] = out[j] * exp_old + sum(e * v[j] for e, v in zip(exp_new, v_block))
+ m = new_m
+ return [o / s for o in out]
 ```
 
 #### Açıklama
@@ -176,9 +176,9 @@ Dikkat işlemlerini sayın. Naif: `O(N²)` = 5050. Çerezli: `O(N)` = 100. Kod h
 # HuggingFace transformers, decoder-only generate()'da KV-çerezi otomatik etkinleştirir.
 from transformers import AutoModelForCausalLM
 model = AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-3.2-3B",
-    attn_implementation="flash_attention_2",  # use FA3 if Hopper
-    torch_dtype="bfloat16",
+ "meta-llama/Llama-3.2-3B",
+ attn_implementation="flash_attention_2", # use FA3 if Hopper
+ torch_dtype="bfloat16",
 )
 # generate() KV-çerezi otomatik kullanır
 ```
@@ -188,10 +188,10 @@ vLLM üretimi:
 ```bash
 pip install vllm
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --tensor-parallel-size 4 \
-    --max-model-len 32768 \
-    --enable-prefix-caching \
-    --kv-cache-dtype fp8
+ --tensor-parallel-size 4 \
+ --max-model-len 32768 \
+ --enable-prefix-caching \
+ --kv-cache-dtype fp8
 ```
 
 #### Açıklama

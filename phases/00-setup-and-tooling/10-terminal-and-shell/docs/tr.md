@@ -26,13 +26,13 @@ Bu ders, yapay zeka çalışmaları için önemli olan becerileri kapsar. Unix t
 
 ```mermaid
 graph TD
-    subgraph tmux["tmux oturumu: eğitim"]
-        subgraph top["Üst sıra"]
-            P1["Bölme 1: Eğitim çalıştırması<br/>python train.py<br/>Epoch 12/100 ..."]
-            P2["Bölme 2: GPU izleyici<br/>watch -n1 nvidia-smi<br/>GPU: %78 | Bellek: 14/24G"]
-        end
-        P3["Bölme 3: Günlükler + deneyler<br/>tail -f logs/train.log | grep kayıp"]
-    end
+ subgraph tmux["tmux oturumu: eğitim"]
+ subgraph top["Üst sıra"]
+ P1["Bölme 1: Eğitim çalıştırması<br/>python train.py<br/>Epoch 12/100 ..."]
+ P2["Bölme 2: GPU izleyici<br/>watch -n1 nvidia-smi<br/>GPU: %78 | Bellek: 14/24G"]
+ end
+ P3["Bölme 3: Günlükler + deneyler<br/>tail -f logs/train.log | grep kayıp"]
+ end
 ```
 
 Bir anda üç şey çalışıyor. Tek terminal. Ayrılabilir, eve gidebilir, tekrar SSH ile bağlanabilir ve yeniden ekleyebilirsiniz. Eğitim çalışmaya devam eder.
@@ -53,14 +53,14 @@ Bilinmesi gereken önemli şeyler:
 
 ```bash
 # Tarihçe
-history                    # Komut geçmişini göster
-history | grep git         # Git ile ilgili komutları bul
+history # Komut geçmişini göster
+history | grep git # Git ile ilgili komutları bul
 
 # Kısayollar
-Ctrl+R                     # Ters arama
-Ctrl+C                     # Çalışan komutu durdur
-Ctrl+D                     # Oturumu kapat
-Ctrl+L                     # Ekranı temizle
+Ctrl+R # Ters arama
+Ctrl+C # Çalışan komutu durdur
+Ctrl+D # Oturumu kapat
+Ctrl+L # Ekranı temizle
 ```
 
 ### Adım 2: Boru ve yönlendirmeler

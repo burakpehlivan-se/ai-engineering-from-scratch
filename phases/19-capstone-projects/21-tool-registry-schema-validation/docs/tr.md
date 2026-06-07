@@ -25,12 +25,12 @@ Kaçındığımız hata, şema olmadan işleyici göndermek ya da şema olmadan 
 
 ```text
 ToolRecord
-  name        : str          (benzersiz, küçük harfli alfasayısal ve alt çizgi segmentleri, noktayla ayrılmış, örn. snake_case.segment.case)
-  description : str          (tek satır, modele gösterilir)
-  schema      : dict         (JSON Schema 2020-12 alt kümesi)
-  handler     : Callable     (async veya sync, Any döndürür)
-  idempotent  : bool         (dağıtıcı bunu yeniden deneme kararları için kullanır)
-  timeout_ms  : int          (araç başına dağıtıcı varsayılanını geçersiz kılar)
+ name : str (benzersiz, küçük harfli alfasayısal ve alt çizgi segmentleri, noktayla ayrılmış, örn. snake_case.segment.case)
+ description : str (tek satır, modele gösterilir)
+ schema : dict (JSON Schema 2020-12 alt kümesi)
+ handler : Callable (async veya sync, Any döndürür)
+ idempotent : bool (dağıtıcı bunu yeniden deneme kararları için kullanır)
+ timeout_ms : int (araç başına dağıtıcı varsayılanını geçersiz kılar)
 ```
 
 #### Açıklama
@@ -43,14 +43,14 @@ Bu kayıt yapısı, aracın adını, şemasını, işleyicisini ve çeşitli met
 Tam 2020-12 belirtimi bir makale niteliğindedir. Bize sekiz anahtar kelime gerekir.
 
 ```text
-type           string / number / integer / boolean / object / array / null
-properties     özellik adı -> şema eşlemesi
-required       özellik adları listesi
-enum           izin verilen ilkel değerler listesi
-minLength      tamsayı, stringler için geçerli
-maxLength      tamsayı, stringler için geçerli
-pattern        ECMA-262 uyumlu regex, stringler için geçerli
-items          her dizi öğesine uygulanan şema
+type string / number / integer / boolean / object / array / null
+properties özellik adı -> şema eşlemesi
+required özellik adları listesi
+enum izin verilen ilkel değerler listesi
+minLength tamsayı, stringler için geçerli
+maxLength tamsayı, stringler için geçerli
+pattern ECMA-262 uyumlu regex, stringler için geçerli
+items her dizi öğesine uygulanan şema
 ```
 
 #### Açıklama
@@ -64,8 +64,8 @@ Doğrulama başarısız olduğunda, doğrulayıcı bir hata listesi döndürür.
 
 ```text
 {"a": {"b": [1, 2, "x"]}}
-                    ^
-                    /a/b/2
+ ^
+ /a/b/2
 ```
 
 #### Açıklama
@@ -89,11 +89,11 @@ Bir güvenlik sınırı değildir. Kötü niyetli bir işleyici doğrulama geçt
 
 ```mermaid
 flowchart TD
-    code[your code]
-    reg[ToolRegistry<br/>name<br/>schema<br/>handler<br/>timeout]
-    out[Ok or list of errors]
-    code -->|register name, schema, handler| reg
-    reg -->|validate args| out
+ code[your code]
+ reg[ToolRegistry<br/>name<br/>schema<br/>handler<br/>timeout]
+ out[Ok or list of errors]
+ code -->|register name, schema, handler| reg
+ reg -->|validate args| out
 ```
 
 #### Açıklama

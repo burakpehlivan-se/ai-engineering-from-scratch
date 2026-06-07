@@ -28,12 +28,12 @@ Bir notlar sunucusu iyi bir şekildir çünkü üç sunucu primitifinin hepsini 
 
 ```
 döngü:
-  satır = stdin.readline()
-  msg = json.loads(satır)
-  if id varsa:
-    isteği ele al -> yanıtı yaz
-  else:
-    bildirimi ele al -> yanıt yok
+ satır = stdin.readline()
+ msg = json.loads(satır)
+ if id varsa:
+ isteği ele al -> yanıtı yaz
+ else:
+ bildirimi ele al -> yanıt yok
 ```
 
 Üç kural:
@@ -46,15 +46,15 @@ döngü:
 
 ```python
 def initialize(params):
-    return {
-        "protocolVersion": "2025-11-25",
-        "capabilities": {
-            "tools": {"listChanged": True},
-            "resources": {"listChanged": True, "subscribe": False},
-            "prompts": {"listChanged": False},
-        },
-        "serverInfo": {"name": "notes", "version": "1.0.0"},
-    }
+ return {
+ "protocolVersion": "2025-11-25",
+ "capabilities": {
+ "tools": {"listChanged": True},
+ "resources": {"listChanged": True, "subscribe": False},
+ "prompts": {"listChanged": False},
+ },
+ "serverInfo": {"name": "notes", "version": "1.0.0"},
+ }
 #### Açıklama
 initialize, sunucunun yeteneklerini ve kimlik bilgilerini istemciye beyan ettiği el sıkışma mesajıdır.
 ```
@@ -119,7 +119,7 @@ app = FastMCP("notes")
 
 @app.tool()
 def notes_search(query: str, limit: int = 10) -> list[dict]:
-    ...
+ ...
 #### Açıklama
 FastMCP, dekoratör tabanlı üst düzey bir MCP sunucu çerçevesidir.
 ```

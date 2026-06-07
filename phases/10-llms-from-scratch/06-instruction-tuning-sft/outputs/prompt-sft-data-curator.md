@@ -54,9 +54,9 @@ Alana özgü modeller için yüzdeleri ayarlayın. Bir kodlama asistanı kod ür
 
 ```json
 {
-  "instruction": "Python'da bir diziyi tersine çeviren bir fonksiyon yaz.",
-  "input": "",
-  "output": "def reverse_string(s):\n    return s[::-1]"
+ "instruction": "Python'da bir diziyi tersine çeviren bir fonksiyon yaz.",
+ "input": "",
+ "output": "def reverse_string(s):\n return s[::-1]"
 }
 ```
 
@@ -66,13 +66,13 @@ Alana özgü modeller için yüzdeleri ayarlayın. Bir kodlama asistanı kod ür
 
 ```json
 {
-  "conversations": [
-    {"from": "system", "value": "Sen bir Python uzmanısın."},
-    {"from": "human", "value": "Bir diziyi nasıl tersine çeviririm?"},
-    {"from": "gpt", "value": "Dilimlemeyi kullanın: s[::-1]"},
-    {"from": "human", "value": "Peki ya bir liste için?"},
-    {"from": "gpt", "value": "Aynı sözdizimi çalışır: my_list[::-1]"}
-  ]
+ "conversations": [
+ {"from": "system", "value": "Sen bir Python uzmanısın."},
+ {"from": "human", "value": "Bir diziyi nasıl tersine çeviririm?"},
+ {"from": "gpt", "value": "Dilimlemeyi kullanın: s[::-1]"},
+ {"from": "human", "value": "Peki ya bir liste için?"},
+ {"from": "gpt", "value": "Aynı sözdizimi çalışır: my_list[::-1]"}
+ ]
 }
 ```
 

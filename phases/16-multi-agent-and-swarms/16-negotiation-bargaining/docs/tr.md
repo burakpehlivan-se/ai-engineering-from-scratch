@@ -32,11 +32,11 @@ Smith'in 1980 tarihli Sözleşme Ağı Protokolü (Contract Net Protocol): bir *
 OG-Narrator ayrıştırması:
 
 ```
-            ┌──────────────────┐        ┌──────────────────┐
-  durum  → │ teklif üreticisi │ fiyat → │  LLM anlatıcı    │ → mesaj
-            │ (deterministik)  │        │  (insan tarzı    │
-            │                  │        │   eşliği yazar)  │
-            └──────────────────┘        └──────────────────┘
+ ┌──────────────────┐ ┌──────────────────┐
+ durum → │ teklif üreticisi │ fiyat → │ LLM anlatıcı │ → mesaj
+ │ (deterministik) │ │ (insan tarzı │
+ │ │ │ eşliği yazar) │
+ └──────────────────┘ └──────────────────┘
 ```
 
 #### Açıklama

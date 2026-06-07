@@ -15,7 +15,7 @@ Bir görev ve onun throughput / determinizm gereksinimleri verildiğinde, swarm 
 2. **Süre dağılımı.** Tekdüze mi yoksa değişken mi? Swarm çoğunlukla değişken-süreli iş yüklerinde kazanır.
 3. **Sıralama gereksinimi.** Sıkı, gevşek veya yok. Swarm sırayı korumaz; denetçi korur.
 4. **Hata ayıklanabilirlik ihtiyacı.** Yüksek (finans, tıp) → denetçi. Orta → görev başına iz ID'leriyle swarm.
-5. **Kuyruk seçimi.** Bellek içi (`queue.Queue`) demolar için; Kafka / Redis Streams / NATS / dayanıklı DB-destekli production için.
+5. **Kuyruk seçimi.** Bellek içi (`queue. Queue`) demolar için; Kafka / Redis Streams / NATS / dayanıklı DB-destekli production için.
 6. **İşçi tasarım gereksinimleri.** Idempotent (tekrar-tekrar-aynı-sonuç) olmalı; görev başına iz yayınlamalı; back-pressure (geri-basınç) ile başa çıkmalı.
 7. **Anti-açlık planı.** Öncelik yaşlandırma, işçi uzmanlaşması, sınırlı kuyruk.
 8. **Gözlemlenebilirlik planı.** Görev başına ID'ler, başlangıç/bitiş olayları, sonuç havuzu şeması.

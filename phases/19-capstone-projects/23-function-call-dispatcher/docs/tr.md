@@ -21,18 +21,18 @@
 
 ```mermaid
 flowchart TD
-    loop[harness loop]
-    disp[dispatcher]
-    reg[tool registry]
-    handler[handler]
-    loop --> disp
-    disp -->|get name| reg
-    disp -->|validate args| reg
-    disp -->|asyncio.wait_for handler args timeout| handler
-    handler -->|success| disp
-    handler -->|TimeoutError -> retry or fail| disp
-    handler -->|Exception -> map to error code| disp
-    disp -->|Ok result or DispatchError| loop
+ loop[harness loop]
+ disp[dispatcher]
+ reg[tool registry]
+ handler[handler]
+ loop --> disp
+ disp -->|get name| reg
+ disp -->|validate args| reg
+ disp -->|asyncio.wait_for handler args timeout| handler
+ handler -->|success| disp
+ handler -->|TimeoutError -> retry or fail| disp
+ handler -->|Exception -> map to error code| disp
+ disp -->|Ok result or DispatchError| loop
 ```
 
 #### Açıklama
@@ -51,9 +51,9 @@ Zaman aşımı, idempotent olmayan araçlar için varsayılan olarak yeniden den
 Yeniden deneme politikası en fazla üç denemedir. Geri çekilme, sarsıntı ile üsteldir.
 
 ```text
-deneme 1  -> gecikme 0
-deneme 2  -> gecikme 0.1s * (1 + random[0..0.5])
-deneme 3  -> gecikme 0.4s * (1 + random[0..0.5])
+deneme 1 -> gecikme 0
+deneme 2 -> gecikme 0.1s * (1 + random[0..0.5])
+deneme 3 -> gecikme 0.4s * (1 + random[0..0.5])
 ```
 
 #### Açıklama
@@ -77,10 +77,10 @@ Başarısız bir dağıtım tek bir biçim döndürür.
 
 ```text
 DispatchError
-  kind        : "timeout" | "transient" | "schema" | "not_found" | "internal" | "budget_exceeded"
-  message     : str
-  attempts    : int
-  jsonrpc_code: int   (-32601, -32602, -32603 biri)
+ kind : "timeout" | "transient" | "schema" | "not_found" | "internal" | "budget_exceeded"
+ message : str
+ attempts : int
+ jsonrpc_code: int (-32601, -32602, -32603 biri)
 ```
 
 #### Açıklama
@@ -96,36 +96,36 @@ Dağıtıcı `gather`'ı bir semafor içine sarar. Varsayılan eşzamanlılık l
 
 ```mermaid
 flowchart TD
-    start([caller: dispatch name, args, opts])
-    validate[registry.validate name, args]
-    schema_err[DispatchError kind=schema]
-    idem_check{idempotency cache?}
-    in_flight[await existing future]
-    cached[return cached result]
-    attempt[asyncio.wait_for handler args, timeout]
-    success[cache + return result]
-    timeout_branch{TimeoutError + idempotent?}
-    retry[retry with backoff]
-    fail[DispatchError]
-    transient_branch{TransientError?}
-    other[map Exception to kind, no retry]
-    exhausted[DispatchError]
+ start([caller: dispatch name, args, opts])
+ validate[registry.validate name, args]
+ schema_err[DispatchError kind=schema]
+ idem_check{idempotency cache?}
+ in_flight[await existing future]
+ cached[return cached result]
+ attempt[asyncio.wait_for handler args, timeout]
+ success[cache + return result]
+ timeout_branch{TimeoutError + idempotent?}
+ retry[retry with backoff]
+ fail[DispatchError]
+ transient_branch{TransientError?}
+ other[map Exception to kind, no retry]
+ exhausted[DispatchError]
 
-    start --> validate
-    validate -->|errors| schema_err
-    validate -->|ok| idem_check
-    idem_check -->|hit in flight| in_flight
-    idem_check -->|hit recent| cached
-    idem_check -->|miss| attempt
-    attempt --> success
-    attempt --> timeout_branch
-    timeout_branch -->|yes| retry
-    timeout_branch -->|no| fail
-    attempt --> transient_branch
-    transient_branch -->|yes, attempts left| retry
-    transient_branch -->|exhausted| exhausted
-    attempt --> other
-    retry --> attempt
+ start --> validate
+ validate -->|errors| schema_err
+ validate -->|ok| idem_check
+ idem_check -->|hit in flight| in_flight
+ idem_check -->|hit recent| cached
+ idem_check -->|miss| attempt
+ attempt --> success
+ attempt --> timeout_branch
+ timeout_branch -->|yes| retry
+ timeout_branch -->|no| fail
+ attempt --> transient_branch
+ transient_branch -->|yes, attempts left| retry
+ transient_branch -->|exhausted| exhausted
+ attempt --> other
+ retry --> attempt
 ```
 
 #### Açıklama

@@ -31,19 +31,19 @@ Kurallar yukarıdan aşağıya tetiklenir; ilk eşleşme kazanır. Hiçbiri eşl
 
 ```
 [tracker]
-  name:          <ByteTrack | BoT-SORT | DeepSORT | StrongSORT | OC-SORT | SORT | SAM 2 | SAM 3.1 Object Multiplex | Btrack | TrackMate>
-  detector:      YOLOv8 / RT-DETR / Mask R-CNN / SAM 3
-  appearance:    none | ReID-256 | ReID-512
+ name: <ByteTrack | BoT-SORT | DeepSORT | StrongSORT | OC-SORT | SORT | SAM 2 | SAM 3.1 Object Multiplex | Btrack | TrackMate>
+ detector: YOLOv8 / RT-DETR / Mask R-CNN / SAM 3
+ appearance: none | ReID-256 | ReID-512
 
 [config]
-  track thresh:       <float>
-  match thresh:       <float>
-  max_age:            <int çerçeve>
-  min_box_area:       <px^2>
+ track thresh: <float>
+ match thresh: <float>
+ max_age: <int çerçeve>
+ min_box_area: <px^2>
 
 [metrics to report]
-  primary:      MOTA | IDF1 | HOTA
-  secondary:    ID-switches, FN, FP
+ primary: MOTA | IDF1 | HOTA
+ secondary: ID-switches, FN, FP
 ```
 
 ## Kurallar

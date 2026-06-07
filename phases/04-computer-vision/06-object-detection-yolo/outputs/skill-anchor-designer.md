@@ -34,9 +34,9 @@ tags: [bilgisayarlı-gör, tespit, çapalar, kmeans]
 3. **Kümeleri alana göre artan sırayla sırala.** `num_anchors_per_level` ile `num_fpn_levels` grubuna böl. En küçük alanlar en yüksek çözünürlüklü seviyeye (en küçük stride) gider.
 
 4. **Seviye başına kapsam istatistiklerini hesapla**:
-   - O seviyedeki en iyi çapasına göre her temel gerçeklik kutusunun `median IoU`'su.
-   - `recall@IoU=0.5` — en iyi çapasının IoU >= 0.5 olduğu kutuların yüzdesi.
-   - `area coverage` — alanı seviyenin `[anchor_min_area / 4, anchor_max_area * 4]` aralığına düşen kutuların oranı.
+ - O seviyedeki en iyi çapasına göre her temel gerçeklik kutusunun `median IoU`'su.
+ - `recall@IoU=0.5` — en iyi çapasının IoU >= 0.5 olduğu kutuların yüzdesi.
+ - `area coverage` — alanı seviyenin `[anchor_min_area / 4, anchor_max_area * 4]` aralığına düşen kutuların oranı.
 
 5. **Seviye başına çapaları raporla** ve `recall@IoU=0.5 < 0.9` olan seviyeleri işaretle; o seviyenin çapaları verilerle iyi eşleşmiyor ve yeniden ayarlanmalı veya seviye başına çapa sayısı artırılmalıdır.
 
@@ -44,25 +44,25 @@ tags: [bilgisayarlı-gör, tespit, çapalar, kmeans]
 
 ```
 [anchor-designer]
-  total boxes:         <N>
-  clusters:            <k>
-  distance metric:     1 - IoU
+ total boxes: <N>
+ clusters: <k>
+ distance metric: 1 - IoU
 
-[level P3  stride=8]
-  anchors (w, h):      [(A, B), (C, D), (E, F)]
-  median IoU:          <X>
-  recall@IoU=0.5:      <X>
-  coverage:            <X>
-  flag:                ok | retune
+[level P3 stride=8]
+ anchors (w, h): [(A, B), (C, D), (E, F)]
+ median IoU: <X>
+ recall@IoU=0.5: <X>
+ coverage: <X>
+ flag: ok | retune
 
-[level P4  stride=16]
-  ...
+[level P4 stride=16]
+ ...
 
 [summary]
-  overall recall@IoU=0.5: <X>
-  smallest anchor:        <w x h>
-  largest anchor:         <w x h>
-  recommendation:         <herhangi bir seviye işaretlendiyse tek cümle>
+ overall recall@IoU=0.5: <X>
+ smallest anchor: <w x h>
+ largest anchor: <w x h>
+ recommendation: <herhangi bir seviye işaretlendiyse tek cümle>
 ```
 
 ## Kurallar

@@ -30,15 +30,15 @@ Faz 13'teki tüm primitifler burada. Bu bir oyuncak değil — Anthropic (Claude
 
 ```
 [kullanıcı] -> [istemci] -> [ağ geçidi (OAuth 2.1 + RBAC)] -> [araştırma MCP sunucusu]
-                                                         |
-                                                         +- MCP aracı: arxiv_search (saf)
-                                                         +- MCP kaynağı: notes://recent
-                                                         +- MCP istemi: /research_topic
-                                                         +- MCP görevi: generate_report (uzun)
-                                                         +- MCP Apps UI: ui://report/current
-                                                         +- A2A çağrısı: writer-agent (tasks/send)
-                                                         |
-                                                         +- OTel GenAI aralıkları
+ |
+ +- MCP aracı: arxiv_search (saf)
+ +- MCP kaynağı: notes://recent
+ +- MCP istemi: /research_topic
+ +- MCP görevi: generate_report (uzun)
+ +- MCP Apps UI: ui://report/current
+ +- A2A çağrısı: writer-agent (tasks/send)
+ |
+ +- OTel GenAI aralıkları
 ```
 
 ### İz hiyerarşisi
@@ -50,10 +50,10 @@ agent.invoke_agent
  ├── mcp.call -> resources/read notes://recent
  ├── mcp.call -> prompts/get research_topic
  ├── a2a.tasks/send -> writer-agent
- │    └── görev geçişleri (opak içler)
+ │ └── görev geçişleri (opak içler)
  ├── mcp.call -> tools/call generate_report (görev-artırılmış)
- │    └── tasks/status sorgulaması
- │    └── tasks/result (tamamlandı, ui:// kaynağı döndürür)
+ │ └── tasks/status sorgulaması
+ │ └── tasks/result (tamamlandı, ui:// kaynağı döndürür)
  └── llm.chat (son sentez)
 ```
 
@@ -77,18 +77,18 @@ Tümü şu şekilde yayınlanır:
 
 ```
 research-system/
-  AGENTS.md                     # proje kuralları
-  skills/
-    run-research/
-      SKILL.md                  # üst düzey iş akışı
-  servers/
-    research-mcp/               # MCP sunucusu
-      pyproject.toml
-      src/
-  agents/
-    writer/                     # A2A ajanı
-  gateway/
-    config.yaml                 # RBAC + sabitlenmiş manifest
+ AGENTS.md # proje kuralları
+ skills/
+ run-research/
+ SKILL.md # üst düzey iş akışı
+ servers/
+ research-mcp/ # MCP sunucusu
+ pyproject.toml
+ src/
+ agents/
+ writer/ # A2A ajanı
+ gateway/
+ config.yaml # RBAC + sabitlenmiş manifest
 ```
 
 Kullanıcılar `docker compose up` ile dağıtır. Claude Code, Cursor, Codex ve opencode kullanıcıları `run-research` yeteneğini çağırarak sistemi sürebilir.

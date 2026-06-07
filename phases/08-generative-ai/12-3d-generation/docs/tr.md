@@ -66,22 +66,22 @@ Neural Radiance Field (Mildenhall ve ark., 2020). Küçük bir MLP `(x, y, z, ba
 
 ```python
 def gaussian_at(x, y, gaussian):
-    px, py = gaussian["pos"]
-    sigma = gaussian["sigma"]
-    d2 = (x - px) ** 2 + (y - py) ** 2
-    return math.exp(-d2 / (2 * sigma * sigma))
+ px, py = gaussian["pos"]
+ sigma = gaussian["sigma"]
+ d2 = (x - px) ** 2 + (y - py) ** 2
+ return math.exp(-d2 / (2 * sigma * sigma))
 ```
 
 ### Adım 2: splat'ları toplayarak render
 
 ```python
 def render(image_size, gaussians):
-    img = [[0.0] * image_size for _ in range(image_size)]
-    for g in gaussians:
-        for y in range(image_size):
-            for x in range(image_size):
-                img[y][x] += g["color"] * gaussian_at(x, y, g)
-    return img
+ img = [[0.0] * image_size for _ in range(image_size)]
+ for g in gaussians:
+ for y in range(image_size):
+ for x in range(image_size):
+ img[y][x] += g["color"] * gaussian_at(x, y, g)
+ return img
 ```
 
 #### Açıklama
@@ -92,10 +92,10 @@ Gerçek 3D Gaussian splatting, Gaussian'ları derinliğe göre sıralar ve sıra
 
 ```python
 for step in range(steps):
-    pred = render(size, gaussians)
-    loss = mse(pred, target)
-    gradients = compute_grads(pred, target, gaussians)
-    update(gaussians, gradients, lr)
+ pred = render(size, gaussians)
+ loss = mse(pred, target)
+ gradients = compute_grads(pred, target, gaussians)
+ update(gaussians, gradients, lr)
 ```
 
 ## Tuzaklar

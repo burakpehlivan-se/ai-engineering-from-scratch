@@ -37,8 +37,8 @@ Tüm metrikler [0,0, 1,0] aralığında float döner. Görev puanı ortalamadır
 
 ```python
 class Adapter(Protocol):
-    name: str
-    def generate(self, prompts: list[str]) -> list[str]: ...
+ name: str
+ def generate(self, prompts: list[str]) -> list[str]: ...
 ```
 
 Adaptör, tek modele özgü koddur.

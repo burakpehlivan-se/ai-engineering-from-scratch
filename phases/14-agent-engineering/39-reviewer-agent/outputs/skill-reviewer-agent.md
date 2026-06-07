@@ -37,7 +37,7 @@ Refusal kuralları:
 ├── agents/reviewer.md
 ├── tools/reviewer.py
 ├── outputs/review/
-│   └── <task_id>.json
+│ └── <task_id>.json
 ├── docs/reviewer-rubric.md
 └── .github/workflows/review.yml
 ```

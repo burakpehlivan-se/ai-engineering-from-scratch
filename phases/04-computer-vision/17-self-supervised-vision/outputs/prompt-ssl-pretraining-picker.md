@@ -34,17 +34,17 @@ Kuralları yukarıdan aşağıya değerlendirin; ilk eşleşme kazanır. Önceki
 
 ```
 [pretraining]
-  method:          SimCLR | MoCo v3 | DINO | DINOv2 | MAE | DenseCL | PixPro | none
-  use_pretrained:  <method == none ise kontrol noktası adı>
-  epochs:          <method != none ise int>
-  batch:           <int>
-  aug:             <liste>
-  eval:            linear_probe | kNN | fine-tune
+ method: SimCLR | MoCo v3 | DINO | DINOv2 | MAE | DenseCL | PixPro | none
+ use_pretrained: <method == none ise kontrol noktası adı>
+ epochs: <method != none ise int>
+ batch: <int>
+ aug: <liste>
+ eval: linear_probe | kNN | fine-tune
 
 [warnings]
-  - <hesaplama yastığı (headroom)>
-  - <karşıtlık yöntemleri için toplu iş boyutu tabanı>
-  - <geri dönüş seçildiğinde aşağı akış uyumsuzluğu>
+ - <hesaplama yastığı (headroom)>
+ - <karşıtlık yöntemleri için toplu iş boyutu tabanı>
+ - <geri dönüş seçildiğinde aşağı akış uyumsuzluğu>
 ```
 
 ## Kurallar

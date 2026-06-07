@@ -34,7 +34,7 @@ Yama boyutu kaldıraçtır. Daha küçük yamalar = daha fazla token, daha iyi �
 
 ### Adım 2 — doğrusal gömme (linear embedding)
 
-Öğrenilmiş tek bir matris, her düz yamayı `d_model` boyutuna projekte eder. `P` çekirdek (kernel) boyutlu ve `P` adım (stride) genişliğinde bir konvolüsyonla eşdeğerdir. PyTorch'ta bu kelimenin tam anlamıyla `nn.Conv2d(C, d_model, kernel_size=P, stride=P)`'dir — 2 satırlık bir uygulama.
+Öğrenilmiş tek bir matris, her düz yamayı `d_model` boyutuna projekte eder. `P` çekirdek (kernel) boyutlu ve `P` adım (stride) genişliğinde bir konvolüsyonla eşdeğerdir. PyTorch'ta bu kelimenin tam anlamıyla `nn. Conv2d(C, d_model, kernel_size=P, stride=P)`'dir — 2 satırlık bir uygulama.
 
 ### Adım 3 — `[CLS]` token'ı başına ekle, konumsal gömmeleri ekle
 
@@ -78,17 +78,17 @@ ViT, CNN'lerin hiçbir endüksiyon önyargısını (translation invariance, loca
 
 ```python
 def patchify(image, P):
-    H = len(image)
-    W = len(image[0])
-    patches = []
-    for i in range(0, H, P):
-        for j in range(0, W, P):
-            patch = []
-            for di in range(P):
-                for dj in range(P):
-                    patch.extend(image[i + di][j + dj])
-            patches.append(patch)
-    return patches
+ H = len(image)
+ W = len(image[0])
+ patches = []
+ for i in range(0, H, P):
+ for j in range(0, W, P):
+ patch = []
+ for di in range(P):
+ for dj in range(P):
+ patch.extend(image[i + di][j + dj])
+ patches.append(patch)
+ return patches
 ```
 
 #### Açıklama
@@ -116,8 +116,8 @@ model = ViTModel.from_pretrained("google/vit-base-patch16-224-in21k")
 
 img = Image.open("cat.jpg")
 inputs = processor(img, return_tensors="pt")
-out = model(**inputs).last_hidden_state   # (1, 197, 768): [CLS] + 196 patches
-cls_emb = out[:, 0]                       # image representation
+out = model(**inputs).last_hidden_state # (1, 197, 768): [CLS] + 196 patches
+cls_emb = out[:, 0] # image representation
 ```
 
 #### Açıklama

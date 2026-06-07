@@ -31,10 +31,10 @@ Birincisi doğrulanmamış geçiştir. Ajan hatayı düzelttiğini söyler, insa
 
 ```mermaid
 flowchart LR
-  F1[fixtures/task_001/<br/>task.json + expected/] --> Harness
-  F2[fixtures/task_002/<br/>...] --> Harness
-  Harness[Harness<br/>for each task:<br/>setup / run agent k samples /<br/>verify each sample /<br/>record latency, cost]
-  Harness --> Report[EvalReport<br/>pass@1 / pass@k<br/>mean ms / p95 ms<br/>mean cost]
+ F1[fixtures/task_001/<br/>task.json + expected/] --> Harness
+ F2[fixtures/task_002/<br/>...] --> Harness
+ Harness[Harness<br/>for each task:<br/>setup / run agent k samples /<br/>verify each sample /<br/>record latency, cost]
+ Harness --> Report[EvalReport<br/>pass@1 / pass@k<br/>mean ms / p95 ms<br/>mean cost]
 ```
 
 #### Açıklama
@@ -56,10 +56,10 @@ Birincisi `file_equals`'dır. Ajan çalıştıktan sonra, adlandırılmış bir 
 
 ```mermaid
 flowchart TD
-  Harness[EvalHarness] -->|load| Task[FixtureTask<br/>goal / setup / verifier]
-  Harness --> Loop[her görev için:<br/>setup'tan scratch dizini hazırla<br/>range(k) içindeki örnek için:<br/>adayı çalıştır, scratch_dir -> SampleResult<br/>örneği doğrula, task -> bool<br/>görev başına toplamı kaydet]
-  Loop --> TaskReport[TaskReport<br/>task_id / k / passes / pass_rate<br/>mean_latency / mean_cost]
-  TaskReport -->|aggregate| EvalReport[EvalReport<br/>total tasks / pass@1 / pass@k / p95 latency]
+ Harness[EvalHarness] -->|load| Task[FixtureTask<br/>goal / setup / verifier]
+ Harness --> Loop[her görev için:<br/>setup'tan scratch dizini hazırla<br/>range(k) içindeki örnek için:<br/>adayı çalıştır, scratch_dir -> SampleResult<br/>örneği doğrula, task -> bool<br/>görev başına toplamı kaydet]
+ Loop --> TaskReport[TaskReport<br/>task_id / k / passes / pass_rate<br/>mean_latency / mean_cost]
+ TaskReport -->|aggregate| EvalReport[EvalReport<br/>total tasks / pass@1 / pass@k / p95 latency]
 ```
 
 #### Açıklama
@@ -77,11 +77,11 @@ Aday, çağrılabilir bir şeydir: `Callable[[FixtureTask, str], SampleResult]`.
 4. Doğrulayıcı adını fonksiyona eşleyen `VerifierRegistry`. Yerleşik doğrulayıcılar: file_equals, regex_match, shell_exit_zero.
 5. `EvalHarness` sınıfı. Bir adaya karşı bir görev dizini çalıştırır. EvalReport döndürür.
 6. `tasks/` içinde paketlenmiş beş sabit görev:
-   - `fizzbuzz`'ta off-by-one
-   - `factorial`'da eksik dönüş
-   - hata mesajında yazım hatası
-   - boş fonksiyon gövdesi
-   - bağlı liste geçişinde off-by-one
+ - `fizzbuzz`'ta off-by-one
+ - `factorial`'da eksik dönüş
+ - hata mesajında yazım hatası
+ - boş fonksiyon gövdesi
+ - bağlı liste geçişinde off-by-one
 7. Çerçevenin 1.0'lık temiz bir pass@1'i göstermek için kullandığı deterministik bir referans aday (`apply_known_fixes`).
 8. Demo, EvalReport JSON'unu yazdırır ve sıfır kodla çıkar.
 

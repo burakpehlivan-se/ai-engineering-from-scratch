@@ -28,17 +28,17 @@ Docker, kodunuzu, çalışma zamanınızı, kütüphanelerinizi ve sistem araçl
 
 ```mermaid
 graph TD
-    subgraph without["Docker Olmadan"]
-        A1["Makineniz<br/>Python 3.12<br/>CUDA 12.4<br/>PyTorch 2.3"] -->|çöküyor| X1["???"]
-        A2["Onun makinesi<br/>Python 3.10<br/>CUDA 11.8<br/>PyTorch 2.1"] -->|çöküyor| X2["???"]
-        A3["Sunucu<br/>Python 3.11<br/>CUDA 12.1<br/>PyTorch 2.2"] -->|çöküyor| X3["???"]
-    end
+ subgraph without["Docker Olmadan"]
+ A1["Makineniz<br/>Python 3.12<br/>CUDA 12.4<br/>PyTorch 2.3"] -->|çöküyor| X1["???"]
+ A2["Onun makinesi<br/>Python 3.10<br/>CUDA 11.8<br/>PyTorch 2.1"] -->|çöküyor| X2["???"]
+ A3["Sunucu<br/>Python 3.11<br/>CUDA 12.1<br/>PyTorch 2.2"] -->|çöküyor| X3["???"]
+ end
 
-    subgraph with_docker["Docker ile — Her yerde aynı imaj"]
-        B1["Makineniz<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
-        B2["Onun makinesi<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
-        B3["Sunucu<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
-    end
+ subgraph with_docker["Docker ile — Her yerde aynı imaj"]
+ B1["Makineniz<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
+ B2["Onun makinesi<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
+ B3["Sunucu<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Kodunuz"]
+ end
 ```
 
 ### Neden yapay zeka projeleri çoğundan daha çok Docker'a ihtiyaç duyar
@@ -63,16 +63,16 @@ graph TD
 
 ```
 Geliştirme Konteynerı
-  Tam araç seti. Düzenleyici desteği. Jupyter. Hata ayıklama araçları.
-  Geliştirme ve deneme sırasında kullanılır.
+ Tam araç seti. Düzenleyici desteği. Jupyter. Hata ayıklama araçları.
+ Geliştirme ve deneme sırasında kullanılır.
 
 Eğitim Konteynerı
-  Asgari. Sadece eğitim betiği ve bağımlılıkları.
-  GPU kümelerinde çalıştırılır. Düzenleyici, Jupyter yok.
+ Asgari. Sadece eğitim betiği ve bağımlılıkları.
+ GPU kümelerinde çalıştırılır. Düzenleyici, Jupyter yok.
 
 Çıkarma Konteynerı
-  Sunum için optimize edilmiş. Küçük imaj. Hızlı soğuk başlatma.
-  Üretimde dengeleyici arkasında çalıştırılır.
+ Sunum için optimize edilmiş. Küçük imaj. Hızlı soğuk başlatma.
+ Üretimde dengeleyici arkasında çalıştırılır.
 ```
 
 ## Uygulama
@@ -108,8 +108,8 @@ Bu, Docker konteynerlarının GPU'nıza erişmesini sağlar. macOS ve Windows (W
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+ sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+ sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
 sudo apt-get update
 sudo apt-get install -y nvidia-container-toolkit
@@ -131,24 +131,24 @@ Doğru temel imajı seçmek saatlerce hata ayıklamadan kurtarır.
 
 ```
 nvidia/cuda:12.4.1-devel-ubuntu22.04
-  Tam CUDA araç seti. Derleyiciler dahil.
-  nvcc gerektiren paketleri derlemek için kullanın (flash-attn, bitsandbytes)
-  Boyut: ~4 GB
+ Tam CUDA araç seti. Derleyiciler dahil.
+ nvcc gerektiren paketleri derlemek için kullanın (flash-attn, bitsandbytes)
+ Boyut: ~4 GB
 
 nvidia/cuda:12.4.1-runtime-ubuntu22.04
-  Sadece çalışma zamanı. Derleyici yok.
-  Önceden derlenmiş kodu çalıştırmak için kullanın
-  Boyut: ~1.5 GB
+ Sadece çalışma zamanı. Derleyici yok.
+ Önceden derlenmiş kodu çalıştırmak için kullanın
+ Boyut: ~1.5 GB
 
 pytorch/pytorch:2.3.1-cuda12.4-cudnn9-runtime
-  CUDA üzerine önceden yüklenmiş PyTorch.
-  PyTorch kurulum adımını atlamak için kullanın
-  Boyut: ~6 GB
+ CUDA üzerine önceden yüklenmiş PyTorch.
+ PyTorch kurulum adımını atlamak için kullanın
+ Boyut: ~6 GB
 
 python:3.12-slim
-  CUDA yok. Sadece CPU.
-  CPU'da çıkarma, hafif araçlar için kullanın
-  Boyut: ~150 MB
+ CUDA yok. Sadece CPU.
+ CPU'da çıkarma, hafif araçlar için kullanın
+ Boyut: ~150 MB
 ```
 
 ### Adım 4: Yapay zeka geliştirme için Dockerfile yazın
@@ -162,35 +162,35 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.12 \
-    python3.12-venv \
-    python3.12-dev \
-    python3-pip \
-    git \
-    curl \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+ python3.12 \
+ python3.12-venv \
+ python3.12-dev \
+ python3-pip \
+ git \
+ curl \
+ build-essential \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
 
 RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel
 
 RUN python -m pip install --no-cache-dir \
-    torch==2.3.1 \
-    torchvision==0.18.1 \
-    torchaudio==2.3.1 \
-    --index-url https://download.pytorch.org/whl/cu124
+ torch==2.3.1 \
+ torchvision==0.18.1 \
+ torchaudio==2.3.1 \
+ --index-url https://download.pytorch.org/whl/cu124
 
 RUN python -m pip install --no-cache-dir \
-    numpy \
-    pandas \
-    scikit-learn \
-    matplotlib \
-    jupyter \
-    transformers \
-    datasets \
-    accelerate \
-    safetensors
+ numpy \
+ pandas \
+ scikit-learn \
+ matplotlib \
+ jupyter \
+ transformers \
+ datasets \
+ accelerate \
+ safetensors
 
 WORKDIR /workspace
 
@@ -216,19 +216,19 @@ Bu ilk seferde biraz zaman alır (CUDA temel imajı + PyTorch indirme). Sonraki 
 
 ```bash
 docker run --rm -it --gpus all \
-    -v $(pwd):/workspace \
-    -v ~/models:/models \
-    ai-dev python -c "import torch; print(f'PyTorch {torch.__version__}, CUDA: {torch.cuda.is_available()}')"
+ -v $(pwd):/workspace \
+ -v ~/models:/models \
+ ai-dev python -c "import torch; print(f'PyTorch {torch.__version__}, CUDA: {torch.cuda.is_available()}')"
 ```
 
 Konteyner içinde Jupyter çalıştırın:
 
 ```bash
 docker run --rm -it --gpus all \
-    -v $(pwd):/workspace \
-    -v ~/models:/models \
-    -p 8888:8888 \
-    ai-dev jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+ -v $(pwd):/workspace \
+ -v ~/models:/models \
+ -p 8888:8888 \
+ ai-dev jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
 
 ### Adım 5: Veri ve modeller için birim bağları
@@ -264,37 +264,37 @@ Gerçek bir RAG uygulaması bir çıkarma sunucusu ve bir vektör veritabanı ge
 
 ```yaml
 services:
-  ai-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    volumes:
-      - ../../../:/workspace
-      - ~/models:/models
-      - ~/datasets:/data
-    ports:
-      - "8888:8888"
-    stdin_open: true
-    tty: true
-    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+ ai-dev:
+ build:
+ context: .
+ dockerfile: Dockerfile
+ deploy:
+ resources:
+ reservations:
+ devices:
+ - driver: nvidia
+ count: all
+ capabilities: [gpu]
+ volumes:
+ - ../../../:/workspace
+ - ~/models:/models
+ - ~/datasets:/data
+ ports:
+ - "8888:8888"
+ stdin_open: true
+ tty: true
+ command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 
-  qdrant:
-    image: qdrant/qdrant:v1.12.5
-    ports:
-      - "6333:6333"
-      - "6334:6334"
-    volumes:
-      - qdrant_data:/qdrant/storage
+ qdrant:
+ image: qdrant/qdrant:v1.12.5
+ ports:
+ - "6333:6333"
+ - "6334:6334"
+ volumes:
+ - qdrant_data:/qdrant/storage
 
 volumes:
-  qdrant_data:
+ qdrant_data:
 ```
 
 Tümünü başlatın:

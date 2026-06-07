@@ -30,22 +30,22 @@ Kurallar yukarıdan aşağıya tetiklenir; ilk eşleşme kazanır. Lisans kısı
 
 ```
 [stack]
-  model:       <isim>
-  backend:     <transformers / ultralytics / mmseg>
-  precision:   float16 | bfloat16 | int8
+ model: <isim>
+ backend: <transformers / ultralytics / mmseg>
+ precision: float16 | bfloat16 | int8
 
 [pipeline]
-  1. <preprocess>
-  2. <inference>
-  3. <postprocess (NMS, RLE encode, tracking association)>
+ 1. <preprocess>
+ 2. <inference>
+ 3. <postprocess (NMS, RLE encode, tracking association)>
 
 [expected latency]
-  hedef donanım için p50 / p95 tahminleri
+ hedef donanım için p50 / p95 tahminleri
 
 [caveats]
-  - lisans notları
-  - kavram seti sınırlamaları
-  - bilinen başarısızlık modları
+ - lisans notları
+ - kavram seti sınırlamaları
+ - bilinen başarısızlık modları
 ```
 
 ## Kurallar

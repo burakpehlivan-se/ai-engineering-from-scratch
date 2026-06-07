@@ -28,16 +28,16 @@ Bu ders CPU'da çalışır. CUDA varsayılmaz. `gloo` arka ucu her PyTorch derle
 
 ```mermaid
 flowchart TB
-  init[0. sıra süreci] --> seed[0. sırada modeli seed'le]
-  init --> spawn[1..N-1 sıralarını doğur]
-  spawn --> pg[init_process_group: arka uç, world_size, master_addr, master_port]
-  pg --> bcast[model parametrelerini 0. sıradan yayınla]
-  bcast --> loop[sıra başına eğitim döngüsü]
-  loop --> shard[her sıra: batch'in kendi dilimi]
-  shard --> fwd[yerel olarak ileri + geri]
-  fwd --> ar[gradyanları all_reduce, world_size'a böl]
-  ar --> step[her sırada aynı gradyanla optimizer.step]
-  step --> loop
+ init[0. sıra süreci] --> seed[0. sırada modeli seed'le]
+ init --> spawn[1.. N-1 sıralarını doğur]
+ spawn --> pg[init_process_group: arka uç, world_size, master_addr, master_port]
+ pg --> bcast[model parametrelerini 0. sıradan yayınla]
+ bcast --> loop[sıra başına eğitim döngüsü]
+ loop --> shard[her sıra: batch'in kendi dilimi]
+ shard --> fwd[yerel olarak ileri + geri]
+ fwd --> ar[gradyanları all_reduce, world_size'a böl]
+ ar --> step[her sırada aynı gradyanla optimizer.step]
+ step --> loop
 ```
 
 ### Önemli olan iki kolektif
@@ -58,16 +58,16 @@ N sıra üzerinden B örneklik bir batch üzerinde eğitilmiş bir model, N*B ü
 
 ```mermaid
 flowchart LR
-  param[tam parametre] --> split[N eşit düz dilime böl]
-  split --> r0[0. sıra 0. dilimi tutar]
-  split --> r1[1. sıra 1. dilimi tutar]
-  split --> rN[N-1. sıra N-1. dilimi tutar]
-  r0 --> gather[ileri geçişten önce all_gather]
-  r1 --> gather
-  rN --> gather
-  gather --> full[her sırada tam tensör]
-  full --> fwd[bu katman üzerinden ileri]
-  fwd --> drop[tam tensörü düşür, yalnızca dilimi tut]
+ param[tam parametre] --> split[N eşit düz dilime böl]
+ split --> r0[0. sıra 0. dilimi tutar]
+ split --> r1[1. sıra 1. dilimi tutar]
+ split --> rN[N-1. sıra N-1. dilimi tutar]
+ r0 --> gather[ileri geçişten önce all_gather]
+ r1 --> gather
+ rN --> gather
+ gather --> full[her sırada tam tensör]
+ full --> fwd[bu katman üzerinden ileri]
+ fwd --> drop[tam tensörü düşür, yalnızca dilimi tut]
 ```
 
 Bellek kazancı kesindir: parametreler için sıra başına bellek 1/N'e düşer. Maliyet toplama işlemidir, bu da her ileri geçişte ödenir. Üretim FSDP'si, toplamayı önceki katmanın hesaplamasıyla örtüştürür, böylece duvar saati maliyeti naif muhasebenin öngördüğünden çok daha küçüktür. Ders, her parametrede gidiş-dönüşü yapar ve yeniden oluşturmanın orijinaline bit-eşit olduğunu iddia eder.
@@ -98,11 +98,11 @@ dist.init_process_group(backend="gloo", rank=rank, world_size=world_size)
 
 ```python
 def all_reduce_grads_(module, world_size):
-    for p in module.parameters():
-        if p.grad is None:
-            p.grad = torch.zeros_like(p.data)
-        dist.all_reduce(p.grad.data, op=dist.ReduceOp.SUM)
-        p.grad.data.div_(world_size)
+ for p in module.parameters():
+ if p.grad is None:
+ p.grad = torch.zeros_like(p.data)
+ dist.all_reduce(p.grad.data, op=dist. ReduceOp. SUM)
+ p.grad.data.div_(world_size)
 ```
 
 Her sıra aynı ortalaması alınmış gradyanla biter. Optimize edici adımı artık her sırada aynı girişin bir fonksiyonudur; bu, parametrelerin çalıştırma boyunca senkronize kalmasının nedenidir.
@@ -138,7 +138,7 @@ PyTorch'un FSDP'si şunları ekler: her sıranın bir bitişik arabellek tutmas�
 ## Alıştırmalar
 
 1. `--world-size 4` ile çalıştırın ve param yayılımının çalıştırma boyunca 1e-3'ün altında kaldığını doğrulayın.
-2. Manuel ortalamayı `dist.all_reduce(op=dist.ReduceOp.AVG)` ile değiştirin ve zaman farkını ölçün.
+2. Manuel ortalamayı `dist.all_reduce(op=dist. ReduceOp. AVG)` ile değiştirin ve zaman farkını ölçün.
 3. DDP sarmalayıcısına bir geri geçiş sonrası kanca ekleyin, böylece all-reduce geri geçişin geri kalanıyla örtüşür; duvar saati iyileşmesini ölçün.
 4. FSDP yeniden parçalama adımını uygulayın: ileri geçişten sonra, tam tensörü yine yerel parçayla değiştirin. Sıra başına belleğin düştüğünü doğrulayın.
 5. Arka ucu bir CUDA kutusunda `nccl`'ye geçirin. Hangi ortam değişkenlerinin değiştiğini ve hangilerinin aynı kaldığını not edin.

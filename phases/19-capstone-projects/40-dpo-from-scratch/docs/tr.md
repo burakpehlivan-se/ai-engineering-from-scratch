@@ -36,7 +36,7 @@ P(y_w > y_l | x) = sigmoid( r(x, y_w) - r(x, y_l) )
 Burada `r` gizli bir ödül fonksiyonudur. RLHF önce tercihlerden `r` uydurur, sonra bir `pi` politikasını KL çapasıyla `r`'yi en üst düzeye çıkaracak şekilde eğitir:
 
 ```text
-max_pi   E_{x, y~pi} [ r(x, y) ] - beta * KL(pi || pi_ref)
+max_pi E_{x, y~pi} [ r(x, y) ] - beta * KL(pi || pi_ref)
 ```
 
 DPO türetmesi, bu amaç altında optimal politika `pi*`'nin `r` cinsinden kapalı bir formu olduğunu gözlemler:
@@ -55,15 +55,15 @@ r(x, y) = beta * ( log pi*(y | x) - log pi_ref(y | x) ) + beta * log Z(x)
 
 ```text
 r(x, y_w) - r(x, y_l) = beta * ( log pi_theta(y_w|x) - log pi_ref(y_w|x)
-                                - log pi_theta(y_l|x) + log pi_ref(y_l|x) )
+ - log pi_theta(y_l|x) + log pi_ref(y_l|x) )
 ```
 
 Bradley-Terry sigmoidine yerleştirin ve tercih çiftleri üzerinden negatif log olabilirliği alın:
 
 ```text
 L_DPO(theta) = - E_{(x, y_w, y_l)} [
-  log sigmoid( beta * ( log pi_theta(y_w|x) - log pi_ref(y_w|x)
-                       - log pi_theta(y_l|x) + log pi_ref(y_l|x) ) )
+ log sigmoid( beta * ( log pi_theta(y_w|x) - log pi_ref(y_w|x)
+ - log pi_theta(y_l|x) + log pi_ref(y_l|x) ) )
 ]
 ```
 
@@ -71,18 +71,18 @@ Bu, kayıptır. Örnek başına dört log-olasılıktan hesaplanan tek bir skale
 
 ```mermaid
 flowchart LR
-  Triple[(x, y_w, y_l)] --> Pol[politika<br/>pi_theta]
-  Triple --> Ref[referans<br/>pi_ref, donmuş]
-  Pol --> LWP[log pi_theta y_w]
-  Pol --> LLP[log pi_theta y_l]
-  Ref --> LWR[log pi_ref y_w]
-  Ref --> LLR[log pi_ref y_l]
-  LWP --> Diff[beta * log-oran farkı]
-  LLP --> Diff
-  LWR --> Diff
-  LLR --> Diff
-  Diff --> Sig[sigmoid]
-  Sig --> NLL[- log sigmoid]
+ Triple[(x, y_w, y_l)] --> Pol[politika<br/>pi_theta]
+ Triple --> Ref[referans<br/>pi_ref, donmuş]
+ Pol --> LWP[log pi_theta y_w]
+ Pol --> LLP[log pi_theta y_l]
+ Ref --> LWR[log pi_ref y_w]
+ Ref --> LLR[log pi_ref y_l]
+ LWP --> Diff[beta * log-oran farkı]
+ LLP --> Diff
+ LWR --> Diff
+ LLR --> Diff
+ Diff --> Sig[sigmoid]
+ Sig --> NLL[- log sigmoid]
 ```
 
 ## Gradyanın İşareti
@@ -119,17 +119,17 @@ Uygulama bunları şu şekilde zorlar:
 
 ```mermaid
 flowchart TD
-  P[(tercih üçlüleri)] --> Tok[InstructionTokenizer]
-  Tok --> DS[PreferenceDataset]
-  DS --> DL[DataLoader<br/>satır başına kod çözme]
-  DL --> Pol[Politika TinyGPT]
-  DL --> Ref[Referans TinyGPT<br/>dondurulmuş]
-  Pol --> LP[seçilen ve reddedilen için log pi]
-  Ref --> LR[seçilen ve reddedilen için log pi_ref]
-  LP --> Loss[DPO kaybı<br/>sigmoid * log-oran farkı]
-  LR --> Loss
-  Loss --> Bwd[geri]
-  Bwd --> Opt[Adam optimize edici]
+ P[(tercih üçlüleri)] --> Tok[InstructionTokenizer]
+ Tok --> DS[PreferenceDataset]
+ DS --> DL[DataLoader<br/>satır başına kod çözme]
+ DL --> Pol[Politika TinyGPT]
+ DL --> Ref[Referans TinyGPT<br/>dondurulmuş]
+ Pol --> LP[seçilen ve reddedilen için log pi]
+ Ref --> LR[seçilen ve reddedilen için log pi_ref]
+ LP --> Loss[DPO kaybı<br/>sigmoid * log-oran farkı]
+ LR --> Loss
+ Loss --> Bwd[geri]
+ Bwd --> Opt[Adam optimize edici]
 ```
 
 Model, ders 39'da kullanılan aynı TinyGPT'tir (yalnızca çözücü, nedensel, byte tokenizer'ı). Referans ve politika aynı mimariyi paylaşır; politikanın ağırlıkları eğitim altında referanstan saparken referans sabit kalır.

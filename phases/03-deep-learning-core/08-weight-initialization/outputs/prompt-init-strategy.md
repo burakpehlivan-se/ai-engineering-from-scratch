@@ -63,18 +63,18 @@ Başlatmayı uyguladıktan sonra, şu şekilde doğrula:
 
 ```python
 for name, param in model.named_parameters():
-    if 'weight' in name:
-        print(f"{name:40s} | mean: {param.data.mean():.4e} | std: {param.data.std():.4e}")
+ if 'weight' in name:
+ print(f"{name:40s} | mean: {param.data.mean():.4e} | std: {param.data.std():.4e}")
 ```
 
 Ardından bir ileri geçişten (forward pass) sonra:
 ```python
 hooks = []
 for name, module in model.named_modules():
-    if isinstance(module, nn.Linear):
-        hooks.append(module.register_forward_hook(
-            lambda m, i, o, n=name: print(f"{n:30s} | act mean: {o.abs().mean():.4f} | act std: {o.std():.4f}")
-        ))
+ if isinstance(module, nn. Linear):
+ hooks.append(module.register_forward_hook(
+ lambda m, i, o, n=name: print(f"{n:30s} | act mean: {o.abs().mean():.4f} | act std: {o.std():.4f}")
+ ))
 ```
 
 Sağlıklı işaretler:

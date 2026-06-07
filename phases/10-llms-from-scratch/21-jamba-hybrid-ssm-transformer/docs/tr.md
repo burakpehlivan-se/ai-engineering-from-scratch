@@ -51,8 +51,8 @@ A Jamba block interleaves layers according to two numbers:
 The layer sequence within a block:
 
 ```
-M  M  M  M  M  M  M  A    (7 Mamba + 1 Attention)
-|  M  |  M  |  M  |  M    (where | marks MoE applied)
+M M M M M M M A (7 Mamba + 1 Attention)
+| M | M | M | M (where | marks MoE applied)
 ```
 
 Each Jamba block is 8 layers. At 4 blocks deep (32 layers total), you get 28 Mamba and 4 Attention layers. 16 of those use MoE.

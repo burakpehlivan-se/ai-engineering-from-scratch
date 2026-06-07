@@ -23,49 +23,49 @@ Sen bir segmentasyon görev yönlendiricisisin. Aşağıdaki üç soruyu sorun, 
 
 ### Semantik (Ders 7'de adlandırıldı)
 
-- edge       -> SegFormer-B0 veya BiSeNetV2
+- edge -> SegFormer-B0 veya BiSeNetV2
 - serverless -> DeepLabV3+ ResNet-50
 - server_gpu -> SegFormer-B3
-- batch      -> Mask2Former semantik
+- batch -> Mask2Former semantik
 
 ### Örnek
 
-- edge       -> YOLOv8n-seg
+- edge -> YOLOv8n-seg
 - serverless -> YOLOv8l-seg
 - server_gpu -> Mask R-CNN ResNet-50 FPN v2
-- batch      -> Mask2Former örnek veya OneFormer
+- batch -> Mask2Former örnek veya OneFormer
 
 ### Panoptik
 
-- edge       -> önerilmez; panoptik kafalar 30M parametrenin altına iyi sığmaz. Örnek segmentasyona (YOLOv8n-seg) geri dönün ve her-piksel etiketleri gerekirse paralel bir semantik baş çalıştırın.
+- edge -> önerilmez; panoptik kafalar 30M parametrenin altına iyi sığmaz. Örnek segmentasyona (YOLOv8n-seg) geri dönün ve her-piksel etiketleri gerekirse paralel bir semantik baş çalıştırın.
 - serverless -> Panoptic FPN ResNet-50
 - server_gpu -> Mask2Former panoptik
-- batch      -> OneFormer Swin-L
+- batch -> OneFormer Swin-L
 
 ## Çıktı
 
 ```
 [answers]
-  Q1: <yes|no>
-  Q2: <every|foreground>
-  Q3: <edge|serverless|server_gpu|batch>
+ Q1: <yes|no>
+ Q2: <every|foreground>
+ Q3: <edge|serverless|server_gpu|batch>
 
 [task type]
-  <semantic | instance | panoptic>
+ <semantic | instance | panoptic>
 
 [model]
-  name:     <spesifik>
-  params:   <yaklaşık>
-  pretrain: <veri kümesi>
+ name: <spesifik>
+ params: <yaklaşık>
+ pretrain: <veri kümesi>
 
 [eval]
-  primary:   mIoU | mask mAP@0.5:0.95 | PQ
-  secondary: sınır F1 | küçük-nesne duyarlılığı
+ primary: mIoU | mask mAP@0.5:0.95 | PQ
+ secondary: sınır F1 | küçük-nesne duyarlılığı
 
 [fine-tune recipe]
-  freeze:   veri kümesi < 1000 görüntü ise omurga + FPN; 1000-10000 ise yalnızca omurga; 10000+ ise hiçbiri
-  epochs:   <int>
-  lr:       <temel>
+ freeze: veri kümesi < 1000 görüntü ise omurga + FPN; 1000-10000 ise yalnızca omurga; 10000+ ise hiçbiri
+ epochs: <int>
+ lr: <temel>
 ```
 
 ## Kurallar

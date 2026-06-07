@@ -28,18 +28,18 @@ HDF5, parçalı, yeniden boyutlandırılabilir, yalnızca tamsayı bir veri küm
 
 ```mermaid
 flowchart TD
-  JSONL[JSONL belgeleri] --> Tokenize[Artımlı tokenleştir]
-  Tokenize --> Buffer[Bellek içi arabelleğe ekle]
-  Buffer --> Flush{arabellek >= parça?}
-  Flush -- hayır --> Tokenize
-  Flush -- evet --> Resize[HDF5 veri kümesini yeniden boyutlandır]
-  Resize --> Write[Arabelleği yeni aralığa yaz]
-  Write --> Buffer
-  Buffer --> Close[Son flush + kapat]
-  Close --> ShardDone[Parça dosyası tamamlandı]
-  ShardDone --> MMapRead[Belleğe eşlenmiş okuma]
-  MMapRead --> Window[Kayan pencereli dataloader]
-  Window --> Train[Eğitim batch'ı]
+ JSONL[JSONL belgeleri] --> Tokenize[Artımlı tokenleştir]
+ Tokenize --> Buffer[Bellek içi arabelleğe ekle]
+ Buffer --> Flush{arabellek >= parça?}
+ Flush -- hayır --> Tokenize
+ Flush -- evet --> Resize[HDF5 veri kümesini yeniden boyutlandır]
+ Resize --> Write[Arabelleği yeni aralığa yaz]
+ Write --> Buffer
+ Buffer --> Close[Son flush + kapat]
+ Close --> ShardDone[Parça dosyası tamamlandı]
+ ShardDone --> MMapRead[Belleğe eşlenmiş okuma]
+ MMapRead --> Window[Kayan pencereli dataloader]
+ Window --> Train[Eğitim batch'ı]
 ```
 
 ### Yeniden boyutlandırılabilir HDF5, doğru yapılmış

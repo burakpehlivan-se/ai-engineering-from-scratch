@@ -56,10 +56,10 @@ Coreference çözümlemesi, aynı gerçek dünya varlığına işaret eden her i
 
 ```python
 import spacy
-nlp = spacy.load("en_coreference_web_trf")   # experimental model
+nlp = spacy.load("en_coreference_web_trf") # experimental model
 doc = nlp("Apple announced new products. The company said they would ship soon.")
 for cluster in doc._.coref_clusters:
-    print(cluster, "->", [m.text for m in cluster])
+ print(cluster, "->", [m.text for m in cluster])
 ```
 
 #### Açıklama
@@ -75,9 +75,9 @@ Tam bir stdlib-only uygulama için `code/main.py` dosyasına bakın:
 
 1. Bahisleri çıkarın: isimli varlıklar (büyük harfli aralıklar), zamirler (sözlük araması), kesin tanımlamalar ("the X").
 2. Her zamir için, önceki K bahise bakın ve şu kriterlere göre puanlayın:
-   - cinsiyet/tane uyumu (sezgisel)
-   - yakınlık (daha yakınlık kazanır)
-   - sözdizimsel rol (özne tercih edilir)
+ - cinsiyet/tane uyumu (sezgisel)
+ - yakınlık (daha yakınlık kazanır)
+ - sözdizimsel rol (özne tercih edilir)
 3. En yüksek puanlı önceli bağlayın.
 
 Sinirsel modellerle rekabet edemez. Ancak uçtan uca bir modelin yapması gereken arama alanını ve kararları gösterir.

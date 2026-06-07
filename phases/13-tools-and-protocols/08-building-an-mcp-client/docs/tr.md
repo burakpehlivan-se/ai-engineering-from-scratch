@@ -31,7 +31,7 @@ Bunun hepsini elle yapmak "oyuncak"ı "kullanılabilir"den ayıran şeydir. Resm
 
 ### Çocuk süreç başlatma
 
-`stdin=PIPE, stdout=PIPE, stderr=PIPE` ile `subprocess.Popen`. `bufsize=1` ayarlayın ve satır satır okumalar için metin modu kullanın. Her sunucu bir süreçtir; istemci sunucu başına bir `Popen` sapı tutar.
+`stdin=PIPE, stdout=PIPE, stderr=PIPE` ile `subprocess. Popen`. `bufsize=1` ayarlayın ve satır satır okumalar için metin modu kullanın. Her sunucu bir süreçtir; istemci sunucu başına bir `Popen` sapı tutar.
 
 ### Sunucu başına oturum durumu
 

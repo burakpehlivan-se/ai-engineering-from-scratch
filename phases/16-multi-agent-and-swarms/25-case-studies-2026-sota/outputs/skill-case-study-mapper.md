@@ -13,9 +13,9 @@ tags: [multi-agent, case-studies, production, framework-selection, reference-arc
 
 1. **Tasarım parmak izi.** Görev türü (araştırma / mühendislik / popülasyon / otomasyon), agent sayısı, doğrulama gereksinimi, çalışma-zamanı süresi, rol farklılığı, kullanıcıya dönük ağ maruziyeti.
 2. **En yakın vaka çalışması.**
-   - **Anthropic Research** eğer: araştırma veya bilgi-erişim görevi, doğrulama zorunlu, çok-saatlik çalıştırmalar, agent'lar öncelikle bağlam ve kapsam bakımından farklılaşır (taze-bağlam alt-agent'ları kazanır).
-   - **MetaGPT / ChatDev** eğer: mühendislik veya yapılandırılmış iş akışı, roller açıkça ayırt edilebilir (planlayıcı / kodlayıcı / incelemci / testçi), devir artefaktları iyi tipli.
-   - **OpenClaw / Moltbook** eğer: popülasyon-ölçekli, kullanıcıya dönük agent ağı, prompt injection anlamlı bir tehdittir, acıkan ekonomi önemlidir.
+ - **Anthropic Research** eğer: araştırma veya bilgi-erişim görevi, doğrulama zorunlu, çok-saatlik çalıştırmalar, agent'lar öncelikle bağlam ve kapsam bakımından farklılaşır (taze-bağlam alt-agent'ları kazanır).
+ - **MetaGPT / ChatDev** eğer: mühendislik veya yapılandırılmış iş akışı, roller açıkça ayırt edilebilir (planlayıcı / kodlayıcı / incelemci / testçi), devir artefaktları iyi tipli.
+ - **OpenClaw / Moltbook** eğer: popülasyon-ölçekli, kullanıcıya dönük agent ağı, prompt injection anlamlı bir tehdittir, acıkan ekonomi önemlidir.
 3. **Kopyalanacak örüntüler.** Seçilen vaka çalışmasından uygulanan spesifik tasarım kararları: taze-bağlam alt-agent'ları, rainbow deploy, iletişimsel halüsinasyondan-arındırma, DAG yönlendirmesi, yazılamaz doğrulayıcı, altyapı-düzeyi güvenlik.
 4. **Framework önerisi.** LangGraph, CrewAI, AG2, Microsoft Agent Framework, OpenAI Agents SDK, Google ADK, Anthropic Claude Agent SDK veya özel. Varsayılan olarak vaka çalışmasının tipik framework'ü; spesifik tasarım için daha iyi bir uyum varsa not edin.
 5. **Vakadaki anti-örüntüler. Referans vakanın çalışmadığını bulduğu şeyler. Yeni tasarımda kaçının. **

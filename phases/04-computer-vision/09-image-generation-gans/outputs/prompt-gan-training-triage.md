@@ -58,10 +58,10 @@ Düzeltme: doymayan (non-saturating) üreteç kaybı (doyuran sürümü kullanı
 
 ```
 [triage]
-  failure:  <isim>
-  evidence: d_loss trend + g_loss trend + alıntılanan örnek açıklaması
-  fix:      <somut bir değişiklik>
-  retry:    <yeniden triajdan önce kaç epok beklenmeli>
+ failure: <isim>
+ evidence: d_loss trend + g_loss trend + alıntılanan örnek açıklaması
+ fix: <somut bir değişiklik>
+ retry: <yeniden triajdan önce kaç epok beklenmeli>
 ```
 
 ## Kurallar

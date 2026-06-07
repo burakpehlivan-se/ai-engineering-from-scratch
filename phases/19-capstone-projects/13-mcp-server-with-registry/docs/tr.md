@@ -26,33 +26,33 @@ Kayıt defteri ayrı bir hizmettir. Her MCP sunucusu, tool manifestosu, taşıma
 
 ```
 MCP client (Claude Code, Cursor 3, ...)
-          |
-          v
+ |
+ v
 StreamableHTTP over HTTPS (JSON-RPC + streaming)
-          |
-          v
+ |
+ v
 MCP server (FastMCP) behind load balancer
-          |
-   +------+------+---------+----------+------------+
-   v             v         v          v            v
-Postgres    S3 listing  Jira       Linear     Datadog
-(read-only) (paged)     (read)     (read)     (query)
-          |
-   +------+-------------+
-   v                    v
- OPA policy gate   destructive tool MCP (separate server)
-                        |
-                        v
-                   human approval via Slack
-                        |
-                        v
-                   audit log (append-only, per-tenant)
+ |
+ +------+------+---------+----------+------------+
+ v v v v v
+Postgres S3 listing Jira Linear Datadog
+(read-only) (paged) (read) (read) (query)
+ |
+ +------+-------------+
+ v v
+ OPA policy gate destructive tool MCP (separate server)
+ |
+ v
+ human approval via Slack
+ |
+ v
+ audit log (append-only, per-tenant)
 
-  registry service
-     |
-     v  GET /.well-known/mcp-capabilities from each server
-     v
-     UI: search / validate / enable-disable / ownership
+ registry service
+ |
+ v GET /.well-known/mcp-capabilities from each server
+ v
+ UI: search / validate / enable-disable / ownership
 ```
 
 #### Açıklama
@@ -94,13 +94,13 @@ Bu mimari bir MCP istemcisinden yıkıcı tool onayına kadar tam veri akışın
 
 ```
 $ curl -H "Authorization: Bearer eyJhbGc..." \
-       -X POST https://mcp.internal.example.com/ \
-       -d '{"jsonrpc":"2.0","method":"tools/call",
-            "params":{"name":"postgres.readonly","arguments":{"sql":"SELECT 1"}}}'
-[registry]   capability validated: postgres.readonly v1.2
-[policy]    scope postgres:query:readonly present; allowed
-[audit]     logged: user=u42 tool=postgres.readonly outcome=ok
-response:    { "result": { "rows": [[1]] } }
+ -X POST https://mcp.internal.example.com/ \
+ -d '{"jsonrpc":"2.0","method":"tools/call",
+ "params":{"name":"postgres.readonly","arguments":{"sql":"SELECT 1"}}}'
+[registry] capability validated: postgres.readonly v1.2
+[policy] scope postgres:query:readonly present; allowed
+[audit] logged: user=u42 tool=postgres.readonly outcome=ok
+response: { "result": { "rows": [[1]] } }
 ```
 
 #### Açıklama

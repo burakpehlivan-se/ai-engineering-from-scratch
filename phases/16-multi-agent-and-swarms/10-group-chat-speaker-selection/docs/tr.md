@@ -18,16 +18,16 @@ Tam olarak AutoGen GroupChat'in yaptığı budur.
 ### Şekil
 
 ```
-              ┌─── paylaşılan havuz ────┐
-              │   m1  m2  m3  ...  │
-              └─────────┬──────────┘
-                        │ (herkes hepsini okur)
-      ┌───────┬─────────┼─────────┬───────┐
-      ▼       ▼         ▼         ▼       ▼
-    Agent A  Agent B  Agent C  Agent D  Seçici
-                                           │
-                                           ▼
-                                  "sonraki konuşan = C"
+ ┌─── paylaşılan havuz ────┐
+ │ m1 m2 m3 ... │
+ └─────────┬──────────┘
+ │ (herkes hepsini okur)
+ ┌───────┬─────────┼─────────┬───────┐
+ ▼ ▼ ▼ ▼ ▼
+ Agent A Agent B Agent C Agent D Seçici
+ │
+ ▼
+ "sonraki konuşan = C"
 ```
 
 Her agent her mesajı görür. Her turda bir sonraki konuşanı seçen bir seçici fonksiyon çağrılır.
@@ -44,9 +44,9 @@ Her agent her mesajı görür. Her turda bir sonraki konuşanı seçen bir seçi
 
 ```
 agent = ConversableAgent(
-    name="coder",
-    system_message="You write Python.",
-    llm_config={...},
+ name="coder",
+ system_message="You write Python.",
+ llm_config={...},
 )
 chat = GroupChat(agents=[coder, reviewer, tester], messages=[])
 manager = GroupChatManager(groupchat=chat, llm_config={...})

@@ -37,8 +37,8 @@ SAM 3'ün doğruluğu büyük ölçüde kavram isteminin nasıl ifade edildiğin
 2. **Dolgu öneklerini bırakın** — "bul", "bana göster", "bölütle", "tespit et", "konumlandır", "bir", "an", "şu".
 3. **Edat niteleyicilerini yalnızca görsel iseler koruyun** — `"çizgili kırmızı şemsiye"` evet, `"dünkü şemsiye"` hayır (`"dünkü"` görüntüde değil).
 4. **Çakışmaları belirsizlikten kurtarın** isteğe bağlı `context` kullanarak:
-   - gözetim bağlamında `"pencere"` -> `"bina penceresi"`.
-   - tıbbi bağlamda `"pencere"` -> genellikle hata; kullanıcının netleştirmesini önerin.
+ - gözetim bağlamında `"pencere"` -> `"bina penceresi"`.
+ - tıbbi bağlamda `"pencere"` -> genellikle hata; kullanıcının netleştirmesini önerin.
 5. Bölme sıfır kavram veriyorsa *ve* ifade en az bir somut isim içeriyorsa, **tam dizeye geri dönün**. Hiçbir somut isim çıkarılamıyorsa, bir kavram yayınlamayın — yalnızca uyarılar döndürün ve kullanıcıdan netleştirmesini isteyin (Kurallara bakın).
 6. **`max_concepts` ile sınırlayın.** Arayanın istediğinden daha fazla kavram çıkarıldıysa, ilk `max_concepts`'i ifade sırasında tutun ve geri kalanını `"exceeded max_concepts"` nedeniyle `dropped` altında yayınlayın. Bu, kullanıcı uzun bir sıralama yapıştırdığında gecikmeyi sınırlı tutar.
 
@@ -46,33 +46,33 @@ SAM 3'ün doğruluğu büyük ölçüde kavram isteminin nasıl ifade edildiğin
 
 ```
 [designed prompts]
-  utterance:    <orijinal>
-  concepts:     ["concept_1", "concept_2", ...]
-  dropped:      ["filler_1", ...]
-  warnings:     ["concept too abstract", "may match many classes", ...]
+ utterance: <orijinal>
+ concepts: ["concept_1", "concept_2", ...]
+ dropped: ["filler_1", ...]
+ warnings: ["concept too abstract", "may match many classes", ...]
 
 [sam3 calls]
-  Her kavram için çalıştır: sam3.detect(image, concept)
-  Çıktıları tespit başına ayrı kavram etiketleri ile birleştirin.
+ Her kavram için çalıştır: sam3.detect(image, concept)
+ Çıktıları tespit başına ayrı kavram etiketleri ile birleştirin.
 ```
 
 ## Örnekler
 
 ```
-in:  "can you find me a cat or two dogs?"
+in: "can you find me a cat or two dogs?"
 out: ["cat", "dogs"]
 dropped: ["can you find me", "a", "or two", "?"]
 note: "dogs" çoğul tutuldu çünkü ifade "two dogs" diyor — çoğul ipucu korundu.
 
-in:  "segment the big red truck and the blue sedan"
+in: "segment the big red truck and the blue sedan"
 out: ["big red truck", "blue sedan"]
 dropped: ["segment", "the", "and"]
 
-in:  "thing near the door"
+in: "thing near the door"
 out: ["door"]
 warnings: ["'thing' SAM 3 için çok soyut; 'door'a geri dönüldü"]
 
-in:  "striped red umbrella, green hat, pink balloon"
+in: "striped red umbrella, green hat, pink balloon"
 out: ["striped red umbrella", "green hat", "pink balloon"]
 ```
 

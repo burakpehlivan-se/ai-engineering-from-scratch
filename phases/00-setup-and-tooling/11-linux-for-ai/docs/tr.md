@@ -28,13 +28,13 @@ Linux her şeyi tek bir kök `/` altında düzenler. `C:\` veya `/Volumes` yoktu
 
 ```mermaid
 graph TD
-    root["/"] --> home["home/kullanici-adiniz/<br/>Dosyalarınız — depoları klonlayın, eğitim çalıştırın"]
-    root --> tmp["tmp/<br/>Geçici dosyalar, yeniden başlatmada temizlenir"]
-    root --> usr["usr/<br/>Sistem programları ve kütüphaneleri"]
-    root --> etc["etc/<br/>Yapılandırma dosyaları"]
-    root --> varlog["var/log/<br/>Günlükler — bir şey bozulduğunda kontrol edin"]
-    root --> mnt["mnt/ veya /media/<br/>Harici diskler ve birimler"]
-    root --> proc["proc/ ve /sys/<br/>Sanal dosyalar — çekirdek ve donanım bilgisi"]
+ root["/"] --> home["home/kullanici-adiniz/<br/>Dosyalarınız — depoları klonlayın, eğitim çalıştırın"]
+ root --> tmp["tmp/<br/>Geçici dosyalar, yeniden başlatmada temizlenir"]
+ root --> usr["usr/<br/>Sistem programları ve kütüphaneleri"]
+ root --> etc["etc/<br/>Yapılandırma dosyaları"]
+ root --> varlog["var/log/<br/>Günlükler — bir şey bozulduğunda kontrol edin"]
+ root --> mnt["mnt/ veya /media/<br/>Harici diskler ve birimler"]
+ root --> proc["proc/ ve /sys/<br/>Sanal dosyalar — çekirdek ve donanım bilgisi"]
 ```
 
 Ev dizininiz `~` veya `/home/kullanici-adiniz`. Yaptığınız neredeyse her şey burada gerçekleşir.
@@ -46,48 +46,48 @@ Uzak bir GPU kutusunda yapacağınız işin %95'ini kapsayan 15 komut.
 ### Gezinme
 
 ```bash
-pwd                         # Neredeyim?
-ls                          # Burada ne var?
-ls -la                      # Burada ne var, gizli dosyalar ve ayrıntılar dahil?
-cd /yol/neresi               # Oraya git
-cd ~                        # Eve git
-cd ..                       # Üst dizine çık
+pwd # Neredeyim?
+ls # Burada ne var?
+ls -la # Burada ne var, gizli dosyalar ve ayrıntılar dahil?
+cd /yol/neresi # Oraya git
+cd ~ # Eve git
+cd .. # Üst dizine çık
 ```
 
 ### Dosya İşlemleri
 
 ```bash
-mkdir klasor                 # Dizin oluştur
-cp dosya.py kopya.py         # Kopyala
-mv eski.py yeni.py           # Taşımak veya yeniden adlandırmak için
-rm dosya.py                  # Sil
-rm -rf klasor/               # Dizini ve içini sil (DİKKATLİ OLUN)
+mkdir klasor # Dizin oluştur
+cp dosya.py kopya.py # Kopyala
+mv eski.py yeni.py # Taşımak veya yeniden adlandırmak için
+rm dosya.py # Sil
+rm -rf klasor/ # Dizini ve içini sil (DİKKATLİ OLUN)
 ```
 
 ### Dosya Görüntüleme
 
 ```bash
-cat dosya.py                 # Dosyanın tamamını göster
-head -20 dosya.py            # İlk 20 satırı göster
-tail -20 dosya.py            # Son 20 satırı göster
-tail -f log.txt              # Günlüğü canlı takip et
-wc -l dosya.py               # Satır sayısını say
+cat dosya.py # Dosyanın tamamını göster
+head -20 dosya.py # İlk 20 satırı göster
+tail -20 dosya.py # Son 20 satırı göster
+tail -f log.txt # Günlüğü canlı takip et
+wc -l dosya.py # Satır sayısını say
 ```
 
 ### Arama
 
 ```bash
-find . -name "*.py"          # Py dosyalarını bul
-grep -r "torch" .            # Tüm dosyalarda "torch" ara
-grep -n "def " dosya.py      # Dosyadaki "def" satırlarını bul
+find . -name "*.py" # Py dosyalarını bul
+grep -r "torch" . # Tüm dosyalarda "torch" ara
+grep -n "def " dosya.py # Dosyadaki "def" satırlarını bul
 ```
 
 ### İzinler
 
 ```bash
-chmod +x betik.sh            # Çalıştırma izni ver
-chmod 755 dizin              # Dizin izinlerini ayarla
-chown kullanici:grup dosya   # Sahipliği değiştir
+chmod +x betik.sh # Çalıştırma izni ver
+chmod 755 dizin # Dizin izinlerini ayarla
+chown kullanici:grup dosya # Sahipliği değiştir
 ```
 
 #### Açıklama
@@ -96,37 +96,37 @@ chown kullanici:grup dosya   # Sahipliği değiştir
 ### Paket Yönetimi
 
 ```bash
-sudo apt update              # Paket listesini güncelle
-sudo apt upgrade             # Paketleri yükselt
-sudo apt install paket-adi   # Paket kur
-sudo apt remove paket-adi    # Paket kaldır
+sudo apt update # Paket listesini güncelle
+sudo apt upgrade # Paketleri yükselt
+sudo apt install paket-adi # Paket kur
+sudo apt remove paket-adi # Paket kaldır
 ```
 
 ### Süreç Yönetimi
 
 ```bash
-ps aux | grep python         # Python süreçlerini bul
-kill PID                     # Süreci öldür
-kill -9 PID                  # Zorla öldür
-nohup python train.py &      # Arka planda çalıştır
+ps aux | grep python # Python süreçlerini bul
+kill PID # Süreci öldür
+kill -9 PID # Zorla öldür
+nohup python train.py & # Arka planda çalıştır
 ```
 
 ### Ağ
 
 ```bash
-curl -O https://ornek.com/dosya.py   # Dosya indir
-wget https://ornek.com/dosya.py       # Dosya indir (alternatif)
-ssh kullanici@sunucu                  # Uzak sunucuya bağlan
-scp dosya.py kullanici@sunucu:/yol    # Dosya aktar
+curl -O https://ornek.com/dosya.py # Dosya indir
+wget https://ornek.com/dosya.py # Dosya indir (alternatif)
+ssh kullanici@sunucu # Uzak sunucuya bağlan
+scp dosya.py kullanici@sunucu:/yol # Dosya aktar
 ```
 
 ### Disk ve Bellek
 
 ```bash
-df -h                        # Disk kullanımını göster
-du -sh klasor/               # Dizin boyutunu göster
-free -h                      # Bellek kullanımını göster
-nvidia-smi                   # GPU durumunu göster
+df -h # Disk kullanımını göster
+du -sh klasor/ # Dizin boyutunu göster
+free -h # Bellek kullanımını göster
+nvidia-smi # GPU durumunu göster
 ```
 
 ## Alıştırmalar

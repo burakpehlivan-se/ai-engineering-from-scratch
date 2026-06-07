@@ -28,11 +28,11 @@ Bir yapay zeka mühendisliği düzenleyici kurulumu beş şeye ihtiyaç duyar:
 
 ```mermaid
 graph TD
-    L5["5. Uzak Geliştirme<br/>GPU kutularına, bulut VM'lerine SSH"] --> L4
-    L4["4. Terminal Entegrasyonu<br/>Betik çalıştırma, hata ayıklama, GPU izleme"] --> L3
-    L3["3. Yapay Zeka Özgün Ayarları<br/>Otomatik biçimlendirme, tür kontrolü, çizgiler"] --> L2
-    L2["2. Eklentiler<br/>Python, Jupyter, Pylance, GitLens"] --> L1
-    L1["1. Temel Düzenleyici<br/>VS Code — ücretsiz, genişletilebilir, evrensel"]
+ L5["5. Uzak Geliştirme<br/>GPU kutularına, bulut VM'lerine SSH"] --> L4
+ L4["4. Terminal Entegrasyonu<br/>Betik çalıştırma, hata ayıklama, GPU izleme"] --> L3
+ L3["3. Yapay Zeka Özgün Ayarları<br/>Otomatik biçimlendirme, tür kontrolü, çizgiler"] --> L2
+ L2["2. Eklentiler<br/>Python, Jupyter, Pylance, GitLens"] --> L1
+ L1["1. Temel Düzenleyici<br/>VS Code — ücretsiz, genişletilebilir, evrensel"]
 ```
 
 ## Uygulama
@@ -75,10 +75,10 @@ VS Code ayarlarında (`settings.json`) şunları ekleyin:
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "python.analysis.typeCheckingMode": "basic",
-  "notebook.output.scrolling": true,
-  "python.analysis.extraPaths": ["./phases"]
+ "editor.formatOnSave": true,
+ "python.analysis.typeCheckingMode": "basic",
+ "notebook.output.scrolling": true,
+ "python.analysis.extraPaths": ["./phases"]
 }
 ```
 

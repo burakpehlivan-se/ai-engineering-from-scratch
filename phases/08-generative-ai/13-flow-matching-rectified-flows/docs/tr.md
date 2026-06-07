@@ -24,7 +24,7 @@ Rectified flow (Liu 2022) daha da ileri gider: reflow prosedürüyle yolları yi
 Tanımlayın:
 
 ```
-x_t = t · x_1 + (1 - t) · x_0,   t ∈ [0, 1]
+x_t = t · x_1 + (1 - t) · x_0, t ∈ [0, 1]
 ```
 
 #### Açıklama
@@ -86,25 +86,25 @@ Flow matching'in eklediği: hedefin *netliği* (düz bir hız), daha temiz bir k
 
 ```python
 def train_step(x0, net, rng, lr):
-    x1 = rng.gauss(0, 1)
-    t = rng.random()
-    x_t = t * x1 + (1 - t) * x0
-    target = x1 - x0
-    pred = net_forward(x_t, t)
-    loss = (pred - target) ** 2
-    # backprop + update
+ x1 = rng.gauss(0, 1)
+ t = rng.random()
+ x_t = t * x1 + (1 - t) * x0
+ target = x1 - x0
+ pred = net_forward(x_t, t)
+ loss = (pred - target) ** 2
+ # backprop + update
 ```
 
 ### Adım 2: çoklu adım çıkarımı
 
 ```python
 def sample(net, num_steps):
-    x = rng.gauss(0, 1)
-    for i in range(num_steps):
-        t = 1.0 - i / num_steps
-        dt = 1.0 / num_steps
-        x -= dt * net_forward(x, t)
-    return x
+ x = rng.gauss(0, 1)
+ for i in range(num_steps):
+ t = 1.0 - i / num_steps
+ dt = 1.0 / num_steps
+ x -= dt * net_forward(x, t)
+ return x
 ```
 
 ### Adım 3: adım sayılarını karşılaştırın

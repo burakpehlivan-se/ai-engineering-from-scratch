@@ -79,12 +79,12 @@ Eğitim verisi:
 Laplace smoothing (alpha=1) ile:
 
 ```
-P(free | spam)    = (80 + 1) / (150 + 3) = 81/153 = 0.529
-P(money | spam)   = (60 + 1) / (150 + 3) = 61/153 = 0.399
+P(free | spam) = (80 + 1) / (150 + 3) = 81/153 = 0.529
+P(money | spam) = (60 + 1) / (150 + 3) = 61/153 = 0.399
 P(meeting | spam) = (10 + 1) / (150 + 3) = 11/153 = 0.072
 
-P(free | not-spam)    = (5 + 1) / (115 + 3) = 6/118 = 0.051
-P(money | not-spam)   = (10 + 1) / (115 + 3) = 11/118 = 0.093
+P(free | not-spam) = (5 + 1) / (115 + 3) = 6/118 = 0.051
+P(money | not-spam) = (10 + 1) / (115 + 3) = 11/118 = 0.093
 P(meeting | not-spam) = (100 + 1) / (115 + 3) = 101/118 = 0.856
 ```
 
@@ -92,12 +92,12 @@ Yeni e-posta şunları içeriyor: "free" (2 kez), "money" (1 kez), "meeting" (0 
 
 ```
 log P(spam | email) = log(0.4) + 2*log(0.529) + 1*log(0.399) + 0*log(0.072)
-                    = -0.916 + 2*(-0.637) + (-0.919) + 0
-                    = -3.109
+ = -0.916 + 2*(-0.637) + (-0.919) + 0
+ = -3.109
 
 log P(not-spam | email) = log(0.6) + 2*log(0.051) + 1*log(0.093) + 0*log(0.856)
-                        = -0.511 + 2*(-2.976) + (-2.375) + 0
-                        = -8.838
+ = -0.511 + 2*(-2.976) + (-2.375) + 0
+ = -8.838
 ```
 
 Spam açık ara kazanır. "Free" kelimesinin iki kez geçmesi spam için güçlü bir kanıttır. "Meeting" kelimesinin geçmemesinin her iki log toplamına da katkısı sıfırdır (0 * log(P)) — Multinomial NB'de bulunmayan kelimelerin etkisi yoktur. Kelime yokluğunu açıkça modelleyen Bernoulli NB'dir.
@@ -182,7 +182,7 @@ log P(class | x1, x2, ..., xn) = log P(class) + sum_i log P(xi | class)
 Bu, tahmini bir iç çarpıma (dot product) dönüştürür:
 
 ```
-log_scores = X @ log_feature_probs.T + log_class_priors
+log_scores = X @ log_feature_probs. T + log_class_priors
 prediction = argmax(log_scores)
 ```
 
@@ -208,15 +208,15 @@ Temel kural: Naive Bayes ile başlayın. Yeterli veriniz varsa ve NB'nin perform
 
 ```mermaid
 flowchart LR
-    A[Raw Text] --> B[Tokenize]
-    B --> C[Build Vocabulary]
-    C --> D[Count Word Frequencies]
-    D --> E[Apply Smoothing]
-    E --> F[Compute Log Probabilities]
-    F --> G[Predict: argmax P class given words]
+ A[Raw Text] --> B[Tokenize]
+ B --> C[Build Vocabulary]
+ C --> D[Count Word Frequencies]
+ D --> E[Apply Smoothing]
+ E --> F[Compute Log Probabilities]
+ F --> G[Predict: argmax P class given words]
 
-    style A fill:#f9f,stroke:#333
-    style G fill:#9f9,stroke:#333
+ style A fill:#f9f,stroke:#333
+ style G fill:#9f9,stroke:#333
 ```
 
 Pratikte, kayan nokta alt taşmasını önlemek için log uzayında çalışırız. Birçok küçük olasılığı çarpmak yerine logaritmalarını toplarız:
@@ -235,31 +235,31 @@ Sıfırdan uygulama:
 
 1. **fit(X, y)**: Her sınıf için, her özelliğin frekansını say. Laplace smoothing ekle. Log olasılıklarını hesapla. Sınıf önsel olasılıklarını (class priors) log cinsinden sakla.
 
-2. **predict_log_proba(X)**: Her örnek için, log P(class) + tüm sınıflar için log P(feature_i | class) toplamını hesapla. Bu bir matris çarpımıdır: X @ log_probs.T + log_priors.
+2. **predict_log_proba(X)**: Her örnek için, log P(class) + tüm sınıflar için log P(feature_i | class) toplamını hesapla. Bu bir matris çarpımıdır: X @ log_probs. T + log_priors.
 
 3. **predict(X)**: En yüksek log olasılığına sahip sınıfı döndür.
 
 ```python
 class MultinomialNB:
-    def __init__(self, alpha=1.0):
-        self.alpha = alpha
+ def __init__(self, alpha=1.0):
+ self.alpha = alpha
 
-    def fit(self, X, y):
-        classes = np.unique(y)
-        n_classes = len(classes)
-        n_features = X.shape[1]
+ def fit(self, X, y):
+ classes = np.unique(y)
+ n_classes = len(classes)
+ n_features = X.shape[1]
 
-        self.classes_ = classes
-        self.class_log_prior_ = np.zeros(n_classes)
-        self.feature_log_prob_ = np.zeros((n_classes, n_features))
+ self.classes_ = classes
+ self.class_log_prior_ = np.zeros(n_classes)
+ self.feature_log_prob_ = np.zeros((n_classes, n_features))
 
-        for i, c in enumerate(classes):
-            X_c = X[y == c]
-            self.class_log_prior_[i] = np.log(X_c.shape[0] / X.shape[0])
-            counts = X_c.sum(axis=0) + self.alpha
-            self.feature_log_prob_[i] = np.log(counts / counts.sum())
+ for i, c in enumerate(classes):
+ X_c = X[y == c]
+ self.class_log_prior_[i] = np.log(X_c.shape[0] / X.shape[0])
+ counts = X_c.sum(axis=0) + self.alpha
+ self.feature_log_prob_[i] = np.log(counts / counts.sum())
 
-        return self
+ return self
 ```
 
 #### Açıklama
@@ -271,23 +271,23 @@ Sürekli özellikler için, sınıf başına ve özellik başına ortalama (mean
 
 ```python
 class GaussianNB:
-    def __init__(self):
-        pass
+ def __init__(self):
+ pass
 
-    def fit(self, X, y):
-        classes = np.unique(y)
-        self.classes_ = classes
-        self.means_ = np.zeros((len(classes), X.shape[1]))
-        self.vars_ = np.zeros((len(classes), X.shape[1]))
-        self.priors_ = np.zeros(len(classes))
+ def fit(self, X, y):
+ classes = np.unique(y)
+ self.classes_ = classes
+ self.means_ = np.zeros((len(classes), X.shape[1]))
+ self.vars_ = np.zeros((len(classes), X.shape[1]))
+ self.priors_ = np.zeros(len(classes))
 
-        for i, c in enumerate(classes):
-            X_c = X[y == c]
-            self.means_[i] = X_c.mean(axis=0)
-            self.vars_[i] = X_c.var(axis=0) + 1e-9
-            self.priors_[i] = X_c.shape[0] / X.shape[0]
+ for i, c in enumerate(classes):
+ X_c = X[y == c]
+ self.means_[i] = X_c.mean(axis=0)
+ self.vars_[i] = X_c.var(axis=0) + 1e-9
+ self.priors_[i] = X_c.shape[0] / X.shape[0]
 
-        return self
+ return self
 ```
 
 #### Açıklama
@@ -343,8 +343,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 text_clf = Pipeline([
-    ("vectorizer", CountVectorizer()),
-    ("classifier", MultinomialNB(alpha=1.0)),
+ ("vectorizer", CountVectorizer()),
+ ("classifier", MultinomialNB(alpha=1.0)),
 ])
 
 text_clf.fit(train_texts, train_labels)
@@ -364,8 +364,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 text_clf = Pipeline([
-    ("tfidf", TfidfVectorizer()),
-    ("classifier", MultinomialNB(alpha=0.1)),
+ ("tfidf", TfidfVectorizer()),
+ ("classifier", MultinomialNB(alpha=0.1)),
 ])
 ```
 
@@ -381,8 +381,8 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.feature_extraction.text import CountVectorizer
 
 text_clf = Pipeline([
-    ("vectorizer", CountVectorizer(binary=True)),
-    ("classifier", BernoulliNB(alpha=1.0)),
+ ("vectorizer", CountVectorizer(binary=True)),
+ ("classifier", BernoulliNB(alpha=1.0)),
 ])
 ```
 

@@ -28,20 +28,20 @@ Görsel-Dil Modelleri (Vision-Language Models — VLMs) — Qwen3-VL, InternVL3.
 
 ```mermaid
 flowchart LR
-    IMG["Görüntü<br/>(H x W x 3)"] --> ViT["Görüntü kodlayıcı<br/>(ViT, CLIP-L,<br/>SigLIP, DINOv3)"]
-    ViT --> FEATS["Görüntü token'ları<br/>(N, d_vit)"]
-    FEATS --> PROJ["Projektör<br/>(2-4 katman MLP<br/>veya Q-former)"]
-    PROJ --> VTOK["LLM uzayında<br/>görüntü token'ları<br/>(N, d_llm)"]
-    TXT["Metin prompt'u"] --> TOK["LLM tokenizer"]
-    TOK --> TTOK["Metin token'ları<br/>(M, d_llm)"]
-    VTOK --> CONCAT["Serpiştir<br/>veya concat"]
-    TTOK --> CONCAT
-    CONCAT --> LLM["Decoder LLM<br/>(Qwen3, LLaMA, vb.)"]
-    LLM --> OUT["Metin cevabı"]
+ IMG["Görüntü<br/>(H x W x 3)"] --> ViT["Görüntü kodlayıcı<br/>(ViT, CLIP-L,<br/>SigLIP, DINOv3)"]
+ ViT --> FEATS["Görüntü token'ları<br/>(N, d_vit)"]
+ FEATS --> PROJ["Projektör<br/>(2-4 katman MLP<br/>veya Q-former)"]
+ PROJ --> VTOK["LLM uzayında<br/>görüntü token'ları<br/>(N, d_llm)"]
+ TXT["Metin prompt'u"] --> TOK["LLM tokenizer"]
+ TOK --> TTOK["Metin token'ları<br/>(M, d_llm)"]
+ VTOK --> CONCAT["Serpiştir<br/>veya concat"]
+ TTOK --> CONCAT
+ CONCAT --> LLM["Decoder LLM<br/>(Qwen3, LLaMA, vb.)"]
+ LLM --> OUT["Metin cevabı"]
 
-    style ViT fill:#dbeafe,stroke:#2563eb
-    style PROJ fill:#fef3c7,stroke:#d97706
-    style LLM fill:#dcfce7,stroke:#16a34a
+ style ViT fill:#dbeafe,stroke:#2563eb
+ style PROJ fill:#fef3c7,stroke:#d97706
+ style LLM fill:#dcfce7,stroke:#16a34a
 ```
 
 1. **Görüntü kodlayıcı** — önceden eğitilmiş bir ViT (CLIP-L/14, SigLIP, DINOv3 veya ince ayarlanmış bir varyant). Patch token'ları üretir.
@@ -116,17 +116,17 @@ import torch
 import torch.nn as nn
 
 
-class Projector(nn.Module):
-    def __init__(self, vit_dim=768, llm_dim=4096, hidden=4096):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(vit_dim, hidden),
-            nn.GELU(),
-            nn.Linear(hidden, llm_dim),
-        )
+class Projector(nn. Module):
+ def __init__(self, vit_dim=768, llm_dim=4096, hidden=4096):
+ super().__init__()
+ self.net = nn. Sequential(
+ nn. Linear(vit_dim, hidden),
+ nn. GELU(),
+ nn. Linear(hidden, llm_dim),
+ )
 
-    def forward(self, x):
-        return self.net(x)
+ def forward(self, x):
+ return self.net(x)
 ```
 #### Açıklama
 Girdi bir `(N_patches, d_vit)` token tensörüdür. Çıktı `(N_patches, d_llm)` şeklindedir. LLM, her çıktı satırını başka bir token olarak ele alır.
@@ -136,39 +136,39 @@ Girdi bir `(N_patches, d_vit)` token tensörüdür. Çıktı `(N_patches, d_llm)
 Minimal bir VLM için ileri geçişin iskeleti. Gerçek kod `transformers` kullanır; bu kavramsal düzendir.
 
 ```python
-class MinimalVLM(nn.Module):
-    def __init__(self, vit, projector, llm, image_token_id):
-        super().__init__()
-        self.vit = vit
-        self.projector = projector
-        self.llm = llm
-        self.image_token_id = image_token_id  # metin prompt'unda yer tutucu token
+class MinimalVLM(nn. Module):
+ def __init__(self, vit, projector, llm, image_token_id):
+ super().__init__()
+ self.vit = vit
+ self.projector = projector
+ self.llm = llm
+ self.image_token_id = image_token_id # metin prompt'unda yer tutucu token
 
-    def forward(self, image, input_ids, attention_mask):
-        # 1. görüntü özellikleri
-        vision_tokens = self.vit(image)                     # (B, N_patches, d_vit)
-        vision_embeds = self.projector(vision_tokens)       # (B, N_patches, d_llm)
+ def forward(self, image, input_ids, attention_mask):
+ # 1. görüntü özellikleri
+ vision_tokens = self.vit(image) # (B, N_patches, d_vit)
+ vision_embeds = self.projector(vision_tokens) # (B, N_patches, d_llm)
 
-        # 2. metin gömmeleri
-        text_embeds = self.llm.get_input_embeddings()(input_ids)  # (B, M, d_llm)
+ # 2. metin gömmeleri
+ text_embeds = self.llm.get_input_embeddings()(input_ids) # (B, M, d_llm)
 
-        # 3. görüntü yer tutucu token'larını görüntü gömmeleriyle değiştir
-        merged = self._merge(text_embeds, vision_embeds, input_ids)
+ # 3. görüntü yer tutucu token'larını görüntü gömmeleriyle değiştir
+ merged = self._merge(text_embeds, vision_embeds, input_ids)
 
-        # 4. LLM'i çalıştır
-        return self.llm(inputs_embeds=merged, attention_mask=attention_mask)
+ # 4. LLM'i çalıştır
+ return self.llm(inputs_embeds=merged, attention_mask=attention_mask)
 
-    def _merge(self, text_embeds, vision_embeds, input_ids):
-        out = text_embeds.clone()
-        expected = vision_embeds.size(1)
-        for b in range(input_ids.size(0)):
-            positions = (input_ids[b] == self.image_token_id).nonzero(as_tuple=True)[0]
-            if len(positions) != expected:
-                raise ValueError(
-                    f"batch öğesi {b}'de {len(positions)} görüntü token'ı var ancak vision_embeds'de {expected} patch var."
-                    " Gruptaki her örnek aynı sayıda görüntü yer tutucu token'ına önceden dolgulanmalıdır.")
-            out[b, positions] = vision_embeds[b]
-        return out
+ def _merge(self, text_embeds, vision_embeds, input_ids):
+ out = text_embeds.clone()
+ expected = vision_embeds.size(1)
+ for b in range(input_ids.size(0)):
+ positions = (input_ids[b] == self.image_token_id).nonzero(as_tuple=True)[0]
+ if len(positions) != expected:
+ raise ValueError(
+ f"batch öğesi {b}'de {len(positions)} görüntü token'ı var ancak vision_embeds'de {expected} patch var."
+ " Gruptaki her örnek aynı sayıda görüntü yer tutucu token'ına önceden dolgulanmalıdır.")
+ out[b, positions] = vision_embeds[b]
+ return out
 ```
 #### Açıklama
 Metindeki `<image>` yer tutucu token'ı, gerçek görüntü gömmeleriyle değiştirilir — LLaVA, Qwen-VL ve InternVL'nin kullandığı desenin aynısı.
@@ -182,16 +182,16 @@ import torch.nn.functional as F
 
 
 def cross_modal_error_rate(image_emb, text_emb, text_confidence, sim_threshold=0.25, conf_threshold=0.8):
-    """
-    image_emb, text_emb: görüntü ve üretilen metnin gömmeleri (içten normalize edilir)
-    text_confidence:     [0, 1] aralığında token başına ortalama olasılık
-    Returns:             görüntü-metin hizalaması düşük olan yüksek güvenli çıktıların oranı
-    """
-    image_emb = F.normalize(image_emb, dim=-1)
-    text_emb = F.normalize(text_emb, dim=-1)
-    sim = (image_emb * text_emb).sum(dim=-1)        # kosinüs benzerliği
-    high_conf_low_sim = (text_confidence > conf_threshold) & (sim < sim_threshold)
-    return high_conf_low_sim.float().mean().item()
+ """
+ image_emb, text_emb: görüntü ve üretilen metnin gömmeleri (içten normalize edilir)
+ text_confidence: [0, 1] aralığında token başına ortalama olasılık
+ Returns: görüntü-metin hizalaması düşük olan yüksek güvenli çıktıların oranı
+ """
+ image_emb = F.normalize(image_emb, dim=-1)
+ text_emb = F.normalize(text_emb, dim=-1)
+ sim = (image_emb * text_emb).sum(dim=-1) # kosinüs benzerliği
+ high_conf_low_sim = (text_confidence > conf_threshold) & (sim < sim_threshold)
+ return high_conf_low_sim.float().mean().item()
 ```
 #### Açıklama
 CMER'i bir üretim KPI'sı olarak ele alın. Uç nokta başına, prompt türü başına, müşteri başına izleyin. Yükselen CMER, modelin bazı girdi dağılımlarında halüsinasyon görmeye başladığını gösterir.
@@ -201,16 +201,16 @@ CMER'i bir üretim KPI'sı olarak ele alın. Uç nokta başına, prompt türü b
 Projektörün eğitildiğini gösterin. Sahte "ViT özellikleri" girer; küçük bir LLM tarzı token bir sınıf tahmin eder.
 
 ```python
-class ToyVLM(nn.Module):
-    def __init__(self, vit_dim=32, llm_dim=64, num_classes=5):
-        super().__init__()
-        self.projector = Projector(vit_dim, llm_dim, hidden=64)
-        self.head = nn.Linear(llm_dim, num_classes)
+class ToyVLM(nn. Module):
+ def __init__(self, vit_dim=32, llm_dim=64, num_classes=5):
+ super().__init__()
+ self.projector = Projector(vit_dim, llm_dim, hidden=64)
+ self.head = nn. Linear(llm_dim, num_classes)
 
-    def forward(self, vision_tokens):
-        projected = self.projector(vision_tokens)
-        pooled = projected.mean(dim=1)
-        return self.head(pooled)
+ def forward(self, vision_tokens):
+ projected = self.projector(vision_tokens)
+ pooled = projected.mean(dim=1)
+ return self.head(pooled)
 ```
 #### Açıklama
 Bunu sentetik (özellik, sınıf) çiftleri üzerinde 200 adımın altında oturtmak mümkündür — projektör deseninin çalıştığını göstermek için yeterlidir.
@@ -233,11 +233,11 @@ processor = AutoProcessor.from_pretrained(model_id)
 model = AutoModelForVision2Seq.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto")
 
 messages = [{
-    "role": "user",
-    "content": [
-        {"type": "image", "image": Image.open("plot.png")},
-        {"type": "text", "text": "What does this chart show?"},
-    ],
+ "role": "user",
+ "content": [
+ {"type": "image", "image": Image.open("plot.png")},
+ {"type": "text", "text": "What does this chart show?"},
+ ],
 }]
 inputs = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt").to("cuda")
 generated = model.generate(**inputs, max_new_tokens=256)

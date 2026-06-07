@@ -41,25 +41,25 @@ Bu ihlaller küçük değildir. Öznitelikleri nasıl oluşturduğunuzu, modelle
 
 ```mermaid
 flowchart LR
-    subgraph IID["Standart ML (i.i.d.)"]
-        direction TB
-        S1[Örnek 1] ~~~ S2[Örnek 2]
-        S2 ~~~ S3[Örnek 3]
-    end
-    subgraph TS["Zaman Serisi (i.i.d. değil)"]
-        direction LR
-        T1[t=1] --> T2[t=2]
-        T2 --> T3[t=3]
-        T3 --> T4[t=4]
-    end
+ subgraph IID["Standart ML (i.i.d.)"]
+ direction TB
+ S1[Örnek 1] ~~~ S2[Örnek 2]
+ S2 ~~~ S3[Örnek 3]
+ end
+ subgraph TS["Zaman Serisi (i.i.d. değil)"]
+ direction LR
+ T1[t=1] --> T2[t=2]
+ T2 --> T3[t=3]
+ T3 --> T4[t=4]
+ end
 
-    style S1 fill:#dfd
-    style S2 fill:#dfd
-    style S3 fill:#dfd
-    style T1 fill:#ffd
-    style T2 fill:#ffd
-    style T3 fill:#ffd
-    style T4 fill:#ffd
+ style S1 fill:#dfd
+ style S2 fill:#dfd
+ style S3 fill:#dfd
+ style T1 fill:#ffd
+ style T2 fill:#ffd
+ style T3 fill:#ffd
+ style T4 fill:#ffd
 ```
 
 Standart ML'de örnekler birbiriyle değiştirilebilir. Karıştırmak hiçbir şeyi değiştirmez. Zaman serilerinde sıralama her şeydir. Karıştırmak sinyali yok eder.
@@ -70,13 +70,13 @@ Her zaman serisi bir kombinasyondur:
 
 ```mermaid
 flowchart TD
-    A[Gözlenen Zaman Serisi] --> B[Trend]
-    A --> C[Mevsimsellik]
-    A --> D[Artık / Gürültü]
+ A[Gözlenen Zaman Serisi] --> B[Trend]
+ A --> C[Mevsimsellik]
+ A --> D[Artık / Gürültü]
 
-    B --> E[Uzun vadeli yön: yukarı, aşağı, yatay]
-    C --> F[Tekrarlayan örüntüler: günlük, haftalık, yıllık]
-    D --> G[Trend ve mevsimsellik çıkarıldıktan sonra kalan rastgele değişim]
+ B --> E[Uzun vadeli yön: yukarı, aşağı, yatay]
+ C --> F[Tekrarlayan örüntüler: günlük, haftalık, yıllık]
+ D --> G[Trend ve mevsimsellik çıkarıldıktan sonra kalan rastgele değişim]
 ```
 
 - **Trend**: Uzun vadeli yön. Gelir yılda %10 büyüyor. Küresel sıcaklık yükseliyor.
@@ -102,8 +102,8 @@ Bir tur fark alma seriyi stationary yapmazsa, tekrar uygulayın (ikinci derece f
 **Örnek:**
 
 Orijinal seri: [100, 102, 106, 112, 120]
-Birinci fark:   [2, 4, 6, 8] (hâlâ yukarı trendli)
-İkinci fark:    [2, 2, 2] (sabit -- stationary)
+Birinci fark: [2, 4, 6, 8] (hâlâ yukarı trendli)
+İkinci fark: [2, 2, 2] (sabit -- stationary)
 
 Orijinal serinin ikinci dereceden bir trendi vardı. Birinci fark alma onu doğrusal bir trene dönüştürdü. İkinci fark alma düz hale getirdi. Pratikte nadiren ikiden fazla tura ihtiyacınız olur.
 
@@ -128,9 +128,9 @@ Standart ML modelleri bir öznitelik matrisi X ve bir hedef y'ye ihtiyaç duyar.
 
 | lag_2 | lag_1 | hedef |
 |-------|-------|--------|
-| 10    | 12    | 14     |
-| 12    | 14    | 13     |
-| 14    | 13    | 15     |
+| 10 | 12 | 14 |
+| 12 | 14 | 13 |
+| 14 | 13 | 15 |
 
 Artık standart bir regresyon probleminiz var. Herhangi bir ML modeli (linear regression, random forest, gradient boosting) hedefi lag'lardan tahmin edebilir.
 
@@ -152,31 +152,31 @@ Bu, bu dersteki en önemli kavramdır. Standart k-fold çapraz doğrulama, örne
 
 ```mermaid
 flowchart TD
-    subgraph WRONG["Rastgele Bölme (YANLIŞ)"]
-        direction LR
-        W1[Ocak] --> W2[Mart]
-        W2 --> W3[Şubat]
-        W3 --> W4[Mayıs]
-        W4 --> W5[Nisan]
-        style W1 fill:#fdd
-        style W3 fill:#fdd
-        style W5 fill:#fdd
-        style W2 fill:#dfd
-        style W4 fill:#dfd
-    end
+ subgraph WRONG["Rastgele Bölme (YANLIŞ)"]
+ direction LR
+ W1[Ocak] --> W2[Mart]
+ W2 --> W3[Şubat]
+ W3 --> W4[Mayıs]
+ W4 --> W5[Nisan]
+ style W1 fill:#fdd
+ style W3 fill:#fdd
+ style W5 fill:#fdd
+ style W2 fill:#dfd
+ style W4 fill:#dfd
+ end
 
-    subgraph RIGHT["Walk-Forward (DOĞRU)"]
-        direction LR
-        R1["Eğitim: Ocak-Mart"] --> R2["Test: Nisan"]
-        R3["Eğitim: Ocak-Nisan"] --> R4["Test: Mayıs"]
-        R5["Eğitim: Ocak-Mayıs"] --> R6["Test: Haziran"]
-        style R1 fill:#dfd
-        style R2 fill:#fdd
-        style R3 fill:#dfd
-        style R4 fill:#fdd
-        style R5 fill:#dfd
-        style R6 fill:#fdd
-    end
+ subgraph RIGHT["Walk-Forward (DOĞRU)"]
+ direction LR
+ R1["Eğitim: Ocak-Mart"] --> R2["Test: Nisan"]
+ R3["Eğitim: Ocak-Nisan"] --> R4["Test: Mayıs"]
+ R5["Eğitim: Ocak-Mayıs"] --> R6["Test: Haziran"]
+ style R1 fill:#dfd
+ style R2 fill:#fdd
+ style R3 fill:#dfd
+ style R4 fill:#fdd
+ style R5 fill:#dfd
+ style R6 fill:#fdd
+ end
 ```
 
 Walk-forward validation:
@@ -244,12 +244,12 @@ Tek adımlı tahmin (single-step forecasting) bir zaman adımı ilerisini tahmin
 
 ```python
 def make_lag_features(series, n_lags):
-    n = len(series)
-    X = np.full((n, n_lags), np.nan)
-    for lag in range(1, n_lags + 1):
-        X[lag:, lag - 1] = series[:-lag]
-    valid = ~np.isnan(X).any(axis=1)
-    return X[valid], series[valid]
+ n = len(series)
+ X = np.full((n, n_lags), np.nan)
+ for lag in range(1, n_lags + 1):
+ X[lag:, lag - 1] = series[:-lag]
+ valid = ~np.isnan(X).any(axis=1)
+ return X[valid], series[valid]
 ```
 #### Açıklama
 Bu fonksiyon, 1 boyutlu bir seriyi öznitelik matrisine dönüştürür. Her satır, son `n_lags` değerini öznitelik olarak, mevcut değeri ise hedef olarak içerir.
@@ -258,14 +258,14 @@ Bu fonksiyon, 1 boyutlu bir seriyi öznitelik matrisine dönüştürür. Her sat
 
 ```python
 def walk_forward_split(n_samples, n_splits=5, min_train=50):
-    assert min_train < n_samples, "min_train must be less than n_samples"
-    step = max(1, (n_samples - min_train) // n_splits)
-    for i in range(n_splits):
-        train_end = min_train + i * step
-        test_end = min(train_end + step, n_samples)
-        if train_end >= n_samples:
-            break
-        yield slice(0, train_end), slice(train_end, test_end)
+ assert min_train < n_samples, "min_train must be less than n_samples"
+ step = max(1, (n_samples - min_train) // n_splits)
+ for i in range(n_splits):
+ train_end = min_train + i * step
+ test_end = min(train_end + step, n_samples)
+ if train_end >= n_samples:
+ break
+ yield slice(0, train_end), slice(train_end, test_end)
 ```
 #### Açıklama
 Her bölme, eğitim verisinin kesinlikle test verisinden önce gelmesini sağlar. Eğitim penceresi her katla birlikte genişler.
@@ -276,19 +276,19 @@ Saf bir AR modeli, lag öznitelikleri üzerinde doğrusal regresyondan ibarettir
 
 ```python
 class SimpleAR:
-    def __init__(self, n_lags=5):
-        self.n_lags = n_lags
-        self.weights = None
-        self.bias = None
+ def __init__(self, n_lags=5):
+ self.n_lags = n_lags
+ self.weights = None
+ self.bias = None
 
-    def fit(self, series):
-        X, y = make_lag_features(series, self.n_lags)
-        # Solve via normal equations
-        X_b = np.column_stack([np.ones(len(X)), X])
-        theta = np.linalg.lstsq(X_b, y, rcond=None)[0]
-        self.bias = theta[0]
-        self.weights = theta[1:]
-        return self
+ def fit(self, series):
+ X, y = make_lag_features(series, self.n_lags)
+ # Solve via normal equations
+ X_b = np.column_stack([np.ones(len(X)), X])
+ theta = np.linalg.lstsq(X_b, y, rcond=None)[0]
+ self.bias = theta[0]
+ self.weights = theta[1:]
+ return self
 ```
 #### Açıklama
 Bu, kavramsal olarak Ders 02'deki doğrusal regresyonla aynıdır, ancak aynı değişkenin zaman gecikmeli versiyonlarına uygulanır.
@@ -299,15 +299,15 @@ Kod, stationarity'yi görsel ve sayısal olarak değerlendirmek için rolling st
 
 ```python
 def check_stationarity(series, window=50):
-    rolling_mean = np.array([
-        series[max(0, i - window):i].mean()
-        for i in range(1, len(series) + 1)
-    ])
-    rolling_std = np.array([
-        series[max(0, i - window):i].std()
-        for i in range(1, len(series) + 1)
-    ])
-    return rolling_mean, rolling_std
+ rolling_mean = np.array([
+ series[max(0, i - window):i].mean()
+ for i in range(1, len(series) + 1)
+ ])
+ rolling_std = np.array([
+ series[max(0, i - window):i].std()
+ for i in range(1, len(series) + 1)
+ ])
+ return rolling_mean, rolling_std
 ```
 #### Açıklama
 Rolling mean kayıyorsa veya rolling std değişiyorsa, seri non-stationary'dir. Fark alma uygulayın ve tekrar kontrol edin.
@@ -318,14 +318,14 @@ Kod ayrıca serinin ilk yarısı ile ikinci yarısını karşılaştırarak stat
 
 ```python
 def autocorrelation(series, max_lag=20):
-    n = len(series)
-    mean = series.mean()
-    var = series.var()
-    acf = np.zeros(max_lag + 1)
-    for k in range(max_lag + 1):
-        cov = np.mean((series[:n-k] - mean) * (series[k:] - mean))
-        acf[k] = cov / var if var > 0 else 0
-    return acf
+ n = len(series)
+ mean = series.mean()
+ var = series.var()
+ acf = np.zeros(max_lag + 1)
+ for k in range(max_lag + 1):
+ cov = np.mean((series[:n-k] - mean) * (series[k:] - mean))
+ acf[k] = cov / var if var > 0 else 0
+ return acf
 ```
 #### Açıklama
 Bu fonksiyon, her lag k için autocorrelation katsayısını hesaplar ve bir ACF vektörü döndürür.
@@ -341,9 +341,9 @@ from sklearn.ensemble import GradientBoostingRegressor
 X, y = make_lag_features(series, n_lags=10)
 
 for train_idx, test_idx in walk_forward_split(len(X)):
-    model = Ridge(alpha=1.0)
-    model.fit(X[train_idx], y[train_idx])
-    predictions = model.predict(X[test_idx])
+ model = Ridge(alpha=1.0)
+ model.fit(X[train_idx], y[train_idx])
+ predictions = model.predict(X[test_idx])
 ```
 #### Açıklama
 Walk-forward validation döngüsü içinde sklearn modellerini lag öznitelikleriyle eğitip test eder. Bu yaklaşım, herhangi bir regresyon algoritmasıyla çalışır.
@@ -371,10 +371,10 @@ from sklearn.model_selection import TimeSeriesSplit
 
 tscv = TimeSeriesSplit(n_splits=5)
 for train_index, test_index in tscv.split(X):
-    X_train, X_test = X[train_index], X[test_index]
-    y_train, y_test = y[train_index], y[test_index]
-    model.fit(X_train, y_train)
-    score = model.score(X_test, y_test)
+ X_train, X_test = X[train_index], X[test_index]
+ y_train, y_test = y[train_index], y[test_index]
+ model.fit(X_train, y_train)
+ score = model.score(X_test, y_test)
 ```
 #### Açıklama
 Bu, sıfırdan yazdığımız `walk_forward_split` ile eşdeğerdir ancak sklearn'in çapraz doğrulama çerçevesine entegre edilmiştir. `cross_val_score` ile kullanabilirsiniz:
@@ -464,6 +464,6 @@ Süslü ML modeliniz mevsimsel naif temel çizgiye kaybediyorsa, bir hatanız va
 ## İleri Okuma
 
 - [Hyndman and Athanasopoulos, Forecasting: Principles and Practice (3rd ed.)](https://otexts.com/fpp3/) -- zaman serisi tahminlemesi üzerine en iyi ücretsiz ders kitabı
-- [scikit-learn Time Series Split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html) -- sklearn'in walk-forward bölücüsü
-- [statsmodels ARIMA docs](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html) -- tanılama araçlarıyla ARIMA uygulaması
+- [scikit-learn Time Series Split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection. TimeSeriesSplit.html) -- sklearn'in walk-forward bölücüsü
+- [statsmodels ARIMA docs](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model. ARIMA.html) -- tanılama araçlarıyla ARIMA uygulaması
 - [Makridakis et al., The M5 Competition (2022)](https://www.sciencedirect.com/science/article/pii/S0169207021001874) -- ML yöntemlerinin istatistiksel yöntemlerle karşılaştırıldığı büyük ölçekli tahminleme yarışması

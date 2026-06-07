@@ -35,7 +35,7 @@ ViT-B/16 kanonik yapılandırması için:
 - Her yama `16 x 16 x 3 = 768` piksel değeridir, `D = 768` boyutuna projekte edilir.
 - Öğrenilebilir `[CLS]` token'ı eklenir → dizi uzunluğu 197.
 
-Yama projeksiyonu matematiksel olarak `P` çekirdek boyutlu, `P` adım genişliğinde ve `D` çıkış kanallı 2D konvolüsyonla özdeştir. Üretim kodu bunu tam olarak böyle uygular — `nn.Conv2d(3, D, kernel_size=P, stride=P)`. "Doğrusal projeksiyon" çerçevelemesi kavramsaldır; çekirdek çerçevelemesi verimlidir.
+Yama projeksiyonu matematiksel olarak `P` çekirdek boyutlu, `P` adım genişliğinde ve `D` çıkış kanallı 2D konvolüsyonla özdeştir. Üretim kodu bunu tam olarak böyle uygular — `nn. Conv2d(3, D, kernel_size=P, stride=P)`. "Doğrusal projeksiyon" çerçevelemesi kavramsaldır; çekirdek çerçevelemesi verimlidir.
 
 ### Konumsal gömmeler (positional embeddings)
 
@@ -78,13 +78,13 @@ ViT-g/14 (1B parametre, patch 14, 224 çözünürlük → 256 token) ve SigLIP S
 Hesaplama `code/main.py` dosyasında yer alır. 224 çözünürlükte ViT-B/16 için:
 
 ```
-patch_embed = 3 * 16 * 16 * 768 + 768  =  591k
-cls + pos    = 768 + 197 * 768          =  152k
-block        = 4 * 768^2 (QKVO) + 2 * 4 * 768^2 (MLP) + 2 * 2*768 (LN)
-             = 12 * 768^2 + 3k          =  7.1M
-12 blocks    = 85M
-final LN    = 1.5k
-total       ≈ 86M
+patch_embed = 3 * 16 * 16 * 768 + 768 = 591k
+cls + pos = 768 + 197 * 768 = 152k
+block = 4 * 768^2 (QKVO) + 2 * 4 * 768^2 (MLP) + 2 * 2*768 (LN)
+ = 12 * 768^2 + 3k = 7.1M
+12 blocks = 85M
+final LN = 1.5k
+total ≈ 86M
 ```
 
 #### Açıklama

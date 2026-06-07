@@ -100,7 +100,7 @@ Bu ders `outputs/skill-provenance-check.md` üretir. Eğitimde kullanılan bir v
 | AB 2013 | "California yasası" | Üretken AI eğitim-veri şeffaflığı; 12 zorunlu alan |
 | TDM istisnası | "metin-ve-veri-madenciliği" | Opt-out ile AB Telif Hakkı Direktifi eğitim-veri istisnası |
 | Meşru menfaat | "AB temeli" | Kamuya açık içerik üzerinde eğitimi haklı çıkarabilen GDPR Madde 6 temeli |
-| Opt-out sinyali | "makine-okunabilir eğitim-yok" | robots.txt, C2PA "AI Eğitimi Yok," TDM.Reservation |
+| Opt-out sinyali | "makine-okunabilir eğitim-yok" | robots.txt, C2PA "AI Eğitimi Yok," TDM. Reservation |
 | Geri dönüşümsüzlük | "eğitimi geri alamaz" | Model ağırlıklarındaki veri cerrahi olarak kaldırılamaz |
 | Unlearning | "yaklaşık kaldırma" | Belirli veriye model bağımlılığını azaltmak için eğitim-sonrası müdahaleler |
 | Consent in Crisis | "DPI denetimi" | Temmuz 2024'te hızlanan robots.txt kısıtlamalarının bulgusu |

@@ -37,11 +37,11 @@ Refusal kuralları:
 ├── agent_state.json
 ├── task_board.json
 ├── schemas/
-│   ├── agent_state.schema.json
-│   └── task_board.schema.json
+│ ├── agent_state.schema.json
+│ └── task_board.schema.json
 └── tools/
-    ├── state_manager.py
-    └── migrate_state.py
+ ├── state_manager.py
+ └── migrate_state.py
 ```
 
 Şuraya işaret eden bir "sırada ne okumalı" ile bitir:

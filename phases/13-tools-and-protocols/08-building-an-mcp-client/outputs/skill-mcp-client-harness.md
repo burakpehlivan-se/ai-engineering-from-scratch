@@ -12,7 +12,7 @@ tags: [mcp, client, multi-server, routing, namespace]
 Şunları üret:
 
 1. Server konfigürasyon parser'ı. `name -> {command, args, env}` eşle. Komutların path üzerinde var olduğunu doğrula.
-2. Spawn planı. `bufsize=1`, text mode olacak şekilde stdin/stdout/stderr pipe'ları ile subprocess.Popen kullan. Server başına bir arka plan reader thread'i.
+2. Spawn planı. `bufsize=1`, text mode olacak şekilde stdin/stdout/stderr pipe'ları ile subprocess. Popen kullan. Server başına bir arka plan reader thread'i.
 3. Handshake pipeline'ı. Her oturum için: `initialize` gönder, response'u bekle, capability'leri kalıcılaştır, `notifications/initialized` gönder.
 4. Namespace birleştirme. Bir çakışma policy'si seç: `prefix-on-collision` (varsayılan), `reject-on-collision` veya `silent-overwrite` (yasak). Startup'ta birleştirilmiş bir tool listesi yazdır.
 5. Routing fonksiyonu. `client.call(canonical_name, arguments)` sahip oturumu arar ve bir `tools/call` mesajı yazar. Pending-request tablosunda bir future üzerinden eşleşen-id response'unu await eder.

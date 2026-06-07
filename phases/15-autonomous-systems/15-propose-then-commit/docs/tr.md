@@ -20,12 +20,12 @@ Bir agent bir eylem gerçekleştirir. Kullanıcının karar vermesi gerekir: uyg
 ### Öner-sonra-uygula durum makinesi
 
 1. **Öner.** Agent önerilen bir eylem üretir. Dayanıklı bir depoya (PostgreSQL, Redis, Durable Object) kaydedilir. Şunları içerir:
-   - niyet (neden agent bunu yapıyor)
-   - veri soyu (hangi kaynak bu önermeye yol açtı)
-   - dokunulan izinler (hangi kapsam/dosya/son nokta)
-   - etki yarıçapı (en kötü durum nedir)
-   - geri alma planı (uygulanırsa nasıl geri alınır)
-   - özdeşlik anahtarı (önerme başına benzersiz; yeniden gönderme aynı kaydı döndürür)
+ - niyet (neden agent bunu yapıyor)
+ - veri soyu (hangi kaynak bu önermeye yol açtı)
+ - dokunulan izinler (hangi kapsam/dosya/son nokta)
+ - etki yarıçapı (en kötü durum nedir)
+ - geri alma planı (uygulanırsa nasıl geri alınır)
+ - özdeşlik anahtarı (önerme başına benzersiz; yeniden gönderme aynı kaydı döndürür)
 2. **Sunma.** İnceleyici öneriyi tüm meta verilerle görür. İnceleyici bir kişidir (kendini inceleyen agent değil).
 3. **Uygulama.** Olumlu onay. Eylem çalıştırılır.
 4. **Doğrulama.** Uygulamadan sonra yan etki geri okunur ve doğrulanır. Doğrulama adımı başarısız olursa sistem bilinen kötü bir durumdadır ve uyarı devreye girer.

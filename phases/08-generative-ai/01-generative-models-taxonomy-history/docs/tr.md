@@ -68,7 +68,7 @@ Bu dersin kodu hafif bir görselleştirme: örnekleme yöntemleriyle (kernel yo�
 
 ```
 explicit density (histogram): p(x in [-0.5, 0.5]) ≈ 0.38
-approximate density (KDE):     p(x in [-0.5, 0.5]) ≈ 0.41
+approximate density (KDE): p(x in [-0.5, 0.5]) ≈ 0.41
 implicit (nearest-sample gen): 20 new samples printed, no p(x)
 ```
 

@@ -44,8 +44,8 @@ Buruktur: türetme, optimumun ulaşılabilir olduğunu, tercih verilerinin dağ�
 
 ```
 L_DPO = -log sigmoid(
-  beta * log(pi(y_w | x) / pi_ref(y_w | x))
-  - beta * log(pi(y_l | x) / pi_ref(y_l | x))
+ beta * log(pi(y_w | x) / pi_ref(y_w | x))
+ - beta * log(pi(y_l | x) / pi_ref(y_l | x))
 )
 ```
 
@@ -81,9 +81,9 @@ Simple Preference Optimization, eğitim sinyalini üretimle hizalar. Referans po
 
 ```
 L_SimPO = -log sigmoid(
-  (beta / |y_w|) * log pi(y_w | x)
-  - (beta / |y_l|) * log pi(y_l | x)
-  - gamma
+ (beta / |y_w|) * log pi(y_w | x)
+ - (beta / |y_l|) * log pi(y_l | x)
+ - gamma
 )
 ```
 

@@ -28,18 +28,18 @@ Karışık hassasiyetli eğitim, ileri geçişi ve geri geçişin çoğunu FP16'
 
 ```mermaid
 flowchart TD
-  Forward[autocast'ta ileri] --> Loss[FP32'de kayıp]
-  Loss --> Scale[scaler.scale loss]
-  Scale --> Backward[FP16 gradyanlarla geri geçiş]
-  Backward --> Unscale[scaler.unscale optimizer]
-  Unscale --> NormCheck[Küresel L2 normunu hesapla]
-  NormCheck --> Detect{NaN veya Inf?}
-  Detect -- evet --> Skip[Adımı atla + log + scaler.update yarıya indirir]
-  Detect -- hayır --> Clip[Gradyanları max_norm'a kırp]
-  Clip --> StepOpt[scaler.step optimizer]
-  StepOpt --> Update[scaler.update ikiye katlar veya yarıya indirir]
-  Update --> NextStep[Sonraki adım]
-  Skip --> NextStep
+ Forward[autocast'ta ileri] --> Loss[FP32'de kayıp]
+ Loss --> Scale[scaler.scale loss]
+ Scale --> Backward[FP16 gradyanlarla geri geçiş]
+ Backward --> Unscale[scaler.unscale optimizer]
+ Unscale --> NormCheck[Küresel L2 normunu hesapla]
+ NormCheck --> Detect{NaN veya Inf?}
+ Detect -- evet --> Skip[Adımı atla + log + scaler.update yarıya indirir]
+ Detect -- hayır --> Clip[Gradyanları max_norm'a kırp]
+ Clip --> StepOpt[scaler.step optimizer]
+ StepOpt --> Update[scaler.update ikiye katlar veya yarıya indirir]
+ Update --> NextStep[Sonraki adım]
+ Skip --> NextStep
 ```
 
 ### Küresel L2 normu
@@ -48,7 +48,7 @@ Küresel L2 normu, birleştirilmiş gradyan vektörünün Öklid normudur, param
 
 ### autocast ve GradScaler
 
-`torch.amp.autocast(device_type)`, uygun işlemleri (çoğu matmul sınıfı işlem) FP16'da seçici olarak çalıştıran bağlam yöneticisidir. `torch.amp.GradScaler(device_type)`, geri geçişten önce kaybı ölçekleyen ve optimize edici adımından önce gradyanları ters ölçekleyen yardımcıdır. İkisi birlikte tasarlanmıştır; birini diğeri olmadan kullanmak, testin yakalaması gereken bir yapılandırma hatasıdır.
+`torch.amp.autocast(device_type)`, uygun işlemleri (çoğu matmul sınıfı işlem) FP16'da seçici olarak çalıştıran bağlam yöneticisidir. `torch.amp. GradScaler(device_type)`, geri geçişten önce kaybı ölçekleyen ve optimize edici adımından önce gradyanları ters ölçekleyen yardımcıdır. İkisi birlikte tasarlanmıştır; birini diğeri olmadan kullanmak, testin yakalaması gereken bir yapılandırma hatasıdır.
 
 Ders, CPU autocast kullanır çünkü bu CI'da çalışan şeydir; aynı örüntü, `device_type="cpu"`'yu `device_type="cuda"` olarak değiştirerek CUDA'ya değişmeden aktarılır. CPU üzerinde GradScaler bir stub'tır (CPU autocast zaten varsayılan olarak BF16'da çalışır ve kayıp ölçeklemesi gerektirmez), ancak ders, bağlantının GPU döngüsüyle aynı olması için çağrı sitelerini içerir.
 
@@ -68,7 +68,7 @@ Tespit iki yerde olur. Birincisi, kaybın kendisi geri geçişten önce `torch.i
 - `has_non_finite_grad` - gradyanları NaN ve Inf için tarayan bir yardımcı.
 - `AmpTrainState` - bir modeli, bir `AdamW` optimize ediciyi, bir GradScaler'ı ve bir autocast cihazını sarar. Tam kırpma, ölçekleme ve NaN'da atlama hattını çalıştıran bir `step(inputs, targets)` sunar.
 - `StepLog` ve `SkipLog` - yapılandırılmış adım başına kayıtlar.
-- 20 adım boyunca küçük bir `nn.Linear` modeli eğiten, atlama yolunu çalıştırmak için 5. adımda gradyana bir Inf enjekte eden ve ortaya çıkan logu yazdıran bir demo.
+- 20 adım boyunca küçük bir `nn. Linear` modeli eğiten, atlama yolunu çalıştırmak için 5. adımda gradyana bir Inf enjekte eden ve ortaya çıkan logu yazdıran bir demo.
 
 Çalıştırın:
 
@@ -124,7 +124,7 @@ Dört örüntü, döngüyü bir üretim eğitim adımına yükseltir.
 
 - [Micikevicius ve ark., Karışık Hassasiyetli Eğitim (arXiv 1710.03740)](https://arxiv.org/abs/1710.03740) - orijinal kayıp ölçekleme önerisi
 - [Pascanu, Mikolov, Bengio, YINLEM AĞLARININ EĞİTİMİNİN ZORLUĞU ÜZERİNE (arXiv 1211.5063)](https://arxiv.org/abs/1211.5063) - gradyan kırpma referans makalesi
-- [PyTorch torch.amp.GradScaler](https://docs.pytorch.org/docs/stable/amp.html) - bu dersin sardığı scaler API'si
+- [PyTorch torch.amp. GradScaler](https://docs.pytorch.org/docs/stable/amp.html) - bu dersin sardığı scaler API'si
 - [PyTorch torch.nn.utils.clip_grad_norm_](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html) - bu dersin kullandığı kırpma temeli
 - Faz 19 · 42 - döngüyü besleyen derlemin indiricisi
 - Faz 19 · 43 - döngünün tükettiği dataloader

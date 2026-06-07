@@ -39,8 +39,8 @@ from transformers import pipeline
 qa = pipeline("question-answering", model="deepset/roberta-base-squad2")
 
 passage = (
-    "Apple Inc. released the first iPhone on June 29, 2007. "
-    "The device was announced by Steve Jobs at Macworld in January 2007."
+ "Apple Inc. released the first iPhone on June 29, 2007. "
+ "The device was announced by Steve Jobs at Macworld in January 2007."
 )
 question = "When was the first iPhone released?"
 
@@ -66,25 +66,25 @@ import numpy as np
 encoder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 corpus = [
-    "Apple Inc. released the first iPhone on June 29, 2007.",
-    "Macworld 2007 featured the iPhone announcement by Steve Jobs.",
-    "Android launched in 2008 as Google's mobile operating system.",
-    "The first iPod was released in 2001.",
+ "Apple Inc. released the first iPhone on June 29, 2007.",
+ "Macworld 2007 featured the iPhone announcement by Steve Jobs.",
+ "Android launched in 2008 as Google's mobile operating system.",
+ "The first iPod was released in 2001.",
 ]
 corpus_embeddings = encoder.encode(corpus, normalize_embeddings=True)
 
 
 def retrieve(question, top_k=2):
-    q_emb = encoder.encode([question], normalize_embeddings=True)
-    sims = (corpus_embeddings @ q_emb.T).squeeze()
-    order = np.argsort(-sims)[:top_k]
-    return [corpus[i] for i in order]
+ q_emb = encoder.encode([question], normalize_embeddings=True)
+ sims = (corpus_embeddings @ q_emb. T).squeeze()
+ order = np.argsort(-sims)[:top_k]
+ return [corpus[i] for i in order]
 
 
 def answer(question):
-    passages = retrieve(question, top_k=2)
-    combined = " ".join(passages)
-    return qa(question=question, context=combined)
+ passages = retrieve(question, top_k=2)
+ combined = " ".join(passages)
+ return qa(question=question, context=combined)
 
 
 print(answer("When was the first iPhone released?"))
@@ -99,15 +99,15 @@ Bu, iki aşamalı bir pipeline örneğidir. Yoğun retriever (Sentence-BERT), an
 
 ```python
 def rag_generate(question, llm):
-    passages = retrieve(question, top_k=3)
-    prompt = f"""Context:
+ passages = retrieve(question, top_k=3)
+ prompt = f"""Context:
 {chr(10).join('- ' + p for p in passages)}
 
 Question: {question}
 
 Answer using only the context above. If the context does not contain the answer, say "I don't know."
 """
-    return llm(prompt)
+ return llm(prompt)
 ```
 
 #### Açıklama

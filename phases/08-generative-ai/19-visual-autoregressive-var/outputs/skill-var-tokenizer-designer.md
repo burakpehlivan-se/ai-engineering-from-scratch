@@ -11,7 +11,7 @@ Hedef görüntü (çözünürlük, kanallar, renkli vs gri tonlama, veri kümesi
 
 1. Ölçek zamanlaması. K çözünürlük seviyelerini 1x1'den (H/p) x (W/p)'ye kadar listele. 256x256 için varsayılan 10 ölçek, 512x512 için 14. K'yı LM'nin etkin dizi uzunluğuna (ölçek alanlarının toplamı) ve ölçek-içi paralel bütçeye göre gerekçelendir.
 2. Kod defteri. Tüm ölçeklerde tek paylaşılan kod defteri boyutu V (tipik 4096 / 8192 / 16384). V'yi veri kümesi boyutu ve kodçözücü kapasitesinden seç. Kod defteri kullanımının kalibrasyon partisinde %50'nin üzerinde kaldığını doğrula veya V'yi küçült.
-3. Artık paylaşımı. 1..K ölçeklerinin toplanmış yukarı örneklenmiş gömmeleri (artıklı VQ) ile gizliyi birlikte yeniden yapılandırdığını doğrula. Yama boyutu p'yi ve VAE omurgasını (VQGAN tarzı ayrımcı açık/kapalı, algısal kayıp ağırlığı) belirt.
+3. Artık paylaşımı. 1.. K ölçeklerinin toplanmış yukarı örneklenmiş gömmeleri (artıklı VQ) ile gizliyi birlikte yeniden yapılandırdığını doğrula. Yama boyutu p'yi ve VAE omurgasını (VQGAN tarzı ayrımcı açık/kapalı, algısal kayıp ağırlığı) belirt.
 4. Kodçözücü. Toplanmış gizliyi piksellere geri eşleyen VAE kodçözücü. VQGAN kodçözücü, VAR-kağıdı kodçözücü veya daha hafif MAGVIT tarzı kodçözücü arasından seç. FID hedefi ve kodçözücü VRAM'ına göre gerekçelendir.
 5. Konum gömme. Ölçek başına öğrenilmiş gömme ve ölçek içinde 2D sin-cos ile (scale_index, satır, sütun) üçlüsünü doğrula. Düz 1D konumları reddet; LM doğru koşulluyu uygulamak için ölçek etiketine ihtiyaç duyar.
 

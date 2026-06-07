@@ -31,12 +31,12 @@ Bir doğrulama kapısı, hayır diyen çerçeve bileşenidir. Model değildir. Y
 
 ```mermaid
 flowchart LR
-  Call[tool_call] --> Chain[Gate chain]
-  Chain -->|ALLOW| Dispatch[dispatch tool]
-  Chain -->|DENY| Reason[reason]
-  Reason --> Store[append to message store]
-  Reason --> Refusal[increment refusal_count]
-  Reason --> Loop[loop continues<br/>or aborts at threshold]
+ Call[tool_call] --> Chain[Gate chain]
+ Chain -->|ALLOW| Dispatch[dispatch tool]
+ Chain -->|DENY| Reason[reason]
+ Reason --> Store[append to message store]
+ Reason --> Refusal[increment refusal_count]
+ Reason --> Loop[loop continues<br/>or aborts at threshold]
 ```
 
 #### Açıklama
@@ -57,11 +57,11 @@ Gözlem defteri (observation ledger) defter tutma kısmıdır. Her başarılı a
 
 ```mermaid
 flowchart TD
-  Harness[AgentHarness<br/>dersler 20-24] --> Chain[GateChain<br/>WhitelistGate / RegexGate<br/>RecencyGate / BudgetGate]
-  Chain -->|ALLOW| Dispatch[tool_dispatch]
-  Dispatch --> Result[Tool result]
-  Result -->|write| Ledger[ObservationLedger<br/>per-tool count<br/>cumulative]
-  Ledger -->|record| Store[MessageStore]
+ Harness[AgentHarness<br/>dersler 20-24] --> Chain[GateChain<br/>WhitelistGate / RegexGate<br/>RecencyGate / BudgetGate]
+ Chain -->|ALLOW| Dispatch[tool_dispatch]
+ Dispatch --> Result[Tool result]
+ Result -->|write| Ledger[ObservationLedger<br/>per-tool count<br/>cumulative]
+ Ledger -->|record| Store[MessageStore]
 ```
 
 #### Açıklama

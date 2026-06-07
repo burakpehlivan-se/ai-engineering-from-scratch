@@ -18,17 +18,17 @@ Sorun şu: LLM yöneticileri insan yöneticileriyle aynı değildir. İnsan yön
 ### Şekil
 
 ```
-                 Yönetici
-                 ┌─────┐
-                 └──┬──┘
-           ┌────────┴────────┐
-           ▼                 ▼
-       Alt-Yön. A        Alt-Yön. B
-       ┌─────┐           ┌─────┐
-       └──┬──┘           └──┬──┘
-         ┌┴──┬──┐          ┌┴──┐
-         ▼   ▼  ▼          ▼   ▼
-       W1  W2  W3         W4  W5
+ Yönetici
+ ┌─────┐
+ └──┬──┘
+ ┌────────┴────────┐
+ ▼ ▼
+ Alt-Yön. A Alt-Yön. B
+ ┌─────┐ ┌─────┐
+ └──┬──┘ └──┬──┘
+ ┌┴──┬──┐ ┌┴──┐
+ ▼ ▼ ▼ ▼ ▼
+ W1 W2 W3 W4 W5
 ```
 
 Her iç düğüm planlar, devreder ve sentezler. Yalnızca yapraklar iş yapar.

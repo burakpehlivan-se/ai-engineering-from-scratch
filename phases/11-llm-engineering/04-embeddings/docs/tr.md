@@ -52,20 +52,20 @@ Kelime embedding'leri tek tek token'ları temsil eder. Üretim sistemleri tüm c
 
 ```mermaid
 graph LR
-    subgraph "2013: Word2Vec"
-        W1["king"] --> V1["[0.2, -0.1, ...]"]
-        W2["queen"] --> V2["[0.3, -0.2, ...]"]
-    end
+ subgraph "2013: Word2Vec"
+ W1["king"] --> V1["[0.2, -0.1, ...]"]
+ W2["queen"] --> V2["[0.3, -0.2, ...]"]
+ end
 
-    subgraph "2019: Sentence-BERT"
-        S1["How do I reset my password?"] --> E1["[0.04, 0.12, ...]"]
-        S2["I need to change my password"] --> E2["[0.05, 0.11, ...]"]
-    end
+ subgraph "2019: Sentence-BERT"
+ S1["How do I reset my password?"] --> E1["[0.04, 0.12, ...]"]
+ S2["I need to change my password"] --> E2["[0.05, 0.11, ...]"]
+ end
 
-    subgraph "2024: Instruction-Tuned"
-        I1["search_query: password reset"] --> T1["[0.08, 0.09, ...]"]
-        I2["search_document: To reset your password, click..."] --> T2["[0.07, 0.10, ...]"]
-    end
+ subgraph "2024: Instruction-Tuned"
+ I1["search_query: password reset"] --> T1["[0.08, 0.09, ...]"]
+ I2["search_document: To reset your password, click..."] --> T2["[0.07, 0.10, ...]"]
+ end
 ```
 
 #### Açıklama
@@ -120,13 +120,13 @@ HNSW, küçük bir doğruluk kaybıyla (genellikle %95-99 recall) devasa hız ka
 
 ```mermaid
 graph TD
-    subgraph "HNSW Layers"
-        L2["Layer 2 (seyrek)"] -->|"uzun sıçramalar"| L1["Layer 1 (orta)"]
-        L1 -->|"daha kısa sıçramalar"| L0["Layer 0 (yoğun, tüm vektörler)"]
-    end
+ subgraph "HNSW Layers"
+ L2["Layer 2 (seyrek)"] -->|"uzun sıçramalar"| L1["Layer 1 (orta)"]
+ L1 -->|"daha kısa sıçramalar"| L0["Layer 0 (yoğun, tüm vektörler)"]
+ end
 
-    Q["Query vektörü"] -->|"üstten gir"| L2
-    L0 -->|"en yakın komşular"| R["Top-k sonuçları"]
+ Q["Query vektörü"] -->|"üstten gir"| L2
+ L0 -->|"en yakın komşular"| R["Top-k sonuçları"]
 ```
 
 #### Açıklama

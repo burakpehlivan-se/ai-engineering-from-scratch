@@ -30,9 +30,9 @@ G'deki transpoze evrişim bloklarının ve D'deki adımlı evrişim bloklarını
 
 | image_size | G blokları | D blokları |
 |------------|----------|----------|
-| 32         | 4        | 4        |
-| 64         | 5        | 5        |
-| 128        | 6        | 6        |
+| 32 | 4 | 4 |
+| 64 | 5 | 5 |
+| 128 | 6 | 6 |
 
 Her ek blok, uzamsal boyutu ikiye katlar (G) veya yarıya indirir (D). Özellik sayısı 32'den başlar ve `feat_base * 2^block_index` ile ölçeklenir.
 
@@ -48,34 +48,34 @@ Her ek blok, uzamsal boyutu ikiye katlar (G) veya yarıya indirir (D). Özellik 
 
 ```
 [scaffold]
-  image_size:       <int>
-  num_channels:     <int>
-  z_dim:            <int>
-  spectral_norm:    yes | no
+ image_size: <int>
+ num_channels: <int>
+ z_dim: <int>
+ spectral_norm: yes | no
 
 [arch]
-  G blocks:         <N>, channels: [list]
-  D blocks:         <N>, channels: [list]
-  G params (est):   <N>
-  D params (est):   <N>
+ G blocks: <N>, channels: [list]
+ D blocks: <N>, channels: [list]
+ G params (est): <N>
+ D params (est): <N>
 
 [training defaults]
-  optimizer:   Adam(lr=2e-4, betas=(0.5, 0.999))
-  batch_size:  64
-  epochs:      50
-  sample_every: 1 epoch
+ optimizer: Adam(lr=2e-4, betas=(0.5, 0.999))
+ batch_size: 64
+ epochs: 50
+ sample_every: 1 epoch
 
 [files written]
-  - model.py
-  - train.py
-  - sample.py
-  - config.json
-  - README.md
+ - model.py
+ - train.py
+ - sample.py
+ - config.json
+ - README.md
 ```
 
 ## Kurallar
 
-- Her zaman G'nin çıktısında `nn.Tanh()` kullanın ve eğitim sırasında verileri [-1, 1] aralığına ölçekleyin.
+- Her zaman G'nin çıktısında `nn. Tanh()` kullanın ve eğitim sırasında verileri [-1, 1] aralığına ölçekleyin.
 - D'de her zaman `LeakyReLU(0.2)` kullanın.
 - `with_spectral_norm == yes` olduğunda, D'deki her evrişimi `spectral_norm()` ile sarın ve D'den BatchNorm'u kaldırın. BatchNorm'u G'de tutun.
 - image_size > 128 için asla iskele yayınlamayın — DCGAN bundan büyük kararsızlaşır; kullanıcıyı StyleGAN veya bir difüzyon modeline yönlendirin.

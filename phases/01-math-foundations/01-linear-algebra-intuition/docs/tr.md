@@ -47,21 +47,21 @@ Bir matris bir vektörü diğerine dönüştürür. Döndürebilir, ölçekleyeb
 
 ```mermaid
 graph LR
-    subgraph Önce
-        A["Nokta A"]
-        B["Nokta B"]
-    end
-    subgraph Matris["Matris Çarpımı"]
-        M["M (dönüşüm)"]
-    end
-    subgraph Sonra
-        A2["Nokta A'"]
-        B2["Nokta B'"]
-    end
-    A --> M
-    B --> M
-    M --> A2
-    M --> B2
+ subgraph Önce
+ A["Nokta A"]
+ B["Nokta B"]
+ end
+ subgraph Matris["Matris Çarpımı"]
+ M["M (dönüşüm)"]
+ end
+ subgraph Sonra
+ A2["Nokta A'"]
+ B2["Nokta B'"]
+ end
+ A --> M
+ B --> M
+ M --> A2
+ M --> B2
 ```
 
 Yapay zekada matrisler MODELİN kendisidir:
@@ -76,9 +76,9 @@ Yapay zekada matrisler MODELİN kendisidir:
 ```
 a · b = a₁×b₁ + a₂×b₂ + ... + aₙ×bₙ
 
-Aynı yön:      a · b > 0  (benzer)
-Dik:           a · b = 0  (ilgisiz)
-Ters yön:      a · b < 0  (farklı)
+Aynı yön: a · b > 0 (benzer)
+Dik: a · b = 0 (ilgisiz)
+Ters yön: a · b < 0 (farklı)
 ```
 
 Yapay zekada iç çarpım:

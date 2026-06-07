@@ -32,11 +32,11 @@ MoE bloğu:
 
 ```
 h = x + attn(norm(x))
-scores = router(norm(h))              # (N_tokens, E)
-top_k = argmax_k(scores)              # pick k of E per token
+scores = router(norm(h)) # (N_tokens, E)
+top_k = argmax_k(scores) # pick k of E per token
 h = h + sum_{e in top_k}(
-        gate(scores[e]) * Expert_e(norm(h))
-    )
+ gate(scores[e]) * Expert_e(norm(h))
+ )
 ```
 
 #### Açıklama
@@ -92,16 +92,16 @@ Tüm uzmanlar hangilerinin ateşlendiğine bakılmaksızın GPU'da yaşar. 671B 
 
 ```python
 def route(hidden, W_router, top_k, bias):
-    scores = [sum(h * w for h, w in zip(hidden, W_router[e])) for e in range(len(W_router))]
-    biased = [s + b for s, b in zip(scores, bias)]
-    top_idx = sorted(range(len(biased)), key=lambda i: -biased[i])[:top_k]
-    # softmax over ORIGINAL scores of the chosen experts
-    chosen = [scores[i] for i in top_idx]
-    m = max(chosen)
-    exps = [math.exp(c - m) for c in chosen]
-    s = sum(exps)
-    gates = [e / s for e in exps]
-    return top_idx, gates
+ scores = [sum(h * w for h, w in zip(hidden, W_router[e])) for e in range(len(W_router))]
+ biased = [s + b for s, b in zip(scores, bias)]
+ top_idx = sorted(range(len(biased)), key=lambda i: -biased[i])[:top_k]
+ # softmax over ORIGINAL scores of the chosen experts
+ chosen = [scores[i] for i in top_idx]
+ m = max(chosen)
+ exps = [math.exp(c - m) for c in chosen]
+ s = sum(exps)
+ gates = [e / s for e in exps]
+ return top_idx, gates
 ```
 
 #### Açıklama

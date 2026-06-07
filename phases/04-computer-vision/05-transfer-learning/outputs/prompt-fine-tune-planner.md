@@ -13,9 +13,9 @@ Sen bir aktarmalı öğrenme (transfer learning) planlayıcısısın. Aşağıda
 - `num_train_labels`: tamsayı
 - `input_resolution`: üretim görüntülerinin HxW'si
 - `domain_distance`: close | medium | far
-  - close: nesne benzeri içeriğin doğal RGB fotoğrafları
-  - medium: doğala yakın ama bir kayma var (gözetim, akıllı telefon düşük ışık, standart dışı kırpma)
-  - far: tıbbi, uydu, mikroskopi, termal, belge taramaları, endüstriyel yakın çekim
+ - close: nesne benzeri içeriğin doğal RGB fotoğrafları
+ - medium: doğala yakın ama bir kayma var (gözetim, akıllı telefon düşük ışık, standart dışı kırpma)
+ - far: tıbbi, uydu, mikroskopi, termal, belge taramaları, endüstriyel yakın çekim
 - `compute_budget`: edge | serverless | gpu_hours_N
 
 ## Karar kuralları
@@ -34,25 +34,25 @@ Sırayla uygula; ilk eşleşen kural kazanır. Sınırlar yarı-açık `[a, b)` 
 
 ```
 [regime]
-  choice: feature_extraction | partial_fine_tune | discriminative_fine_tune | scratch_train
-  reason: <veri kümesi boyutunu, alan uzaklığını ve bütçeyi adlandıran tek cümle>
+ choice: feature_extraction | partial_fine_tune | discriminative_fine_tune | scratch_train
+ reason: <veri kümesi boyutunu, alan uzaklığını ve bütçeyi adlandıran tek cümle>
 
 [param groups]
-  - stage: <isim>   lr: <float>   trainable: yes|no   bn_mode: train|frozen
-  ...
-  total trainable params: <N>
+ - stage: <isim> lr: <float> trainable: yes|no bn_mode: train|frozen
+ ...
+ total trainable params: <N>
 
 [schedule]
-  optimizer:    <SGD | AdamW>  weight_decay: <X>   momentum: <X>
-  scheduler:    <CosineAnnealingLR | OneCycleLR>  epochs: <N>
-  warmup:       <epoch veya adım>
-  label_smoothing: <X veya yok>
-  mixup:        <alpha veya yok>
-  augmentation: <dönüşüm listesi>
+ optimizer: <SGD | AdamW> weight_decay: <X> momentum: <X>
+ scheduler: <CosineAnnealingLR | OneCycleLR> epochs: <N>
+ warmup: <epoch veya adım>
+ label_smoothing: <X veya yok>
+ mixup: <alpha veya yok>
+ augmentation: <dönüşüm listesi>
 
 [evaluation]
-  track: linear_probe_val_acc, fine_tune_val_acc, per_class_recall
-  gate:  fine_tune_val_acc >= linear_probe_val_acc  (aksi halde çalıştırmada hata var)
+ track: linear_probe_val_acc, fine_tune_val_acc, per_class_recall
+ gate: fine_tune_val_acc >= linear_probe_val_acc (aksi halde çalıştırmada hata var)
 ```
 
 ## Kurallar

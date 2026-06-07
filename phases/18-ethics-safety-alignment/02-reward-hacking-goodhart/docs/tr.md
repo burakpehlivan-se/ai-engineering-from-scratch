@@ -30,7 +30,7 @@ Gao ve diğerleri fonksiyonel bir form verir. `d = sqrt(KL(pi || pi_init))` olsu
 
 ```
 R_proxy(d) = alpha * d - beta_proxy * d^2
-R_gold(d)  = alpha * d - beta_gold  * d^2
+R_gold(d) = alpha * d - beta_gold * d^2
 ```
 
 `beta_gold > beta_proxy` ile. İkisi de sıfır KL'den yükselir, ikisi de zirve yapar, altın zirvesi orijine daha yakındır. Büyük `d`'de altın, vekil tırmanmaya devam ederken bile taban çizgisinin altına düşer. Vekil-altın boşluğu, BoN örnekleme, PPO ve SFT-to-best boyunca aynı imzaya sahiptir.

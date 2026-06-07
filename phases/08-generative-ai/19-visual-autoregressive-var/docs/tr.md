@@ -58,11 +58,11 @@ Eğitim kaybı: her ölçekte k, önceki ölçek token'ları verildiğinde token
 
 Çıkarımda:
 ```
-generate z_1 = sample from p(z_1)                    # 1 token
-generate z_2 = sample from p(z_2 | z_1)              # 4 tokens in parallel
-generate z_3 = sample from p(z_3 | z_1, z_2)         # 16 tokens in parallel
+generate z_1 = sample from p(z_1) # 1 token
+generate z_2 = sample from p(z_2 | z_1) # 4 tokens in parallel
+generate z_3 = sample from p(z_3 | z_1, z_2) # 16 tokens in parallel
 ...
-decode: f = sum of embed-and-upsample scales 1..K
+decode: f = sum of embed-and-upsample scales 1.. K
 image = VAE_decoder(f)
 ```
 
@@ -123,7 +123,7 @@ Bu ders `outputs/skill-var-tokenizer-designer.md` üretir — çoklu ölçekli t
 | Çoklu ölçekli VQ tokenizer | "Artımlı VQ" | Artan çözünürlükte K token ızgarası üreten ve decoder'ın tüm ölçekleri toplayan VQ-VAE |
 | Ölçek k | "Piramit düzeyi k" | K çözünürlük düzeyinden biri, k=1'de 1x1'den k=K'de (H/p)x(W/p)'e |
 | Ölçek-içi paralellik | "Ölçek başına tek geçiş" | k ölçüğündeki tüm token'lar bir transformer geçişinde tahmin edilir, otoregresif değil |
-| Ölçekler arası nedensellik | "Ölçek sıralı attention" | k ölçüğündeki token 1..k ölçeklerinin tamamına dikkat edebilir ama k+1..K ölçeklerine edemez |
+| Ölçekler arası nedensellik | "Ölçek sıralı attention" | k ölçüğündeki token 1..k ölçeklerinin tamamına dikkat edebilir ama k+1.. K ölçeklerine edemez |
 | Artımlı VQ | "Toplamalı tokenizasyon" | Her ölçüğün token'ları daha düşük ölçeklerin bıraktığı artık değeri kodlar; decoder tüm ölçek embedding'lerini toplar |
 | VAR ölçekleme yasası | "ImageGPT ölçeklemesi" | FID, hesaplamada öngörülebilir bir kuvvet-yasası izler, dil modellerinin perplexity'si gibi |
 | HART | "Hibrit VAR + metin" | MaskGIT tarzı yinelemeli decode'u VAR'ın ölçek yapısıyla birleştiren metin-koşullu VAR varyantı |

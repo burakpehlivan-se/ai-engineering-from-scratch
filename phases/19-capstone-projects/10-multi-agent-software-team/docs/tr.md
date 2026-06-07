@@ -26,31 +26,31 @@ Token çoğaltma gizli maliyettir. Her rol sınırı özet istemleri ve devir ba
 
 ```
 GitHub issue URL
-      |
-      v
+ |
+ v
 Architect (Opus 4.7)
-   reads issue, produces plan with subtasks + interfaces
-      |
-      v
+ reads issue, produces plan with subtasks + interfaces
+ |
+ v
 Task board (file / Redis)
-      |
-   +-- subtask 1 ---+-- subtask 2 ---+-- subtask 3 ---+-- subtask 4 ---+
-   v                v                v                v                v
-Coder A          Coder B          Coder C          Coder D          (4 parallel)
- (Sonnet)         (Sonnet)         (Sonnet)         (Sonnet)
- worktree A       worktree B       worktree C       worktree D
- Daytona          Daytona          Daytona          Daytona
-      |                |                |                |
-      +--------+-------+-------+--------+
-               v
-           merge coordinator  (three-way merge + conflict resolution)
-               |
-               v
-           Reviewer (GPT-5.4)
-               |
-               v
-           Tester  (Gemini 2.5 Pro)  -> passes? -> open PR
-                                     -> fails?  -> route back to coder
+ |
+ +-- subtask 1 ---+-- subtask 2 ---+-- subtask 3 ---+-- subtask 4 ---+
+ v v v v v
+Coder A Coder B Coder C Coder D (4 parallel)
+ (Sonnet) (Sonnet) (Sonnet) (Sonnet)
+ worktree A worktree B worktree C worktree D
+ Daytona Daytona Daytona Daytona
+ | | | |
+ +--------+-------+-------+--------+
+ v
+ merge coordinator (three-way merge + conflict resolution)
+ |
+ v
+ Reviewer (GPT-5.4)
+ |
+ v
+ Tester (Gemini 2.5 Pro) -> passes? -> open PR
+ -> fails? -> route back to coder
 ```
 
 #### Açıklama
@@ -93,17 +93,17 @@ Bu mimari bir GitHub sorunundan hazır PR'a kadar çok-ajanlı veri akışını 
 ```
 $ team run --issue https://github.com/acme/widget/issues/842
 [architect] plan: 4 subtasks (parser, cache, api, migration)
-[board]     dispatched to 4 coders in parallel worktrees
-[coder-A]   subtask parser  -> 42 lines, tests pass locally
-[coder-B]   subtask cache   -> 88 lines, tests pass locally
-[coder-C]   subtask api     -> 31 lines, tests pass locally
-[coder-D]   subtask migration -> 19 lines, tests pass locally
-[merge]     3-way merge: 0 conflicts
-[reviewer]  comments on cache (thread pool sizing); routed to coder-B
-[coder-B]   revision: 92 lines; submits
-[reviewer]  approved
-[tester]    all 412 tests pass
-[pr]        opened #3382   4 coders, 1 revision, $4.90, 18m
+[board] dispatched to 4 coders in parallel worktrees
+[coder-A] subtask parser -> 42 lines, tests pass locally
+[coder-B] subtask cache -> 88 lines, tests pass locally
+[coder-C] subtask api -> 31 lines, tests pass locally
+[coder-D] subtask migration -> 19 lines, tests pass locally
+[merge] 3-way merge: 0 conflicts
+[reviewer] comments on cache (thread pool sizing); routed to coder-B
+[coder-B] revision: 92 lines; submits
+[reviewer] approved
+[tester] all 412 tests pass
+[pr] opened #3382 4 coders, 1 revision, $4.90, 18m
 ```
 
 #### Açıklama

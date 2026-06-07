@@ -30,8 +30,8 @@ Ağda doğrusallık olmayan bir gizli katman vardır. Girdi, vocabulary üzerind
 
 ```
 one-hot(center) ── W ──▶ hidden (d-dim) ── W' ──▶ softmax(vocab)
-                          ^
-                          bu embedding'dir
+ ^
+ bu embedding'dir
 ```
 
 Numara: 100 bin kelime üzerinde softmax aşırı pahalıdır. Word2Vec, bunu bir ikili sınıflandırma görevine dönüştürmek için **negative sampling** kullanır. "Bu bağlam kelimesi bu merkez kelimesinin yakınında göründü mü, evet mi hayır mı" tahmin edin. Eğitim çifti başına birkaç olumsuz (eş-zamanlı görünmeyen) kelime örnekleme yapın; tüm vocabulary üzerinde softmax hesaplamak yerine.
@@ -42,14 +42,14 @@ Numara: 100 bin kelime üzerinde softmax aşırı pahalıdır. Word2Vec, bunu bi
 
 ```python
 def skipgram_pairs(docs, window=2):
-    pairs = []
-    for doc in docs:
-        for i, center in enumerate(doc):
-            for j in range(max(0, i - window), min(len(doc), i + window + 1)):
-                if i == j:
-                    continue
-                pairs.append((center, doc[j]))
-    return pairs
+ pairs = []
+ for doc in docs:
+ for i, center in enumerate(doc):
+ for j in range(max(0, i - window), min(len(doc), i + window + 1)):
+ if i == j:
+ continue
+ pairs.append((center, doc[j]))
+ return pairs
 ```
 
 ```python
@@ -71,10 +71,10 @@ import numpy as np
 
 
 def init_embeddings(vocab_size, dim, seed=0):
-    rng = np.random.default_rng(seed)
-    W = rng.normal(0, 0.1, size=(vocab_size, dim))
-    W_prime = rng.normal(0, 0.1, size=(vocab_size, dim))
-    return W, W_prime
+ rng = np.random.default_rng(seed)
+ W = rng.normal(0, 0.1, size=(vocab_size, dim))
+ W_prime = rng.normal(0, 0.1, size=(vocab_size, dim))
+ return W, W_prime
 ```
 
 Küçük rastgele başlatma. Vocabulary boyutu 10 bin ve boyut 100 gerçektir; öğretim için, 50 vocabulary x 16 boyut geometriyi görmek için yeterlidir.
@@ -85,26 +85,26 @@ Her pozitif çift `(merkez, bağlam)` için, vocabulary'den `k` rastgele kelime 
 
 ```python
 def sigmoid(x):
-    return 1.0 / (1.0 + np.exp(-np.clip(x, -20, 20)))
+ return 1.0 / (1.0 + np.exp(-np.clip(x, -20, 20)))
 
 
 def train_pair(W, W_prime, center_idx, context_idx, negative_indices, lr):
-    v_c = W[center_idx]
-    u_pos = W_prime[context_idx]
-    u_negs = W_prime[negative_indices]
+ v_c = W[center_idx]
+ u_pos = W_prime[context_idx]
+ u_negs = W_prime[negative_indices]
 
-    pos_score = sigmoid(v_c @ u_pos)
-    neg_scores = sigmoid(u_negs @ v_c)
+ pos_score = sigmoid(v_c @ u_pos)
+ neg_scores = sigmoid(u_negs @ v_c)
 
-    grad_center = (pos_score - 1) * u_pos
-    for i, u in enumerate(u_negs):
-        grad_center += neg_scores[i] * u
+ grad_center = (pos_score - 1) * u_pos
+ for i, u in enumerate(u_negs):
+ grad_center += neg_scores[i] * u
 
-    W[context_idx] = W[context_idx]
-    W_prime[context_idx] -= lr * (pos_score - 1) * v_c
-    for i, neg_idx in enumerate(negative_indices):
-        W_prime[neg_idx] -= lr * neg_scores[i] * v_c
-    W[center_idx] -= lr * grad_center
+ W[context_idx] = W[context_idx]
+ W_prime[context_idx] -= lr * (pos_score - 1) * v_c
+ for i, neg_idx in enumerate(negative_indices):
+ W_prime[neg_idx] -= lr * neg_scores[i] * v_c
+ W[center_idx] -= lr * grad_center
 ```
 
 Sihirli formül: pozitif çift üzerinde lojistik kayıp (sigmoid'i 1'e yakın olmasını istiyoruz) artı olumsuz çiftler üzerinde lojistik kayıp (sigmoid'i 0'a yakın olmasını istiyoruz). Gradyanlar her iki tabloya akar. Tam türetme orijinal makalededir; bir kez kalem ve kağıtla üzerinden yürüyün, yerleşmesi için.
@@ -113,21 +113,21 @@ Sihirli formül: pozitif çift üzerinde lojistik kayıp (sigmoid'i 1'e yakın o
 
 ```python
 def train(docs, dim=16, window=2, k_neg=5, epochs=100, lr=0.05, seed=0):
-    vocab = build_vocab(docs)
-    vocab_size = len(vocab)
-    rng = np.random.default_rng(seed)
-    W, W_prime = init_embeddings(vocab_size, dim, seed=seed)
-    pairs = skipgram_pairs(docs, window=window)
+ vocab = build_vocab(docs)
+ vocab_size = len(vocab)
+ rng = np.random.default_rng(seed)
+ W, W_prime = init_embeddings(vocab_size, dim, seed=seed)
+ pairs = skipgram_pairs(docs, window=window)
 
-    for epoch in range(epochs):
-        rng.shuffle(pairs)
-        for center, context in pairs:
-            c_idx = vocab[center]
-            ctx_idx = vocab[context]
-            negs = rng.integers(0, vocab_size, size=k_neg)
-            negs = [n for n in negs if n != ctx_idx and n != c_idx]
-            train_pair(W, W_prime, c_idx, ctx_idx, negs, lr)
-    return vocab, W
+ for epoch in range(epochs):
+ rng.shuffle(pairs)
+ for center, context in pairs:
+ c_idx = vocab[center]
+ ctx_idx = vocab[context]
+ negs = rng.integers(0, vocab_size, size=k_neg)
+ negs = [n for n in negs if n != ctx_idx and n != c_idx]
+ train_pair(W, W_prime, c_idx, ctx_idx, negs, lr)
+ return vocab, W
 ```
 
 Büyük bir corpus üzerinde yeterli epoch'tan sonra, bağlamı paylaşan kelimeler benzer merkez embedding'lerine sahip olur. Oyuncak bir corpus üzerinde etkiyi hafifçe görürsünüz. Trilyon token üzerinde dramatik bir şekilde görürsünüz.
@@ -136,26 +136,26 @@ Büyük bir corpus üzerinde yeterli epoch'tan sonra, bağlamı paylaşan kelime
 
 ```python
 def nearest(vocab, W, target_vec, topk=5, exclude=None):
-    exclude = exclude or set()
-    inv_vocab = {i: w for w, i in vocab.items()}
-    norms = np.linalg.norm(W, axis=1, keepdims=True) + 1e-9
-    W_norm = W / norms
-    target = target_vec / (np.linalg.norm(target_vec) + 1e-9)
-    sims = W_norm @ target
-    order = np.argsort(-sims)
-    out = []
-    for i in order:
-        if i in exclude:
-            continue
-        out.append((inv_vocab[i], float(sims[i])))
-        if len(out) == topk:
-            break
-    return out
+ exclude = exclude or set()
+ inv_vocab = {i: w for w, i in vocab.items()}
+ norms = np.linalg.norm(W, axis=1, keepdims=True) + 1e-9
+ W_norm = W / norms
+ target = target_vec / (np.linalg.norm(target_vec) + 1e-9)
+ sims = W_norm @ target
+ order = np.argsort(-sims)
+ out = []
+ for i in order:
+ if i in exclude:
+ continue
+ out.append((inv_vocab[i], float(sims[i])))
+ if len(out) == topk:
+ break
+ return out
 
 
 def analogy(vocab, W, a, b, c, topk=5):
-    v = W[vocab[b]] - W[vocab[a]] + W[vocab[c]]
-    return nearest(vocab, W, v, topk=topk, exclude={vocab[a], vocab[b], vocab[c]})
+ v = W[vocab[b]] - W[vocab[a]] + W[vocab[c]]
+ return nearest(vocab, W, v, topk=topk, exclude={vocab[a], vocab[b], vocab[c]})
 ```
 
 Önceden eğitilmiş 300 boyutlu Google News vektörlerinde:
@@ -175,19 +175,19 @@ Word2Vec'i sıfırdan yazmak öğretim içindir. Üretim NLP'si `gensim` kullan�
 from gensim.models import Word2Vec
 
 sentences = [
-    ["the", "cat", "sat", "on", "the", "mat"],
-    ["the", "dog", "ran", "across", "the", "room"],
+ ["the", "cat", "sat", "on", "the", "mat"],
+ ["the", "dog", "ran", "across", "the", "room"],
 ]
 
 model = Word2Vec(
-    sentences,
-    vector_size=100,
-    window=5,
-    min_count=1,
-    sg=1,
-    negative=5,
-    workers=4,
-    epochs=30,
+ sentences,
+ vector_size=100,
+ window=5,
+ min_count=1,
+ sg=1,
+ negative=5,
+ workers=4,
+ epochs=30,
 )
 
 print(model.wv["cat"])
@@ -229,7 +229,7 @@ lesson: 03
 tags: [nlp, embeddings, debugging]
 ---
 
-Eğitilmiş word embedding'lerinin çalıştığını doğrulamak için bunları inceliyorsunuz. Bir `gensim.models.KeyedVectors` nesnesi ve bir vocabulary verildiğinde şunları çalıştırıyorsunuz:
+Eğitilmiş word embedding'lerinin çalıştığını doğrulamak için bunları inceliyorsunuz. Bir `gensim.models. KeyedVectors` nesnesi ve bir vocabulary verildiğinde şunları çalıştırıyorsunuz:
 
 1. Üç kanonik analoji testi. `king : man :: queen : woman`. `paris : france :: tokyo : japan`. `walking : walked :: swimming : ?`. İlk-1 sonucunu ve cosinesimilarity'ni raporlayın.
 2. Kullanıcının sağladığı alan-spesifik kelimeler üzerinde beş en-yakın-komşu testi. İlk-5 komşuyu cosinesimilarity ile yazdırın.

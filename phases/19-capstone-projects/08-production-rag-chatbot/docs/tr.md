@@ -26,33 +26,33 @@ Prompt önbelleği maliyet koludur. Claude 4.5+ ve GPT-5+ sistem istemlerini + g
 
 ```
 documents (contracts, protocols, policies)
-      |
-      v
+ |
+ v
 docling / Unstructured parse + ColPali for visuals
-      |
-      v
+ |
+ v
 chunks + summaries + role-labels + jurisdiction tags
-      |
-      v
-pgvector + pgvectorscale  +  BM25 (Tantivy)
-      |
+ |
+ v
+pgvector + pgvectorscale + BM25 (Tantivy)
+ |
 query + role + jurisdiction
-      |
-      v
+ |
+ v
 LangGraph conversational agent
-   +--- retrieve (hybrid)
-   +--- filter by role + jurisdiction
-   +--- rerank (bge-reranker-v2-gemma-2b or Voyage rerank-2)
-   +--- synthesize (Claude Sonnet 4.7, prompt cached)
-   +--- guard (Llama Guard 4 + NeMo Guardrails + Presidio output PII scrub)
-   +--- cite + return
-      |
-      v
+ +--- retrieve (hybrid)
+ +--- filter by role + jurisdiction
+ +--- rerank (bge-reranker-v2-gemma-2b or Voyage rerank-2)
+ +--- synthesize (Claude Sonnet 4.7, prompt cached)
+ +--- guard (Llama Guard 4 + NeMo Guardrails + Presidio output PII scrub)
+ +--- cite + return
+ |
+ v
 eval:
-  RAGAS faithfulness / answer_relevance / context_precision (online)
-  Langfuse annotation queue (sampled)
-  Arize Phoenix drift (weekly)
-  red team suite (pre-release)
+ RAGAS faithfulness / answer_relevance / context_precision (online)
+ Langfuse annotation queue (sampled)
+ Arize Phoenix drift (weekly)
+ red team suite (pre-release)
 ```
 
 #### Açıklama
@@ -97,15 +97,15 @@ Bu mimari düzenlenmiş bir dikey için üretim RAG boru hattını gösterir. Be
 ```
 $ chat --role=analyst --jurisdiction=GDPR
 > what is the data-retention obligation for EU user profiles under our contract?
-[retrieve]  hybrid top-20 filtered to GDPR + analyst-role
-[rerank]    top-5 kept
-[synth]     claude-sonnet-4.7, cache hit 74%, 0.8s
+[retrieve] hybrid top-20 filtered to GDPR + analyst-role
+[rerank] top-5 kept
+[synth] claude-sonnet-4.7, cache hit 74%, 0.8s
 answer:
-  The contract (Section 12.4, Master Services Agreement dated 2024-03-11)
-  obligates EU user profile deletion within 30 days of termination per GDPR
-  Article 17. The DPA amendment (DPA-v2.1, Section 5) extends this to 14 days
-  for "restricted" category data.
-  citations: [MSA-2024-03-11 s12.4, DPA-v2.1 s5]
+ The contract (Section 12.4, Master Services Agreement dated 2024-03-11)
+ obligates EU user profile deletion within 30 days of termination per GDPR
+ Article 17. The DPA amendment (DPA-v2.1, Section 5) extends this to 14 days
+ for "restricted" category data.
+ citations: [MSA-2024-03-11 s12.4, DPA-v2.1 s5]
 ```
 
 #### Açıklama
@@ -141,7 +141,7 @@ Bu örnek düzenlenmiş bir RAG sorgusunun tipik akışını gösterir. Analist 
 
 | Terim | İnsanların söylediği | Gerçekte ne anlama geldiği |
 |------|----------------------|----------------------------|
-| Prompt önbelleği | "Önbelleklenmiş sistem + bağlam" | Claude/OpenAI özelliği: önbelleklenmiş önek tokenları isabette %60-90 indirimli |
+| Prompt önbelleği | "Önbelleklenmiş sistem + bağlam" | Claude/OpenAI özelliği: önbelleklenmiş önek token'ları isabette %60-90 indirimli |
 | RAGAS | "RAG değerlendiricisi" | Sadakat, yanıt alakalılığı, bağlam kesinliğinin otomatik puanlanması |
 | Altın küme | "Etiketli değerlendirme" | Alıntılarla 200+ uzman-etiketli Soru-Cevap; temel gerçek |
 | Yargı alanı etiketi | "Uyum etiketi" | Parçalara eklenmiş GDPR/HIPAA/SOC2 kapsamı; geri getirme süzgeci tarafından uygulanır |

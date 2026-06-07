@@ -19,7 +19,7 @@ Herhangi bir görüntü tensör veri kümesi üzerinde düzeltilmiş akış ile 
 
 ## Girdiler
 
-- `model`: `(x, t)` alan ve tahmin edilen bir hız döndüren bir `nn.Module`.
+- `model`: `(x, t)` alan ve tahmin edilen bir hız döndüren bir `nn. Module`.
 - `dataset`: modelin alanında temiz görüntülerin bir yinelenebilir.
 - `optimizer`: `lr=1e-4`, `weight_decay=0.01`, `betas=(0.9, 0.99)` ile AdamW.
 - `scheduler`: ısınma ile kosinüs, varsayılan 1000 ısınma adımı.
@@ -28,19 +28,19 @@ Herhangi bir görüntü tensör veri kümesi üzerinde düzeltilmiş akış ile 
 
 ```python
 def rectified_flow_train_step(model, x0, optimizer, device):
-    model.train()
-    x0 = x0.to(device)
-    n = x0.size(0)
-    t = torch.rand(n, device=device)                     # [0, 1] aralığında tek tip
-    epsilon = torch.randn_like(x0)
-    x_t = (1 - t[:, None, None, None]) * x0 + t[:, None, None, None] * epsilon
-    target_v = epsilon - x0                              # hız hedefi
-    pred_v = model(x_t, t)
-    loss = F.mse_loss(pred_v, target_v)
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-    return loss.item()
+ model.train()
+ x0 = x0.to(device)
+ n = x0.size(0)
+ t = torch.rand(n, device=device) # [0, 1] aralığında tek tip
+ epsilon = torch.randn_like(x0)
+ x_t = (1 - t[:, None, None, None]) * x0 + t[:, None, None, None] * epsilon
+ target_v = epsilon - x0 # hız hedefi
+ pred_v = model(x_t, t)
+ loss = F.mse_loss(pred_v, target_v)
+ optimizer.zero_grad()
+ loss.backward()
+ optimizer.step()
+ return loss.item()
 ```
 
 ## Örnekleme (Euler)
@@ -48,15 +48,15 @@ def rectified_flow_train_step(model, x0, optimizer, device):
 ```python
 @torch.no_grad()
 def sample(model, shape, steps=20, device="cpu"):
-    model.eval()
-    x = torch.randn(shape, device=device)
-    dt = 1.0 / steps
-    t = torch.ones(shape[0], device=device)
-    for _ in range(steps):
-        v = model(x, t)
-        x = x - dt * v
-        t = t - dt
-    return x
+ model.eval()
+ x = torch.randn(shape, device=device)
+ dt = 1.0 / steps
+ t = torch.ones(shape[0], device=device)
+ for _ in range(steps):
+ v = model(x, t)
+ x = x - dt * v
+ t = t - dt
+ return x
 ```
 
 ## İpuçları
@@ -71,16 +71,16 @@ def sample(model, shape, steps=20, device="cpu"):
 
 ```
 [rectified flow training]
-  steps:        <int>
-  final loss:   <float>
-  ema decay:    <float>
-  vae?:         yes | no
-  cfg dropout:  <kesir>
+ steps: <int>
+ final loss: <float>
+ ema decay: <float>
+ vae?: yes | no
+ cfg dropout: <kesir>
 
 [sampling]
-  default steps: 20
-  schnell / turbo target: 4
-  full quality reference: 50+ (yalnızca karşılaştırma için)
+ default steps: 20
+ schnell / turbo target: 4
+ full quality reference: 50+ (yalnızca karşılaştırma için)
 ```
 
 ## Kurallar

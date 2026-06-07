@@ -23,31 +23,31 @@ Açıklamalı mimari:
 
 ```
 input tokens (B, N)
-   │
-   ▼
-token embedding + positional embedding  ◀── Ders 04 (RoPE seçeneği)
-   │
-   ▼
+ │
+ ▼
+token embedding + positional embedding ◀── Ders 04 (RoPE seçeneği)
+ │
+ ▼
 ┌──── block × L ────────────────────┐
-│  RMSNorm                          │  ◀── Ders 05
-│  MultiHeadAttention (causal)      │  ◀── Ders 03 + 07 (nedensel maske)
-│  residual                         │
-│  RMSNorm                          │
-│  SwiGLU FFN                       │  ◀── Ders 05
-│  residual                         │
+│ RMSNorm │ ◀── Ders 05
+│ MultiHeadAttention (causal) │ ◀── Ders 03 + 07 (nedensel maske)
+│ residual │
+│ RMSNorm │
+│ SwiGLU FFN │ ◀── Ders 05
+│ residual │
 └────────────────────────────────── ┘
-   │
-   ▼
+ │
+ ▼
 final RMSNorm
-   │
-   ▼
+ │
+ ▼
 lm_head (tied to token embedding)
-   │
-   ▼
+ │
+ ▼
 logits (B, N, V)
-   │
-   ▼
-shift-by-one cross-entropy            ◀── Ders 07
+ │
+ ▼
+shift-by-one cross-entropy ◀── Ders 07
 ```
 
 ### Ne sunuyoruz
@@ -109,13 +109,13 @@ Uzunluk-256 token pencereden rastgele bir toplu (batch) alın. İleriye doğru g
 
 ```python
 for step in range(max_steps):
-    x, y = get_batch("train")
-    logits = model(x)
-    loss = F.cross_entropy(logits.view(-1, vocab_size), y.view(-1))
-    loss.backward()
-    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-    opt.step()
-    opt.zero_grad()
+ x, y = get_batch("train")
+ logits = model(x)
+ loss = F.cross_entropy(logits.view(-1, vocab_size), y.view(-1))
+ loss.backward()
+ torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+ opt.step()
+ opt.zero_grad()
 ```
 
 #### Açıklama

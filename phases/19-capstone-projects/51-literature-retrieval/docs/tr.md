@@ -27,14 +27,14 @@ Ders, her iki geçişi de kurar. Özetler üzerinden BM25 sözcüksel isabetleri
 
 ```text
 Paper
-  id          : str           (kararlı tanımlayıcı, mock derlem için "p001")
-  title       : str
-  abstract    : str
-  year        : int
-  authors     : list[str]
-  references  : list[str]     (bu makalenin alıntı yaptığı makale kimlikleri)
-  citations   : list[str]     (bu makaleyi alıntı yapan makale kimlikleri)
-  source      : str           (hangi mock api sağladı, "arxiv" veya "s2")
+ id : str (kararlı tanımlayıcı, mock derlem için "p001")
+ title : str
+ abstract : str
+ year : int
+ authors : list[str]
+ references : list[str] (bu makalenin alıntı yaptığı makale kimlikleri)
+ citations : list[str] (bu makaleyi alıntı yapan makale kimlikleri)
+ source : str (hangi mock api sağladı, "arxiv" veya "s2")
 ```
 
 Referanslar ve alıntılar alanları, yönlendirilmiş alıntı grafiğini oluşturur. İki mock API örtüşen ama özdeş olmayan alanlar döndürür, dolayısıyla derlem yükleyici onları `id` üzerinden birleştirir.
@@ -43,20 +43,20 @@ Referanslar ve alıntılar alanları, yönlendirilmiş alıntı grafiğini oluş
 
 ```mermaid
 flowchart TD
-    Q[sorgu dizesi] --> A[arxiv mock istemcisi]
-    Q --> S[semantic scholar mock istemcisi]
-    A --> L[derlemi yükle]
-    S --> L
-    L --> B[bm25 dizini]
-    L --> G[alıntı grafiği]
-    Q --> B
-    B --> R1[sözcüksel isabetler]
-    R1 --> H[1 ila 2 atlama genişlet]
-    G --> H
-    H --> R2[grafik isabetleri]
-    R1 --> M[birleştir ve kopyasızlık]
-    R2 --> M
-    M --> O[sıralanmış makale listesi]
+ Q[sorgu dizesi] --> A[arxiv mock istemcisi]
+ Q --> S[semantic scholar mock istemcisi]
+ A --> L[derlemi yükle]
+ S --> L
+ L --> B[bm25 dizini]
+ L --> G[alıntı grafiği]
+ Q --> B
+ B --> R1[sözcüksel isabetler]
+ R1 --> H[1 ila 2 atlama genişlet]
+ G --> H
+ H --> R2[grafik isabetleri]
+ R1 --> M[birleştir ve kopyasızlık]
+ R2 --> M
+ M --> O[sıralanmış makale listesi]
 ```
 
 Erişim istemcisi, her iki geçişi ve birleştirmeyi sahiplenir. Arayan ona bir sorgu verir ve her giriş makale başına puanlama alanlarını (`bm25_score`, `graph_distance`, `recency_score`, `final_score`) açıklayan sıralanmış bir liste geri alır.
@@ -68,8 +68,8 @@ Uygulama, `k1=1.5`, `b=0.75` varsayılan parametreleriyle standart Okapi BM25'ti
 Tokenizer `lower` sonra alfasayısal olmayan üzerinden bölmedir. Kökten çıkarılmaz. Üretim bir sistemi küçük bir kök çıkarıcı takardı. Arayüz aynı kalır.
 
 ```text
-idf(t)      = log((N - df + 0.5) / (df + 0.5) + 1.0)
-tf_norm(t)  = (f * (k1 + 1)) / (f + k1 * (1 - b + b * dl / avgdl))
+idf(t) = log((N - df + 0.5) / (df + 0.5) + 1.0)
+tf_norm(t) = (f * (k1 + 1)) / (f + k1 * (1 - b + b * dl / avgdl))
 score(d, q) = q'daki t üzerinden idf(t) * tf_norm(t) toplamı
 ```
 
@@ -85,8 +85,8 @@ Grafik, derlemden bir kez kurulur. İleri kenarlar bir makaleden referanslarına
 
 ```text
 final_score = w_bm25 * bm25_score_norm
-            + w_graph * graph_score
-            + w_recency * recency_score
+ + w_graph * graph_score
+ + w_recency * recency_score
 ```
 
 `bm25_score_norm`, BM25 skorunun birleştirilmiş kümedeki maksimum BM25 skoruna bölünmesidir (böylece alan sıfır-bir aralığında yaşar). `graph_score`, doğrudan sözcüksel isabetler için birdir, sonra bir atlama için `0.6`, iki atlama için `0.3`, aksi takdirde sıfırdır. `recency_score`, derlemin minimum yılında sıfırdan maksimum yılında bire doğrusal bir rampadır.

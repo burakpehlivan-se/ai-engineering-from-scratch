@@ -32,7 +32,7 @@ Köklere ilkini düzeltir: istemci `initialize`'da sunucunun dokunabileceği URI
 
 ```json
 {
-  "capabilities": {"roots": {"listChanged": true}}
+ "capabilities": {"roots": {"listChanged": true}}
 }
 ```
 
@@ -56,21 +56,21 @@ Köller, kullanıcı rızası modelini temsil ettikleri için istemci tarafında
 
 ```json
 {
-  "method": "elicitation/create",
-  "params": {
-    "message": "'TPS raporu' silinsin mi? Birden fazla not eşleşiyor; birini seçin.",
-    "requestedSchema": {
-      "type": "object",
-      "properties": {
-        "note_id": {
-          "type": "string",
-          "enum": ["note-3", "note-7", "note-14"]
-        },
-        "confirm": {"type": "boolean"}
-      },
-      "required": ["note_id", "confirm"]
-    }
-  }
+ "method": "elicitation/create",
+ "params": {
+ "message": "'TPS raporu' silinsin mi? Birden fazla not eşleşiyor; birini seçin.",
+ "requestedSchema": {
+ "type": "object",
+ "properties": {
+ "note_id": {
+ "type": "string",
+ "enum": ["note-3", "note-7", "note-14"]
+ },
+ "confirm": {"type": "boolean"}
+ },
+ "required": ["note_id", "confirm"]
+ }
+ }
 }
 ```
 
@@ -78,8 +78,8 @@ Köller, kullanıcı rızası modelini temsil ettikleri için istemci tarafında
 
 ```json
 {
-  "action": "accept",
-  "content": {"note_id": "note-14", "confirm": true}
+ "action": "accept",
+ "content": {"note_id": "note-14", "confirm": true}
 }
 ```
 
@@ -93,11 +93,11 @@ Form şemaları düzdür — v1'de iç içe nesneler desteklenmez. SDK'lar genel
 
 ```json
 {
-  "method": "elicitation/create",
-  "params": {
-    "message": "GitHub'a giriş yapın",
-    "url": "https://github.com/login/oauth/authorize?client_id=..."
-  }
+ "method": "elicitation/create",
+ "params": {
+ "message": "GitHub'a giriş yapın",
+ "url": "https://github.com/login/oauth/authorize?client_id=..."
+ }
 }
 ```
 

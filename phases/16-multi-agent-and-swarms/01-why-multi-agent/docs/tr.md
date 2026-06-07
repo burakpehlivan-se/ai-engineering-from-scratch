@@ -34,26 +34,26 @@ Tek bir agent, tek bir döngü, tek bir bağlam penceresi, tek bir sistem prompt
 
 ```
 ┌─────────────────────────────────────────┐
-│            TEK AGENT                    │
-│                                         │
-│  ┌───────────────────────────────────┐  │
-│  │         Bağlam Penceresi          │  │
-│  │                                   │  │
-│  │  araştırma notları                │  │
-│  │  + kod dosyaları                  │  │
-│  │  + test çıktısı                   │  │
-│  │  + inceleme geri bildirimi        │  │
-│  │  + API dokümanları                │  │
-│  │  + ...                            │  │
-│  │                                   │  │
-│  │  ██████████████████████ DOLU ███  │  │
-│  └───────────────────────────────────┘  │
-│                                         │
-│  Tek sistem promptu araştırma +         │
-│  kodlama + inceleme + test'i            │
-│  kapsamaya çalışıyor                    │
-│                                         │
-│  Sonuç: her şeyde vasat                 │
+│ TEK AGENT │
+│ │
+│ ┌───────────────────────────────────┐ │
+│ │ Bağlam Penceresi │ │
+│ │ │ │
+│ │ araştırma notları │ │
+│ │ + kod dosyaları │ │
+│ │ + test çıktısı │ │
+│ │ + inceleme geri bildirimi │ │
+│ │ + API dokümanları │ │
+│ │ + ... │ │
+│ │ │ │
+│ │ ██████████████████████ DOLU ███ │ │
+│ └───────────────────────────────────┘ │
+│ │
+│ Tek sistem promptu araştırma + │
+│ kodlama + inceleme + test'i │
+│ kapsamaya çalışıyor │
+│ │
+│ Sonuç: her şeyde vasat │
 └─────────────────────────────────────────┘
 ```
 
@@ -71,27 +71,27 @@ Tek bir agent, tek bir döngü, tek bir bağlam penceresi, tek bir sistem prompt
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                    ORKESTRATÖR                            │
-│                                                          │
-│  "Kullanıcı yönetimi için REST API inşa et"              │
-│                                                          │
-│         ┌──────────┬──────────┬──────────┐               │
-│         │          │          │          │               │
-│         ▼          ▼          ▼          ▼               │
-│   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
-│   │ARAŞTIRMACI│ │ KOD YAZARI│ │İNCELEME  │ │ TESTÇİ   │  │
-│   │          │ │          │ │          │ │          │  │
-│   │ Belgeleri │ │ Araştır- │ │ Kalite   │ │ Testleri │  │
-│   │ okur,    │ │ ma +     │ │ kontrol  │ │ çalıştı- │  │
-│   │ kalıpları│ │ spec'e   │ │ eder,    │ │ rır,     │  │
-│   │ bulur    │ │ dayalı   │ │ hataları │ │ sonuçları│  │
-│   │          │ │ kod yaz- │ │ bulur    │ │ raporlar │  │
-│   │          │ │ ar       │ │          │ │          │  │
-│   └─────┬────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘  │
-│         │           │            │             │         │
-│         └───────────┴────────────┴─────────────┘         │
-│                          │                               │
-│                     Sonuçları birleştir                  │
+│ ORKESTRATÖR │
+│ │
+│ "Kullanıcı yönetimi için REST API inşa et" │
+│ │
+│ ┌──────────┬──────────┬──────────┐ │
+│ │ │ │ │ │
+│ ▼ ▼ ▼ ▼ │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│ │ARAŞTIRMACI│ │ KOD YAZARI│ │İNCELEME │ │ TESTÇİ │ │
+│ │ │ │ │ │ │ │ │ │
+│ │ Belgeleri │ │ Araştır- │ │ Kalite │ │ Testleri │ │
+│ │ okur, │ │ ma + │ │ kontrol │ │ çalıştı- │ │
+│ │ kalıpları│ │ spec'e │ │ eder, │ │ rır, │ │
+│ │ bulur │ │ dayalı │ │ hataları │ │ sonuçları│ │
+│ │ │ │ kod yaz- │ │ bulur │ │ raporlar │ │
+│ │ │ │ ar │ │ │ │ │ │
+│ └─────┬────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘ │
+│ │ │ │ │ │
+│ └───────────┴────────────┴─────────────┘ │
+│ │ │
+│ Sonuçları birleştir │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -117,24 +117,24 @@ Multi-agent ikili bir durum değildir. Bir spektrumdur:
 ```
 BASİT ──────────────────────────────────────────── KARMAŞIK
 
- Tek            Sub-         Pipeline      Takım         Swarm
- Agent          agent
+ Tek Sub- Pipeline Takım Swarm
+ Agent agent
 
- ┌───┐       ┌───┐        ┌───┐───┐    ┌───┐───┐    ┌─┐┌─┐┌─┐
- │ A │       │ A │        │ A │ B │    │ A │ B │    │ ││ ││ │
- └───┘       └─┬─┘        └───┘─┬─┘    └─┬─┬─┘    └┬┘└┬┘└┬┘
-                │                │        │ │       ┌┴──┴──┴┐
-              ┌─┴─┐          ┌───┘───┐    │ │       │paylaşı-│
-              │ a │          │ C │ D │  ┌─┴─┴─┐    │ lan     │
-              └───┘          └───┘───┘  │ mesaj│    │ durum   │
-                                        │ veri │    └────────┘
-                                        │ yolu │
-  1 döngü     Ebeveyn +    Aşamalı      │       │   N eş,
-  1 bağlam    çocuk         aşamalı     └───────┘   ortaya
-  penceresi   görevler                                çıkan
-                                                       davranış
-                                        Açık
-                                        roller
+ ┌───┐ ┌───┐ ┌───┐───┐ ┌───┐───┐ ┌─┐┌─┐┌─┐
+ │ A │ │ A │ │ A │ B │ │ A │ B │ │ ││ ││ │
+ └───┘ └─┬─┘ └───┘─┬─┘ └─┬─┬─┘ └┬┘└┬┘└┬┘
+ │ │ │ │ ┌┴──┴──┴┐
+ ┌─┴─┐ ┌───┘───┐ │ │ │paylaşı-│
+ │ a │ │ C │ D │ ┌─┴─┴─┐ │ lan │
+ └───┘ └───┘───┘ │ mesaj│ │ durum │
+ │ veri │ └────────┘
+ │ yolu │
+ 1 döngü Ebeveyn + Aşamalı │ │ N eş,
+ 1 bağlam çocuk aşamalı └───────┘ ortaya
+ penceresi görevler çıkan
+ davranış
+ Açık
+ roller
 ```
 
 **Tek agent** — bir döngü, bir prompt. Basit görevler için iyidir.
@@ -153,7 +153,7 @@ BASİT ────────────────────────�
 
 ```
 Girdi ──▶ Agent A ──▶ Agent B ──▶ Agent C ──▶ Çıktı
-          (araştırma) (kod)      (inceleme)
+ (araştırma) (kod) (inceleme)
 ```
 
 Her agent veriyi dönüştürür ve ileriye aktarır. Akıl yürütmesi kolaydır. Bir aşamadaki hata geri kalanını engeller.
@@ -161,11 +161,11 @@ Her agent veriyi dönüştürür ve ileriye aktarır. Akıl yürütmesi kolaydı
 #### Kalıp 2: Yayılım / Toplama (Fan-out / Fan-in)
 
 ```
-                ┌──▶ Agent A ──┐
-                │              │
-Girdi ──▶ Böl  ├──▶ Agent B ──├──▶ Birleştir ──▶ Çıktı
-                │              │
-                └──▶ Agent C ──┘
+ ┌──▶ Agent A ──┐
+ │ │
+Girdi ──▶ Böl ├──▶ Agent B ──├──▶ Birleştir ──▶ Çıktı
+ │ │
+ └──▶ Agent C ──┘
 ```
 
 İşi paralel agent'lara bölün, sonra sonuçları birleştirin. Bağımsız alt görevlere ayrılabilen görevler için iyidir.
@@ -173,15 +173,15 @@ Girdi ──▶ Böl  ├──▶ Agent B ──├──▶ Birleştir ──�
 #### Kalıp 3: Orkestratör-İşçi (Orchestrator-Worker)
 
 ```
-                    ┌──────────┐
-                    │ Ork.     │
-                    └──┬───┬───┘
-                  görev│   │ görev
-                  ┌────┘   └────┐
-                  ▼            ▼
-            ┌──────────┐  ┌──────────┐
-            │ İşçi A   │  │ İşçi B   │
-            └──────────┘  └──────────┘
+ ┌──────────┐
+ │ Ork. │
+ └──┬───┬───┘
+ görev│ │ görev
+ ┌────┘ └────┐
+ ▼ ▼
+ ┌──────────┐ ┌──────────┐
+ │ İşçi A │ │ İşçi B │
+ └──────────┘ └──────────┘
 ```
 
 Akıllı bir orkestratör ne yapılacağına karar verir, işçilere devreder ve sonuçları sentezler. Orkestratör kendisi de işçi başlatma araçlarına (tools) sahip bir agent'tır.
@@ -189,19 +189,19 @@ Akıllı bir orkestratör ne yapılacağına karar verir, işçilere devreder ve
 #### Kalıp 4: Eşler Arası Swarm (Peer Swarm)
 
 ```
-         ┌───┐ ◄──── mesaj ───▶ ┌───┐
-         │ A │                    │ B │
-         └─┬─┘                    └─┬─┘
-           │                        │
-      mesaj│    ┌───────────┐       │ mesaj
-           └───▶│  Paylaşılan│◀──────┘
-                │  Durum     │
-           ┌───▶│  / Kuyruk  │◀─────┐
-           │    └───────────┘      │
-      mesaj│                       │ mesaj
-         ┌─┴─┐                    ┌─┴─┐
-         │ C │ ◄──── mesaj ────▶ │ D │
-         └───┘                    └───┘
+ ┌───┐ ◄──── mesaj ───▶ ┌───┐
+ │ A │ │ B │
+ └─┬─┘ └─┬─┘
+ │ │
+ mesaj│ ┌───────────┐ │ mesaj
+ └───▶│ Paylaşılan│◀──────┘
+ │ Durum │
+ ┌───▶│ / Kuyruk │◀─────┐
+ │ └───────────┘ │
+ mesaj│ │ mesaj
+ ┌─┴─┐ ┌─┴─┐
+ │ C │ ◄──── mesaj ────▶ │ D │
+ └───┘ └───┘
 ```
 
 Merkezi bir orkestratör yoktur. Agent'lar eşler arası iletişir. Kararlar etkileşimden doğar. Hata ayıklaması daha zordur, ama çok sayıda agent'a ölçeklenir.
@@ -232,49 +232,49 @@ Her şeyi yapmaya çalışan tek bir agent. Devasa bir sistem promptu ve araşt�
 
 ```typescript
 type AgentResult = {
-  content: string;
-  tokensUsed: number;
-  toolCalls: number;
+ content: string;
+ tokensUsed: number;
+ toolCalls: number;
 };
 
 async function singleAgentApproach(task: string): Promise<AgentResult> {
-  const systemPrompt = `Sen tam yığın (full-stack) bir geliştiricisin. Şunları yapmalısın:
+ const systemPrompt = `Sen tam yığın (full-stack) bir geliştiricisin. Şunları yapmalısın:
 1. Gereksinimleri araştır
 2. Kodu yaz
 3. Kodu hatalar için incele
 4. Testleri yaz
 Bunların TÜMÜNÜ tek bir konuşmada yap.`;
 
-  const contextWindow: string[] = [];
-  let totalTokens = 0;
-  let totalToolCalls = 0;
+ const contextWindow: string[] = [];
+ let totalTokens = 0;
+ let totalToolCalls = 0;
 
-  const research = await fakeLLMCall(systemPrompt, `Araştır: ${task}`);
-  contextWindow.push(research.output);
-  totalTokens += research.tokens;
-  totalToolCalls += research.calls;
+ const research = await fakeLLMCall(systemPrompt, `Araştır: ${task}`);
+ contextWindow.push(research.output);
+ totalTokens += research.tokens;
+ totalToolCalls += research.calls;
 
-  const code = await fakeLLMCall(
-    systemPrompt,
-    `Bu araştırmaya dayanarak:\n${contextWindow.join("\n")}\n\nŞimdi şunu kodla: ${task}`
-  );
-  contextWindow.push(code.output);
-  totalTokens += code.tokens;
-  totalToolCalls += code.calls;
+ const code = await fakeLLMCall(
+ systemPrompt,
+ `Bu araştırmaya dayanarak:\n${contextWindow.join("\n")}\n\nŞimdi şunu kodla: ${task}`
+ );
+ contextWindow.push(code.output);
+ totalTokens += code.tokens;
+ totalToolCalls += code.calls;
 
-  const review = await fakeLLMCall(
-    systemPrompt,
-    `Önceki tüm bağlama dayanarak:\n${contextWindow.join("\n")}\n\nKodu incele.`
-  );
-  contextWindow.push(review.output);
-  totalTokens += review.tokens;
-  totalToolCalls += review.calls;
+ const review = await fakeLLMCall(
+ systemPrompt,
+ `Önceki tüm bağlama dayanarak:\n${contextWindow.join("\n")}\n\nKodu incele.`
+ );
+ contextWindow.push(review.output);
+ totalTokens += review.tokens;
+ totalToolCalls += review.calls;
 
-  return {
-    content: contextWindow.join("\n---\n"),
-    tokensUsed: totalTokens,
-    toolCalls: totalToolCalls,
-  };
+ return {
+ content: contextWindow.join("\n---\n"),
+ tokensUsed: totalTokens,
+ toolCalls: totalToolCalls,
+ };
 }
 ```
 
@@ -293,39 +293,39 @@ Bu yaklaşımın sorunları:
 
 ```typescript
 type SpecialistAgent = {
-  name: string;
-  systemPrompt: string;
-  run: (input: string) => Promise<AgentResult>;
+ name: string;
+ systemPrompt: string;
+ run: (input: string) => Promise<AgentResult>;
 };
 
 function createSpecialist(name: string, systemPrompt: string): SpecialistAgent {
-  return {
-    name,
-    systemPrompt,
-    run: async (input: string) => {
-      const result = await fakeLLMCall(systemPrompt, input);
-      return {
-        content: result.output,
-        tokensUsed: result.tokens,
-        toolCalls: result.calls,
-      };
-    },
-  };
+ return {
+ name,
+ systemPrompt,
+ run: async (input: string) => {
+ const result = await fakeLLMCall(systemPrompt, input);
+ return {
+ content: result.output,
+ tokensUsed: result.tokens,
+ toolCalls: result.calls,
+ };
+ },
+ };
 }
 
 const researcher = createSpecialist(
-  "researcher",
-  "Sen teknik bir araştırmacısın. Dokümanları oku, kalıpları bul ve bulguları özetle. Yalnızca uygulama için gereken gerçekleri çıktıla."
+ "researcher",
+ "Sen teknik bir araştırmacısın. Dokümanları oku, kalıpları bul ve bulguları özetle. Yalnızca uygulama için gereken gerçekleri çıktıla."
 );
 
 const coder = createSpecialist(
-  "coder",
-  "Sen kıdemli bir TypeScript geliştiricisin. Gereksinimler ve araştırma notlarına dayanarak temiz, test edilmiş kod yaz. Başka bir şey yazma."
+ "coder",
+ "Sen kıdemli bir TypeScript geliştiricisin. Gereksinimler ve araştırma notlarına dayanarak temiz, test edilmiş kod yaz. Başka bir şey yazma."
 );
 
 const reviewer = createSpecialist(
-  "reviewer",
-  "Sen bir kod incelemecisin. Hataları, güvenlik sorunlarını ve mantık hatalarını bul. Spesifik ol. Satır numaralarını belirt."
+ "reviewer",
+ "Sen bir kod incelemecisin. Hataları, güvenlik sorunlarını ve mantık hatalarını bul. Spesifik ol. Satır numaralarını belirt."
 );
 ```
 
@@ -341,62 +341,62 @@ Uzmanları açık mesaj geçişi (message passing) ile bağlayın:
 
 ```typescript
 type AgentMessage = {
-  from: string;
-  to: string;
-  content: string;
-  timestamp: number;
+ from: string;
+ to: string;
+ content: string;
+ timestamp: number;
 };
 
 async function multiAgentApproach(task: string): Promise<AgentResult> {
-  const messages: AgentMessage[] = [];
-  let totalTokens = 0;
-  let totalToolCalls = 0;
+ const messages: AgentMessage[] = [];
+ let totalTokens = 0;
+ let totalToolCalls = 0;
 
-  const researchResult = await researcher.run(task);
-  messages.push({
-    from: "researcher",
-    to: "coder",
-    content: researchResult.content,
-    timestamp: Date.now(),
-  });
-  totalTokens += researchResult.tokensUsed;
-  totalToolCalls += researchResult.toolCalls;
+ const researchResult = await researcher.run(task);
+ messages.push({
+ from: "researcher",
+ to: "coder",
+ content: researchResult.content,
+ timestamp: Date.now(),
+ });
+ totalTokens += researchResult.tokensUsed;
+ totalToolCalls += researchResult.toolCalls;
 
-  const coderInput = messages
-    .filter((m) => m.to === "coder")
-    .map((m) => `[${m.from}'dan]: ${m.content}`)
-    .join("\n");
+ const coderInput = messages
+ .filter((m) => m.to === "coder")
+ .map((m) => `[${m.from}'dan]: ${m.content}`)
+ .join("\n");
 
-  const codeResult = await coder.run(coderInput);
-  messages.push({
-    from: "coder",
-    to: "reviewer",
-    content: codeResult.content,
-    timestamp: Date.now(),
-  });
-  totalTokens += codeResult.tokensUsed;
-  totalToolCalls += codeResult.toolCalls;
+ const codeResult = await coder.run(coderInput);
+ messages.push({
+ from: "coder",
+ to: "reviewer",
+ content: codeResult.content,
+ timestamp: Date.now(),
+ });
+ totalTokens += codeResult.tokensUsed;
+ totalToolCalls += codeResult.toolCalls;
 
-  const reviewerInput = messages
-    .filter((m) => m.to === "reviewer")
-    .map((m) => `[${m.from}'dan]: ${m.content}`)
-    .join("\n");
+ const reviewerInput = messages
+ .filter((m) => m.to === "reviewer")
+ .map((m) => `[${m.from}'dan]: ${m.content}`)
+ .join("\n");
 
-  const reviewResult = await reviewer.run(reviewerInput);
-  messages.push({
-    from: "reviewer",
-    to: "orchestrator",
-    content: reviewResult.content,
-    timestamp: Date.now(),
-  });
-  totalTokens += reviewResult.tokensUsed;
-  totalToolCalls += reviewResult.toolCalls;
+ const reviewResult = await reviewer.run(reviewerInput);
+ messages.push({
+ from: "reviewer",
+ to: "orchestrator",
+ content: reviewResult.content,
+ timestamp: Date.now(),
+ });
+ totalTokens += reviewResult.tokensUsed;
+ totalToolCalls += reviewResult.toolCalls;
 
-  return {
-    content: messages.map((m) => `[${m.from} -> ${m.to}]: ${m.content}`).join("\n\n"),
-    tokensUsed: totalTokens,
-    toolCalls: totalToolCalls,
-  };
+ return {
+ content: messages.map((m) => `[${m.from} -> ${m.to}]: ${m.content}`).join("\n\n"),
+ tokensUsed: totalTokens,
+ toolCalls: totalToolCalls,
+ };
 }
 ```
 
@@ -410,17 +410,17 @@ Her agent yalnızca kendisine hitap eden mesajları alır. Bağlam kirliliği yo
 
 ```typescript
 async function compare() {
-  const task = "Express.js API için bir hız sınırlayıcı (rate limiter) middleware inşa et";
+ const task = "Express.js API için bir hız sınırlayıcı (rate limiter) middleware inşa et";
 
-  console.log("=== Tek Agent ===");
-  const single = await singleAgentApproach(task);
-  console.log(`Token: ${single.tokensUsed}`);
-  console.log(`Araç çağrıları: ${single.toolCalls}`);
+ console.log("=== Tek Agent ===");
+ const single = await singleAgentApproach(task);
+ console.log(`Token: ${single.tokensUsed}`);
+ console.log(`Araç çağrıları: ${single.toolCalls}`);
 
-  console.log("\n=== Multi-Agent ===");
-  const multi = await multiAgentApproach(task);
-  console.log(`Token: ${multi.tokensUsed}`);
-  console.log(`Araç çağrıları: ${multi.toolCalls}`);
+ console.log("\n=== Multi-Agent ===");
+ const multi = await multiAgentApproach(task);
+ console.log(`Token: ${multi.tokensUsed}`);
+ console.log(`Araç çağrıları: ${multi.toolCalls}`);
 }
 ```
 

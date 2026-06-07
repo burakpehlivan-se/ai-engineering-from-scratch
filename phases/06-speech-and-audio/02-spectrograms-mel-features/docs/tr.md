@@ -39,8 +39,8 @@ Mel spektrogramları daha da ileri gider. İnsanlar perdeyi logaritmik algılar:
 
 ```python
 def frame(signal, frame_len, hop):
-    n = 1 + (len(signal) - frame_len) // hop
-    return [signal[i * hop : i * hop + frame_len] for i in range(n)]
+ n = 1 + (len(signal) - frame_len) // hop
+ return [signal[i * hop : i * hop + frame_len] for i in range(n)]
 ```
 
 #### Açıklama
@@ -52,7 +52,7 @@ def frame(signal, frame_len, hop):
 import math
 
 def hann(N):
-    return [0.5 * (1 - math.cos(2 * math.pi * n / (N - 1))) for n in range(N)]
+ return [0.5 * (1 - math.cos(2 * math.pi * n / (N - 1))) for n in range(N)]
 ```
 
 #### Açıklama
@@ -62,9 +62,9 @@ FFT öncesi nokta bazında çarpılır. Sıfır olmayan uç noktalarda kesilerek
 
 ```python
 def stft_magnitude(signal, frame_len=400, hop=160):
-    win = hann(frame_len)
-    frames = frame(signal, frame_len, hop)
-    return [magnitudes(dft([w * s for w, s in zip(win, f)])) for f in frames]
+ win = hann(frame_len)
+ frames = frame(signal, frame_len, hop)
+ return [magnitudes(dft([w * s for w, s in zip(win, f)])) for f in frames]
 ```
 
 #### Açıklama
@@ -74,24 +74,24 @@ def stft_magnitude(signal, frame_len=400, hop=160):
 
 ```python
 def hz_to_mel(f):
-    return 2595.0 * math.log10(1.0 + f / 700.0)
+ return 2595.0 * math.log10(1.0 + f / 700.0)
 
 def mel_to_hz(m):
-    return 700.0 * (10 ** (m / 2595.0) - 1)
+ return 700.0 * (10 ** (m / 2595.0) - 1)
 
 def mel_filterbank(n_mels, n_fft, sr, fmin=0, fmax=None):
-    fmax = fmax or sr / 2
-    mels = [hz_to_mel(fmin) + (hz_to_mel(fmax) - hz_to_mel(fmin)) * i / (n_mels + 1)
-            for i in range(n_mels + 2)]
-    hzs = [mel_to_hz(m) for m in mels]
-    bins = [int(h * n_fft / sr) for h in hzs]
-    fb = [[0.0] * (n_fft // 2 + 1) for _ in range(n_mels)]
-    for m in range(n_mels):
-        for k in range(bins[m], bins[m + 1]):
-            fb[m][k] = (k - bins[m]) / max(1, bins[m + 1] - bins[m])
-        for k in range(bins[m + 1], bins[m + 2]):
-            fb[m][k] = (bins[m + 2] - k) / max(1, bins[m + 2] - bins[m + 1])
-    return fb
+ fmax = fmax or sr / 2
+ mels = [hz_to_mel(fmin) + (hz_to_mel(fmax) - hz_to_mel(fmin)) * i / (n_mels + 1)
+ for i in range(n_mels + 2)]
+ hzs = [mel_to_hz(m) for m in mels]
+ bins = [int(h * n_fft / sr) for h in hzs]
+ fb = [[0.0] * (n_fft // 2 + 1) for _ in range(n_mels)]
+ for m in range(n_mels):
+ for k in range(bins[m], bins[m + 1]):
+ fb[m][k] = (k - bins[m]) / max(1, bins[m + 1] - bins[m])
+ for k in range(bins[m + 1], bins[m + 2]):
+ fb[m][k] = (bins[m + 2] - k) / max(1, bins[m + 2] - bins[m + 1])
+ return fb
 ```
 
 #### Açıklama
@@ -101,7 +101,7 @@ def mel_filterbank(n_mels, n_fft, sr, fmin=0, fmax=None):
 
 ```python
 def log_mel(mel_spec, eps=1e-10):
-    return [[math.log(max(v, eps)) for v in frame] for frame in mel_spec]
+ return [[math.log(max(v, eps)) for v in frame] for frame in mel_spec]
 ```
 
 #### Açıklama
@@ -111,11 +111,11 @@ Yaygın alternatifler: `librosa.power_to_db` (referans-normalize dB), `10 * log1
 
 ```python
 def dct_ii(x, n_coeffs):
-    N = len(x)
-    return [
-        sum(x[n] * math.cos(math.pi * k * (2 * n + 1) / (2 * N)) for n in range(N))
-        for k in range(n_coeffs)
-    ]
+ N = len(x)
+ return [
+ sum(x[n] * math.cos(math.pi * k * (2 * n + 1) / (2 * N)) for n in range(N))
+ for k in range(n_coeffs)
+ ]
 ```
 
 #### Açıklama

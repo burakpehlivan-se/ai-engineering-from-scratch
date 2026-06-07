@@ -7,7 +7,7 @@ lesson: 03
 tags: [nlp, embeddings, debugging]
 ---
 
-Eğitilmiş kelime embedding'lerinin çalıştığını doğrulamak için onları sorgularsınız. Bir `gensim.models.KeyedVectors` nesnesi ve sözcük dağarcığı verildiğinde şunları çalıştırırsınız:
+Eğitilmiş kelime embedding'lerinin çalıştığını doğrulamak için onları sorgularsınız. Bir `gensim.models. KeyedVectors` nesnesi ve sözcük dağarcığı verildiğinde şunları çalıştırırsınız:
 
 1. Üç kanonik analoji testi. `king : man :: queen : woman`. `paris : france :: tokyo : japan`. `walking : walked :: swimming : ?`. İlk sonucu ve kosinüs değerini raporlayın.
 2. Kullanıcının verdiği alana özgü kelimeler üzerinde beş en yakın komşu testi. Top-5 komşuyu kosinüs değerleriyle yazdırın.

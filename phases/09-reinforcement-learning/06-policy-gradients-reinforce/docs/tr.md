@@ -58,13 +58,13 @@ yani alınan aksiyonun skoru eksi politika altındaki beklenen değeri.
 
 ```python
 def policy_logits(theta, state_features):
-    return [dot(theta[a], state_features) for a in range(N_ACTIONS)]
+ return [dot(theta[a], state_features) for a in range(N_ACTIONS)]
 
 def softmax(logits):
-    m = max(logits)
-    expts = [exp(l - m) for l in logits]
-    Z = sum(expts)
-    return [e / Z for e in expts]
+ m = max(logits)
+ expts = [exp(l - m) for l in logits]
+ Z = sum(expts)
+ return [e / Z for e in expts]
 ```
 
 #### Açıklama
@@ -75,16 +75,16 @@ Tablo bazlı bir ortam için doğrusal politika (her aksiyon için bir ağırlı
 
 ```python
 def sample_action(probs, rng):
-    x = rng.random()
-    cum = 0
-    for a, p in enumerate(probs):
-        cum += p
-        if x <= cum:
-            return a
-    return len(probs) - 1
+ x = rng.random()
+ cum = 0
+ for a, p in enumerate(probs):
+ cum += p
+ if x <= cum:
+ return a
+ return len(probs) - 1
 
 def log_prob(probs, a):
-    return log(probs[a] + 1e-12)
+ return log(probs[a] + 1e-12)
 ```
 
 #### Açıklama
@@ -95,16 +95,16 @@ Softmax'tan elde edilen olasılıklardan aksiyon örnekleme ve ilgili log-olası
 
 ```python
 def rollout(theta, env, rng, gamma):
-    trajectory = []
-    s = env.reset()
-    while not done:
-        logits = policy_logits(theta, s)
-        probs = softmax(logits)
-        a = sample_action(probs, rng)
-        s_next, r, done = env.step(s, a)
-        trajectory.append((s, a, r, probs))
-        s = s_next
-    return trajectory
+ trajectory = []
+ s = env.reset()
+ while not done:
+ logits = policy_logits(theta, s)
+ probs = softmax(logits)
+ a = sample_action(probs, rng)
+ s_next, r, done = env.step(s, a)
+ trajectory.append((s, a, r, probs))
+ s = s_next
+ return trajectory
 ```
 
 #### Açıklama
@@ -115,14 +115,14 @@ Politika ağı ile tam bir bölüm rollout'u; her adımda durum, aksiyon, ödül
 
 ```python
 def reinforce_step(theta, trajectory, gamma, lr, baseline=0.0):
-    returns = compute_returns(trajectory, gamma)
-    for (s, a, _, probs), G in zip(trajectory, returns):
-        advantage = G - baseline
-        grad_log_pi_a = [-p for p in probs]
-        grad_log_pi_a[a] += 1.0
-        for i in range(N_ACTIONS):
-            for j in range(len(s)):
-                theta[i][j] += lr * advantage * grad_log_pi_a[i] * s[j]
+ returns = compute_returns(trajectory, gamma)
+ for (s, a, _, probs), G in zip(trajectory, returns):
+ advantage = G - baseline
+ grad_log_pi_a = [-p for p in probs]
+ grad_log_pi_a[a] += 1.0
+ for i in range(N_ACTIONS):
+ for j in range(len(s)):
+ theta[i][j] += lr * advantage * grad_log_pi_a[i] * s[j]
 ```
 
 #### Açıklama

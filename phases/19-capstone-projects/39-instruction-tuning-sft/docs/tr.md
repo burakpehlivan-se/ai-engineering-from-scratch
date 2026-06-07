@@ -35,12 +35,12 @@ Ama bir tuzak var. Tüm diziyi sıradan bir cross-entropy kaybına verirseniz, m
 
 ```mermaid
 flowchart LR
-  Pair[talimat + yanıt] --> Tmpl[şablonu uygula<br/>INST + RESP tokenleri]
-  Tmpl --> Tokens[token id'leri]
-  Tokens --> Mask[kayıp maskesi<br/>-100 talimatta]
-  Mask --> Model[transformer gövdesi + LM başı]
-  Model --> CE[cross-entropy<br/>ignore_index=-100]
-  CE --> Step[geri yayılım + optimize edici adımı]
+ Pair[talimat + yanıt] --> Tmpl[şablonu uygula<br/>INST + RESP tokenleri]
+ Tmpl --> Tokens[token id'leri]
+ Tokens --> Mask[kayıp maskesi<br/>-100 talimatta]
+ Mask --> Model[transformer gövdesi + LM başı]
+ Model --> CE[cross-entropy<br/>ignore_index=-100]
+ CE --> Step[geri yayılım + optimize edici adımı]
 ```
 
 `ignore_index`, `torch.nn.functional.cross_entropy`'nin bir özelliğidir. `ignore_index`'e eşit her hedef konumu, sıfır kayıp ve sıfır gradyan katkıda bulunur. PyTorch'taki kural `-100`'dür. Collat fonksiyonu, her örnek için iki tensör kurar: `input_ids` (tam dizi) ve `labels` (`input_ids`'in bir kopyası, talimat konumlarında `-100` ile üzerine yazılmış).
@@ -75,17 +75,17 @@ Dizi `[INST] talimat_byte'ları [RESP] yanıt_byte'ları [PAD]*` şeklindedir. C
 1. Her örneği tokenleştirir.
 2. Batchteki her örneği batchteki en uzun diziye kadar padler.
 3. `labels` = `input_ids`'i bir kaydırarak (nedensel LM hedefi) oluşturur, şu değişikliklerle:
-   - Talimat bölgesi `-100` ile değiştirilir.
-   - Padding bölgesi `-100` ile değiştirilir.
-   - `RESP_ID` sınır konumunun kendisi `-100` ile değiştirilir (modeli sınır tokenini tahmin edecek şekilde eğitmezsiniz; onu izleyen şeyi tahmin eder).
+ - Talimat bölgesi `-100` ile değiştirilir.
+ - Padding bölgesi `-100` ile değiştirilir.
+ - `RESP_ID` sınır konumunun kendisi `-100` ile değiştirilir (modeli sınır tokenini tahmin edecek şekilde eğitmezsiniz; onu izleyen şeyi tahmin eder).
 
 ```mermaid
 flowchart TD
-  Batch[(örnekler)] --> Tok[kodla + özel tokenleri ekle]
-  Tok --> Pad[en uzuna pad]
-  Pad --> Shift[etiketleri bir kaydır]
-  Shift --> Mask[inst/pad/sınıra<br/>-100 ayarla]
-  Mask --> Out[(input_ids, etiketler)]
+ Batch[(örnekler)] --> Tok[kodla + özel tokenleri ekle]
+ Tok --> Pad[en uzuna pad]
+ Pad --> Shift[etiketleri bir kaydır]
+ Shift --> Mask[inst/pad/sınıra<br/>-100 ayarla]
+ Mask --> Out[(input_ids, etiketler)]
 ```
 
 Kaydırma, standart nedensel hiledir: `input_ids`'in `i` konumu, `i+1` konumundaki tokeni tahmin eder, dolayısıyla `labels[i] = input_ids[i+1]` (girişten son konum düşürülür, hedeften ilk düşürülür). Maske, kaydırmadan sonra doğru konumlara inmesi için uygulanır.
@@ -94,12 +94,12 @@ Kaydırma, standart nedensel hiledir: `input_ids`'in `i` konumu, `i+1` konumunda
 
 ```mermaid
 flowchart LR
-  DL[Eğitim yükleyicisi<br/>200 çift] --> Fwd[ileri]
-  Fwd --> Logits[B x T x V]
-  Logits --> Loss[CE -100 maskesiyle]
-  Loss --> Bwd[geri]
-  Bwd --> Opt[Adam optimize edici]
-  Opt --> Body[(güncellenen gövde)]
+ DL[Eğitim yükleyicisi<br/>200 çift] --> Fwd[ileri]
+ Fwd --> Logits[B x T x V]
+ Logits --> Loss[CE -100 maskesiyle]
+ Loss --> Bwd[geri]
+ Bwd --> Opt[Adam optimize edici]
+ Opt --> Body[(güncellenen gövde)]
 ```
 
 Döngü, standart PyTorch SFT döngüsüdür. Adam, öğrenme oranı yaklaşık 3e-4 ila 1e-3, bu fixture üzerinde on ila yirmi epoch, zamanlayıcı yok. Model, CPU'da iki dakika içinde yakınsamaya eğitmek için yeterince küçüktür (hidden 96, 2 blok, maksimum uzunluk 64).

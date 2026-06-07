@@ -63,7 +63,7 @@ Her satır bu aşamada bir derse dönüşür.
 
 `code/main.py` dosyasını çalıştırın. METR ufuk eğrisini simüle eder ve şunları gösterir:
 
-- %50 ufuk, seçilen çiftleşme süresiyle nasıl ölçeklenir.
+- %50 ufuk, seçilen ikiye katlanma süresiyle nasıl ölçeklenir.
 - Adım başına hata olasılığı çalışma boyunca nasıl birleşir.
 - %99,5 adım başına güvenilirliğe sahip bir agent'ın bile 70 adımlık bir yörüngede yarı yarıya nasıl başarısız olduğu.
 

@@ -23,9 +23,9 @@ Bu kapanış dersi, üç dönüm noktası mimarisini — AlphaZero, MuZero ve GR
 
 ```
 while True:
-    trajectory = self_play(current_policy, search)     # play game against self
-    policy_target = search.improved_policy(trajectory) # search improves raw policy
-    policy_net.update(policy_target, value_target)     # supervised on search output
+ trajectory = self_play(current_policy, search) # play game against self
+ policy_target = search.improved_policy(trajectory) # search improves raw policy
+ policy_net.update(policy_target, value_target) # supervised on search output
 ```
 
 **AlphaZero (2017).** Silver ve diğerleri. Bilinen kuralları olan bir oyun (satranç, shogi, go) verildiğinde:
@@ -40,9 +40,9 @@ Sıfır insan bilgisi. Sıfır el yapımı sezgisel. Her biri birkaç on milyon 
 **MuZero (2019).** Schrittwieser ve diğerleri. Kuralların bilinmesi gerekliliğini kaldırır.
 
 - Sabit bir ortam yerine bir *gizli dinamik modeli* `(h, g, f)` öğren:
-  - `h(s)`: gözlemi gizli duruma kodla.
-  - `g(s_latent, a)`: sonraki gizli durumu + ödülü tahmin et.
-  - `f(s_latent)`: politika önceki + değeri tahmin et.
+ - `h(s)`: gözlemi gizli duruma kodla.
+ - `g(s_latent, a)`: sonraki gizli durumu + ödülü tahmin et.
+ - `f(s_latent)`: politika önceki + değeri tahmin et.
 - MCTS *öğrenilmiş gizli alanda* çalıştır. Aynı arama, aynı eğitim döngüsü.
 - Go, satranç, shogi *ve* Atari üzerinde çalışır — tek algoritma, kural bilgisi yok.
 
@@ -58,7 +58,7 @@ Sıfır insan bilgisi. Sıfır el yapımı sezgisel. Her biri birkaç on milyon 
 - Saptamayı önlemek için referans politikaya KL cezası (RLHF gibi).
 - Tam kayıp:
 
-  `L_GRPO(θ) = -E_{q, {o_i}} [ (1/G) Σ_i A_i · log π_θ(o_i | q) ] + β · KL(π_θ || π_ref)`
+ `L_GRPO(θ) = -E_{q, {o_i}} [ (1/G) Σ_i A_i · log π_θ(o_i | q) ] + β · KL(π_θ || π_ref)`
 
 Reward model yok, critic yok, MCTS yok. Group-relative baseline üçünün de yerini alır. Muhakeme benchmark'larında PPO-RLHF kalitesini eşler veya aşar, çok daha az hesaplama maliyetiyle.
 
@@ -66,10 +66,10 @@ Reward model yok, critic yok, MCTS yok. Group-relative baseline üçünün de ye
 
 - **R1-Zero.** DeepSeek-V3 temel modelinden başla. SFT yok. GRPO'yu doğrudan iki bileşenli ödülle uygula: *doğruluk ödülü* (kural tabanlı — son cevap doğru sayıya dönüştürülebildi mi / kod birim testlerini geçti mi) ve *biçim ödülü* (düşünce zinciri `<think>…</think>` etiketlerine sarıldı mı). Binlerce adımda ortalama yanıt uzunluğu ~100'den ~10.000 token'a büyür ve matematik benchmark puanları neredeyse o1-preview seviyelerine tırmanır. Model sıfırdan muhakeme etmeyi öğrenir. Dezavantajı: düşünme zincirleri genellikle okunaksızdır, dilleri karıştırır ve üslupsal parlaklıktan yoksundur.
 - **R1.** R1-Zero'nun okunabilirlik sorunlarını dört aşamalı bir hatla çöz:
-  1. **Soğuk başlangıç SFT.** Temiz biçimlendirmeyle birkaç bin uzun-CoT gösterimi topla. Temel modeli bunlar üzerinde denetimli ince ayar yap. Bu okunabilir bir başlangıç noktası sağlar.
-  2. **Muhakeme odaklı GRPO.** Doğruluk+biçim ödüllerine ek olarak kod değiştirmemayı önleyen bir *dil-tutarlılığı* ödülü ile GRPO uygula.
-  3. **Reddetme örnekleme + SFT 2. tur.** RL kontrol noktasından ~600K muhakeme yörüngesi örnekle, sadece doğru son cevaplara ve okunabilir CoT'ye sahip olanları tut ve ~200K mantık-dışı SFT örneğiyle (yazma, soru-cevap, öz-bilinç) birleştir. Temel modeli tekrar ince ayar yap.
-  4. **Tam spektrum GRPO.** Hem muhakeme (kural tabanlı ödüller) hem de genel hizalama (yardımcılık/zararsızlık tercih tabanlı ödüller) kapsayan bir RL turu daha.
+ 1. **Soğuk başlangıç SFT.** Temiz biçimlendirmeyle birkaç bin uzun-CoT gösterimi topla. Temel modeli bunlar üzerinde denetimli ince ayar yap. Bu okunabilir bir başlangıç noktası sağlar.
+ 2. **Muhakeme odaklı GRPO.** Doğruluk+biçim ödüllerine ek olarak kod değiştirmemayı önleyen bir *dil-tutarlılığı* ödülü ile GRPO uygula.
+ 3. **Reddetme örnekleme + SFT 2. tur.** RL kontrol noktasından ~600K muhakeme yörüngesi örnekle, sadece doğru son cevaplara ve okunabilir CoT'ye sahip olanları tut ve ~200K mantık-dışı SFT örneğiyle (yazma, soru-cevap, öz-bilinç) birleştir. Temel modeli tekrar ince ayar yap.
+ 4. **Tam spektrum GRPO.** Hem muhakeme (kural tabanlı ödüller) hem de genel hizalama (yardımcılık/zararsızlık tercih tabanlı ödüller) kapsayan bir RL turu daha.
 
 Sonuç, ağırlıkları açık olan o1'i AIME ve MATH-500'de eşler ve damıtmak için yeterince küçüktür. Aynı makale ayrıca R1'in muhakeme izleri üzerinde SFT yaparak altı damıtılmış yoğun model (Qwen-1.5B'den Llama-70B'ye) yayınlar — öğrencide RL yok. Güçlü bir RL öğretmeninin damıtması, öğrenci ölçeğinde sıfırdan RL'den tutarlı olarak daha iyi sonuç verir.
 
@@ -88,12 +88,12 @@ Sonuç, ağırlıkları açık olan o1'i AIME ve MATH-500'de eşler ve damıtmak
 
 ```python
 QUESTIONS = [
-    {"prompt": "q1", "correct": 3},
-    {"prompt": "q2", "correct": 1},
+ {"prompt": "q1", "correct": 3},
+ {"prompt": "q2", "correct": 1},
 ]
 
 def verify(prompt_idx, answer_token):
-    return 1.0 if answer_token == QUESTIONS[prompt_idx]["correct"] else 0.0
+ return 1.0 if answer_token == QUESTIONS[prompt_idx]["correct"] else 0.0
 ```
 
 #### Açıklama
@@ -104,7 +104,7 @@ Gerçek GRPO'da doğrulayıcı birim testleri çalıştırır veya matematik eş
 
 ```python
 def policy_probs(theta, p_idx):
-    return softmax(theta[p_idx])
+ return softmax(theta[p_idx])
 ```
 
 #### Açıklama
@@ -115,20 +115,20 @@ Bir isteme koşullu bir LLM'nin son katman çıktısına eşdeğerdir.
 
 ```python
 def grpo_step(theta, p_idx, G=8, beta=0.01, lr=0.1, rng=None):
-    probs = policy_probs(theta, p_idx)
-    samples = [sample(probs, rng) for _ in range(G)]
-    rewards = [verify(p_idx, s) for s in samples]
-    mean_r = sum(rewards) / G
-    std_r = stddev(rewards) + 1e-8
-    advs = [(r - mean_r) / std_r for r in rewards]
+ probs = policy_probs(theta, p_idx)
+ samples = [sample(probs, rng) for _ in range(G)]
+ rewards = [verify(p_idx, s) for s in samples]
+ mean_r = sum(rewards) / G
+ std_r = stddev(rewards) + 1e-8
+ advs = [(r - mean_r) / std_r for r in rewards]
 
-    for a, A in zip(samples, advs):
-        grad = onehot(a) - probs
-        for i in range(len(probs)):
-            theta[p_idx][i] += lr * A * grad[i]
-    # KL penalty: pull theta toward reference
-    for i in range(len(probs)):
-        theta[p_idx][i] -= beta * (theta[p_idx][i] - reference[p_idx][i])
+ for a, A in zip(samples, advs):
+ grad = onehot(a) - probs
+ for i in range(len(probs)):
+ theta[p_idx][i] += lr * A * grad[i]
+ # KL penalty: pull theta toward reference
+ for i in range(len(probs)):
+ theta[p_idx][i] -= beta * (theta[p_idx][i] - reference[p_idx][i])
 ```
 
 #### Açıklama

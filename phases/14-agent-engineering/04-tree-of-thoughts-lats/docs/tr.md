@@ -27,11 +27,11 @@ Akıl yürütmeye ihtiyaç duyulan şey, birden fazla aday önerme, onları değ
 Her düğüm tutarlı bir ara adımdır ("bir düşünce"). Her düğüm K çocuk düşüncesine genişleyebilir. LLM her düğümü bir puanlama prompt'uyla öz-değerlendirir. Arama ağacı keşfeder — BFS, DFS veya beam.
 
 ```text
-                      (kök: "4 6 4 1'den 24 bul")
-                     /               |            \
-           ("6 - 4 = 2")    ("4 + 1 = 5")    ("4 * 6 = 24")  <- Puan: YÜKSEK
-              /   \              |                  |
-          ...    ...          ...                bitir
+ (kök: "4 6 4 1'den 24 bul")
+ / | \
+ ("6 - 4 = 2") ("4 + 1 = 5") ("4 * 6 = 24") <- Puan: YÜKSEK
+ / \ | |
+ ... ... ... bitir
 ```
 
 Öz-değerlendirme kritik parçadır. Makale üç varyant gösterir: `sure / likely / impossible` sınıflandırması, `1..10` sayısal puanı ve adaylar arası oylama. Üçü de Game of 24'te CoT'u önemli ölçüde yener (%4 -> %74, GPT-4 ile).

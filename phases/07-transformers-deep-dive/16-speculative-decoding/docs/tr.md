@@ -58,10 +58,10 @@ Medusa, taslak modelini doğrulayıcı üzerindeki ekstra çıktı başlarıyla 
 
 ```
 shared trunk → hidden h_t
-    ├── head_0: predict token at t+1  (standard LM head)
-    ├── head_1: predict token at t+2
-    ├── head_2: predict token at t+3
-    ├── head_3: predict token at t+4
+ ├── head_0: predict token at t+1 (standard LM head)
+ ├── head_1: predict token at t+2
+ ├── head_2: predict token at t+3
+ ├── head_3: predict token at t+4
 ```
 
 #### Açıklama
@@ -93,8 +93,8 @@ Doğrulama, `N` taslak token'ı tek bir ileriye doğru geçişte doğrulayıcıy
 
 ```python
 def accept_or_reject(q_prob, p_prob, draft_token, u):
-    ratio = q_prob / p_prob if p_prob > 0 else float("inf")
-    return u < min(1.0, ratio)
+ ratio = q_prob / p_prob if p_prob > 0 else float("inf")
+ return u < min(1.0, ratio)
 ```
 
 #### Açıklama
@@ -104,9 +104,9 @@ def accept_or_reject(q_prob, p_prob, draft_token, u):
 
 ```python
 def residual_dist(q, p):
-    raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
-    s = sum(raw)
-    return [r / s for r in raw]
+ raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
+ s = sum(raw)
+ return [r / s for r in raw]
 ```
 
 #### Açıklama
@@ -116,30 +116,30 @@ def residual_dist(q, p):
 
 ```python
 def spec_step(prefix, q_model, p_model, N, rng):
-    drafts = []
-    p_probs = []
-    ctx = list(prefix)
-    for _ in range(N):
-        p_dist = p_model(ctx)
-        d = sample(p_dist, rng)
-        drafts.append(d)
-        p_probs.append(p_dist[d])
-        ctx.append(d)
+ drafts = []
+ p_probs = []
+ ctx = list(prefix)
+ for _ in range(N):
+ p_dist = p_model(ctx)
+ d = sample(p_dist, rng)
+ drafts.append(d)
+ p_probs.append(p_dist[d])
+ ctx.append(d)
 
-    q_dists = [q_model(prefix + drafts[:i]) for i in range(N + 1)]
+ q_dists = [q_model(prefix + drafts[:i]) for i in range(N + 1)]
 
-    for i, d in enumerate(drafts):
-        u = rng.random()
-        q_prob = q_dists[i][d]
-        p_prob = p_probs[i]
-        if u < min(1.0, q_prob / p_prob if p_prob > 0 else float("inf")):
-            prefix = prefix + [d]
-        else:
-            res = residual_dist(q_dists[i], p_model(prefix))
-            prefix = prefix + [sample(res, rng)]
-            return prefix
-    prefix = prefix + [sample(q_dists[N], rng)]
-    return prefix
+ for i, d in enumerate(drafts):
+ u = rng.random()
+ q_prob = q_dists[i][d]
+ p_prob = p_probs[i]
+ if u < min(1.0, q_prob / p_prob if p_prob > 0 else float("inf")):
+ prefix = prefix + [d]
+ else:
+ res = residual_dist(q_dists[i], p_model(prefix))
+ prefix = prefix + [sample(res, rng)]
+ return prefix
+ prefix = prefix + [sample(q_dists[N], rng)]
+ return prefix
 ```
 
 #### Açıklama
@@ -160,14 +160,14 @@ Deneysel olarak: spekülatif döngü tarafından üretilen token histogramı, do
 ```bash
 # vLLM with EAGLE
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --speculative-model /models/llama-3.1-eagle-70b \
-    --speculative-draft-tensor-parallel-size 1 \
-    --num-speculative-tokens 5
+ --speculative-model /models/llama-3.1-eagle-70b \
+ --speculative-draft-tensor-parallel-size 1 \
+ --num-speculative-tokens 5
 
 # vLLM with vanilla draft model
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --speculative-model meta-llama/Llama-3.2-1B-Instruct \
-    --num-speculative-tokens 5
+ --speculative-model meta-llama/Llama-3.2-1B-Instruct \
+ --num-speculative-tokens 5
 ```
 
 #### Açıklama

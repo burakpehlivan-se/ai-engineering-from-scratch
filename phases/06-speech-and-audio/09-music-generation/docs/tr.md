@@ -90,9 +90,9 @@ torchaudio.save("out.wav", wav[0].cpu(), 32000)
 ```python
 melody, sr = torchaudio.load("humming.wav")
 wav = model.generate_with_chroma(
-    ["jazz piano cover"],
-    melody.squeeze(),
-    sr,
+ ["jazz piano cover"],
+ melody.squeeze(),
+ sr,
 )
 ```
 

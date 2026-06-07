@@ -83,9 +83,9 @@ Boru hattı:
 
 1. Sorguyu ayrıştırın. "sessiz" → ses/inceleme anahtar kelimesi; "vegan kahvaltı" → menü öğesi; "doğal ışık" → görüntü özelliği.
 2. Modallık başına retrieval:
-   - İncelemelerde metin retrieval'ı: "vegan kahvaltı, sessiz ortam."
-   - Restoran fotoğraflarında görüntü retrieval'ı: "doğal ışık, ferah."
-   - Ortam sesi kliplerinde ses retrieval'ı: "düşük desibel, müzik yok."
+ - İncelemelerde metin retrieval'ı: "vegan kahvaltı, sessiz ortam."
+ - Restoran fotoğraflarında görüntü retrieval'ı: "doğal ışık, ferah."
+ - Ortam sesi kliplerinde ses retrieval'ı: "düşük desibel, müzik yok."
 3. Puanları birleştirin. Her restoranın bileşik bir puanı vardır.
 4. En iyi k restoran → tüm kanıtlarla VLM üreteci → atıflı cevap.
 

@@ -42,18 +42,18 @@ Sen bir sıfır atış istem tasarımcısısın.
 
 ```
 [classes]
-  <liste>
+ <liste>
 
 [templates used]
-  <numaralı liste>
+ <numaralı liste>
 
 [per-class prompt counts]
-  <class_1>: N istem
-  <class_2>: N istem
+ <class_1>: N istem
+ <class_2>: N istem
 
 [recommendation]
-  - şablonlar üzerinden ortalama gömme: evet
-  - üst-kategori istemleriyle alfa karışımı: evet | hayır
+ - şablonlar üzerinden ortalama gömme: evet
+ - üst-kategori istemleriyle alfa karışımı: evet | hayır
 ```
 
 ## Operasyonel Yönergeler

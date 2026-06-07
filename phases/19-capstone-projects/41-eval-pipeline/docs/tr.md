@@ -29,15 +29,15 @@ Bu ders, o hattı tek bir dosyada uçtan uca kurar.
 
 ```mermaid
 flowchart LR
-  Model[eğitilmiş model] --> PPL[perplexity değerlendirmesi<br/>held-out LM]
-  Model --> EM[exact-match değerlendirmesi<br/>olgusal kısa form]
-  Model --> F1[token F1 değerlendirmesi<br/>açık uçlu]
-  Model --> J[mock yargıç<br/>1-5 puanlama]
-  PPL --> R[Rapor]
-  EM --> R
-  F1 --> R
-  J --> R
-  R --> A[(toplam skor)]
+ Model[eğitilmiş model] --> PPL[perplexity değerlendirmesi<br/>held-out LM]
+ Model --> EM[exact-match değerlendirmesi<br/>olgusal kısa form]
+ Model --> F1[token F1 değerlendirmesi<br/>açık uçlu]
+ Model --> J[mock yargıç<br/>1-5 puanlama]
+ PPL --> R[Rapor]
+ EM --> R
+ F1 --> R
+ J --> R
+ R --> A[(toplam skor)]
 ```
 
 Her değerlendirme, `(model, dataset) -> EvalResult` fonksiyonudur. Sonuç, metrik değerini, inceleme için örnek başına ayrıntıları ve toplam için bir adı taşır. Hat, hangi değerlendirmelerin çalıştırılacağını ve nasıl ağırlıklandırılacağını söyleyen bir config ile bunları oluşturur.
@@ -60,7 +60,7 @@ Hat, karşılaştırmadan önce hem tahmini hem referansı normalize eder:
 - Dahili boşluk dizilerini tek boşluğa daralt.
 - Her iki taraf yalnızca noktalama ile farklıysa, sondaki terminal noktalamayı (`.`, `!`, `?`) düşür.
 
-Normalizasyon, exact-match'i pratikte faydalı kılar. `"Paris"` diyen model doğrudur; `"Paris."` diyen de doğrudur; `"  paris  "` diyen de doğrudur. Metrik, yine de yanıtın normalizasyondan sonra aynı dize olmasını gerektirir.
+Normalizasyon, exact-match'i pratikte faydalı kılar. `"Paris"` diyen model doğrudur; `"Paris."` diyen de doğrudur; `" paris "` diyen de doğrudur. Metrik, yine de yanıtın normalizasyondan sonra aynı dize olmasını gerektirir.
 
 ## Token F1, doğru yol
 
@@ -87,11 +87,11 @@ Bu gerçek bir yargıç değildir, ancak doğru arayüze sahiptir. Daha sonra bi
 
 ```mermaid
 flowchart LR
-  Inst[talimat] --> Judge[mock yargıç]
-  Pred[tahmin] --> Judge
-  Ref[referans] --> Judge
-  Judge --> Score[1-5 skor]
-  Judge --> Why[gerekçe]
+ Inst[talimat] --> Judge[mock yargıç]
+ Pred[tahmin] --> Judge
+ Ref[referans] --> Judge
+ Judge --> Score[1-5 skor]
+ Judge --> Why[gerekçe]
 ```
 
 ## Toplama
@@ -109,19 +109,19 @@ Ağırlıklar yapılandırılabilir. Varsayılan karışım 0.2 perplexity, 0.3 
 
 ```mermaid
 flowchart TD
-  Data[(held-out fixture'lar<br/>LM / EM / F1 / Yargıç)] --> Suite[EvalSuite]
-  Model[eğitilmiş model] --> Suite
-  Suite --> PE[perplexity_eval]
-  Suite --> EE[exact_match_eval]
-  Suite --> FE[token_f1_eval]
-  Suite --> JE[judge_eval]
-  PE --> Agg[Toplayıcı]
-  EE --> Agg
-  FE --> Agg
-  JE --> Agg
-  Agg --> R[Son Rapor<br/>görev başına + toplam]
-  R --> JSON[(report.json)]
-  R --> Pretty[stdout tablosu]
+ Data[(held-out fixture'lar<br/>LM / EM / F1 / Yargıç)] --> Suite[EvalSuite]
+ Model[eğitilmiş model] --> Suite
+ Suite --> PE[perplexity_eval]
+ Suite --> EE[exact_match_eval]
+ Suite --> FE[token_f1_eval]
+ Suite --> JE[judge_eval]
+ PE --> Agg[Toplayıcı]
+ EE --> Agg
+ FE --> Agg
+ JE --> Agg
+ Agg --> R[Son Rapor<br/>görev başına + toplam]
+ R --> JSON[(report.json)]
+ R --> Pretty[stdout tablosu]
 ```
 
 `EvalSuite` ince bir orkestratördür. Her bireysel değerlendirme, `(model, tokenizer, dataset, config)` alan ve bir `EvalResult` döndüren serbest bir fonksiyondur. `Toplayıcı`, sonuçları toplar ve son raporu üretir. Demo tabloyu yazdırır ve downstream CI'ın alabileceği bir JSON kopyası yazar.

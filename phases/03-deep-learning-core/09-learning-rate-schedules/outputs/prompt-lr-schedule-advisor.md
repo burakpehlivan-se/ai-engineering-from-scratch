@@ -64,11 +64,11 @@ Her öneri için şunları sağla:
 from torch.optim.lr_scheduler import CosineAnnealingLR, OneCycleLR
 from transformers import get_cosine_schedule_with_warmup
 
-optimizer = torch.optim.AdamW(model.parameters(), lr=PEAK_LR, weight_decay=0.01)
+optimizer = torch.optim. AdamW(model.parameters(), lr=PEAK_LR, weight_decay=0.01)
 scheduler = get_cosine_schedule_with_warmup(
-    optimizer,
-    num_warmup_steps=WARMUP,
-    num_training_steps=TOTAL,
+ optimizer,
+ num_warmup_steps=WARMUP,
+ num_training_steps=TOTAL,
 )
 ```
 

@@ -28,17 +28,17 @@ Bu şekillendirme işine metric learning (metrik öğrenme) denir. Küçük ama 
 
 ```mermaid
 flowchart LR
-    Q["Sorgu görüntüsü<br/>veya metni"] --> ENC["Kodlayıcı"]
-    ENC --> EMB["Sorgu embedding'i"]
-    EMB --> IDX["FAISS indeksi"]
-    CAT["Katalog görüntüleri"] --> ENC2["Kodlayıcı (aynı)"] --> IDX_BUILD["İndeks oluştur"]
-    IDX_BUILD --> IDX
-    IDX --> RANK["Cosine / L2 ile<br/>en yakın top-k"]
-    RANK --> OUT["Sıralanmış sonuçlar"]
+ Q["Sorgu görüntüsü<br/>veya metni"] --> ENC["Kodlayıcı"]
+ ENC --> EMB["Sorgu embedding'i"]
+ EMB --> IDX["FAISS indeksi"]
+ CAT["Katalog görüntüleri"] --> ENC2["Kodlayıcı (aynı)"] --> IDX_BUILD["İndeks oluştur"]
+ IDX_BUILD --> IDX
+ IDX --> RANK["Cosine / L2 ile<br/>en yakın top-k"]
+ RANK --> OUT["Sıralanmış sonuçlar"]
 
-    style ENC fill:#dbeafe,stroke:#2563eb
-    style IDX fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style ENC fill:#dbeafe,stroke:#2563eb
+ style IDX fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 ### Dört kayıp ailesi
@@ -113,9 +113,9 @@ import torch
 import torch.nn.functional as F
 
 def triplet_loss(anchor, positive, negative, margin=0.2):
-    d_ap = F.pairwise_distance(anchor, positive, p=2)
-    d_an = F.pairwise_distance(anchor, negative, p=2)
-    return F.relu(d_ap - d_an + margin).mean()
+ d_ap = F.pairwise_distance(anchor, positive, p=2)
+ d_an = F.pairwise_distance(anchor, negative, p=2)
+ return F.relu(d_ap - d_an + margin).mean()
 ```
 
 #### Açıklama
@@ -127,28 +127,28 @@ Bir batch embedding ve etiket verildiğinde, her anchor için en zor semi-hard n
 
 ```python
 def semi_hard_negatives(emb, labels, margin=0.2):
-    dist = torch.cdist(emb, emb)
-    same_class = labels[:, None] == labels[None, :]
-    diff_class = ~same_class
-    N = emb.size(0)
+ dist = torch.cdist(emb, emb)
+ same_class = labels[:, None] == labels[None, :]
+ diff_class = ~same_class
+ N = emb.size(0)
 
-    positives = dist.clone()
-    positives[~same_class] = float("-inf")
-    positives.fill_diagonal_(float("-inf"))
-    pos_idx = positives.argmax(dim=1)
+ positives = dist.clone()
+ positives[~same_class] = float("-inf")
+ positives.fill_diagonal_(float("-inf"))
+ pos_idx = positives.argmax(dim=1)
 
-    semi_hard = dist.clone()
-    semi_hard[same_class] = float("inf")
-    d_ap = dist[torch.arange(N), pos_idx].unsqueeze(1)
-    semi_hard[dist <= d_ap] = float("inf")
-    neg_idx = semi_hard.argmin(dim=1)
+ semi_hard = dist.clone()
+ semi_hard[same_class] = float("inf")
+ d_ap = dist[torch.arange(N), pos_idx].unsqueeze(1)
+ semi_hard[dist <= d_ap] = float("inf")
+ neg_idx = semi_hard.argmin(dim=1)
 
-    fallback_mask = semi_hard[torch.arange(N), neg_idx] == float("inf")
-    if fallback_mask.any():
-        hardest = dist.clone()
-        hardest[same_class] = float("inf")
-        neg_idx = torch.where(fallback_mask, hardest.argmin(dim=1), neg_idx)
-    return pos_idx, neg_idx
+ fallback_mask = semi_hard[torch.arange(N), neg_idx] == float("inf")
+ if fallback_mask.any():
+ hardest = dist.clone()
+ hardest[same_class] = float("inf")
+ neg_idx = torch.where(fallback_mask, hardest.argmin(dim=1), neg_idx)
+ return pos_idx, neg_idx
 ```
 
 #### Açıklama
@@ -158,10 +158,10 @@ Her anchor, sınıf içindeki en zor pozitifi ve pozitiften daha uzak ama margin
 
 ```python
 def recall_at_k(query_emb, gallery_emb, query_labels, gallery_labels, k=1):
-    sim = query_emb @ gallery_emb.T
-    _, top_k = sim.topk(k, dim=-1)
-    matches = (gallery_labels[top_k] == query_labels[:, None]).any(dim=-1)
-    return matches.float().mean().item()
+ sim = query_emb @ gallery_emb. T
+ _, top_k = sim.topk(k, dim=-1)
+ matches = (gallery_labels[top_k] == query_labels[:, None]).any(dim=-1)
+ return matches.float().mean().item()
 ```
 
 #### Açıklama
@@ -174,35 +174,35 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 
-class Encoder(nn.Module):
-    def __init__(self, in_dim=128, emb_dim=64):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(in_dim, 128), nn.ReLU(),
-            nn.Linear(128, emb_dim),
-        )
+class Encoder(nn. Module):
+ def __init__(self, in_dim=128, emb_dim=64):
+ super().__init__()
+ self.net = nn. Sequential(
+ nn. Linear(in_dim, 128), nn. ReLU(),
+ nn. Linear(128, emb_dim),
+ )
 
-    def forward(self, x):
-        return F.normalize(self.net(x), dim=-1)
+ def forward(self, x):
+ return F.normalize(self.net(x), dim=-1)
 
 torch.manual_seed(0)
 num_classes = 6
 protos = F.normalize(torch.randn(num_classes, 128), dim=-1)
 
 def sample_batch(bs=32):
-    labels = torch.randint(0, num_classes, (bs,))
-    x = protos[labels] + 0.15 * torch.randn(bs, 128)
-    return x, labels
+ labels = torch.randint(0, num_classes, (bs,))
+ x = protos[labels] + 0.15 * torch.randn(bs, 128)
+ return x, labels
 
 enc = Encoder()
 opt = Adam(enc.parameters(), lr=3e-3)
 
 for step in range(200):
-    x, y = sample_batch(32)
-    emb = enc(x)
-    pos_idx, neg_idx = semi_hard_negatives(emb, y)
-    loss = triplet_loss(emb, emb[pos_idx], emb[neg_idx])
-    opt.zero_grad(); loss.backward(); opt.step()
+ x, y = sample_batch(32)
+ emb = enc(x)
+ pos_idx, neg_idx = semi_hard_negatives(emb, y)
+ loss = triplet_loss(emb, emb[pos_idx], emb[neg_idx])
+ opt.zero_grad(); loss.backward(); opt.step()
 ```
 
 #### Açıklama

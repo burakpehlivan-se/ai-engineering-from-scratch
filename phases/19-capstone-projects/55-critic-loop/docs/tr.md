@@ -25,14 +25,14 @@ Beş boyut, hata bir sözleşme verir.
 
 ```mermaid
 flowchart LR
-    Draft[Paper taslağı] --> Critic[Eleştirmen]
-    Critic --> Scores
-    Scores --> Clar[açıklık 0-10]
-    Scores --> Nov[yenilik 0-10]
-    Scores --> Ev[kanıt 0-10]
-    Scores --> Meth[metodoloji 0-10]
-    Scores --> Rel[ilgili çalışma 0-10]
-    Scores --> Revs[revizyon önerileri]
+ Draft[Paper taslağı] --> Critic[Eleştirmen]
+ Critic --> Scores
+ Scores --> Clar[açıklık 0-10]
+ Scores --> Nov[yenilik 0-10]
+ Scores --> Ev[kanıt 0-10]
+ Scores --> Meth[metodoloji 0-10]
+ Scores --> Rel[ilgili çalışma 0-10]
+ Scores --> Revs[revizyon önerileri]
 ```
 
 Skor bir vektördür. Hat, her boyutu turlar boyunca izler. Açıklığı yükselten ama kanıtı batıran bir revizyon, kanıt üzerinde bir gerilemedir ve yakınsama kontrolü onu görür. Yalnızca model tabanlı bir eleştirmen bu garantiyi sunamaz.
@@ -41,11 +41,11 @@ Skor bir vektördür. Hat, her boyutu turlar boyunca izler. Açıklığı yükse
 
 ```mermaid
 flowchart TB
-    Critique[Critique] --> Scores[skorlar dict]
-    Critique --> Sugg[öneriler listesi]
-    Sugg --> S1[Öneri: boyut, hedef, düzenleme]
-    Critique --> Round[tur int]
-    Critique --> Reason[genel neden str]
+ Critique[Critique] --> Scores[skorlar dict]
+ Critique --> Sugg[öneriler listesi]
+ Sugg --> S1[Öneri: boyut, hedef, düzenleme]
+ Critique --> Round[tur int]
+ Critique --> Reason[genel neden str]
 ```
 
 Her öneri, iyileştirdiği boyutu, hedeflediği bölümü ve revizyonun uygulayabileceği bir `edit` talimatını taşır. Revizyon da çağrılabilirdir. Ders, `edit` talimatını bölüme-ekleme işlemi olarak yorumlayan deterministik bir revizör gönderir. Model tabanlı bir revizör, aynı alanı bir istem olarak yorumlardı. Sözleşme değişmez.
@@ -56,13 +56,13 @@ Eleştirmen döngüsü, üç koşuldan biri tetiklendiğinde sona erer.
 
 ```mermaid
 flowchart TB
-    Start[Tur n tamamlandı] --> A{Beş boyutun hepsi >= hedef?}
-    A -- evet --> Stop1[yakınsadı: hedef]
-    A -- hayır --> B{Plato tespit edildi mi?}
-    B -- evet --> Stop2[yakınsadı: plato]
-    B -- hayır --> C{Tur >= maks?}
-    C -- evet --> Stop3[ durdu: bütçe]
-    C -- hayır --> Next[Tur n artı 1'i çalıştır]
+ Start[Tur n tamamlandı] --> A{Beş boyutun hepsi >= hedef?}
+ A -- evet --> Stop1[yakınsadı: hedef]
+ A -- hayır --> B{Plato tespit edildi mi?}
+ B -- evet --> Stop2[yakınsadı: plato]
+ B -- hayır --> C{Tur >= maks?}
+ C -- evet --> Stop3[ durdu: bütçe]
+ C -- hayır --> Next[Tur n artı 1'i çalıştır]
 ```
 
 Hedef, en sert durumdur: beş boyutun (açıklık, yenilik, kanıt, metodoloji, ilgili çalışma) her biri, `>= target_score` (varsayılan `8.0`) değerine ulaşmadan önce döngü başarı dönmez. Yüksek bir ortalama, zayıf bir boyutla yeterli değildir. Plato tespiti, mevcut turun ortalamasını önceki turun ortalamasıyla karşılaştırır. İyileşme, iki ardışık tur boyunca `plateau_epsilon`'un (varsayılan `0.1`) altındaysa, döngü `plateau` ile çıkar. Bütçe, turlar üzerinde sert bir sınırdır (varsayılan `5`) ve `budget` ile çıkar.
@@ -78,10 +78,10 @@ Tek turluk bir plato gürültüdür. Gerçek bir eleştirmen, sabit bir taslakta
 Ders bir model çağırmaz. Gönderilen eleştirmen, üç sinyale dayalı bir taslağı puanlayan çağrılabilir bir şeydir: ortalama bölüm gövde uzunluğu (açıklık), şekil sayısı ve alıntı sayısı (kanıt) ve makale meta verileri üzerinde bir `originality_tag` alanı (yenilik). Revizör, her skoru yukarı itmeyi bilir.
 
 ```text
-clarity      ortalama bölüm gövde uzunluğu arttıkça büyür
-novelty      originality_tag "high" olarak ayarlandığında büyür
-evidence     bir bölümün figure_refs'i boş olmadığında büyür
-methodology  "Method" başlıklı bir bölüm gövdeyle var olduğunda büyür
+clarity ortalama bölüm gövde uzunluğu arttıkça büyür
+novelty originality_tag "high" olarak ayarlandığında büyür
+evidence bir bölümün figure_refs'i boş olmadığında büyür
+methodology "Method" başlıklı bir bölüm gövdeyle var olduğunda büyür
 related-work "Related Work" başlıklı bir bölüm gövdeyle var olduğunda büyür
 ```
 
@@ -91,20 +91,20 @@ Revizör, her öneriyi hedefli bir ekleme olarak yorumlar. Birinci turdan sonra 
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant H as Hat
-    participant C as Eleştirmen
-    participant R as Revizör
-    H->>C: critique(taslak, tur=1)
-    C-->>H: Critique{skorlar, öneriler}
-    H->>R: revise(taslak, öneriler)
-    R-->>H: revize edilmiş taslak
-    H->>H: yakınsama kontrolü
-    alt yakınsadı
-        H-->>H: neden ile dur
-    else devam
-        H->>C: critique(taslak, tur=2)
-    end
+ autonumber
+ participant H as Hat
+ participant C as Eleştirmen
+ participant R as Revizör
+ H->>C: critique(taslak, tur=1)
+ C-->>H: Critique{skorlar, öneriler}
+ H->>R: revise(taslak, öneriler)
+ R-->>H: revize edilmiş taslak
+ H->>H: yakınsama kontrolü
+ alt yakınsadı
+ H-->>H: neden ile dur
+ else devam
+ H->>C: critique(taslak, tur=2)
+ end
 ```
 
 Hat, tur sayacını, izi ve yakınsama kontrolünü sahiplenir. Eleştirmen skoru sahiplenir. Revizör farkı sahiplenir. Üçü de diğerlerinin durumuna dokunmaz.

@@ -40,7 +40,7 @@ Lojistik oturtma biçimi doğrudur çünkü yetenek genellikle görev zorluğuyl
 Time Horizon 1.1'e göre:
 
 - Claude Opus 4.6: Time Horizon 1.1 (Ocak 2026) göre %50 güvenilirlikle ~14 saat.
-- HCAST tarzı görevlerde çiftleşme süresi: Time Horizon 1.1 (Ocak 2026) tarafından bildirilen 2023 sonrası oturtuma göre ~4.3 ay (130.8 gün); ~7 aylık rakam Time Horizon 1.0'dan tam 2019–2025 oturtumudur ve TH1.1 tarafından 2023 sonrası sayıyla birlikte raporlanır.
+- HCAST tarzı görevlerde ikiye katlanma süresi: Time Horizon 1.1 (Ocak 2026) tarafından bildirilen 2023 sonrası oturtuma göre ~4.3 ay (130.8 gün); ~7 aylık rakam Time Horizon 1.0'dan tam 2019–2025 oturtumudur ve TH1.1 tarafından 2023 sonrası sayıyla birlikte raporlanır.
 
 Bunlar Faz 15'in geri kalanının referans verdiği belirli sayılardır. Anthropic RSP v3.0 (Ders 19) ve DeepMind FSF v3 (Ders 20) tarafından eşik değerlendirmelerini besleyen ölçümler olarak alıntılanır.
 
@@ -70,7 +70,7 @@ Bağımsız değerlendirme önemlidir çünkü iç laboratuvarlar raporladıklar
 ### Ufuk sayıları pratikte nasıl kullanılır
 
 - **Yetenek filtresi olarak:** bir modelin ufku, önerilen bir görevin uzman süresinin çok altındaysa, onu otonom olarak dağıtmayın (Ders 1 beceri dosyası).
-- **Eğilim göstergesi olarak:** çiftleşme süresi, mevcut uygulamanın yeni azaltmalar olmadan ne kadar süre güvenli kalacağını söyler.
+- **Eğilim göstergesi olarak:** ikiye katlanma süresi, mevcut uygulamanın yeni azaltmalar olmadan ne kadar süre güvenli kalacağını söyler.
 - **Ön bilgi (prior) olarak:** 14 saatlik bir ufuk bir başlangıç noktasıdır. Görev dağıtımınıza, araç kalitenize ve dağıtım bağlamınıza göre aşağıya ayarlayın.
 
 ## Kullan
@@ -102,7 +102,7 @@ Bağımsız değerlendirme önemlidir çünkü iç laboratuvarlar raporladıklar
 | HCAST | "METR'nin ana paketi" | 1 dakikadan 8+ saate kadar 180+ görev |
 | RE-Bench | "Araştırma mühendisliği" | İnsan temelli 71 ML araştırma-mühendislik görevi |
 | SWAA | "Kısa görev paketi" | Ufuk eğrisinin alt ucunu kalibre eder |
-| Doubling time (Çiftleşme süresi) | "Büyüme oranı" | %50 ufkun ikiye katlanması için gereken süre; HCAST'a göre ~7 ay |
+| Doubling time (İkiye katlanma süresi) | "Büyüme oranı" | %50 ufkun ikiye katlanması için gereken süre; HCAST'a göre ~7 ay |
 | Eval-context gaming (Değerlendirme-bağlam oyunu) | "Model farklı davranıyor" | Testler ve dağıtım arasındaki belgelenmiş davranış boşluğu |
 | Upper bound (Üst sınır) | "Ufuk bir tavan" | Karşılaştırma ufku > yükleme altında dağıtım güvenilirliği |
 

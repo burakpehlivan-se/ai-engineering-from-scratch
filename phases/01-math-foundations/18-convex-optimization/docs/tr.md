@@ -29,8 +29,8 @@ Ama makine öğrenmesindeki birçok sorun konvekstir. Doğrusal regresyon, lojis
 Bir küme S, S'deki her iki nokta için aralarındaki doğru parçasının da tamamen S içindeyse konvekstir.
 
 ```
-Konveks:                    Konveks değil:
-Daire, kare, üçgen          Yıldız, hilal, halka
+Konveks: Konveks değil:
+Daire, kare, üçgen Yıldız, hilal, halka
 ```
 
 ### Konveks fonksiyonlar
@@ -38,9 +38,9 @@ Daire, kare, üçgen          Yıldız, hilal, halka
 Bir fonksiyon, grafiğinin üzerindeki her iki nokta arasındaki doğru parçasının grafikte veya yukarısında kaldığında konvekstir.
 
 ```
-Konveks:                     Konveks değil:
-f(x) = x²                   f(x) = x³
-f(x) = |x|                  f(x) = sin(x)
+Konveks: Konveks değil:
+f(x) = x² f(x) = x³
+f(x) = |x| f(x) = sin(x)
 ```
 
 #### Açıklama
@@ -60,11 +60,11 @@ import numpy as np
 def f(x): return x**2
 def df(x): return 2*x
 
-x = 10.0  # Herhangi bir başlangıç
+x = 10.0 # Herhangi bir başlangıç
 for _ in range(100):
-    x = x - 0.1 * df(x)  # Gradyan inişi
+ x = x - 0.1 * df(x) # Gradyan inişi
 
-print(f"Minimum: {x:.6f}")  # ~0.000000
+print(f"Minimum: {x:.6f}") # ~0.000000
 ```
 
 ### Newton Yöntemi

@@ -26,15 +26,15 @@ Git araçtır. GitHub kodun yaşadığı yerdir. Bu ders, bu kurs için ihtiyac�
 
 ```mermaid
 sequenceDiagram
-    participant WD as Çalışma Dizini
-    participant SA as Aşama Alanı
-    participant LR as Yerel Depo
-    participant R as Uzak (GitHub)
-    WD->>SA: git add
-    SA->>LR: git commit
-    LR->>R: git push
-    R->>LR: git fetch
-    LR->>WD: git pull
+ participant WD as Çalışma Dizini
+ participant SA as Aşama Alanı
+ participant LR as Yerel Depo
+ participant R as Uzak (GitHub)
+ WD->>SA: git add
+ SA->>LR: git commit
+ LR->>R: git push
+ R->>LR: git fetch
+ LR->>WD: git pull
 ```
 
 Hatırlanması gereken üç şey:

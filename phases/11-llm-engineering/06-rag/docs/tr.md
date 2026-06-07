@@ -31,26 +31,26 @@ Tüm kalıp dört adımda sığar:
 
 ```mermaid
 graph LR
-    Q["Kullanıcı Sorgusu"] --> R["Getir"]
-    R --> A["Prompt'u Artır"]
-    A --> G["Üret"]
-    G --> Ans["Yanıt"]
+ Q["Kullanıcı Sorgusu"] --> R["Getir"]
+ R --> A["Prompt'u Artır"]
+ A --> G["Üret"]
+ G --> Ans["Yanıt"]
 
-    subgraph "Getirme"
-        R --> Embed["Sorguyu embed et"]
-        Embed --> Search["Vektör mağazasında ara"]
-        Search --> TopK["En iyi-k chunk'ları döndür"]
-    end
+ subgraph "Getirme"
+ R --> Embed["Sorguyu embed et"]
+ Embed --> Search["Vektör mağazasında ara"]
+ Search --> TopK["En iyi-k chunk'ları döndür"]
+ end
 
-    subgraph "Artırma"
-        TopK --> Format["Chunk'ları prompt'a dönüştür"]
-        Format --> Combine["Kullanıcı sorusuyla birleştir"]
-    end
+ subgraph "Artırma"
+ TopK --> Format["Chunk'ları prompt'a dönüştür"]
+ Format --> Combine["Kullanıcı sorusuyla birleştir"]
+ end
 
-    subgraph "Üretim"
-        Combine --> LLM["LLM yanıt üretir"]
-        LLM --> Cite["Getirilen belgelere dayalı yanıt"]
-    end
+ subgraph "Üretim"
+ Combine --> LLM["LLM yanıt üretir"]
+ LLM --> Cite["Getirilen belgelere dayalı yanıt"]
+ end
 ```
 
 Sorgu -> Getir -> Prompt'u artır -> Üret. Her RAG sistemi bu kalıbı izler. Üretim RAG sistemleri arasındaki farklar her adımın detaylarında yatar: nasıl chunk edersiniz, nasıl embed edersiniz, nasıl arama yaparsınız ve prompt'u nasıl oluşturursunuz.
@@ -116,7 +116,7 @@ Cosine similarity standarttır. Farklı uzunluktaki belgeleri zarif bir şekilde
 
 Belgeler tek vektör olarak embed edilemeyecek kadar uzundur. 50 sayfalık bir PDF onlarca konu içerdiğinden kötü bir embedding üretebilir. Bunun yerine, belgeleri chunk'lara bölün ve her chunk'ı ayrı ayrı embed edin.
 
-**Sabit boyutlu chunking**: her N token'da bölün. Basit ve öngörülebilir. 500 tokenlık bir chunk, 50 tokenlık örtüşme ile chunk 1 0-500 tokenları, chunk 2 451-951 tokenları kapsar. Örtüşme, bir cümleyi talihsiz bir sınırla bölmenizi önler.
+**Sabit boyutlu chunking**: her N token'da bölün. Basit ve öngörülebilir. 500 tokenlık bir chunk, 50 tokenlık örtüşme ile chunk 1 0-500 token'ları, chunk 2 451-951 token'ları kapsar. Örtüşme, bir cümleyi talihsiz bir sınırla bölmenizi önler.
 
 **Anlamsal chunking**: doğal sınırlarda bölün. Paragraflar, bölümler veya markdown başlıkları. Her chunk tutarlı bir anlam birimidir. Uygulaması daha zor ama daha iyi retrieval sağlar.
 
@@ -149,20 +149,20 @@ Bu ders için basit bir bellek içi vektör mağazası oluşturuyoruz. Vektörle
 
 ```mermaid
 graph TD
-    subgraph "İndeksleme (çevrimdışı)"
-        D["Belgeler"] --> C["Chunk'la"]
-        C --> E["Her chunk'ı embed et"]
-        E --> S["Vektörleri + metni sakla"]
-    end
+ subgraph "İndeksleme (çevrimdışı)"
+ D["Belgeler"] --> C["Chunk'la"]
+ C --> E["Her chunk'ı embed et"]
+ E --> S["Vektörleri + metni sakla"]
+ end
 
-    subgraph "Sorgulama (çevrimiçi)"
-        Q["Kullanıcı sorgusu"] --> QE["Sorguyu embed et"]
-        QE --> VS["Vektör araması (top-k)"]
-        VS --> P["Chunk'larla prompt oluştur"]
-        P --> LLM["LLM yanıt üretir"]
-    end
+ subgraph "Sorgulama (çevrimiçi)"
+ Q["Kullanıcı sorgusu"] --> QE["Sorguyu embed et"]
+ QE --> VS["Vektör araması (top-k)"]
+ VS --> P["Chunk'larla prompt oluştur"]
+ P --> LLM["LLM yanıt üretir"]
+ end
 
-    S -.->|"aynı vektör uzayı"| VS
+ S -.->|"aynı vektör uzayı"| VS
 ```
 
 İndeksleme aşaması belge başına bir kez çalışır (veya belgeler güncellendiğinde). Sorgulama aşaması her kullanıcı isteğinde çalışır. Üretimde, indeksleme milyonlarca belgeyi saatler boyunca işleyebilir. Sorgulama bir saniyenin altında yanıt vermelidir.
@@ -185,15 +185,15 @@ graph TD
 
 ```python
 def chunk_text(text, chunk_size=200, overlap=50):
-    words = text.split()
-    chunks = []
-    start = 0
-    while start < len(words):
-        end = start + chunk_size
-        chunk = " ".join(words[start:end])
-        chunks.append(chunk)
-        start += chunk_size - overlap
-    return chunks
+ words = text.split()
+ chunks = []
+ start = 0
+ while start < len(words):
+ end = start + chunk_size
+ chunk = " ".join(words[start:end])
+ chunks.append(chunk)
+ start += chunk_size - overlap
+ return chunks
 ```
 
 #### Açıklama
@@ -207,28 +207,28 @@ import math
 from collections import Counter
 
 def build_vocabulary(documents):
-    vocab = set()
-    for doc in documents:
-        vocab.update(doc.lower().split())
-    return sorted(vocab)
+ vocab = set()
+ for doc in documents:
+ vocab.update(doc.lower().split())
+ return sorted(vocab)
 
 def compute_tf(text, vocab):
-    words = text.lower().split()
-    count = Counter(words)
-    total = len(words)
-    return [count.get(word, 0) / total for word in vocab]
+ words = text.lower().split()
+ count = Counter(words)
+ total = len(words)
+ return [count.get(word, 0) / total for word in vocab]
 
 def compute_idf(documents, vocab):
-    n = len(documents)
-    idf = []
-    for word in vocab:
-        doc_count = sum(1 for doc in documents if word in doc.lower().split())
-        idf.append(math.log((n + 1) / (doc_count + 1)) + 1)
-    return idf
+ n = len(documents)
+ idf = []
+ for word in vocab:
+ doc_count = sum(1 for doc in documents if word in doc.lower().split())
+ idf.append(math.log((n + 1) / (doc_count + 1)) + 1)
+ return idf
 
 def tfidf_embed(text, vocab, idf):
-    tf = compute_tf(text, vocab)
-    return [t * i for t, i in zip(tf, idf)]
+ tf = compute_tf(text, vocab)
+ return [t * i for t, i in zip(tf, idf)]
 ```
 
 #### Açıklama
@@ -237,20 +237,20 @@ def tfidf_embed(text, vocab, idf):
 
 ```python
 def cosine_similarity(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    norm_a = math.sqrt(sum(x * x for x in a))
-    norm_b = math.sqrt(sum(x * x for x in b))
-    if norm_a == 0 or norm_b == 0:
-        return 0.0
-    return dot / (norm_a * norm_b)
+ dot = sum(x * y for x, y in zip(a, b))
+ norm_a = math.sqrt(sum(x * x for x in a))
+ norm_b = math.sqrt(sum(x * x for x in b))
+ if norm_a == 0 or norm_b == 0:
+ return 0.0
+ return dot / (norm_a * norm_b)
 
 def search(query_embedding, stored_embeddings, top_k=5):
-    scores = []
-    for i, emb in enumerate(stored_embeddings):
-        sim = cosine_similarity(query_embedding, emb)
-        scores.append((i, sim))
-    scores.sort(key=lambda x: x[1], reverse=True)
-    return scores[:top_k]
+ scores = []
+ for i, emb in enumerate(stored_embeddings):
+ sim = cosine_similarity(query_embedding, emb)
+ scores.append((i, sim))
+ scores.sort(key=lambda x: x[1], reverse=True)
+ return scores[:top_k]
 ```
 
 #### Açıklama
@@ -261,11 +261,11 @@ RAG'deki "artırılmış" kısım burada gerçekleşir. Getirilen chunk'ları al
 
 ```python
 def build_rag_prompt(query, retrieved_chunks):
-    context = "\n\n---\n\n".join(
-        f"[Kaynak {i+1}]\n{chunk}"
-        for i, chunk in enumerate(retrieved_chunks)
-    )
-    return f"""Answer the question based ONLY on the following context.
+ context = "\n\n---\n\n".join(
+ f"[Kaynak {i+1}]\n{chunk}"
+ for i, chunk in enumerate(retrieved_chunks)
+ )
+ return f"""Answer the question based ONLY on the following context.
 If the context doesn't contain enough information, say "I don't have enough information to answer that."
 
 Context:
@@ -282,32 +282,32 @@ Answer:"""
 
 ```python
 class RAGPipeline:
-    def __init__(self):
-        self.chunks = []
-        self.embeddings = []
-        self.vocab = []
-        self.idf = []
+ def __init__(self):
+ self.chunks = []
+ self.embeddings = []
+ self.vocab = []
+ self.idf = []
 
-    def index(self, documents):
-        all_chunks = []
-        for doc in documents:
-            all_chunks.extend(chunk_text(doc))
-        self.chunks = all_chunks
-        self.vocab = build_vocabulary(all_chunks)
-        self.idf = compute_idf(all_chunks, self.vocab)
-        self.embeddings = [
-            tfidf_embed(chunk, self.vocab, self.idf)
-            for chunk in all_chunks
-        ]
+ def index(self, documents):
+ all_chunks = []
+ for doc in documents:
+ all_chunks.extend(chunk_text(doc))
+ self.chunks = all_chunks
+ self.vocab = build_vocabulary(all_chunks)
+ self.idf = compute_idf(all_chunks, self.vocab)
+ self.embeddings = [
+ tfidf_embed(chunk, self.vocab, self.idf)
+ for chunk in all_chunks
+ ]
 
-    def query(self, question, top_k=5):
-        query_emb = tfidf_embed(question, self.vocab, self.idf)
-        results = search(query_emb, self.embeddings, top_k)
-        retrieved = [(self.chunks[i], score) for i, score in results]
-        prompt = build_rag_prompt(
-            question, [chunk for chunk, _ in retrieved]
-        )
-        return prompt, retrieved
+ def query(self, question, top_k=5):
+ query_emb = tfidf_embed(question, self.vocab, self.idf)
+ results = search(query_emb, self.embeddings, top_k)
+ retrieved = [(self.chunks[i], score) for i, score in results]
+ prompt = build_rag_prompt(
+ question, [chunk for chunk, _ in retrieved]
+ )
+ return prompt, retrieved
 ```
 
 #### Açıklama
@@ -318,20 +318,20 @@ class RAGPipeline:
 
 ```python
 def simple_generate(prompt, retrieved_chunks):
-    query_words = set(prompt.lower().split("question:")[-1].split())
-    best_sentence = ""
-    best_score = 0
-    for chunk in retrieved_chunks:
-        for sentence in chunk.split("."):
-            sentence = sentence.strip()
-            if not sentence:
-                continue
-            words = set(sentence.lower().split())
-            overlap = len(query_words & words)
-            if overlap > best_score:
-                best_score = overlap
-                best_sentence = sentence
-    return best_sentence if best_sentence else "I don't have enough information."
+ query_words = set(prompt.lower().split("question:")[-1].split())
+ best_sentence = ""
+ best_score = 0
+ for chunk in retrieved_chunks:
+ for sentence in chunk.split("."):
+ sentence = sentence.strip()
+ if not sentence:
+ continue
+ words = set(sentence.lower().split())
+ overlap = len(query_words & words)
+ if overlap > best_score:
+ best_score = overlap
+ best_sentence = sentence
+ return best_sentence if best_sentence else "I don't have enough information."
 ```
 
 #### Açıklama
@@ -346,19 +346,19 @@ from openai import OpenAI
 client = OpenAI()
 
 def embed(text):
-    response = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=text
-    )
-    return response.data[0].embedding
+ response = client.embeddings.create(
+ model="text-embedding-3-small",
+ input=text
+ )
+ return response.data[0].embedding
 
 def generate(prompt):
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0
-    )
-    return response.choices[0].message.content
+ response = client.chat.completions.create(
+ model="gpt-4o-mini",
+ messages=[{"role": "user", "content": prompt}],
+ temperature=0
+ )
+ return response.choices[0].message.content
 ```
 
 Veya Anthropic ile:
@@ -366,15 +366,15 @@ Veya Anthropic ile:
 ```python
 import anthropic
 
-client = anthropic.Anthropic()
+client = anthropic. Anthropic()
 
 def generate(prompt):
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.content[0].text
+ response = client.messages.create(
+ model="claude-sonnet-4-20250514",
+ max_tokens=1024,
+ messages=[{"role": "user", "content": prompt}]
+ )
+ return response.content[0].text
 ```
 
 Hattın kendisi aynıdır. Embedding fonksiyonunu değiştirin. Üretim fonksiyonunu değiştirin. Retrieval mantığı, chunking, prompt oluşturma — hangi modelleri kullanırsanız kullanın hepsi aynıdır.
@@ -384,17 +384,17 @@ Hattın kendisi aynıdır. Embedding fonksiyonunu değiştirin. Üretim fonksiyo
 ```python
 import chromadb
 
-client = chromadb.Client()
+client = chromadb. Client()
 collection = client.create_collection("my_docs")
 
 collection.add(
-    documents=chunks,
-    ids=[f"chunk_{i}" for i in range(len(chunks))]
+ documents=chunks,
+ ids=[f"chunk_{i}" for i in range(len(chunks))]
 )
 
 results = collection.query(
-    query_texts=["What is the refund policy?"],
-    n_results=5
+ query_texts=["What is the refund policy?"],
+ n_results=5
 )
 ```
 

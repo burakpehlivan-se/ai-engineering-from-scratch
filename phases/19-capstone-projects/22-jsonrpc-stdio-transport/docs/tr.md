@@ -13,7 +13,7 @@
 - Beş standart hata kodunu (-32700, -32600, -32601, -32602, -32603) eşlemek ve doğru anlamlarla sunmak.
 - Yeni zarf anahtarı icat etmeden istek, yanıt, bildirim ve toplu işleri (batches) ayırt etmek.
 - Akışın geri kalanını zehirlemeden her satır için bir ayrıştırma hatasını ele almak.
-- Dersin alt süreç başlatmadan çalışması için `io.BytesIO` kullanarak kendi kendini sonlandıran bir demo inşa etmek.
+- Dersin alt süreç başlatmadan çalışması için `io. BytesIO` kullanarak kendi kendini sonlandıran bir demo inşa etmek.
 
 ## JSON-RPC Neden Lingua Franca Olarak Kalır
 
@@ -28,14 +28,14 @@ Dört zarf biçimi vardır. İkisi istemci tarafından, ikisi sunucu tarafından
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant Server
-    Client->>Server: request {jsonrpc:"2.0", id:7, method:"foo", params:{...}}
-    Server-->>Client: success {jsonrpc:"2.0", id:7, result:{...}}
-    Client->>Server: notification {jsonrpc:"2.0", method:"bar", params:{...}} (no id)
-    Note over Server: no response for notifications
-    Client->>Server: request that fails
-    Server-->>Client: error {jsonrpc:"2.0", id:7 or null, error:{code, message, data?}}
+ participant Client
+ participant Server
+ Client->>Server: request {jsonrpc:"2.0", id:7, method:"foo", params:{...}}
+ Server-->>Client: success {jsonrpc:"2.0", id:7, result:{...}}
+ Client->>Server: notification {jsonrpc:"2.0", method:"bar", params:{...}} (no id)
+ Note over Server: no response for notifications
+ Client->>Server: request that fails
+ Server-->>Client: error {jsonrpc:"2.0", id:7 or null, error:{code, message, data?}}
 ```
 
 #### Açıklama
@@ -48,11 +48,11 @@ Bir toplu iş, istek veya bildirim JSON dizisidir. Sunucu, her bildirim dışı 
 ## Beş Hata Kodu
 
 ```text
--32700  Parse error      JSON ayrıştırılamadı
--32600  Invalid Request  Zarf biçimi yanlış
--32601  Method not found
--32602  Invalid params
--32603  Internal error
+-32700 Parse error JSON ayrıştırılamadı
+-32600 Invalid Request Zarf biçimi yanlış
+-32601 Method not found
+-32602 Invalid params
+-32603 Internal error
 ```
 
 #### Açıklama
@@ -67,7 +67,7 @@ Bir ayrıştırma hatasının özel bir kuralı vardır. Yanıttaki `id` `null`'
 Taşıma katmanı bir seferde bir satır okur. Bir satır, `
 ` dahil olmak üzere byte dizisidir. Bir satır ayrıştırılamazsa, taşıma katmanı `id: null` ile bir -32700 yanıtı yazar ve devam eder. Akış zehirlenmez. Sonraki satır taze ayrıştırılır.
 
-Ders için `io.BytesIO` çiftini stdin ve stdout olarak sararız. Sunucu EOF'a kadar istekleri okur, her biri için yanıtlar yazar ve döner. İstemci yanıtları geri okur. Süreç başlatma yok. Zaman aşımı yok. Taşıma katmanı davranışı, Python'un `io` arayüzü aynı `.readline()` ve `.write()` sözleşmesini sunduğu için gerçek bir alt süreç borusuyla aynıdır.
+Ders için `io. BytesIO` çiftini stdin ve stdout olarak sararız. Sunucu EOF'a kadar istekleri okur, her biri için yanıtlar yazar ve döner. İstemci yanıtları geri okur. Süreç başlatma yok. Zaman aşımı yok. Taşıma katmanı davranışı, Python'un `io` arayüzü aynı `.readline()` ve `.write()` sözleşmesini sunduğu için gerçek bir alt süreç borusuyla aynıdır.
 
 ## Yöntem Dağıtımı
 
@@ -75,8 +75,8 @@ Taşıma katmanı hangi yöntemlerin var olduğunu bilmez. Çerçevenin sağlad�
 
 ```text
 MethodNotFound -> -32601
-InvalidParams  -> -32602
-Başka her şey  -> data içinde istisna adıyla -32603
+InvalidParams -> -32602
+Başka her şey -> data içinde istisna adıyla -32603
 ```
 
 #### Açıklama
@@ -87,12 +87,12 @@ Taşıma katmanı hiçbir zaman bir araç kaydı görmez. Kayıt, işleyicinin a
 ## Hatalarda Akış Davranışı
 
 ```text
-istemci yazar                 sunucu okur             sunucu yazar
----------------               -----------             -------------
-{...geçerli istek...}         ayrıştırma tamam         {...yanıt, id eşleşir...}
-{...bozuk json...}            ayrıştırma başarısız     {id:null, error: -32700}
-{...geçerli istek...}         ayrıştırma tamam         {...yanıt, id eşleşir...}
-{...method eksik...}          geçersiz zarf            {id:X, error: -32600}
+istemci yazar sunucu okur sunucu yazar
+--------------- ----------- -------------
+{...geçerli istek...} ayrıştırma tamam {...yanıt, id eşleşir...}
+{...bozuk json...} ayrıştırma başarısız {id:null, error: -32700}
+{...geçerli istek...} ayrıştırma tamam {...yanıt, id eşleşir...}
+{...method eksik...} geçersiz zarf {id:X, error: -32600}
 ```
 
 #### Açıklama

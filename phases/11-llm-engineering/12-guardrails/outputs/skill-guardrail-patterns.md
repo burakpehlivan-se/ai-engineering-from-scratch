@@ -124,8 +124,8 @@ Toplam eklenen gecikme: ~50-100ms. Maliyet: minimal (kendi barındırılan sın�
 
 ```
 Girdi -> Hız sınırı -> Regex -> LlamaGuard -> Presidio KVK -> Enjeksiyon sınıflandırıcısı
-  -> LLM (NeMo Rails ile)
-  -> LlamaGuard -> Toksisite filtresi -> Presidio KVK temizleme -> İlgililik kontrolü -> Halüsinasyon kontrolü -> Çıktı
+ -> LLM (NeMo Rails ile)
+ -> LlamaGuard -> Toksisite filtresi -> Presidio KVK temizleme -> İlgililik kontrolü -> Halüsinasyon kontrolü -> Çıktı
 ```
 
 Toplam eklenen gecikme: ~500-800ms. Maliyet: GPU altyapısı. Yakaladıkları: saldırıların ~%99'u.

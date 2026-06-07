@@ -34,10 +34,10 @@ Yüksek bias, modelin gerçek örüntüyü yakalamak için çok katı olduğu an
 
 ```
 Yüksek bias (yetersiz öğrenme):
-  Model her zaman yaklaşık olarak aynı yanlış şeyi tahmin eder.
-  Eğitim hatası: YÜKSEK
-  Test hatası: YÜKSEK
-  Aralarındaki fark: KÜÇÜK
+ Model her zaman yaklaşık olarak aynı yanlış şeyi tahmin eder.
+ Eğitim hatası: YÜKSEK
+ Test hatası: YÜKSEK
+ Aralarındaki fark: KÜÇÜK
 ```
 
 ### Varyans: Eğitim Verisine Duyarlılık
@@ -48,10 +48,10 @@ Yüksek varyans, modelin altta yatan sinyali değil, eğitim verisindeki gürül
 
 ```
 Yüksek varyans (aşırı öğrenme):
-  Model eğitim verisine mükemmel uyar ancak yeni veride başarısız olur.
-  Eğitim hatası: DÜŞÜK
-  Test hatası: YÜKSEK
-  Aralarındaki fark: BÜYÜK
+ Model eğitim verisine mükemmel uyar ancak yeni veride başarısız olur.
+ Eğitim hatası: DÜŞÜK
+ Test hatası: YÜKSEK
+ Aralarındaki fark: BÜYÜK
 ```
 
 ### Ayrışım
@@ -62,9 +62,9 @@ Herhangi bir x noktası için, kare hata kaybı altında beklenen tahmin hatası
 Beklenen Hata = Bias^2 + Varyans + İndirgenemez Gürültü
 
 burada:
-  Bias^2   = (E[f_hat(x)] - f(x))^2
-  Varyans  = E[(f_hat(x) - E[f_hat(x)])^2]
-  Gürültü  = E[(y - f(x))^2]             (sigma^2)
+ Bias^2 = (E[f_hat(x)] - f(x))^2
+ Varyans = E[(f_hat(x) - E[f_hat(x)])^2]
+ Gürültü = E[(y - f(x))^2] (sigma^2)
 ```
 
 - `f(x)` gerçek fonksiyondur
@@ -78,8 +78,8 @@ Gürültü terimi indirgenemez. Hiçbir model gürültülü veride sigma^2'den d
 
 ```mermaid
 graph LR
-    A[Basit Model] -->|karmaşıklığı artır| B[İdeal Nokta]
-    B -->|karmaşıklığı artır| C[Karmaşık Model]
+ A[Basit Model] -->|karmaşıklığı artır| B[İdeal Nokta]
+ B -->|karmaşıklığı artır| C[Karmaşık Model]
 ```
 
 Klasik U-şekilli eğri:
@@ -107,9 +107,9 @@ Klasik teori der ki: ideal noktadan sonra daha fazla karmaşıklık her zaman za
 
 ```mermaid
 graph LR
-    A[Yetersiz Öğrenme Bölgesi] --> B[Klasik İdeal Nokta]
-    B --> C[Interpolasyon Eşiği]
-    C --> D[Çift Düşüş - Hata Tekrar Düşer]
+ A[Yetersiz Öğrenme Bölgesi] --> B[Klasik İdeal Nokta]
+ B --> C[Interpolasyon Eşiği]
+ C --> D[Çift Düşüş - Hata Tekrar Düşer]
 ```
 
 Bu "çift düşüş" (double descent) olgusu, aşırı parametreli sinir ağlarının (eğitim örneklerinden çok daha fazla parametreye sahip olan) neden hâlâ iyi genelleme yaptığını açıklar. Klasik bias-variance dengesi yanlış değildir, ancak modern rejim için eksiktir.
@@ -134,11 +134,11 @@ Pratik amaçlar için: sinir ağları veya büyük ağaç toplulukları kullanı
 
 ```mermaid
 flowchart TD
-    A[Eğitim hatası vs test hatasını karşılaştır] --> B{Büyük fark?}
-    B -->|Evet| C[Yüksek varyans - aşırı öğrenme]
-    B -->|Hayır| D{İkisi de yüksek?}
-    D -->|Evet| E[Yüksek bias - yetersiz öğrenme]
-    D -->|Hayır| F[İyi uyum]
+ A[Eğitim hatası vs test hatasını karşılaştır] --> B{Büyük fark?}
+ B -->|Evet| C[Yüksek varyans - aşırı öğrenme]
+ B -->|Hayır| D{İkisi de yüksek?}
+ D -->|Evet| E[Yüksek bias - yetersiz öğrenme]
+ D -->|Hayır| F[İyi uyum]
 ```
 
 | Belirti | Teşhis | Çözüm |
@@ -188,21 +188,21 @@ Matematiksel olarak neden çalışır: her biri sigma^2 varyansına sahip N bağ
 
 ```mermaid
 flowchart TD
-    subgraph HB["Yüksek Bias Öğrenme Eğrisi"]
-        direction LR
-        HB1["Küçük N: her iki hata yüksek"]
-        HB2["Büyük N: her ikisi de YÜKSEK hataya yakınsar"]
-    end
-    subgraph HV["Yüksek Varyans Öğrenme Eğrisi"]
-        direction LR
-        HV1["Küçük N: eğitim düşük, test yüksek (büyük fark)"]
-        HV2["Büyük N: fark azalır ama yavaş"]
-    end
-    subgraph GF["İyi Uyum Öğrenme Eğrisi"]
-        direction LR
-        GF1["Küçük N: biraz fark"]
-        GF2["Büyük N: ikisi de DÜŞÜK hataya yakınsar"]
-    end
+ subgraph HB["Yüksek Bias Öğrenme Eğrisi"]
+ direction LR
+ HB1["Küçük N: her iki hata yüksek"]
+ HB2["Büyük N: her ikisi de YÜKSEK hataya yakınsar"]
+ end
+ subgraph HV["Yüksek Varyans Öğrenme Eğrisi"]
+ direction LR
+ HV1["Küçük N: eğitim düşük, test yüksek (büyük fark)"]
+ HV2["Büyük N: fark azalır ama yavaş"]
+ end
+ subgraph GF["İyi Uyum Öğrenme Eğrisi"]
+ direction LR
+ GF1["Küçük N: biraz fark"]
+ GF2["Büyük N: ikisi de DÜŞÜK hataya yakınsar"]
+ end
 ```
 
 Nasıl okunur:
@@ -229,13 +229,13 @@ Her iki yaklaşım da birbirini tamamlar. İlki, daha fazla verinin yardımcı o
 
 ```mermaid
 flowchart TD
-    A[Model yetersiz performans gösteriyor] --> B[Öğrenme eğrisi oluştur]
-    B --> C{Eğitim ve doğrulama arasında fark?}
-    C -->|Büyük fark, doğrulama hâlâ düşüyor| D[Daha fazla veri yardımcı olur]
-    C -->|Küçük fark, ikisi de yüksek| E[Daha fazla veri YARDIM ETMEZ]
-    C -->|Büyük fark, doğrulama düz| F[Düzenlileştir veya basitleştir]
-    E --> G[Doğrulama eğrisi oluştur]
-    G --> H[Daha karmaşık model dene]
+ A[Model yetersiz performans gösteriyor] --> B[Öğrenme eğrisi oluştur]
+ B --> C{Eğitim ve doğrulama arasında fark?}
+ C -->|Büyük fark, doğrulama hâlâ düşüyor| D[Daha fazla veri yardımcı olur]
+ C -->|Küçük fark, ikisi de yüksek| E[Daha fazla veri YARDIM ETMEZ]
+ C -->|Büyük fark, doğrulama düz| F[Düzenlileştir veya basitleştir]
+ E --> G[Doğrulama eğrisi oluştur]
+ G --> H[Daha karmaşık model dene]
 ```
 
 
@@ -251,13 +251,13 @@ flowchart TD
 import numpy as np
 
 def true_function(x):
-    return np.sin(1.5 * x) + 0.5 * x
+ return np.sin(1.5 * x) + 0.5 * x
 
 def generate_data(n_samples=30, noise_std=0.5, x_range=(-3, 3), seed=None):
-    rng = np.random.RandomState(seed)
-    x = rng.uniform(x_range[0], x_range[1], n_samples)
-    y = true_function(x) + rng.normal(0, noise_std, n_samples)
-    return x, y
+ rng = np.random. RandomState(seed)
+ x = rng.uniform(x_range[0], x_range[1], n_samples)
+ y = true_function(x) + rng.normal(0, noise_std, n_samples)
+ return x, y
 ```
 
 #### Açıklama
@@ -269,14 +269,14 @@ Her polinom derecesi için, birçok bootstrap eğitim seti çekeriz, polinomu uy
 
 ```python
 def fit_polynomial(x_train, y_train, degree, lam=0.0):
-    X = np.column_stack([x_train ** d for d in range(degree + 1)])
-    if lam > 0:
-        penalty = lam * np.eye(X.shape[1])
-        penalty[0, 0] = 0
-        w = np.linalg.solve(X.T @ X + penalty, X.T @ y_train)
-    else:
-        w = np.linalg.lstsq(X, y_train, rcond=None)[0]
-    return w
+ X = np.column_stack([x_train ** d for d in range(degree + 1)])
+ if lam > 0:
+ penalty = lam * np.eye(X.shape[1])
+ penalty[0, 0] = 0
+ w = np.linalg.solve(X. T @ X + penalty, X. T @ y_train)
+ else:
+ w = np.linalg.lstsq(X, y_train, rcond=None)[0]
+ return w
 ```
 
 200 farklı bootstrap örnekleminde uydurma yaparız. Her bootstrap örneklemi aynı temel dağılımdan çekilir ancak farklı noktalar içerir.
@@ -290,31 +290,31 @@ def fit_polynomial(x_train, y_train, degree, lam=0.0):
 
 ```python
 def bias_variance_decomposition(degrees, n_bootstrap=200, n_train=30,
-                                 noise_std=0.5, n_test=100, lam=0.0):
-    rng = np.random.RandomState(42)
-    x_test = np.linspace(-2.5, 2.5, n_test)
-    y_true = true_function(x_test)
+ noise_std=0.5, n_test=100, lam=0.0):
+ rng = np.random. RandomState(42)
+ x_test = np.linspace(-2.5, 2.5, n_test)
+ y_true = true_function(x_test)
 
-    results = {}
-    for degree in degrees:
-        predictions = np.zeros((n_bootstrap, n_test))
-        for b in range(n_bootstrap):
-            x_train, y_train = generate_data(
-                n_samples=n_train, noise_std=noise_std, seed=rng.randint(0, 100000)
-            )
-            w = fit_polynomial(x_train, y_train, degree, lam=lam)
-            predictions[b] = predict_polynomial(x_test, w)
+ results = {}
+ for degree in degrees:
+ predictions = np.zeros((n_bootstrap, n_test))
+ for b in range(n_bootstrap):
+ x_train, y_train = generate_data(
+ n_samples=n_train, noise_std=noise_std, seed=rng.randint(0, 100000)
+ )
+ w = fit_polynomial(x_train, y_train, degree, lam=lam)
+ predictions[b] = predict_polynomial(x_test, w)
 
-        mean_pred = predictions.mean(axis=0)
-        bias_sq = np.mean((mean_pred - y_true) ** 2)
-        variance = np.mean(predictions.var(axis=0))
-        total_error = np.mean(np.mean((predictions - y_true) ** 2, axis=1))
+ mean_pred = predictions.mean(axis=0)
+ bias_sq = np.mean((mean_pred - y_true) ** 2)
+ variance = np.mean(predictions.var(axis=0))
+ total_error = np.mean(np.mean((predictions - y_true) ** 2, axis=1))
 
-        results[degree] = {
-            "bias_sq": bias_sq, "variance": variance,
-            "total_error": total_error, "noise": noise_std ** 2,
-        }
-    return results
+ results[degree] = {
+ "bias_sq": bias_sq, "variance": variance,
+ "total_error": total_error, "noise": noise_std ** 2,
+ }
+ return results
 ```
 
 #### Açıklama
@@ -326,20 +326,20 @@ def bias_variance_decomposition(degrees, n_bootstrap=200, n_train=30,
 
 ```python
 def demo_learning_curves():
-    sizes = [10, 15, 20, 30, 50, 75, 100, 150, 200, 300]
-    degree = 5
-    for n in sizes:
-        train_errors = []
-        test_errors = []
-        for seed in range(50):
-            x_train, y_train = generate_data(n_samples=n, seed=seed * 100)
-            w = fit_polynomial(x_train, y_train, degree)
-            train_pred = predict_polynomial(x_train, w)
-            train_mse = np.mean((train_pred - y_train) ** 2)
-            test_pred = predict_polynomial(x_test, w)
-            test_mse = np.mean((test_pred - y_test) ** 2)
-            train_errors.append(train_mse)
-            test_errors.append(test_mse)
+ sizes = [10, 15, 20, 30, 50, 75, 100, 150, 200, 300]
+ degree = 5
+ for n in sizes:
+ train_errors = []
+ test_errors = []
+ for seed in range(50):
+ x_train, y_train = generate_data(n_samples=n, seed=seed * 100)
+ w = fit_polynomial(x_train, y_train, degree)
+ train_pred = predict_polynomial(x_train, w)
+ train_mse = np.mean((train_pred - y_train) ** 2)
+ test_pred = predict_polynomial(x_test, w)
+ test_mse = np.mean((test_pred - y_test) ** 2)
+ train_errors.append(train_mse)
+ test_errors.append(test_mse)
 ```
 
 Yüksek varyanslı bir model (derece 5, küçük veri) için:
@@ -358,11 +358,11 @@ Kod ayrıca, yüksek dereceli bir polinomu (derece 15) sabitleyip Ridge düzenli
 
 ```python
 def demo_regularization_sweep():
-    alphas = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0]
-    for alpha in alphas:
-        results = bias_variance_decomposition([15], lam=alpha)
-        r = results[15]
-        print(f"alpha={alpha:.3f}  bias={r['bias_sq']:.4f}  var={r['variance']:.4f}")
+ alphas = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0]
+ for alpha in alphas:
+ results = bias_variance_decomposition([15], lam=alpha)
+ r = results[15]
+ print(f"alpha={alpha:.3f} bias={r['bias_sq']:.4f} var={r['variance']:.4f}")
 ```
 
 Düşük alpha'da, 15. dereceden polinom neredeyse kısıtlanmamıştır. Her bootstrap örnekleminde gürültüyü takip ettiği için varyans baskındır. Yüksek alpha'da, ceza o kadar güçlüdür ki model etkili bir şekilde sabit bir fonksiyon haline gelir. Bias baskındır. Optimal alpha bu uç noktaların arasında yer alır.
@@ -389,13 +389,13 @@ train_scores_all = []
 val_scores_all = []
 
 for d in degrees:
-    pipe = make_pipeline(PolynomialFeatures(d), Ridge(alpha=0.01))
-    train_scores, val_scores = validation_curve(
-        pipe, X, y, param_name="polynomialfeatures__degree",
-        param_range=[d], cv=5, scoring="neg_mean_squared_error"
-    )
-    train_scores_all.append(-train_scores.mean())
-    val_scores_all.append(-val_scores.mean())
+ pipe = make_pipeline(PolynomialFeatures(d), Ridge(alpha=0.01))
+ train_scores, val_scores = validation_curve(
+ pipe, X, y, param_name="polynomialfeatures__degree",
+ param_range=[d], cv=5, scoring="neg_mean_squared_error"
+ )
+ train_scores_all.append(-train_scores.mean())
+ val_scores_all.append(-val_scores.mean())
 ```
 
 Bu, bias-variance dengesi eğrisini doğrudan verir. Doğrulama skorunun eğitim skoruna göre en kötü olduğu yerde varyans baskındır. İkisinin de kötü olduğu yerde bias baskındır.
@@ -410,8 +410,8 @@ from sklearn.model_selection import learning_curve
 
 pipe = make_pipeline(PolynomialFeatures(5), Ridge(alpha=0.01))
 train_sizes, train_scores, val_scores = learning_curve(
-    pipe, X, y, train_sizes=np.linspace(0.1, 1.0, 10),
-    cv=5, scoring="neg_mean_squared_error"
+ pipe, X, y, train_sizes=np.linspace(0.1, 1.0, 10),
+ cv=5, scoring="neg_mean_squared_error"
 )
 train_mse = -train_scores.mean(axis=1)
 val_mse = -val_scores.mean(axis=1)
@@ -429,9 +429,9 @@ from sklearn.model_selection import cross_val_score
 
 alphas = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
 for alpha in alphas:
-    pipe = make_pipeline(PolynomialFeatures(10), Ridge(alpha=alpha))
-    scores = cross_val_score(pipe, X, y, cv=5, scoring="neg_mean_squared_error")
-    print(f"alpha={alpha:>7.3f}  MSE={-scores.mean():.4f} +/- {scores.std():.4f}")
+ pipe = make_pipeline(PolynomialFeatures(10), Ridge(alpha=alpha))
+ scores = cross_val_score(pipe, X, y, cv=5, scoring="neg_mean_squared_error")
+ print(f"alpha={alpha:>7.3f} MSE={-scores.mean():.4f} +/- {scores.std():.4f}")
 ```
 
 Bu, sabit model karmaşıklığı için düzenlileştirme gücünü tarar. Aynı bias-variance dengesini görürsünüz: düşük alpha = yüksek varyans, yüksek alpha = yüksek bias.

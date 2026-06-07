@@ -28,7 +28,7 @@ JAX, NumPy'nin üç süper gücüdür: otomatik türev, JIT derleme (XLA'ya) ve 
 
 | PyTorch | JAX |
 |---------|-----|
-| `nn.Module` sınıf + durum | Saf fonksiyon: `f(params, x) → y` |
+| `nn. Module` sınıf + durum | Saf fonksiyon: `f(params, x) → y` |
 | `loss.backward()` | `jax.grad(loss_fn)(params, x, y)` |
 | Hevesli yürütme | XLA ile JIT derleme |
 | `for x in batch:` manuel döngü | `jax.vmap(f)` otomatik vektörleştirme |
@@ -45,7 +45,7 @@ NumPy API'sini hızlandırıcılarda yeniden uygular. Kritik fark: diziler deği
 PyTorch gradyanları tensor'lara ekler. JAX gradyanları fonksiyonlara ekler.
 ```python
 df = jax.grad(lambda x: x ** 2)
-df(3.0)  # 6.0
+df(3.0) # 6.0
 ```
 İkinci türev, üçüncü türev, Jacobian, Hessian — hepsi `grad`'ı birleştirerek.
 
@@ -54,7 +54,7 @@ df(3.0)  # 6.0
 ```python
 @jax.jit
 def train_step(params, x, y):
-    ...
+ ...
 ```
 İlk çağrıda fonksiyonu izler, XLA'ya verir, optimize edilmiş makine kodu üretir. Sonraki çağrılar Python'u atlar.
 
@@ -75,7 +75,7 @@ params = jax.tree.map(lambda p, g: p - lr * g, params, grads)
 
 ### JAX Ekosistemi
 
-- **Flax** (Google): nn.Module benzeri, açık durumlu
+- **Flax** (Google): nn. Module benzeri, açık durumlu
 - **Equinox** (Kidger): Pytree tabanlı, Pythonic
 - **Optax** (DeepMind): Birleştirilebilir gradyan dönüşümleri
 
@@ -91,18 +91,18 @@ MNIST'te JAX ve Optax ile 3 katmanlı MLP. Hiç sınıf yok — sadece pytree d�
 
 Flax ile:
 ```python
-class MLP(nn.Module):
-    @nn.compact
-    def __call__(self, x):
-        x = nn.Dense(256)(x); x = nn.relu(x)
-        x = nn.Dense(128)(x); x = nn.relu(x)
-        x = nn.Dense(10)(x); return x
+class MLP(nn. Module):
+ @nn.compact
+ def __call__(self, x):
+ x = nn. Dense(256)(x); x = nn.relu(x)
+ x = nn. Dense(128)(x); x = nn.relu(x)
+ x = nn. Dense(10)(x); return x
 ```
 Optax ile gradyan zincirleme:
 ```python
 optimizer = optax.chain(
-    optax.clip_by_global_norm(1.0),
-    optax.adamw(learning_rate=schedule, weight_decay=0.01),
+ optax.clip_by_global_norm(1.0),
+ optax.adamw(learning_rate=schedule, weight_decay=0.01),
 )
 ```
 

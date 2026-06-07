@@ -20,7 +20,7 @@ Klasik sunma, her isteğin istemini opak olarak ele alır. 5.000 RAG isteğinin 
 
 Gözlem: agentic ve RAG iş yüklerinde istemler neredeyse her zaman uzun prefix'leri paylaşır. Sistem istemi, araç şemaları, few-shot örnekleri, retrieval başlıkları, konuşma geçmişi — tümü istekler arasında tekrarlanır. O prefix'in KV cache'ini bir kez saklayıp yeniden kullansaydınız, onu yeniden prefill etmezdiniz.
 
-RadixAttention tam olarak bunu yapar. Tokenlar bir radix ağacında indekslenir; her düğüm, yoldan token dizisi için KV bloklarına sahiptir. Yeni bir istek ağaçta yürür: tokenları eşleşen herhangi bir düğüm, o düğümün KV bloklarını yeniden kullanır. Prefill maliyeti, tam istem yerine "yeni" sonek ile orantılı hale gelir.
+RadixAttention tam olarak bunu yapar. Tokenlar bir radix ağacında indekslenir; her düğüm, yoldan token dizisi için KV bloklarına sahiptir. Yeni bir istek ağaçta yürür: token'ları eşleşen herhangi bir düğüm, o düğümün KV bloklarını yeniden kullanır. Prefill maliyeti, tam istem yerine "yeni" sonek ile orantılı hale gelir.
 
 Zorluk zamanlamadır. İki istek 2.000-token'lık bir prefix'i paylaşıyorsa ve üçüncüsü aynı prefix'in yalnızca 200 tokenini paylaşıyorsa, uzun prefix'i HBM'de tutmak için iki uzun-paylaşılan isteği birlikte sunmak istersiniz. FCFS bunun tersini yapar — kim önce geldiyse ona hizmet eder, potansiyel olarak bir sonraki uzun-prefix isteği gelmeden önce sıcak dalı çıkarır.
 
@@ -32,16 +32,16 @@ Bir radix ağacı (kompakt trie) token dizilerini saklar. Her düğüm bir token
 
 ```
 root
- |- "You are a helpful assistant..."  (2,000 tokens, 124 KV blocks)
-      |- "Context: <doc A>..."        (500 tokens, 31 blocks)
-           |- "Question: Alice..."    (80 tokens, 5 blocks)
-           |- "Question: Bob..."      (95 tokens, 6 blocks)
-      |- "Context: <doc B>..."        (520 tokens, 33 blocks)
+ |- "You are a helpful assistant..." (2,000 tokens, 124 KV blocks)
+ |- "Context: <doc A>..." (500 tokens, 31 blocks)
+ |- "Question: Alice..." (80 tokens, 5 blocks)
+ |- "Question: Bob..." (95 tokens, 6 blocks)
+ |- "Context: <doc B>..." (520 tokens, 33 blocks)
 ```
 
 #### Açıklama
 
-Bu ASCII diyagramı bir radix ağacının yapısını gösterir. Kök düğümden başlayarak her dal ortak bir token dizisini temsil eder; örneğin iki ayrı konuşma ("Alice" ve "Bob") aynı 2.500-token'lık önekini paylaşır. SGLang bu ağaçta, yeni gelen bir istek eşleşen bir dal bulduğunda o dalın KV bloklarını yeniden kullanır — yalnızca yeni tokenlar için tahsis yapar.
+Bu ASCII diyagramı bir radix ağacının yapısını gösterir. Kök düğümden başlayarak her dal ortak bir token dizisini temsil eder; örneğin iki ayrı konuşma ("Alice" ve "Bob") aynı 2.500-token'lık önekini paylaşır. SGLang bu ağaçta, yeni gelen bir istek eşleşen bir dal bulduğunda o dalın KV bloklarını yeniden kullanır — yalnızca yeni token'lar için tahsis yapar.
 
 Sistem istemi + "Context: <doc A>" + "Question: Carol" ile yeni bir istek gelir. Scheduler yürür: sistem prefix'i eşleşir (124 blok yeniden kullanılır), doc-A dalı eşleşir (31 blok yeniden kullanılır), sonra yalnızca "Question: Carol" için yeni bloklar tahsis eder (4 blok). Prefill maliyeti: 4 blok yeni token. Ağaç olmadan: 160 blok. Prefill'de ~40x tasarruf.
 

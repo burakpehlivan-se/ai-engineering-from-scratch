@@ -32,19 +32,19 @@ Geleneksel programlama ve makine öğrenmesi sorunları zıt yönlerde çözer.
 
 ```mermaid
 flowchart LR
-    subgraph Geleneksel["Geleneksel Programlama"]
-        direction LR
-        R[Kurallar] --> P1[Program]
-        D1[Veri] --> P1
-        P1 --> O1[Çıktı]
-    end
+ subgraph Geleneksel["Geleneksel Programlama"]
+ direction LR
+ R[Kurallar] --> P1[Program]
+ D1[Veri] --> P1
+ P1 --> O1[Çıktı]
+ end
 
-    subgraph ML["Makine Öğrenmesi"]
-        direction LR
-        D2[Veri] --> P2[Öğrenme Algoritması]
-        O2[Beklenen Çıktı] --> P2
-        P2 --> M[Model / Kurallar]
-    end
+ subgraph ML["Makine Öğrenmesi"]
+ direction LR
+ D2[Veri] --> P2[Öğrenme Algoritması]
+ O2[Beklenen Çıktı] --> P2
+ P2 --> M[Model / Kurallar]
+ end
 ```
 
 Geleneksel programlama: siz kuralları yazarsınız. Program bunları veriye uygular ve çıktı üretir.
@@ -57,18 +57,18 @@ Eğitimden çıkan "model", rakamlar olarak kodlanmış kurallardır (ağırlık
 
 ```mermaid
 flowchart TD
-    ML[Makine Öğrenmesi] --> SL[Denetimli Öğrenme]
-    ML --> UL[Denetimsiz Öğrenme]
-    ML --> RL[Pekiştirmeli Öğrenme]
+ ML[Makine Öğrenmesi] --> SL[Denetimli Öğrenme]
+ ML --> UL[Denetimsiz Öğrenme]
+ ML --> RL[Pekiştirmeli Öğrenme]
 
-    SL --> C[Sınıflandırma]
-    SL --> R[Regresyon]
+ SL --> C[Sınıflandırma]
+ SL --> R[Regresyon]
 
-    UL --> CL[Kümeleme]
-    UL --> DR[Boyut Azaltma]
+ UL --> CL[Kümeleme]
+ UL --> DR[Boyut Azaltma]
 
-    RL --> PO[Politika Optimizasyonu]
-    RL --> VL[Değer Öğrenmesi]
+ RL --> PO[Politika Optimizasyonu]
+ RL --> VL[Değer Öğrenmesi]
 ```
 
 **Denetimli Öğrenme**: Girdi-çıktı çiftleriniz vardır. Model, girdileri çıktı eşlemeyi öğrenir.
@@ -113,15 +113,15 @@ Her makine öğrenmesi projesi, algoritmadan bağımsız olarak aynı hattı tak
 
 ```mermaid
 flowchart LR
-    A[Veri Topla] --> B[Temizle ve Keşfet]
-    B --> C[Özellik Mühendisliği]
-    C --> D[Veriyi Böl]
-    D --> E[Modeli Eğit]
-    E --> F[Değerlendir]
-    F -->|Yeterince iyi değil| C
-    F -->|Yeterince iyi| G[Dağıt]
-    G --> H[İzle]
-    H -->|Performans düşer| A
+ A[Veri Topla] --> B[Temizle ve Keşfet]
+ B --> C[Özellik Mühendisliği]
+ C --> D[Veriyi Böl]
+ D --> E[Modeli Eğit]
+ E --> F[Değerlendir]
+ F -->|Yeterince iyi değil| C
+ F -->|Yeterince iyi| G[Dağıt]
+ G --> H[İzle]
+ H -->|Performans düşer| A
 ```
 
 **Veri Topla**: Ham veri toplama. Daha fazla veri neredeyse her zaman daha iyidir, ama kalite miktar kadar önemlidir.

@@ -30,9 +30,9 @@ Veri kümesindeki her sütun için şu kontrol listesinden geç:
 
 ### 3. Kategorik sütunlar
 - Kaç benzersiz değer (kardinalite)?
-  - Düşük (10'un altında): one-hot kodlama
-  - Orta (10-100): yumuşatmalı (smoothing) target encoding
-  - Yüksek (100+): hashing, embedding'ler veya nadir kategorileri gruplama
+ - Düşük (10'un altında): one-hot kodlama
+ - Orta (10-100): yumuşatmalı (smoothing) target encoding
+ - Yüksek (100+): hashing, embedding'ler veya nadir kategorileri gruplama
 - Doğal bir sıra var mı? Varsa, sıralı (ordinal) kodlama uygun olabilir
 
 ### 4. Metin sütunları

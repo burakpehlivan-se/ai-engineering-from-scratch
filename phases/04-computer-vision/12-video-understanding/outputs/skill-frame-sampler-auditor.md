@@ -47,29 +47,29 @@ Hat aynı zamanda çerçeve başına uzamsal bir kırpma da döndürüyorsa, ayn
 
 ```
 [sampler audit]
-  name: <fonksiyon adı>
-  T:    <int>
+ name: <fonksiyon adı>
+ T: <int>
 
 [short-clip handling]
-  passed | failed (<detaylar>)
+ passed | failed (<detaylar>)
 
 [boundary]
-  passed | failed
+ passed | failed
 
 [uniform spacing]
-  passed | failed (<boşlukların stddev'i>)
+ passed | failed (<boşlukların stddev'i>)
 
 [dense window]
-  passed | failed (<detaylar>)
+ passed | failed (<detaylar>)
 
 [determinism]
-  passed | failed
+ passed | failed
 
 [crop consistency]
-  passed | failed (<çerçeve başına kırpma değişiyor: evet/hayır>)
+ passed | failed (<çerçeve başına kırpma değişiyor: evet/hayır>)
 
 [verdict]
-  ok | düzeltme gerekli
+ ok | düzeltme gerekli
 ```
 
 ## Kurallar

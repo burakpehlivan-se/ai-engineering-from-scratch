@@ -59,23 +59,23 @@ from collections import Counter, defaultdict
 
 
 def train_ngram(corpus_tokens, n=3):
-    ngrams = Counter()
-    contexts = Counter()
-    for sentence in corpus_tokens:
-        padded = ["<s>"] * (n - 1) + sentence + ["</s>"]
-        for i in range(len(padded) - n + 1):
-            ctx = tuple(padded[i:i + n - 1])
-            word = padded[i + n - 1]
-            ngrams[ctx + (word,)] += 1
-            contexts[ctx] += 1
-    return ngrams, contexts
+ ngrams = Counter()
+ contexts = Counter()
+ for sentence in corpus_tokens:
+ padded = ["<s>"] * (n - 1) + sentence + ["</s>"]
+ for i in range(len(padded) - n + 1):
+ ctx = tuple(padded[i:i + n - 1])
+ word = padded[i + n - 1]
+ ngrams[ctx + (word,)] += 1
+ contexts[ctx] += 1
+ return ngrams, contexts
 
 
 def raw_probability(ngrams, contexts, context, word):
-    ctx = tuple(context)
-    if contexts.get(ctx, 0) == 0:
-        return 0.0
-    return ngrams.get(ctx + (word,), 0) / contexts[ctx]
+ ctx = tuple(context)
+ if contexts.get(ctx, 0) == 0:
+ return 0.0
+ return ngrams.get(ctx + (word,), 0) / contexts[ctx]
 ```
 
 #### Açıklama
@@ -87,10 +87,10 @@ Girdi, tokenize edilmiş cümlelerin bir listesidir. Çıktı, n-gram sayıları
 
 ```python
 def laplace_probability(ngrams, contexts, vocab_size, context, word):
-    ctx = tuple(context)
-    numerator = ngrams.get(ctx + (word,), 0) + 1
-    denominator = contexts.get(ctx, 0) + vocab_size
-    return numerator / denominator
+ ctx = tuple(context)
+ numerator = ngrams.get(ctx + (word,), 0) + 1
+ denominator = contexts.get(ctx, 0) + vocab_size
+ return numerator / denominator
 ```
 
 #### Açıklama
@@ -102,42 +102,42 @@ Her sayıya 1 ekler. Düzleştirir ancak görülmemiş olaylara aşırı kütles
 
 ```python
 def kneser_ney_bigram_model(corpus_tokens, discount=0.75):
-    unigrams = Counter()
-    bigrams = Counter()
-    unigram_contexts = defaultdict(set)
+ unigrams = Counter()
+ bigrams = Counter()
+ unigram_contexts = defaultdict(set)
 
-    for sentence in corpus_tokens:
-        padded = ["<s>"] + sentence + ["</s>"]
-        for i, w in enumerate(padded):
-            unigrams[w] += 1
-            if i > 0:
-                prev = padded[i - 1]
-                bigrams[(prev, w)] += 1
-                unigram_contexts[w].add(prev)
+ for sentence in corpus_tokens:
+ padded = ["<s>"] + sentence + ["</s>"]
+ for i, w in enumerate(padded):
+ unigrams[w] += 1
+ if i > 0:
+ prev = padded[i - 1]
+ bigrams[(prev, w)] += 1
+ unigram_contexts[w].add(prev)
 
-    total_unique_bigrams = sum(len(ctx_set) for ctx_set in unigram_contexts.values())
-    continuation_prob = {
-        w: len(ctx_set) / total_unique_bigrams for w, ctx_set in unigram_contexts.items()
-    }
+ total_unique_bigrams = sum(len(ctx_set) for ctx_set in unigram_contexts.values())
+ continuation_prob = {
+ w: len(ctx_set) / total_unique_bigrams for w, ctx_set in unigram_contexts.items()
+ }
 
-    context_totals = Counter()
-    for (prev, w), count in bigrams.items():
-        context_totals[prev] += count
+ context_totals = Counter()
+ for (prev, w), count in bigrams.items():
+ context_totals[prev] += count
 
-    unique_follow = defaultdict(set)
-    for (prev, w) in bigrams:
-        unique_follow[prev].add(w)
+ unique_follow = defaultdict(set)
+ for (prev, w) in bigrams:
+ unique_follow[prev].add(w)
 
-    def prob(prev, w):
-        count = bigrams.get((prev, w), 0)
-        denom = context_totals.get(prev, 0)
-        if denom == 0:
-            return continuation_prob.get(w, 1e-9)
-        first_term = max(count - discount, 0) / denom
-        lambda_prev = discount * len(unique_follow[prev]) / denom
-        return first_term + lambda_prev * continuation_prob.get(w, 1e-9)
+ def prob(prev, w):
+ count = bigrams.get((prev, w), 0)
+ denom = context_totals.get(prev, 0)
+ if denom == 0:
+ return continuation_prob.get(w, 1e-9)
+ first_term = max(count - discount, 0) / denom
+ lambda_prev = discount * len(unique_follow[prev]) / denom
+ return first_term + lambda_prev * continuation_prob.get(w, 1e-9)
 
-    return prob
+ return prob
 ```
 
 #### Açıklama
@@ -152,21 +152,21 @@ import random
 
 
 def generate(prob_fn, vocab, prefix, max_len=30, seed=0):
-    rng = random.Random(seed)
-    tokens = list(prefix)
-    for _ in range(max_len):
-        candidates = [(w, prob_fn(tokens[-1], w)) for w in vocab]
-        total = sum(p for _, p in candidates)
-        r = rng.random() * total
-        acc = 0.0
-        for w, p in candidates:
-            acc += p
-            if r <= acc:
-                tokens.append(w)
-                break
-        if tokens[-1] == "</s>":
-            break
-    return tokens
+ rng = random. Random(seed)
+ tokens = list(prefix)
+ for _ in range(max_len):
+ candidates = [(w, prob_fn(tokens[-1], w)) for w in vocab]
+ total = sum(p for _, p in candidates)
+ r = rng.random() * total
+ acc = 0.0
+ for w, p in candidates:
+ acc += p
+ if r <= acc:
+ tokens.append(w)
+ break
+ if tokens[-1] == "</s>":
+ break
+ return tokens
 ```
 
 #### Açıklama
@@ -181,15 +181,15 @@ import math
 
 
 def perplexity(prob_fn, sentences):
-    total_log_prob = 0.0
-    total_tokens = 0
-    for sentence in sentences:
-        padded = ["<s>"] + sentence + ["</s>"]
-        for i in range(1, len(padded)):
-            p = prob_fn(padded[i - 1], padded[i])
-            total_log_prob += math.log(max(p, 1e-12))
-            total_tokens += 1
-    return math.exp(-total_log_prob / total_tokens)
+ total_log_prob = 0.0
+ total_tokens = 0
+ for sentence in sentences:
+ padded = ["<s>"] + sentence + ["</s>"]
+ for i in range(1, len(padded)):
+ p = prob_fn(padded[i - 1], padded[i])
+ total_log_prob += math.log(max(p, 1e-12))
+ total_tokens += 1
+ return math.exp(-total_log_prob / total_tokens)
 ```
 
 #### Açıklama

@@ -26,36 +26,36 @@ Güvenlik yük taşıyıcıdır (load-bearing). Her deney, ağ çıkışı olmay
 
 ```
 seed idea + domain
-      |
-      v
-  literature search (Semantic Scholar + OpenAlex + FAISS cache)
-      |
-      v
-  LangGraph plan-execute-verify tree
-      |
-      v
-  +--- expand node ----+      per-node sandbox
-  |                    |      (E2B / Daytona)
-  v                    v      resource caps
-  child_1           child_k   no network egress
-  |                    |      deterministic seeds
-  v                    v
-  run experiment       run experiment
-  |                    |
-  v                    v
-  score nodes by (novelty, quality, budget)
-      |
-      v
-  best branch -> LaTeX writer
-      |
-      v
-  compile + vision critique (Opus 4.7 vision)
-      |
-      v
-  reviewer ensemble (5 LLM judges, NeurIPS rubric)
-      |
-      v
-  paper.pdf + review.md + trace.json
+ |
+ v
+ literature search (Semantic Scholar + OpenAlex + FAISS cache)
+ |
+ v
+ LangGraph plan-execute-verify tree
+ |
+ v
+ +--- expand node ----+ per-node sandbox
+ | | (E2B / Daytona)
+ v v resource caps
+ child_1 child_k no network egress
+ | | deterministic seeds
+ v v
+ run experiment run experiment
+ | |
+ v v
+ score nodes by (novelty, quality, budget)
+ |
+ v
+ best branch -> LaTeX writer
+ |
+ v
+ compile + vision critique (Opus 4.7 vision)
+ |
+ v
+ reviewer ensemble (5 LLM judges, NeurIPS rubric)
+ |
+ v
+ paper.pdf + review.md + trace.json
 ```
 
 #### Açıklama
@@ -97,17 +97,17 @@ Bu mimari bir araştırma fikrinden yayınlanmış bir makaleye kadar tam boru h
 
 ```
 $ ai-scientist run --seed "attention sparsity in sub-1B transformers" --budget 30
-[lit]    50 papers, digest in 12s
-[tree]   expanded 8 nodes, budget 12/30
-[exec]   node #3 sparsity=top-8, loss=2.83 (best so far)
-[exec]   node #6 sparsity=top-4, loss=3.12 (worse)
-[exec]   ...
-[tree]   chose branch rooted at node #3 (novelty 0.62, quality 0.81)
-[write]  LaTeX draft v1 complete
+[lit] 50 papers, digest in 12s
+[tree] expanded 8 nodes, budget 12/30
+[exec] node #3 sparsity=top-8, loss=2.83 (best so far)
+[exec] node #6 sparsity=top-4, loss=3.12 (worse)
+[exec] ...
+[tree] chose branch rooted at node #3 (novelty 0.62, quality 0.81)
+[write] LaTeX draft v1 complete
 [vision] critique: figure 2 legend too small, claim-evidence ok
-[write]  draft v2 after 3 edits
+[write] draft v2 after 3 edits
 [review] mean 4.2/5 (novelty 3.9, rigor 4.3, clarity 4.1, repro 4.5, impact 4.2)
-[done]   paper.pdf + review.md + trace.json     $28.40 spent
+[done] paper.pdf + review.md + trace.json $28.40 spent
 ```
 
 #### Açıklama

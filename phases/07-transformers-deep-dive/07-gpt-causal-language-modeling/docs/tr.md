@@ -26,8 +26,8 @@ GPT-1 (2018), GPT-2 (2019), GPT-3 (2020), GPT-4 (2023), GPT-5 (2024), Claude, Ll
 Uzunluğu `N` olan bir dizi verildiğinde, `N × N` bir matris oluşturun:
 
 ```
-M[i, j] = 0       eğer j <= i
-M[i, j] = -inf    eğer j > i
+M[i, j] = 0 eğer j <= i
+M[i, j] = -inf eğer j > i
 ```
 
 #### Açıklama
@@ -85,7 +85,7 @@ Eğitimden sonra, örnekleme (sampling) seçimleri insanların düşündüğünd
 
 ```python
 def causal_mask(n):
-    return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
+ return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
 ```
 
 #### Açıklama
@@ -115,11 +115,11 @@ tok = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
 prompt = "Attention is all you need because"
 inputs = tok(prompt, return_tensors="pt")
 out = model.generate(
-    **inputs,
-    max_new_tokens=64,
-    temperature=0.7,
-    top_p=0.9,
-    do_sample=True,
+ **inputs,
+ max_new_tokens=64,
+ temperature=0.7,
+ top_p=0.9,
+ do_sample=True,
 )
 print(tok.decode(out[0]))
 ```

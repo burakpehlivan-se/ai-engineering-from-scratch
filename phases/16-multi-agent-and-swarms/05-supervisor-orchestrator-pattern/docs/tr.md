@@ -20,19 +20,19 @@ Anthropic'in üretim Research sistemi, dahili araştırma değerlendirmelerinde 
 ### Kalıbın kendisi
 
 ```
-                 ┌──────────────┐
-                 │   Ana        │  planlar, ayrıştırır,
-                 │  (Opus 4)    │  sentezler
-                 └──┬────┬───┬──┘
-                    │    │   │
-            ┌───────┘    │   └───────┐
-            ▼            ▼           ▼
-       ┌─────────┐  ┌─────────┐  ┌─────────┐
-       │ İşçi1   │  │ İşçi2   │  │ İşçi3   │
-       │(Sonnet) │  │(Sonnet) │  │(Sonnet) │
-       └─────────┘  └─────────┘  └─────────┘
-          temiz       temiz        temiz
-          bağlam      bağlam       bağlam
+ ┌──────────────┐
+ │ Ana │ planlar, ayrıştırır,
+ │ (Opus 4) │ sentezler
+ └──┬────┬───┬──┘
+ │ │ │
+ ┌───────┘ │ └───────┐
+ ▼ ▼ ▼
+ ┌─────────┐ ┌─────────┐ ┌─────────┐
+ │ İşçi1 │ │ İşçi2 │ │ İşçi3 │
+ │(Sonnet) │ │(Sonnet) │ │(Sonnet) │
+ └─────────┘ └─────────┘ └─────────┘
+ temiz temiz temiz
+ bağlam bağlam bağlam
 ```
 
 Ana, ham malzemeleri asla okumaz. İşçiler, ana sentezlenene kadar birbirlerinin işini görmez. Her ok, dar bir yapıt taşıyan bir handoff'tur.

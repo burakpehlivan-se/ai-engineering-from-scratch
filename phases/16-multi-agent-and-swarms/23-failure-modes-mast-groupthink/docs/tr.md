@@ -72,19 +72,19 @@ Klasik 2026 olay kalıbı:
 
 ```
 ödeme hizmeti isteklerin %10'unda başarısız olur
-   ↓
+ ↓
 sipariş ajanı ödemeyi yeniden dener (üstel geri çekilme ama saf)
-   ↓
+ ↓
 her yeniden deneme yeni bir sipariş-envanter kontrolüdür
-   ↓
+ ↓
 envanter hizmeti normal yükün 2 katını görür
-   ↓
+ ↓
 envanter hizmeti zaman aşımına uğramaya başlar
-   ↓
+ ↓
 her sipariş envanter kontrolünü yeniden dener
-   ↓
+ ↓
 envanter hizmeti normal yükün 10 katını görür
-   ↓
+ ↓
 küme çöker
 ```
 

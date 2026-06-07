@@ -24,12 +24,12 @@ Her yapay zeka projesi veriyle başlar. Veri setleri bulmanız, indirmeniz, biç
 
 ```mermaid
 graph TD
-    A["Hugging Face Hub"] --> B["datasets kütüphanesi"]
-    B --> C["Yükle / Akışa Al"]
-    C --> D["Yerel Önbellek<br/>~/.cache/huggingface/"]
-    B --> E["Biçim Dönüştürme<br/>CSV, JSON, Parquet, Arrow"]
-    E --> F["Veri Bölümleri<br/>eğitim / doğrulama / test"]
-    F --> G["Eğitim Hattınız"]
+ A["Hugging Face Hub"] --> B["datasets kütüphanesi"]
+ B --> C["Yükle / Akışa Al"]
+ C --> D["Yerel Önbellek<br/>~/.cache/huggingface/"]
+ B --> E["Biçim Dönüştürme<br/>CSV, JSON, Parquet, Arrow"]
+ E --> F["Veri Bölümleri<br/>eğitim / doğrulama / test"]
+ F --> G["Eğitim Hattınız"]
 ```
 
 Hugging Face `datasets` kütüphanesi, yapay zeka çalışmaları için veri yüklemenin standart yoludur. İndirmeyi, önbelleğe almayı, biçim dönüştürmeyi ve akışı kutudan çıktığı gibi yönetir.
@@ -62,8 +62,8 @@ from datasets import load_dataset
 
 veri_seti = load_dataset("imdb", split="train", streaming=True)
 for ornek in veri_seti:
-    print(ornek["text"][:100])
-    break
+ print(ornek["text"][:100])
+ break
 ```
 
 #### Açıklama

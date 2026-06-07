@@ -34,21 +34,21 @@ Sunucu gönderir:
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 42,
-  "method": "sampling/createMessage",
-  "params": {
-    "messages": [{"role": "user", "content": {"type": "text", "text": "..."}}],
-    "systemPrompt": "...",
-    "includeContext": "none",
-    "modelPreferences": {
-      "costPriority": 0.3,
-      "speedPriority": 0.2,
-      "intelligencePriority": 0.5,
-      "hints": [{"name": "claude-3-5-sonnet"}]
-    },
-    "maxTokens": 1024
-  }
+ "jsonrpc": "2.0",
+ "id": 42,
+ "method": "sampling/createMessage",
+ "params": {
+ "messages": [{"role": "user", "content": {"type": "text", "text": "..."}}],
+ "systemPrompt": "...",
+ "includeContext": "none",
+ "modelPreferences": {
+ "costPriority": 0.3,
+ "speedPriority": 0.2,
+ "intelligencePriority": 0.5,
+ "hints": [{"name": "claude-3-5-sonnet"}]
+ },
+ "maxTokens": 1024
+ }
 }
 #### Açıklama
 sampling/createMessage, sunucunun istemcinin LLM'inden bir tamamlama istemesini sağlayan JSON-RPC metodudur.
@@ -58,10 +58,10 @@ sampling/createMessage, sunucunun istemcinin LLM'inden bir tamamlama istemesini 
 
 ```json
 {"jsonrpc": "2.0", "id": 42, "result": {
-  "role": "assistant",
-  "content": {"type": "text", "text": "..."},
-  "model": "claude-3-5-sonnet-20251022",
-  "stopReason": "endTurn"
+ "role": "assistant",
+ "content": {"type": "text", "text": "..."},
+ "model": "claude-3-5-sonnet-20251022",
+ "stopReason": "endTurn"
 }}
 ```
 
@@ -91,10 +91,10 @@ Artı `hints`: sunucunun tercih ettiği adlı modeller. İstemci ipuçlarını o
 
 ```json
 {
-  "messages": [...],
-  "tools": [
-    {"name": "fetch_url", "description": "...", "inputSchema": {...}}
-  ]
+ "messages": [...],
+ "tools": [
+ {"name": "fetch_url", "description": "...", "inputSchema": {...}}
+ ]
 }
 ```
 

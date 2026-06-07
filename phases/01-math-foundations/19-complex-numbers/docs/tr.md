@@ -32,17 +32,17 @@ Bir karmaşık sayının iki bölümü vardır: gerçek bölüm ve sanal bölüm
 z = a + bi
 
 burada:
-  a gerçek bölümdür
-  b sanal bölümdür
-  i sanal birimdir, i^2 = -1 ile tanımlanır
+ a gerçek bölümdür
+ b sanal bölümdür
+ i sanal birimdir, i^2 = -1 ile tanımlanır
 ```
 
 ### Karmaşık Aritmetik
 
 ```
-Toplama:    (a+bi) + (c+di) = (a+c) + (b+d)i
-Çarpma:     (a+bi)(c+di) = (ac-bd) + (ad+bc)i
-Bölme:      (a+bi)/(c+di) = [(a+bi)(c-di)] / (c²+d²)
+Toplama: (a+bi) + (c+di) = (a+c) + (b+d)i
+Çarpma: (a+bi)(c+di) = (ac-bd) + (ad+bc)i
+Bölme: (a+bi)/(c+di) = [(a+bi)(c-di)] / (c²+d²)
 ```
 
 ### Euler Formülü
@@ -70,12 +70,12 @@ Bir sinyali frekans bileşenlerine ayırır.
 import numpy as np
 
 def dft(x):
-    N = len(x)
-    X = np.zeros(N, dtype=complex)
-    for k in range(N):
-        for n in range(N):
-            X[k] += x[n] * np.exp(-2j * np.pi * k * n / N)
-    return X
+ N = len(x)
+ X = np.zeros(N, dtype=complex)
+ for k in range(N):
+ for n in range(N):
+ X[k] += x[n] * np.exp(-2j * np.pi * k * n / N)
+ return X
 ```
 
 ## Alıştırmalar

@@ -15,9 +15,9 @@ Bir çok-agent'lı production deployment planı verildiğinde, dayanıklı-çal�
 2. **Durum profili.** Çalıştırma başına durum boyutu (KB'den MB'ye). Tutma gereksinimi (saniyeler checkpoint geçmişi veya tam denetim günlüğü). Determinizm: çalıştırmalar checkpoint'lerden deterministik olarak yeniden oynatılabilir mi, yoksa yalnızca loglardan mı?
 3. **Yan-etki profili.** Hangi yan etkiler tam-olarak-bir kez gerektirir (ödemeler, harici API'ler, e-posta)? Hangileri en-az-bir kez kaldırabilir (saf araç okumaları)? Tam-olarak-bir kez için outbox (giden-kutu) örüntüsü gerekli.
 4. **Öneri kademesi.**
-   - Kademe 1 (Bedi kuralı): FastAPI + Postgres. ~100 eşzamanlı çalıştırmanın altında, saat-altı süreler, basit retry'lar.
-   - Kademe 2: LangGraph runtime veya Temporal. Saatlik çalıştırmalar, kesme/devam-ettirme, yapılandırılmış retry'lar.
-   - Kademe 3: Outbox + olay kaynaklı (event sourcing) ile özel. Uzmanlaşmış ihtiyaçlar, yüksek throughput, sıkı denetim.
+ - Kademe 1 (Bedi kuralı): FastAPI + Postgres. ~100 eşzamanlı çalıştırmanın altında, saat-altı süreler, basit retry'lar.
+ - Kademe 2: LangGraph runtime veya Temporal. Saatlik çalıştırmalar, kesme/devam-ettirme, yapılandırılmış retry'lar.
+ - Kademe 3: Outbox + olay kaynaklı (event sourcing) ile özel. Uzmanlaşmış ihtiyaçlar, yüksek throughput, sıkı denetim.
 5. **Deploy modeli.** Tek versiyon mu yoksa rainbow/canary mi? Uzun-süren durum bilgisi olan iş yükleri için rainbow (çok-renkli kademeli dağıtım) gerekli.
 6. **Async / thread sınırı.** Hangi parçalar async (LLM çağrıları, araç G/Ç) ve hangileri thread/process (CPU-bağımlı son işleme, gömme).
 7. **Gözlemlenebilirlik.** Çalıştırma başına izler, süper-adım denetimi, retry sayacı. İzler için depolama (checkpoint store'undan ayrı).

@@ -90,10 +90,10 @@ Bir optimizasyon probleminin dışbükey (convex) olup olmadığını nasıl do�
 ```
 1. Amacı yaz: f(w)'yi kısıtlamalara tabi olarak enküçült
 2. f(w)'deki her terim için:
-   - PSD matrisle kuadratik mi? -> Dışbükey
-   - Bir norm mu? -> Dışbükey
-   - Log-sum-exp mi? -> Dışbükey
-   - w'yi doğrusal olmayan şekilde içeriyor mu (sigmoid(w), w1*w2)? -> Muhtemelen dışbükey değil
+ - PSD matrisle kuadratik mi? -> Dışbükey
+ - Bir norm mu? -> Dışbükey
+ - Log-sum-exp mi? -> Dışbükey
+ - w'yi doğrusal olmayan şekilde içeriyor mu (sigmoid(w), w1*w2)? -> Muhtemelen dışbükey değil
 3. Tüm kısıtlamalar doğrusal veya dışbükey eşitsizlikler mi?
 4. TÜM terimler dışbükeyse VE kısıtlamalar dışbükey/doğrusal ise -> problem dışbükey
 5. HERHANGİ bir terim dışbükey değilse -> problem dışbükey değil

@@ -32,21 +32,21 @@ Sen bir CNN mimarısın. Aşağıdaki üç girdi verildiğinde, bütçeye ve al�
 
 ```
 [spec]
-  input: (C, H, W)
-  budget: N params
-  target RF: R px
+ input: (C, H, W)
+ budget: N params
+ target RF: R px
 
 [stack]
-  idx  block              Cin  Cout  K  S  P  Hout  Wout  RF   params   cum
-  1    Conv3x3 s=1 p=1    3    32    3  1  1  H     W     3    896      896
-  2    Conv3x3 s=2 p=1    32   64    3  2  1  H/2   W/2   7    18,496   19,392
-  ...
+ idx block Cin Cout K S P Hout Wout RF params cum
+ 1 Conv3x3 s=1 p=1 3 32 3 1 1 H W 3 896 896
+ 2 Conv3x3 s=2 p=1 32 64 3 2 1 H/2 W/2 7 18,496 19,392
+ ...
 
 [summary]
-  total params: X
-  final spatial: H_out x W_out
-  final RF:      F px
-  headroom:      budget - X params unused
+ total params: X
+ final spatial: H_out x W_out
+ final RF: F px
+ headroom: budget - X params unused
 ```
 
 ## Kurallar

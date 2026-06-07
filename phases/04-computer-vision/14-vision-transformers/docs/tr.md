@@ -28,17 +28,17 @@ On yıl boyunca evrişim (convolution), bilgisayarlı görü ile eşanlamlıydı
 
 ```mermaid
 flowchart LR
-    IMG["Görüntü<br/>(3, 224, 224)"] --> PATCH["Patch embedding<br/>conv 16x16 s=16<br/>-> (768, 14, 14)"]
-    PATCH --> FLAT["Düzleştir<br/>(196, 768) token"]
-    FLAT --> CAT["[CLS] token'ını<br/>başa ekle"]
-    CAT --> POS["Öğrenilmiş konumsal<br/>gömme ekle"]
-    POS --> ENC["N transformer<br/>encoder bloğu"]
-    ENC --> CLS["[CLS] token<br/>çıktısını al"]
-    CLS --> HEAD["MLP sınıflandırıcı"]
+ IMG["Görüntü<br/>(3, 224, 224)"] --> PATCH["Patch embedding<br/>conv 16x16 s=16<br/>-> (768, 14, 14)"]
+ PATCH --> FLAT["Düzleştir<br/>(196, 768) token"]
+ FLAT --> CAT["[CLS] token'ını<br/>başa ekle"]
+ CAT --> POS["Öğrenilmiş konumsal<br/>gömme ekle"]
+ POS --> ENC["N transformer<br/>encoder bloğu"]
+ ENC --> CLS["[CLS] token<br/>çıktısını al"]
+ CLS --> HEAD["MLP sınıflandırıcı"]
 
-    style PATCH fill:#dbeafe,stroke:#2563eb
-    style ENC fill:#fef3c7,stroke:#d97706
-    style HEAD fill:#dcfce7,stroke:#16a34a
+ style PATCH fill:#dbeafe,stroke:#2563eb
+ style ENC fill:#fef3c7,stroke:#d97706
+ style HEAD fill:#dcfce7,stroke:#16a34a
 ```
 
 Yedi adım. Parçalar -> token -> attention -> sınıflandırıcı. Her varyant (DeiT, Swin, ConvNeXt, MAE ön eğitimi) yediden birini veya ikisini değiştirir, gerisini olduğu gibi bırakır.
@@ -51,7 +51,7 @@ Pipeline şeması: Görüntü önce patch embedding ile parçalanır, ardından 
 İlk evrişim (conv) işin sırrıdır. Çekirdek boyutu 16, adım (stride) 16, yani 224x224'lik bir görüntü 16x16'lık parçalardan oluşan 14x14'lük bir ızgaraya dönüşür ve her parça 768 boyutlu bir gömme (embedding) uzayına yansıtılır. Bu tek evrişim, hem parçalama (patchify) hem de doğrusal yansıtma (linear projection) işlemini yapar.
 
 ```
-Giriş:  (3, 224, 224)
+Giriş: (3, 224, 224)
 Conv (3 -> 768, k=16, s=16, padding yok):
 Çıktı: (768, 14, 14)
 Uzamsal düzleştirme: (196, 768)
@@ -65,7 +65,7 @@ Uzamsal düzleştirme: (196, 768)
 Diziye başa eklenen tek bir öğrenilmiş vektör:
 
 ```
-token = [CLS; patch_1; patch_2; ...; patch_196]   boyut (197, 768)
+token = [CLS; patch_1; patch_2; ...; patch_196] boyut (197, 768)
 ```
 
 #### Açıklama
@@ -76,7 +76,7 @@ N transformer bloğundan sonra, `[CLS]` çıktısı küresel görüntü temsilid
 Transformer'ların doğası gereği uzamsal konum kavramı yoktur. Her token'a öğrenilmiş bir vektör eklenir:
 
 ```
-token = token + learned_pos_embedding   (yine boyut (197, 768))
+token = token + learned_pos_embedding (yine boyut (197, 768))
 ```
 
 #### Açıklama
@@ -140,17 +140,17 @@ MAE, ViT'yi sadece ImageNet-1k ile eğitilebilir hale getirir, en güncel başar
 import torch
 import torch.nn as nn
 
-class PatchEmbedding(nn.Module):
-    def __init__(self, in_channels=3, patch_size=16, dim=192, image_size=64):
-        super().__init__()
-        assert image_size % patch_size == 0
-        self.proj = nn.Conv2d(in_channels, dim, kernel_size=patch_size, stride=patch_size)
-        num_patches = (image_size // patch_size) ** 2
-        self.num_patches = num_patches
+class PatchEmbedding(nn. Module):
+ def __init__(self, in_channels=3, patch_size=16, dim=192, image_size=64):
+ super().__init__()
+ assert image_size % patch_size == 0
+ self.proj = nn. Conv2d(in_channels, dim, kernel_size=patch_size, stride=patch_size)
+ num_patches = (image_size // patch_size) ** 2
+ self.num_patches = num_patches
 
-    def forward(self, x):
-        x = self.proj(x)
-        return x.flatten(2).transpose(1, 2)
+ def forward(self, x):
+ x = self.proj(x)
+ return x.flatten(2).transpose(1, 2)
 ```
 
 #### Açıklama
@@ -161,58 +161,58 @@ Bir evrişim, bir düzleştirme, bir transpoz. Görüntüden token'a geçiş ad�
 Ön-LN, çok başlı self-attention (multi-head self-attention), GELU'lu MLP, artık bağlantılar.
 
 ```python
-class Block(nn.Module):
-    def __init__(self, dim, num_heads, mlp_ratio=4, dropout=0.0):
-        super().__init__()
-        self.ln1 = nn.LayerNorm(dim)
-        self.attn = nn.MultiheadAttention(dim, num_heads, dropout=dropout, batch_first=True)
-        self.ln2 = nn.LayerNorm(dim)
-        self.mlp = nn.Sequential(
-            nn.Linear(dim, dim * mlp_ratio),
-            nn.GELU(),
-            nn.Dropout(dropout),
-            nn.Linear(dim * mlp_ratio, dim),
-            nn.Dropout(dropout),
-        )
+class Block(nn. Module):
+ def __init__(self, dim, num_heads, mlp_ratio=4, dropout=0.0):
+ super().__init__()
+ self.ln1 = nn. LayerNorm(dim)
+ self.attn = nn. MultiheadAttention(dim, num_heads, dropout=dropout, batch_first=True)
+ self.ln2 = nn. LayerNorm(dim)
+ self.mlp = nn. Sequential(
+ nn. Linear(dim, dim * mlp_ratio),
+ nn. GELU(),
+ nn. Dropout(dropout),
+ nn. Linear(dim * mlp_ratio, dim),
+ nn. Dropout(dropout),
+ )
 
-    def forward(self, x):
-        a, _ = self.attn(self.ln1(x), self.ln1(x), self.ln1(x), need_weights=False)
-        x = x + a
-        x = x + self.mlp(self.ln2(x))
-        return x
+ def forward(self, x):
+ a, _ = self.attn(self.ln1(x), self.ln1(x), self.ln1(x), need_weights=False)
+ x = x + a
+ x = x + self.mlp(self.ln2(x))
+ return x
 ```
 
 #### Açıklama
-`nn.MultiheadAttention`, başlıklara ayırma, ölçeklendirilmiş nokta çarpımı (scaled dot-product) ve çıktı yansıtmasını (output projection) halleder. `batch_first=True` ile şekiller `(N, seq, dim)` olur.
+`nn. MultiheadAttention`, başlıklara ayırma, ölçeklendirilmiş nokta çarpımı (scaled dot-product) ve çıktı yansıtmasını (output projection) halleder. `batch_first=True` ile şekiller `(N, seq, dim)` olur.
 
 ### Adım 3: ViT
 
 ```python
-class ViT(nn.Module):
-    def __init__(self, image_size=64, patch_size=16, in_channels=3,
-                 num_classes=10, dim=192, depth=6, num_heads=3, mlp_ratio=4):
-        super().__init__()
-        self.patch = PatchEmbedding(in_channels, patch_size, dim, image_size)
-        num_patches = self.patch.num_patches
-        self.cls_token = nn.Parameter(torch.zeros(1, 1, dim))
-        self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + 1, dim))
-        self.blocks = nn.ModuleList([
-            Block(dim, num_heads, mlp_ratio) for _ in range(depth)
-        ])
-        self.ln = nn.LayerNorm(dim)
-        self.head = nn.Linear(dim, num_classes)
-        nn.init.trunc_normal_(self.pos_embed, std=0.02)
-        nn.init.trunc_normal_(self.cls_token, std=0.02)
+class ViT(nn. Module):
+ def __init__(self, image_size=64, patch_size=16, in_channels=3,
+ num_classes=10, dim=192, depth=6, num_heads=3, mlp_ratio=4):
+ super().__init__()
+ self.patch = PatchEmbedding(in_channels, patch_size, dim, image_size)
+ num_patches = self.patch.num_patches
+ self.cls_token = nn. Parameter(torch.zeros(1, 1, dim))
+ self.pos_embed = nn. Parameter(torch.zeros(1, num_patches + 1, dim))
+ self.blocks = nn. ModuleList([
+ Block(dim, num_heads, mlp_ratio) for _ in range(depth)
+ ])
+ self.ln = nn. LayerNorm(dim)
+ self.head = nn. Linear(dim, num_classes)
+ nn.init.trunc_normal_(self.pos_embed, std=0.02)
+ nn.init.trunc_normal_(self.cls_token, std=0.02)
 
-    def forward(self, x):
-        x = self.patch(x)
-        cls = self.cls_token.expand(x.size(0), -1, -1)
-        x = torch.cat([cls, x], dim=1)
-        x = x + self.pos_embed
-        for blk in self.blocks:
-            x = blk(x)
-        x = self.ln(x[:, 0])
-        return self.head(x)
+ def forward(self, x):
+ x = self.patch(x)
+ cls = self.cls_token.expand(x.size(0), -1, -1)
+ x = torch.cat([cls, x], dim=1)
+ x = x + self.pos_embed
+ for blk in self.blocks:
+ x = blk(x)
+ x = self.ln(x[:, 0])
+ return self.head(x)
 
 vit = ViT(image_size=64, patch_size=16, num_classes=10, dim=192, depth=6, num_heads=3)
 x = torch.randn(2, 3, 64, 64)
@@ -228,7 +228,7 @@ Yaklaşık 2.8M parametre — CPU'da çalıştırılabilen küçük bir ViT. Ger
 ```python
 logits = vit(torch.randn(1, 3, 64, 64))
 print(f"logits: {logits}")
-print(f"probs:  {logits.softmax(-1)}")
+print(f"probs: {logits.softmax(-1)}")
 ```
 
 #### Açıklama

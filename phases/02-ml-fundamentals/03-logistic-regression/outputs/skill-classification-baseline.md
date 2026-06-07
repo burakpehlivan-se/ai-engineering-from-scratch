@@ -14,25 +14,25 @@ Karmaşık modelleri denemeden önce, lojistik regresyonla bir temel oluştur. S
 ## Karar Kontrol Listesi
 
 1. Karar sınırı büyük olasılıkla doğrusal mı?
-   - Evet: lojistik regresyon muhtemelen yeterli olacaktır
-   - Hayır: yine de iyileşmeyi ölçmek için onu temel olarak istersin
+ - Evet: lojistik regresyon muhtemelen yeterli olacaktır
+ - Hayır: yine de iyileşmeyi ölçmek için onu temel olarak istersin
 
 2. Kaç özelliğin var?
-   - 50'nin altında: standart lojistik regresyon yeterlidir
-   - 50 ile 10.000 arası: L2 düzenlileştirme (Ridge) ekle
-   - 10.000'in üzerinde (ör. TF-IDF metin özellikleri): L1 düzenlileştirme (Lasso) veya LinearSVC kullan
+ - 50'nin altında: standart lojistik regresyon yeterlidir
+ - 50 ile 10.000 arası: L2 düzenlileştirme (Ridge) ekle
+ - 10.000'in üzerinde (ör. TF-IDF metin özellikleri): L1 düzenlileştirme (Lasso) veya LinearSVC kullan
 
 3. Veri kümesi dengesiz mi?
-   - 5:1 oranının altı: muhtemelen ayarlama olmadan yeterlidir
-   - 5:1 ile 50:1 arası: sklearn'de `class_weight="balanced"` kullan
-   - 50:1'in üzerinde: sınıf ağırlıklandırmasını uygun metrikle (kesinlik, duyarlılık veya F1) birleştir
+ - 5:1 oranının altı: muhtemelen ayarlama olmadan yeterlidir
+ - 5:1 ile 50:1 arası: sklearn'de `class_weight="balanced"` kullan
+ - 50:1'in üzerinde: sınıf ağırlıklandırmasını uygun metrikle (kesinlik, duyarlılık veya F1) birleştir
 
 4. Özellikler farklı ölçeklerde mi?
-   - Lojistik regresyondan önce her zaman standardize et. Gradyan tabanlı optimizasyon kullanır ve ölçeklenmemiş özellikler yakınsamayı yavaşlatır veya karar sınırını bozar.
+ - Lojistik regresyondan önce her zaman standardize et. Gradyan tabanlı optimizasyon kullanır ve ölçeklenmemiş özellikler yakınsamayı yavaşlatır veya karar sınırını bozar.
 
 5. Eksik değerler var mı?
-   - Yerleştirmeden önce imputation (değer atama) yap. Lojistik regresyon NaN ile başa çıkamaz.
-   - Sayısal sütunlar için medyan, kategorik olanlar için mod (en sık değer) imputation kullan.
+ - Yerleştirmeden önce imputation (değer atama) yap. Lojistik regresyon NaN ile başa çıkamaz.
+ - Sayısal sütunlar için medyan, kategorik olanlar için mod (en sık değer) imputation kullan.
 
 ## Lojistik regresyon ne zaman yeterlidir
 

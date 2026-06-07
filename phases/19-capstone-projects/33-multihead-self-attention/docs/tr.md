@@ -29,16 +29,16 @@ Girdi `(B, T, D)`'dir. Çıktı `(B, T, D)`'dir. Maske `(T, T)` ya da ona yayıl
 
 ```mermaid
 flowchart LR
-    A["(B, T, D) input"] --> B[Linear D -> 3D]
-    B --> C["split into Q, K, V"]
-    C --> D["reshape to (B, H, T, d_head)"]
-    D --> E["scores = Q @ K.T / sqrt(d_head)"]
-    E --> F[apply causal mask]
-    F --> G[softmax over keys]
-    G --> H["context = weights @ V"]
-    H --> I["reshape to (B, T, D)"]
-    I --> J[output Linear D -> D]
-    J --> K["(B, T, D) output"]
+ A["(B, T, D) input"] --> B[Linear D -> 3D]
+ B --> C["split into Q, K, V"]
+ C --> D["reshape to (B, H, T, d_head)"]
+ D --> E["scores = Q @ K. T / sqrt(d_head)"]
+ E --> F[apply causal mask]
+ F --> G[softmax over keys]
+ G --> H["context = weights @ V"]
+ H --> I["reshape to (B, T, D)"]
+ I --> J[output Linear D -> D]
+ J --> K["(B, T, D) output"]
 ```
 
 #### Açıklama
@@ -68,17 +68,17 @@ Yalnızca çözücü (decoder-only) bir dil modeli, bir sonraki token'ı tahmin 
 
 ```mermaid
 sequenceDiagram
-    participant Q
-    participant K
-    participant Scores
-    participant Mask
-    participant Softmax
-    participant V
-    Q->>Scores: Q @ K.T (B, H, T, T)
-    Scores->>Scores: divide by sqrt(d_head)
-    Mask->>Scores: set upper triangle to -inf
-    Scores->>Softmax: row-wise softmax over keys
-    Softmax->>V: weights @ V -> (B, H, T, d_head)
+ participant Q
+ participant K
+ participant Scores
+ participant Mask
+ participant Softmax
+ participant V
+ Q->>Scores: Q @ K. T (B, H, T, T)
+ Scores->>Scores: divide by sqrt(d_head)
+ Mask->>Scores: set upper triangle to -inf
+ Scores->>Softmax: row-wise softmax over keys
+ Softmax->>V: weights @ V -> (B, H, T, d_head)
 ```
 
 #### Açıklama

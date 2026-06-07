@@ -28,21 +28,21 @@ Zor mühendislik problemi örneklemedir (sampling): köşeleri piksel sınırlar
 
 ```mermaid
 flowchart LR
-    IMG["Input"] --> BB["ResNet<br/>backbone"]
-    BB --> FPN["Feature<br/>Pyramid Network"]
-    FPN --> RPN["Region<br/>Proposal<br/>Network"]
-    FPN --> RA["RoIAlign"]
-    RPN -->|"top-K proposals"| RA
-    RA --> BH["Box head<br/>(class + refine)"]
-    RA --> MH["Mask head<br/>(14x14 conv)"]
-    BH --> NMS["NMS"]
-    MH --> NMS
-    NMS --> OUT["boxes +<br/>classes + masks"]
+ IMG["Input"] --> BB["ResNet<br/>backbone"]
+ BB --> FPN["Feature<br/>Pyramid Network"]
+ FPN --> RPN["Region<br/>Proposal<br/>Network"]
+ FPN --> RA["RoIAlign"]
+ RPN -->|"top-K proposals"| RA
+ RA --> BH["Box head<br/>(class + refine)"]
+ RA --> MH["Mask head<br/>(14x14 conv)"]
+ BH --> NMS["NMS"]
+ MH --> NMS
+ NMS --> OUT["boxes +<br/>classes + masks"]
 
-    style BB fill:#dbeafe,stroke:#2563eb
-    style FPN fill:#fef3c7,stroke:#d97706
-    style RPN fill:#fecaca,stroke:#dc2626
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style BB fill:#dbeafe,stroke:#2563eb
+ style FPN fill:#fef3c7,stroke:#d97706
+ style RPN fill:#fecaca,stroke:#dc2626
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 Anlaşılması gereken beş parça:
@@ -59,15 +59,15 @@ Orijinal Fast R-CNN, RoIPool kullanıyordu: bir öneri kutusunu bir ızgaraya b�
 
 ```
 RoIPool:
-  kutu (34.7, 51.3, 98.2, 142.9)
-  yuvarla -> (34, 51, 98, 142)
-  ızgarayı böl -> her hücre sınırını yuvarla
-  hizalama hatası her adımda birikir
+ kutu (34.7, 51.3, 98.2, 142.9)
+ yuvarla -> (34, 51, 98, 142)
+ ızgarayı böl -> her hücre sınırını yuvarla
+ hizalama hatası her adımda birikir
 
 RoIAlign:
-  kutu (34.7, 51.3, 98.2, 142.9)
-  bilineer interpolasyon kullanarak tam ondalık koordinatlarda örnekle
-  hiçbir yerde yuvarlama yok
+ kutu (34.7, 51.3, 98.2, 142.9)
+ bilineer interpolasyon kullanarak tam ondalık koordinatlarda örnekle
+ hiçbir yerde yuvarlama yok
 ```
 
 RoIAlign, COCO'da maske AP'sini bedavaya 3-4 puan yükseltir. Lokalizasyonu önemseyen her dedektör artık bunu kullanır — YOLOv7 seg, RT-DETR, Mask2Former hepsi aynı.
@@ -103,10 +103,10 @@ Her kaybın kendi varsayılan ağırlığı vardır; torchvision uygulaması bun
 
 ```
 {
-    "boxes":  (N, 4) piksel koordinatlarında (x1, y1, x2, y2),
-    "labels": (N,) sınıf ID'leri, 0 = arka plan, indeksler 1-tabanlı,
-    "scores": (N,) güven skorları,
-    "masks":  (N, 1, H, W) [0, 1] aralığında ondalık maskeler — ikili için 0.5 eşiği,
+ "boxes": (N, 4) piksel koordinatlarında (x1, y1, x2, y2),
+ "labels": (N,) sınıf ID'leri, 0 = arka plan, indeksler 1-tabanlı,
+ "scores": (N,) güven skorları,
+ "masks": (N, 1, H, W) [0, 1] aralığında ondalık maskeler — ikili için 0.5 eşiği,
 }
 ```
 
@@ -123,27 +123,27 @@ import torch
 import torch.nn.functional as F
 
 def roi_align_single(feature, box, output_size=7, spatial_scale=1 / 16.0):
-    """
-    feature: (C, H, W) tek görüntülü feature map
-    box: orijinal görüntü piksel koordinatlarında (x1, y1, x2, y2)
-    output_size: çıktı ızgarasının kenar uzunluğu (box head için 7, mask head için 14)
-    spatial_scale: feature map stride'ının tersi
-    """
-    C, H, W = feature.shape
-    x1, y1, x2, y2 = [c * spatial_scale - 0.5 for c in box]
-    bin_w = (x2 - x1) / output_size
-    bin_h = (y2 - y1) / output_size
+ """
+ feature: (C, H, W) tek görüntülü feature map
+ box: orijinal görüntü piksel koordinatlarında (x1, y1, x2, y2)
+ output_size: çıktı ızgarasının kenar uzunluğu (box head için 7, mask head için 14)
+ spatial_scale: feature map stride'ının tersi
+ """
+ C, H, W = feature.shape
+ x1, y1, x2, y2 = [c * spatial_scale - 0.5 for c in box]
+ bin_w = (x2 - x1) / output_size
+ bin_h = (y2 - y1) / output_size
 
-    grid_y = torch.linspace(y1 + bin_h / 2, y2 - bin_h / 2, output_size)
-    grid_x = torch.linspace(x1 + bin_w / 2, x2 - bin_w / 2, output_size)
-    yy, xx = torch.meshgrid(grid_y, grid_x, indexing="ij")
+ grid_y = torch.linspace(y1 + bin_h / 2, y2 - bin_h / 2, output_size)
+ grid_x = torch.linspace(x1 + bin_w / 2, x2 - bin_w / 2, output_size)
+ yy, xx = torch.meshgrid(grid_y, grid_x, indexing="ij")
 
-    gx = 2 * (xx + 0.5) / W - 1
-    gy = 2 * (yy + 0.5) / H - 1
-    grid = torch.stack([gx, gy], dim=-1).unsqueeze(0)
-    sampled = F.grid_sample(feature.unsqueeze(0), grid, mode="bilinear",
-                            align_corners=False)
-    return sampled.squeeze(0)
+ gx = 2 * (xx + 0.5) / W - 1
+ gy = 2 * (yy + 0.5) / H - 1
+ grid = torch.stack([gx, gy], dim=-1).unsqueeze(0)
+ sampled = F.grid_sample(feature.unsqueeze(0), grid, mode="bilinear",
+ align_corners=False)
+ return sampled.squeeze(0)
 ```
 
 #### Açıklama
@@ -155,14 +155,14 @@ Her sayı, bilineer olarak örneklenmiş bir konumdadır. Yuvarlama, nicemleme v
 from torchvision.ops import roi_align
 
 feature = torch.randn(1, 16, 50, 50)
-boxes = torch.tensor([[0, 10, 20, 100, 90]], dtype=torch.float32)  # (batch_idx, x1, y1, x2, y2)
+boxes = torch.tensor([[0, 10, 20, 100, 90]], dtype=torch.float32) # (batch_idx, x1, y1, x2, y2)
 
 ours = roi_align_single(feature[0], boxes[0, 1:].tolist(), output_size=7, spatial_scale=1/4)
 theirs = roi_align(feature, boxes, output_size=(7, 7), spatial_scale=1/4, sampling_ratio=1, aligned=True)[0]
 
-print(f"shape ours:   {tuple(ours.shape)}")
+print(f"shape ours: {tuple(ours.shape)}")
 print(f"shape theirs: {tuple(theirs.shape)}")
-print(f"max|diff|:    {(ours - theirs).abs().max().item():.3e}")
+print(f"max|diff|: {(ours - theirs).abs().max().item():.3e}")
 ```
 
 #### Açıklama
@@ -174,7 +174,7 @@ print(f"max|diff|:    {(ours - theirs).abs().max().item():.3e}")
 import torch
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2, MaskRCNN_ResNet50_FPN_V2_Weights
 
-model = maskrcnn_resnet50_fpn_v2(weights=MaskRCNN_ResNet50_FPN_V2_Weights.DEFAULT)
+model = maskrcnn_resnet50_fpn_v2(weights=MaskRCNN_ResNet50_FPN_V2_Weights. DEFAULT)
 model.eval()
 print(f"params: {sum(p.numel() for p in model.parameters()):,}")
 print(f"classes (including background): {len(model.roi_heads.box_predictor.cls_score.out_features * [0])}")
@@ -187,20 +187,20 @@ print(f"classes (including background): {len(model.roi_heads.box_predictor.cls_s
 
 ```python
 with torch.no_grad():
-    x = torch.randn(3, 400, 600)
-    predictions = model([x])
+ x = torch.randn(3, 400, 600)
+ predictions = model([x])
 p = predictions[0]
-print(f"boxes:  {tuple(p['boxes'].shape)}")
+print(f"boxes: {tuple(p['boxes'].shape)}")
 print(f"labels: {tuple(p['labels'].shape)}")
 print(f"scores: {tuple(p['scores'].shape)}")
-print(f"masks:  {tuple(p['masks'].shape)}")
+print(f"masks: {tuple(p['masks'].shape)}")
 ```
 
 #### Açıklama
 Maske tensoru `(N, 1, H, W)` şeklindedir. Nesne başına ikili maske elde etmek için 0.5 eşiği:
 
 ```python
-binary_masks = (p['masks'] > 0.5).squeeze(1)  # (N, H, W) boolean
+binary_masks = (p['masks'] > 0.5).squeeze(1) # (N, H, W) boolean
 ```
 
 ### Adım 5: Özel sınıf sayısı için head'leri değiştirme
@@ -212,13 +212,13 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
 def build_custom_maskrcnn(num_classes):
-    model = maskrcnn_resnet50_fpn_v2(weights=MaskRCNN_ResNet50_FPN_V2_Weights.DEFAULT)
-    in_features = model.roi_heads.box_predictor.cls_score.in_features
-    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-    in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
-    hidden_layer = 256
-    model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask, hidden_layer, num_classes)
-    return model
+ model = maskrcnn_resnet50_fpn_v2(weights=MaskRCNN_ResNet50_FPN_V2_Weights. DEFAULT)
+ in_features = model.roi_heads.box_predictor.cls_score.in_features
+ model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+ in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
+ hidden_layer = 256
+ model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask, hidden_layer, num_classes)
+ return model
 
 custom = build_custom_maskrcnn(num_classes=5)
 print(f"custom cls_score.out_features: {custom.roi_heads.box_predictor.cls_score.out_features}")
@@ -233,12 +233,12 @@ Küçük veri kümelerinde backbone ve FPN'yi dondurun. Yalnızca RPN objectness
 
 ```python
 def freeze_backbone_and_fpn(model):
-    # torchvision Mask R-CNN, FPN'yi `model.backbone` içinde barındırır
-    # (`model.backbone.fpn` olarak), bu nedenle `model.backbone.parameters()` üzerinde
-    # döngü yapmak hem ResNet özellik katmanlarını hem de FPN yanal/çıktı conv'lerini kapsar.
-    for p in model.backbone.parameters():
-        p.requires_grad = False
-    return model
+ # torchvision Mask R-CNN, FPN'yi `model.backbone` içinde barındırır
+ # (`model.backbone.fpn` olarak), bu nedenle `model.backbone.parameters()` üzerinde
+ # döngü yapmak hem ResNet özellik katmanlarını hem de FPN yanal/çıktı conv'lerini kapsar.
+ for p in model.backbone.parameters():
+ p.requires_grad = False
+ return model
 
 custom = freeze_backbone_and_fpn(custom)
 trainable = sum(p.numel() for p in custom.parameters() if p.requires_grad)
@@ -254,13 +254,13 @@ Torchvision'da Mask R-CNN için tam eğitim döngüsü 40 satırdır ve görevle
 
 ```python
 def train_step(model, images, targets, optimizer):
-    model.train()
-    loss_dict = model(images, targets)
-    losses = sum(loss for loss in loss_dict.values())
-    optimizer.zero_grad()
-    losses.backward()
-    optimizer.step()
-    return {k: v.item() for k, v in loss_dict.items()}
+ model.train()
+ loss_dict = model(images, targets)
+ losses = sum(loss for loss in loss_dict.values())
+ optimizer.zero_grad()
+ losses.backward()
+ optimizer.step()
+ return {k: v.item() for k, v in loss_dict.items()}
 ```
 
 #### Açıklama

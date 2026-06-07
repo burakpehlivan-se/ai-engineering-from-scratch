@@ -27,17 +27,17 @@ Döngünün altı durumu vardır. Beşi etkindir. Biri terminal durumdur.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> IDLE
-    IDLE --> PLANNING: run(goal)
-    PLANNING --> EXECUTING: plan committed
-    EXECUTING --> AWAITING_TOOL: tool_call needed
-    AWAITING_TOOL --> REFLECTING: result
-    EXECUTING --> REFLECTING: no_tool step done
-    REFLECTING --> EXECUTING: next step
-    REFLECTING --> PLANNING: replan
-    REFLECTING --> DONE: goal_met
-    PLANNING --> DONE: no_plan
-    DONE --> [*]
+ [*] --> IDLE
+ IDLE --> PLANNING: run(goal)
+ PLANNING --> EXECUTING: plan committed
+ EXECUTING --> AWAITING_TOOL: tool_call needed
+ AWAITING_TOOL --> REFLECTING: result
+ EXECUTING --> REFLECTING: no_tool step done
+ REFLECTING --> EXECUTING: next step
+ REFLECTING --> PLANNING: replan
+ REFLECTING --> DONE: goal_met
+ PLANNING --> DONE: no_plan
+ DONE --> [*]
 ```
 
 #### Açıklama
@@ -52,9 +52,9 @@ Durum makinesi deterministiktir. Aynı olay günlüğü verildiğinde, çerçeve
 Kancalar (hooks), operatörün döngüye açılan dikiş noktasıdır. Çerçeve on konu tetikler. Her konu herhangi bir sayıda abone kabul eder. Aboneler kayıt sırasına göre çalışır. Bir abone yükü değiştirebilir, turu iptal etmek için istisna fırlatabilir ya da sonraki adımı atlamak için bir sentinel (sentinel) döndürebilir.
 
 ```text
-before_plan         after_plan
-before_tool_call    after_tool_call
-before_step         after_step
+before_plan after_plan
+before_tool_call after_tool_call
+before_step after_step
 on_error
 on_pause
 on_budget_exceeded

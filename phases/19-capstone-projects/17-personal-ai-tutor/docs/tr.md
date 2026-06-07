@@ -26,38 +26,38 @@ Etkinlik çalışması teslim edilen şeydir. 10 öğrenci, ön-test, iki hafta 
 
 ```
 learner device
-  |
-  +-- text         -> web app
-  +-- voice        -> LiveKit Agents (ASR + TTS)
-  +-- photo math   -> dots.ocr / PaliGemma 2
-       |
-       v
-  tutor policy (LangGraph)
-       - Socratic decision head
-       - next-concept chooser (curriculum graph walk)
-       - hint scaffolder
-       - mastery update
-       |
-       v
-  learner model (BKT / item-response theory)
-       - per-concept mastery probability
-       - spaced-repetition scheduler (SM-2 or FSRS)
-       |
-       v
-  memory (agentmemory-style)
-       - episodic: every interaction
-       - semantic: learned mistakes, preferences
-       - retention policy: COPPA / GDPR aware
-       |
-       v
-  curriculum graph (Neo4j)
-       - prerequisite edges
-       - OER content attached
-       |
-       v
-  safety:
-    Llama Guard 4 + age-appropriate filter
-    memory access guarded by learner ID scope
+ |
+ +-- text -> web app
+ +-- voice -> LiveKit Agents (ASR + TTS)
+ +-- photo math -> dots.ocr / PaliGemma 2
+ |
+ v
+ tutor policy (LangGraph)
+ - Socratic decision head
+ - next-concept chooser (curriculum graph walk)
+ - hint scaffolder
+ - mastery update
+ |
+ v
+ learner model (BKT / item-response theory)
+ - per-concept mastery probability
+ - spaced-repetition scheduler (SM-2 or FSRS)
+ |
+ v
+ memory (agentmemory-style)
+ - episodic: every interaction
+ - semantic: learned mistakes, preferences
+ - retention policy: COPPA / GDPR aware
+ |
+ v
+ curriculum graph (Neo4j)
+ - prerequisite edges
+ - OER content attached
+ |
+ v
+ safety:
+ Llama Guard 4 + age-appropriate filter
+ memory access guarded by learner ID scope
 ```
 
 #### Açıklama
@@ -100,13 +100,13 @@ Bu mimari, öğrenci cihazından güvenlik ve gizlilik son noktalarına kadar ta
 
 ```
 learner: "I don't understand why 3x + 6 = 12 means x = 2"
-[signal]   stuck
-[concept]  'isolating variables' (prerequisite: addition-subtraction-equality)
+[signal] stuck
+[concept] 'isolating variables' (prerequisite: addition-subtraction-equality)
 [scaffold] "what number would you subtract from both sides to start?"
 learner: "6"
-[signal]   correct
-[mastery]  addition-subtraction-equality: 0.62 -> 0.77
-[concept]  continue 'isolating variables'
+[signal] correct
+[mastery] addition-subtraction-equality: 0.62 -> 0.77
+[concept] continue 'isolating variables'
 [scaffold] "great. now what is 3x / 3 equal to?"
 ```
 

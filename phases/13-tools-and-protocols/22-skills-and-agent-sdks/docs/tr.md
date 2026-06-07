@@ -68,7 +68,7 @@ description: En son birleştirilmiş PR'lar için bu projenin tarzını takip ed
 3. Her grup içindeki her PR için bir satır yazın: `- <başlık> (#<numara>)`.
 4. Sürüm notlarını taslak olarak çıkarın ve CHANGELOG.md'ye yerleştirin.
 
-Kullanıcı "yayınla" derse, `git tag vX.Y.Z` ve `gh release create` çalıştırın.
+Kullanıcı "yayınla" derse, `git tag vX. Y. Z` ve `gh release create` çalıştırın.
 
 ## Notlar
 
@@ -84,12 +84,12 @@ Yetenekler, yalnızca gerekli olduğunda çekilen alt kaynaklara atıfta bulunab
 
 ```
 skills/
-  release-notes-writer/
-    SKILL.md
-    style-guide.md
-    template.md
-    scripts/
-      generate.sh
+ release-notes-writer/
+ SKILL.md
+ style-guide.md
+ template.md
+ scripts/
+ generate.sh
 ```
 
 SKILL.md "stil kuralları için style-guide.md'ye bakın" der. Ajan, style-guide.md'yi yalnızca yetenek aktif olarak çalışırken çeker. Bu, modelin gerekmeyebilecek detaylarla prompt'un şişmesini önler.

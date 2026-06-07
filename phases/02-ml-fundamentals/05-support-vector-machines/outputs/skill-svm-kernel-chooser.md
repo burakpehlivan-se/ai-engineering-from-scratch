@@ -14,37 +14,37 @@ SVM'ler iki seçimle tanımlanır: çekirdek (karar sınırının şeklini belir
 ## Karar Kontrol Listesi
 
 1. Veriler doğrusal olarak ayrılabilir mi (veya yakını mı)?
-   - Evet: doğrusal çekirdek kullan. Daha hızlı ve daha yorumlanabilir.
-   - Hayır: 2. adıma geç.
+ - Evet: doğrusal çekirdek kullan. Daha hızlı ve daha yorumlanabilir.
+ - Hayır: 2. adıma geç.
 
 2. Özellik sayısı örnek sayısına göre nasıl?
-   - Özellikler >> örnekler (ör. TF-IDF ile metin): doğrusal çekirdek kullan. Yüksek boyutlu veriler genellikle doğrusal olarak ayrılabilir. RBF, fayda sağlamadan karmaşıklık ekler.
-   - Örnekler >> özellikler (ör. 10-50 özellikli tablo verileri): RBF çekirdek varsayılan seçimdir.
+ - Özellikler >> örnekler (ör. TF-IDF ile metin): doğrusal çekirdek kullan. Yüksek boyutlu veriler genellikle doğrusal olarak ayrılabilir. RBF, fayda sağlamadan karmaşıklık ekler.
+ - Örnekler >> özellikler (ör. 10-50 özellikli tablo verileri): RBF çekirdek varsayılan seçimdir.
 
 3. Karar sınırının pürüzsüz olması bekleniyor mu?
-   - Pürüzsüz, sürekli sınır: RBF çekirdek
-   - Polinom şeklinde sınır: polinom çekirdek (derece 2 veya 3 ile başla)
-   - Alan bilgisi belirli etkileşim terimleri öneriyorsa: eşleşen dereceli polinom çekirdek
+ - Pürüzsüz, sürekli sınır: RBF çekirdek
+ - Polinom şeklinde sınır: polinom çekirdek (derece 2 veya 3 ile başla)
+ - Alan bilgisi belirli etkileşim terimleri öneriyorsa: eşleşen dereceli polinom çekirdek
 
 4. Veri kümesi ne kadar büyük?
-   - 10.000 örneğin altında: her çekirdek çalışır, RBF güvenli varsayılan
-   - 10.000 ile 100.000 arası: doğrusal çekirdek veya LinearSVC (primal formülasyon, epoch başına O(n))
-   - 100.000'in üzerinde: çekirdek SVM kullanma. Doğrusal SVM, gradyan artırma veya sinir ağlarına geç.
+ - 10.000 örneğin altında: her çekirdek çalışır, RBF güvenli varsayılan
+ - 10.000 ile 100.000 arası: doğrusal çekirdek veya LinearSVC (primal formülasyon, epoch başına O(n))
+ - 100.000'in üzerinde: çekirdek SVM kullanma. Doğrusal SVM, gradyan artırma veya sinir ağlarına geç.
 
 5. Özellikleri ölçeklendirdin mi?
-   - SVM'ler özellik ölçeklendirmesi gerektirir. Yerleştirmeden önce her zaman standardize et (sıfır ortalama, birim varyans). Ölçeklenmemiş özellikler marj geometrisini bozar.
+ - SVM'ler özellik ölçeklendirmesi gerektirir. Yerleştirmeden önce her zaman standardize et (sıfır ortalama, birim varyans). Ölçeklenmemiş özellikler marj geometrisini bozar.
 
 ## Çekirdek seçim akış şeması
 
 ```
 Başla
-  |
-  v
+ |
+ v
 Özellikler > 1000 veya özellikler >> örnekler?
-  Evet --> Doğrusal çekirdek (hız için LinearSVC)
-  Hayır --> Veri kümesi < 10k örnek?
-             Evet --> Önce RBF'yi dene (en iyi genel amaçlı çekirdek)
-             Hayır --> Doğrusal çekirdek (çekirdek SVM'ler O(n^2) ile O(n^3))
+ Evet --> Doğrusal çekirdek (hız için LinearSVC)
+ Hayır --> Veri kümesi < 10k örnek?
+ Evet --> Önce RBF'yi dene (en iyi genel amaçlı çekirdek)
+ Hayır --> Doğrusal çekirdek (çekirdek SVM'ler O(n^2) ile O(n^3))
 ```
 
 RBF iyi çalışmazsa, polinom derece 2-3'ü dene. O da başarısız olursa, problem SVM'lere uygun olmayabilir.

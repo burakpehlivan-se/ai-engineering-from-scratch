@@ -60,16 +60,16 @@ Parametrelerin %0.78'ini eğitiyorsunuz ve kalitenin %95-100'ünü alıyorsunuz.
 
 ```mermaid
 graph LR
-    X["Girdi x"] --> W["Dondurulmuş W (d x d)"]
-    X --> A["A (r x d)"]
-    A --> B["B (d x r)"]
-    W --> Plus["+ (birleştir)"]
-    B --> Plus
-    Plus --> Y["Çıktı y"]
+ X["Girdi x"] --> W["Dondurulmuş W (d x d)"]
+ X --> A["A (r x d)"]
+ A --> B["B (d x r)"]
+ W --> Plus["+ (birleştir)"]
+ B --> Plus
+ Plus --> Y["Çıktı y"]
 
-    style W fill:#1a1a2e,stroke:#e94560,color:#fff
-    style A fill:#0f3460,stroke:#16213e,color:#fff
-    style B fill:#0f3460,stroke:#16213e,color:#fff
+ style W fill:#1a1a2e,stroke:#e94560,color:#fff
+ style A fill:#0f3460,stroke:#16213e,color:#fff
+ style B fill:#0f3460,stroke:#16213e,color:#fff
 ```
 
 A rastgele Gauss ile başlatılır. B sıfırla başlatılır. Bu, LoRA katkısının sıfırla başlaması demektir — model orijinal davranışından başlar ve adaptasyonu kademeli olarak öğrenir.
@@ -168,7 +168,7 @@ Tek consumer GPU'da QLoRA, bir öğle yemeğinden daha az tutar. Bu yüzden aç�
 
 | Çerçeve | Ne olduğu | Ne Zaman Seçilir |
 |-----------|-----------|-----------|
-| **Hugging Face PEFT** | Kanonik LoRA/QLoRA/DoRA/IA3 kütüphanesi | Ham kontrol istiyorsanız ve eğitim döngünüz zaten `transformers.Trainer` üzerindeyse |
+| **Hugging Face PEFT** | Kanonik LoRA/QLoRA/DoRA/IA3 kütüphanesi | Ham kontrol istiyorsanız ve eğitim döngünüz zaten `transformers. Trainer` üzerindeyse |
 | **TRL** | HF'nin geri bildirimden öğrenme eğitmenleri (SFT, DPO, GRPO, PPO, ORPO) | SFT'den sonra DPO/GRPO'ya ihtiyacınız varsa; PEFT üzerine inşa edilmiştir |
 | **Unsloth** | İleri/geri geçişin Triton-kernel yeniden yazımı | %2-5x hızlanma + doğruluk kaybı olmadan yarı VRAM istiyorsanız; Llama/Mistral/Qwen ailesi |
 | **Axolotl** | PEFT + TRL + DeepSpeed + Unsloth üzerinde YAML-yapılandırmalı sarmalayıcı | Tekrar üretilebilir, versiyon kontrollü eğitim chạyları istiyorsanız |
@@ -205,17 +205,17 @@ Fine-tuning üçüncü seçenektir, birincisi değil.
 
 ```mermaid
 graph TD
-    Start["Daha iyi model davranışı mı gerekiyor?"] --> PE["Prompt engineering'i dene"]
-    PE -->|"Çalışıyor"| Done["Deploy et"]
-    PE -->|"Yeterli değil"| RAG["Dış bilgiye mi ihtiyacın var?"]
-    RAG -->|"Evet"| RAGBuild["RAG hattı oluştur"]
-    RAG -->|"Hayır, stil/format değişikliği gerekli"| FT["LoRA/QLoRA ile fine-tuning yap"]
-    RAGBuild -->|"Çalışıyor"| Done
-    RAGBuild -->|"Ayrıca stil değişikliği de gerekli"| FT
-    FT --> Done
+ Start["Daha iyi model davranışı mı gerekiyor?"] --> PE["Prompt engineering'i dene"]
+ PE -->|"Çalışıyor"| Done["Deploy et"]
+ PE -->|"Yeterli değil"| RAG["Dış bilgiye mi ihtiyacın var?"]
+ RAG -->|"Evet"| RAGBuild["RAG hattı oluştur"]
+ RAG -->|"Hayır, stil/format değişikliği gerekli"| FT["LoRA/QLoRA ile fine-tuning yap"]
+ RAGBuild -->|"Çalışıyor"| Done
+ RAGBuild -->|"Ayrıca stil değişikliği de gerekli"| FT
+ FT --> Done
 
-    style Start fill:#1a1a2e,stroke:#e94560,color:#fff
-    style Done fill:#0f3460,stroke:#16213e,color:#fff
+ style Start fill:#1a1a2e,stroke:#e94560,color:#fff
+ style Done fill:#0f3460,stroke:#16213e,color:#fff
 ```
 
 ## Yap
@@ -229,18 +229,18 @@ import torch
 import torch.nn as nn
 import math
 
-class LoRALayer(nn.Module):
-    def __init__(self, in_features, out_features, rank=8, alpha=16):
-        super().__init__()
-        self.rank = rank
-        self.alpha = alpha
-        self.scaling = alpha / rank
+class LoRALayer(nn. Module):
+ def __init__(self, in_features, out_features, rank=8, alpha=16):
+ super().__init__()
+ self.rank = rank
+ self.alpha = alpha
+ self.scaling = alpha / rank
 
-        self.A = nn.Parameter(torch.randn(in_features, rank) * (1 / math.sqrt(rank)))
-        self.B = nn.Parameter(torch.zeros(rank, out_features))
+ self. A = nn. Parameter(torch.randn(in_features, rank) * (1 / math.sqrt(rank)))
+ self. B = nn. Parameter(torch.zeros(rank, out_features))
 
-    def forward(self, x):
-        return (x @ self.A @ self.B) * self.scaling
+ def forward(self, x):
+ return (x @ self. A @ self. B) * self.scaling
 ```
 
 A ölçekli rastgele değerlerle başlatılır. B sıfırla başlatılır. BA çarpımı sıfırla başlar, böylece model orijinal davranışıyla başlar.
@@ -248,19 +248,19 @@ A ölçekli rastgele değerlerle başlatılır. B sıfırla başlatılır. BA ç
 ### Adım 2: LoRA ile Sarılmış Doğrusal Katman
 
 ```python
-class LinearWithLoRA(nn.Module):
-    def __init__(self, linear, rank=8, alpha=16):
-        super().__init__()
-        self.linear = linear
-        self.lora = LoRALayer(
-            linear.in_features, linear.out_features, rank, alpha
-        )
+class LinearWithLoRA(nn. Module):
+ def __init__(self, linear, rank=8, alpha=16):
+ super().__init__()
+ self.linear = linear
+ self.lora = LoRALayer(
+ linear.in_features, linear.out_features, rank, alpha
+ )
 
-        for param in self.linear.parameters():
-            param.requires_grad = False
+ for param in self.linear.parameters():
+ param.requires_grad = False
 
-    def forward(self, x):
-        return self.linear(x) + self.lora(x)
+ def forward(self, x):
+ return self.linear(x) + self.lora(x)
 ```
 
 Orijinal doğrusal katman dondurulmuştur. Yalnızca LoRA parametreleri (A ve B) eğitilebilir.
@@ -269,20 +269,20 @@ Orijinal doğrusal katman dondurulmuştur. Yalnızca LoRA parametreleri (A ve B)
 
 ```python
 def inject_lora(model, target_modules, rank=8, alpha=16):
-    for param in model.parameters():
-        param.requires_grad = False
+ for param in model.parameters():
+ param.requires_grad = False
 
-    lora_layers = {}
-    for name, module in model.named_modules():
-        if isinstance(module, nn.Linear):
-            if any(t in name for t in target_modules):
-                parent_name = ".".join(name.split(".")[:-1])
-                child_name = name.split(".")[-1]
-                parent = dict(model.named_modules())[parent_name]
-                lora_linear = LinearWithLoRA(module, rank, alpha)
-                setattr(parent, child_name, lora_linear)
-                lora_layers[name] = lora_linear
-    return lora_layers
+ lora_layers = {}
+ for name, module in model.named_modules():
+ if isinstance(module, nn. Linear):
+ if any(t in name for t in target_modules):
+ parent_name = ".".join(name.split(".")[:-1])
+ child_name = name.split(".")[-1]
+ parent = dict(model.named_modules())[parent_name]
+ lora_linear = LinearWithLoRA(module, rank, alpha)
+ setattr(parent, child_name, lora_linear)
+ lora_layers[name] = lora_linear
+ return lora_layers
 ```
 
 Önce modeldeki her parametreyi dondurun. Sonra model ağacında yürüyün, hedef ad eşleşen doğrusal katmanları bulun ve bunları LoRA ile sarılmış sürümlerle değiştirin. LoRA A ve B matrisleri tüm modeldeki tek eğitilebilir parametrelerdir.
@@ -291,35 +291,35 @@ def inject_lora(model, target_modules, rank=8, alpha=16):
 
 ```python
 def count_parameters(model):
-    total = sum(p.numel() for p in model.parameters())
-    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    frozen = total - trainable
-    return {
-        "total": total,
-        "trainable": trainable,
-        "frozen": frozen,
-        "trainable_pct": 100 * trainable / total if total > 0 else 0
-    }
+ total = sum(p.numel() for p in model.parameters())
+ trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+ frozen = total - trainable
+ return {
+ "total": total,
+ "trainable": trainable,
+ "frozen": frozen,
+ "trainable_pct": 100 * trainable / total if total > 0 else 0
+ }
 ```
 
 ### Adım 5: Ağırlıkları Geri Birleştirme
 
 ```python
 def merge_lora_weights(model):
-    for name, module in model.named_modules():
-        if isinstance(module, LinearWithLoRA):
-            with torch.no_grad():
-                merged = (
-                    module.lora.A @ module.lora.B
-                ) * module.lora.scaling
-                module.linear.weight.data += merged.T
-            parent_name = ".".join(name.split(".")[:-1])
-            child_name = name.split(".")[-1]
-            if parent_name:
-                parent = dict(model.named_modules())[parent_name]
-            else:
-                parent = model
-            setattr(parent, child_name, module.linear)
+ for name, module in model.named_modules():
+ if isinstance(module, LinearWithLoRA):
+ with torch.no_grad():
+ merged = (
+ module.lora. A @ module.lora. B
+ ) * module.lora.scaling
+ module.linear.weight.data += merged. T
+ parent_name = ".".join(name.split(".")[:-1])
+ child_name = name.split(".")[-1]
+ if parent_name:
+ parent = dict(model.named_modules())[parent_name]
+ else:
+ parent = model
+ setattr(parent, child_name, module.linear)
 ```
 
 Birleştirmeden sonra LoRA katmanları gider. Model orijinal ile aynı boyuttadır, adaptasyon ağırlıklara işlenmiştir. Inference overhead'i yoktur.
@@ -328,15 +328,15 @@ Birleştirmeden sonra LoRA katmanları gider. Model orijinal ile aynı boyuttad�
 
 ```python
 def quantize_to_nf4(tensor, block_size=64):
-    blocks = tensor.reshape(-1, block_size)
-    scales = blocks.abs().max(dim=1, keepdim=True).values / 7.0
-    scales = torch.clamp(scales, min=1e-8)
-    quantized = torch.round(blocks / scales).clamp(-8, 7).to(torch.int8)
-    return quantized, scales
+ blocks = tensor.reshape(-1, block_size)
+ scales = blocks.abs().max(dim=1, keepdim=True).values / 7.0
+ scales = torch.clamp(scales, min=1e-8)
+ quantized = torch.round(blocks / scales).clamp(-8, 7).to(torch.int8)
+ return quantized, scales
 
 def dequantize_from_nf4(quantized, scales, original_shape):
-    dequantized = quantized.float() * scales
-    return dequantized.reshape(original_shape)
+ dequantized = quantized.float() * scales
+ return dequantized.reshape(original_shape)
 ```
 
 Bu, ağırlıkları 64'lük bloklarda 16 ayrık seviyeye haritalayarak 4-bit quantization'ı simüle eder. Üretim QLoRA'sı GPU'da gerçek NF4 için bitsandbytes kütüphanesini kullanır.
@@ -345,80 +345,80 @@ Bu, ağırlıkları 64'lük bloklarda 16 ayrık seviyeye haritalayarak 4-bit qua
 
 ```python
 def train_lora(model, data, epochs=5, lr=1e-3, batch_size=4):
-    optimizer = torch.optim.AdamW(
-        [p for p in model.parameters() if p.requires_grad], lr=lr
-    )
-    criterion = nn.MSELoss()
+ optimizer = torch.optim. AdamW(
+ [p for p in model.parameters() if p.requires_grad], lr=lr
+ )
+ criterion = nn. MSELoss()
 
-    losses = []
-    for epoch in range(epochs):
-        epoch_loss = 0.0
-        n_batches = 0
-        indices = torch.randperm(len(data["inputs"]))
+ losses = []
+ for epoch in range(epochs):
+ epoch_loss = 0.0
+ n_batches = 0
+ indices = torch.randperm(len(data["inputs"]))
 
-        for i in range(0, len(indices), batch_size):
-            batch_idx = indices[i:i + batch_size]
-            x = data["inputs"][batch_idx]
-            y = data["targets"][batch_idx]
+ for i in range(0, len(indices), batch_size):
+ batch_idx = indices[i:i + batch_size]
+ x = data["inputs"][batch_idx]
+ y = data["targets"][batch_idx]
 
-            output = model(x)
-            loss = criterion(output, y)
+ output = model(x)
+ loss = criterion(output, y)
 
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+ optimizer.zero_grad()
+ loss.backward()
+ optimizer.step()
 
-            epoch_loss += loss.item()
-            n_batches += 1
+ epoch_loss += loss.item()
+ n_batches += 1
 
-        avg_loss = epoch_loss / n_batches
-        losses.append(avg_loss)
+ avg_loss = epoch_loss / n_batches
+ losses.append(avg_loss)
 
-    return losses
+ return losses
 ```
 
 ### Adım 8: Tam Demo
 
 ```python
 def demo():
-    torch.manual_seed(42)
-    d_model = 256
-    n_classes = 10
+ torch.manual_seed(42)
+ d_model = 256
+ n_classes = 10
 
-    model = nn.Sequential(
-        nn.Linear(d_model, 512),
-        nn.ReLU(),
-        nn.Linear(512, 512),
-        nn.ReLU(),
-        nn.Linear(512, n_classes),
-    )
+ model = nn. Sequential(
+ nn. Linear(d_model, 512),
+ nn. ReLU(),
+ nn. Linear(512, 512),
+ nn. ReLU(),
+ nn. Linear(512, n_classes),
+ )
 
-    n_samples = 500
-    x = torch.randn(n_samples, d_model)
-    y = torch.randint(0, n_classes, (n_samples,))
-    y_onehot = torch.zeros(n_samples, n_classes).scatter_(1, y.unsqueeze(1), 1.0)
+ n_samples = 500
+ x = torch.randn(n_samples, d_model)
+ y = torch.randint(0, n_classes, (n_samples,))
+ y_onehot = torch.zeros(n_samples, n_classes).scatter_(1, y.unsqueeze(1), 1.0)
 
-    data = {"inputs": x, "targets": y_onehot}
+ data = {"inputs": x, "targets": y_onehot}
 
-    params_before = count_parameters(model)
+ params_before = count_parameters(model)
 
-    lora_layers = inject_lora(
-        model, target_modules=["0", "2"], rank=8, alpha=16
-    )
+ lora_layers = inject_lora(
+ model, target_modules=["0", "2"], rank=8, alpha=16
+ )
 
-    params_after = count_parameters(model)
+ params_after = count_parameters(model)
 
-    losses = train_lora(model, data, epochs=20, lr=1e-3)
+ losses = train_lora(model, data, epochs=20, lr=1e-3)
 
-    merge_lora_weights(model)
-    params_merged = count_parameters(model)
+ merge_lora_weights(model)
+ params_merged = count_parameters(model)
 
-    return {
-        "params_before": params_before,
-        "params_after": params_after,
-        "params_merged": params_merged,
-        "losses": losses,
-    }
+ return {
+ "params_before": params_before,
+ "params_after": params_after,
+ "params_merged": params_merged,
+ "losses": losses,
+ }
 ```
 
 Demo küçük bir model oluşturur, iki katmana LoRA enjekte eder, eğitir ve ağırlıkları geri birleştirir. Parametre sayısı LoRA eğitimi sırasında tam eğitilebilirden ~%1'e düşer, sonra birleştirmeden sonra orijinal mimariye geri döner.
@@ -435,11 +435,11 @@ model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B")
 
 lora_config = LoraConfig(
-    task_type=TaskType.CAUSAL_LM,
-    r=16,
-    lora_alpha=32,
-    lora_dropout=0.05,
-    target_modules=["q_proj", "v_proj"],
+ task_type=TaskType. CAUSAL_LM,
+ r=16,
+ lora_alpha=32,
+ lora_dropout=0.05,
+ target_modules=["q_proj", "v_proj"],
 )
 
 model = get_peft_model(model, lora_config)
@@ -452,16 +452,16 @@ QLoRA için bitsandbytes quantization ekleyin:
 from transformers import BitsAndBytesConfig
 
 bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16,
-    bnb_4bit_use_double_quant=True,
+ load_in_4bit=True,
+ bnb_4bit_quant_type="nf4",
+ bnb_4bit_compute_dtype=torch.bfloat16,
+ bnb_4bit_use_double_quant=True,
 )
 
 model = AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-3.1-8B",
-    quantization_config=bnb_config,
-    device_map="auto",
+ "meta-llama/Llama-3.1-8B",
+ quantization_config=bnb_config,
+ device_map="auto",
 )
 
 model = get_peft_model(model, lora_config)
@@ -478,21 +478,21 @@ from datasets import load_dataset
 dataset = load_dataset("tatsu-lab/alpaca", split="train[:5000]")
 
 training_args = TrainingArguments(
-    output_dir="./lora-llama",
-    num_train_epochs=3,
-    per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
-    learning_rate=2e-4,
-    fp16=True,
-    logging_steps=10,
-    save_strategy="epoch",
-    optim="paged_adamw_8bit",
+ output_dir="./lora-llama",
+ num_train_epochs=3,
+ per_device_train_batch_size=4,
+ gradient_accumulation_steps=4,
+ learning_rate=2e-4,
+ fp16=True,
+ logging_steps=10,
+ save_strategy="epoch",
+ optim="paged_adamw_8bit",
 )
 
 trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=dataset,
+ model=model,
+ args=training_args,
+ train_dataset=dataset,
 )
 
 trainer.train()

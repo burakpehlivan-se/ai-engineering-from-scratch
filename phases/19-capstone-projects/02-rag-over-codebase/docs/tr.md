@@ -26,27 +26,27 @@ Artımlı tazelik altyapı sorunudur. Git push bir fark (diff) tetikler: hangi d
 
 ```
 git push --> webhook --> ingest worker (LlamaIndex Workflow)
-                           |
-                           v
-             tree-sitter parse + AST chunk
-                           |
-            +--------------+----------------+
-            v              v                v
-          dense        BM25 index       summary (LLM)
-        (Voyage / bge)  (Tantivy)        (Haiku 4.5)
-            |              |                |
-            +------> Qdrant / pgvector <----+
-                            |
-                            v
-                      symbol graph (Neo4j / kuzu)
-                            |
-  query --> LangGraph agent (retrieve -> rerank -> synth)
-                            |
-                            v
-                 Claude Sonnet 4.7 1M context
-                            |
-                            v
-                 answer + file:line citations
+ |
+ v
+ tree-sitter parse + AST chunk
+ |
+ +--------------+----------------+
+ v v v
+ dense BM25 index summary (LLM)
+ (Voyage / bge) (Tantivy) (Haiku 4.5)
+ | | |
+ +------> Qdrant / pgvector <----+
+ |
+ v
+ symbol graph (Neo4j / kuzu)
+ |
+ query --> LangGraph agent (retrieve -> rerank -> synth)
+ |
+ v
+ Claude Sonnet 4.7 1M context
+ |
+ v
+ answer + file:line citations
 ```
 
 #### Açıklama
@@ -90,15 +90,15 @@ Bu mimari bir git push'tan alıntılı bir yanıta kadar tam veri akışını g�
 
 ```
 $ code-rag ask "how is S3 multipart abort wired into our retry budget?"
-[retrieve]  12 chunks dense + 7 chunks bm25, 16 unique after dedup
-[rerank]    top-5 kept (cohere rerank-3)
-[synth]     claude-sonnet-4.7, cache hit rate 68%, 2.1s
+[retrieve] 12 chunks dense + 7 chunks bm25, 16 unique after dedup
+[rerank] top-5 kept (cohere rerank-3)
+[synth] claude-sonnet-4.7, cache hit rate 68%, 2.1s
 answer:
-  Multipart aborts are triggered by `AbortMultipartOnFail` in
-  services/uploader/retry.go:122-148, which decrements the per-bucket
-  retry budget defined in config/budgets.yaml:34-51 ...
-  citations: [services/uploader/retry.go:122-148, config/budgets.yaml:34-51,
-              libs/s3client/multipart.ts:44-61]
+ Multipart aborts are triggered by `AbortMultipartOnFail` in
+ services/uploader/retry.go:122-148, which decrements the per-bucket
+ retry budget defined in config/budgets.yaml:34-51 ...
+ citations: [services/uploader/retry.go:122-148, config/budgets.yaml:34-51,
+ libs/s3client/multipart.ts:44-61]
 ```
 
 #### Açıklama
@@ -137,7 +137,7 @@ Teslim edilen skill `outputs/skill-codebase-rag.md`. Bir repo korpusu verildiği
 | AST-farkında parçalama | "Fonksiyon-düzey bölünmeler" | Sabit token pencereleri yerine tree-sitter düğüm sınırlarında kod kesmek |
 | Hibrit arama | "Yoğun + seyrek" | BM25 ve vektör aramasını paralel çalıştırın, top-k'yı birleştirin, yeniden sıralayın |
 | Cross-encoder rerank | "İkinci-aşama sıralama" | Her (sorgu, aday) çiftini birlikte puanlayan, kosinüsden daha doğru model |
-| Prompt önbelleği | "Önbelleklenmiş sistem istemi" | 2026 Claude / OpenAI özelliği: tekrar eden önek tokenlarını %90'a kadar indirimli sayar |
+| Prompt önbelleği | "Önbelleklenmiş sistem istemi" | 2026 Claude / OpenAI özelliği: tekrar eden önek token'larını %90'a kadar indirimli sayar |
 | Simge grafı | "Kod grafı" | Dosyalar ve repolar arasında içe aktarma, çağrı, kalıtım kenarları |
 | Alıntı sadakati | "Temellenmiş yanıt oranı" | Kullanıcının bağlayıcıya tıklayıp başvurulan aralığı okuyarak doğrulayabileceği iddiaların oranı |
 | Artımlı yeniden indeksleme | "Push'tan aramaya süre" | Git push'tan değişen simgelerin sorgulanabilir olmasına kadar geçen duvar-saati süresi |

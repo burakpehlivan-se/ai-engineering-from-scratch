@@ -35,12 +35,12 @@ Refusal kuralları:
 <repo>/
 ├── scope_contract.json
 ├── outputs/scope/closed/
-│   └── T-XXX.json
+│ └── T-XXX.json
 ├── tools/
-│   └── scope_check.py
+│ └── scope_check.py
 └── .github/
-    └── workflows/
-        └── scope-check.yml
+ └── workflows/
+ └── scope-check.yml
 ```
 
 Şuraya işaret eden bir "sırada ne okumalı" ile bitir:

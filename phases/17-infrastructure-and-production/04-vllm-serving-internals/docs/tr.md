@@ -1,6 +1,6 @@
 # vLLM Serving Internals: PagedAttention, Continuous Batching, Chunked Prefill
 
-> vLLM'in 2026'daki hakimiyeti tek bir hileye değil, üç birleşik varsayılana dayanır. PagedAttention her zaman açıktır. Continuous batching, yeni istekleri decode iterasyonları arasında aktif batch'e enjekte eder. Chunked prefill, uzun istemleri (prompt) dilimler, böylece decode tokenları asla aç kalmaz. Üçünü de açın ve Llama 3.3 70B FP8, tek bir H100 SXM5 üzerinde 128 eşzamanlıda 2.200-2.400 tok/s iter — kabaca vLLM'in kendi varsayılanının %25 üzerinde ve naif bir PyTorch döngüsünün 3-4 katı. Bu ders, scheduler ve attention çekirdeğini diyagramlayabileceğiniz bir seviyede okur ve `code/main.py`'de vLLM'in yaptığı gibi prefill ve decode'u zamanlayan oyuncak bir continuous batcher ile biter.
+> vLLM'in 2026'daki hakimiyeti tek bir hileye değil, üç birleşik varsayılana dayanır. PagedAttention her zaman açıktır. Continuous batching, yeni istekleri decode iterasyonları arasında aktif batch'e enjekte eder. Chunked prefill, uzun istemleri (prompt) dilimler, böylece decode token'ları asla aç kalmaz. Üçünü de açın ve Llama 3.3 70B FP8, tek bir H100 SXM5 üzerinde 128 eşzamanlıda 2.200-2.400 tok/s iter — kabaca vLLM'in kendi varsayılanının %25 üzerinde ve naif bir PyTorch döngüsünün 3-4 katı. Bu ders, scheduler ve attention çekirdeğini diyagramlayabileceğiniz bir seviyede okur ve `code/main.py`'de vLLM'in yaptığı gibi prefill ve decode'u zamanlayan oyuncak bir continuous batcher ile biter.
 
 **Tür:** Öğrenme
 **Diller:** Python (stdlib, oyuncak continuous batching scheduler)
@@ -46,7 +46,7 @@ Batch boyutu asla sabit bir sayıya doldurulmaz. Çıktılarının farklı konum
 
 ### Chunked prefill TTFT kuyruğunu korur
 
-Prefill hesaplama-bağlıdır (compute-bound). Llama 3.3 70B üzerinde 32k-token'lık bir istem, tek bir H100'de ~800 ms saf prefill sürer. Prefill çalışırken, batch'teki diğer her dizinin decode tokenları bekler. Bir sunma döngüsünde, bir uzun istemin ilk-token gecikmesi (TTFT), düzinelerce diğer kullanıcının tokenlar-arası gecikmesinin (ITL) sarsıntısı haline gelir.
+Prefill hesaplama-bağlıdır (compute-bound). Llama 3.3 70B üzerinde 32k-token'lık bir istem, tek bir H100'de ~800 ms saf prefill sürer. Prefill çalışırken, batch'teki diğer her dizinin decode token'ları bekler. Bir sunma döngüsünde, bir uzun istemin ilk-token gecikmesi (TTFT), düzinelerce diğer kullanıcının token'lar-arası gecikmesinin (ITL) sarsıntısı haline gelir.
 
 Chunked prefill, prefill'i sabit boyutlu parçalara (varsayılan 512 token) böler ve her parçayı bir birim olarak zamanlar. Parçalar arasında scheduler, decode dizilerini bir token ilerletebilir. Mutlak prefill gecikmesinde küçük bir artış (parça başına birkaç ms) karşılığında çok daha düşük decode-zamanı sarsıntısı alırsınız. Karışık yük altında P99 ITL, yayınlanan kıyaslamalarda ~50 ms'den ~15 ms'ye düşer.
 
@@ -72,28 +72,28 @@ vLLM v0.18.0'da `--enable-chunked-prefill`'i draft-model spekülatif decode ile 
 
 ```
 while True:
-    finished = [s for s in RUNNING if s.is_done()]
-    for s in finished: release_blocks(s); RUNNING.remove(s)
+ finished = [s for s in RUNNING if s.is_done()]
+ for s in finished: release_blocks(s); RUNNING.remove(s)
 
-    while WAITING and have_free_blocks_for(WAITING[0]):
-        s = WAITING.pop(0)
-        allocate_initial_blocks(s)
-        RUNNING.append(s)
+ while WAITING and have_free_blocks_for(WAITING[0]):
+ s = WAITING.pop(0)
+ allocate_initial_blocks(s)
+ RUNNING.append(s)
 
-    # schedule prefill chunks + decode in one batch
-    batch = []
-    for s in RUNNING:
-        if s.in_prefill:
-            batch.append(next_prefill_chunk(s))   # e.g. 512 tokens
-        else:
-            batch.append(decode_one_token(s))     # 1 token
+ # schedule prefill chunks + decode in one batch
+ batch = []
+ for s in RUNNING:
+ if s.in_prefill:
+ batch.append(next_prefill_chunk(s)) # e.g. 512 tokens
+ else:
+ batch.append(decode_one_token(s)) # 1 token
 
-    run_forward(batch)                            # one fused GPU call
+ run_forward(batch) # one fused GPU call
 ```
 
 #### Açıklama
 
-Bu sözde kod, vLLM tarzı bir inference scheduler'ın çekirdek döngüsünü gösterir. Her iterasyonda: (1) tamamlanan dizilerin bloklarını serbest bırak ve kaldır; (2) yeterli boş KV bloğu varsa WAITING kuyruğundan yeni dizileri kabul et; (3) RUNNING listesindeki tüm dizileri (hem prefill parçaları hem tek decode tokenları) tek bir birleşik GPU forward'una paketle. Bu, sıralı istek işlemeyi dinamik, asla boş durmayan bir batch'e dönüştürür.
+Bu sözde kod, vLLM tarzı bir inference scheduler'ın çekirdek döngüsünü gösterir. Her iterasyonda: (1) tamamlanan dizilerin bloklarını serbest bırak ve kaldır; (2) yeterli boş KV bloğu varsa WAITING kuyruğundan yeni dizileri kabul et; (3) RUNNING listesindeki tüm dizileri (hem prefill parçaları hem tek decode token'ları) tek bir birleşik GPU forward'una paketle. Bu, sıralı istek işlemeyi dinamik, asla boş durmayan bir batch'e dönüştürür.
 
 `code/main.py`, sahte token sayıları ve sahte forward gecikmesiyle stdlib Python'da tam olarak bu döngüdür. Çalıştırmak, chunked prefill'in uzun bir prefill sırasında decode dizilerini nasıl canlı tuttuğunu gösterir.
 
@@ -129,7 +129,7 @@ Bu ders `outputs/skill-vllm-scheduler-reader.md` üretir. Bir serving konfigüra
 | Continuous batching | "dinamik batching, ama doğru" | Kabul/serbest bırakma kararları her decode iterasyonunda verilir |
 | Chunked prefill | "prefill bölme" | Uzun prefill'i decode ile iç içe geçmiş 512-token dilimlerine böl |
 | TTFT | "ilk token süresi" | Prefill + kuyruk + ağ; uzun istemlerde prefill baskın |
-| ITL | "tokenlar-arası gecikme" | Ardışık decode tokenları arasındaki süre; batch boyutunda baskın |
+| ITL | "token'lar-arası gecikme" | Ardışık decode token'ları arasındaki süre; batch boyutunda baskın |
 | Goodput | "SLO'yu karşılayan verim" | Her isteğin hâlâ TTFT ve ITL hedeflerini karşıladığı token/sn |
 | V1 scheduler | "yeni scheduler" | vLLM'in 2026 scheduler'ı; N-gram spec decode chunked-prefill-uyumlu yol |
 | `--gpu-memory-utilization` | "bellek düğmesi" | Ağırlıklar ve aktivasyonlar yüklendikten sonra KV blokları için ayrılan HBM kesri |

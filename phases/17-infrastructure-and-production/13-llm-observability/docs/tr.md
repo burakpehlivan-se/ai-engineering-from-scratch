@@ -28,7 +28,7 @@ Seçim dört eksen içerir: yığın (LangChain? ham SDK? çok-satıcılı?), li
 
 **Geliştirme platformları** gözlemlenebilirliği eval'lerle, istem yönetimiyle, veri seti versiyonlamayla, oturum replay'ıyla paketler. Deneyler çalıştırırsınız, hangi istemin işe yaradığını görürsünüz, yeni bir istemi veri seti-regresyonuyla eski kazananlara karşı test edersiniz. LangSmith, Langfuse, Comet Opik.
 
-**Ağ geçidi/telemetri araçları** inference çağrılarını işaretler — istem, yanıt, tokenlar, gecikme, model, maliyet. Helicone, SigNoz, OpenLLMetry, Phoenix. Minimalist. OpenTelemetry aracılığıyla ayrı bir eval aracıyla birleştirilebilir.
+**Ağ geçidi/telemetri araçları** inference çağrılarını işaretler — istem, yanıt, token'lar, gecikme, model, maliyet. Helicone, SigNoz, OpenLLMetry, Phoenix. Minimalist. OpenTelemetry aracılığıyla ayrı bir eval aracıyla birleştirilebilir.
 
 ### Langfuse — OSS dengesi
 

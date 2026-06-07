@@ -31,8 +31,8 @@ Her matris, şeklinden bağımsız olarak sırayla üç işlem yapar: döndür, 
 ```
 A = U * Sigma * V^T
 
-      m x n     m x m    m x n    n x n
-     (herhangi) (döndür) (ölçekle) (döndür)
+ m x n m x m m x n n x n
+ (herhangi) (döndür) (ölçekle) (döndür)
 ```
 
 Herhangi bir matris A verildiğinde, SVD onu şu üç çarpana böler:
@@ -42,8 +42,8 @@ Herhangi bir matris A verildiğinde, SVD onu şu üç çarpana böler:
 
 ```mermaid
 graph LR
-    A["Girdi uzayı (n-boyut)\nVeri bulutu\n(rastgele yönelim)"] -->|"V^T\n(döndür)"| B["Ölçeklenmiş uzay\nEksenlerle hizalı\nsonra Sigma ile ölçeklenmiş"]
-    B -->|"U\n(döndür)"| C["Çıktı uzayı (m-boyut)\nÇıktı yönüne\ndöndürülmüş"]
+ A["Girdi uzayı (n-boyut)\nVeri bulutu\n(rastgele yönelim)"] -->|"V^T\n(döndür)"| B["Ölçeklenmiş uzay\nEksenlerle hizalı\nsonra Sigma ile ölçeklenmiş"]
+ B -->|"U\n(döndür)"| C["Çıktı uzayı (m-boyut)\nÇıktı yönüne\ndöndürülmüş"]
 ```
 
 Bunu şöyle düşünün. SVD'ye bir matris veriyorsunuz. Size şunu söylüyor: "Bu matris, girdilerin küresini alır, önce V^T ile döndürür, sonra Sigma ile bir elipsoit olarak uzatır, sonra elipsoiti U ile döndürür." Tekil değerler, elipsoitin eksenlerinin uzunluklarıdır.
@@ -71,7 +71,7 @@ A_tekrar = U @ np.diag(Sigma) @ Vt
 En büyük k tekil değeri tutarak matrisi sıkıştırır:
 
 ```python
-k = 1  # Tek bir bileşen
+k = 1 # Tek bir bileşen
 U_k = U[:, :k]
 Sigma_k = Sigma[:k]
 Vt_k = Vt[:k, :]

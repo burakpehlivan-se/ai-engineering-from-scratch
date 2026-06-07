@@ -32,19 +32,19 @@ Bir algılayıcı n girdi alır, her birini bir ağırlıkla çarpar, toplar, bi
 
 ```mermaid
 graph LR
-    x1["x1"] -- "w1" --> sum["Σ(wi*xi) + b"]
-    x2["x2"] -- "w2" --> sum
-    x3["x3"] -- "w3" --> sum
-    bias["bias"] --> sum
-    sum --> step["step(z)"]
-    step --> out["çıkış (0 veya 1)"]
+ x1["x1"] -- "w1" --> sum["Σ(wi*xi) + b"]
+ x2["x2"] -- "w2" --> sum
+ x3["x3"] -- "w3" --> sum
+ bias["bias"] --> sum
+ sum --> step["step(z)"]
+ step --> out["çıkış (0 veya 1)"]
 ```
 
 Basamak fonksiyonu acımasızdır: ağırlıklı toplam artı bias >= 0 ise, 1 çıktısı verir. Aksi halde, 0 çıktısı verir.
 
 ```
-step(z) = 1  eğer z >= 0
-           0  eğer z < 0
+step(z) = 1 eğer z >= 0
+ 0 eğer z < 0
 ```
 
 Bu bir doğrusal sınıflandırıcıdır. Ağırlıklar ve bias, girdi uzayını iki bölgeye ayıran bir çizgiyi (veya yüksek boyutlarda hiperdüzlemi) tanımlar.
@@ -54,16 +54,16 @@ Bu bir doğrusal sınıflandırıcıdır. Ağırlıklar ve bias, girdi uzayını
 İki girdi için, algılayıcı 2B uzayda bir çizgi çizer:
 
 ```
-  x2
-  ┤
-  │  Sınıf 1        /
-  │    (0)          /
-  │                /
-  │               / w1·x1 + w2·x2 + b = 0
-  │              /
-  │             /     Sınıf 2
-  │            /        (1)
-  ┼───────────/──────────── x1
+ x2
+ ┤
+ │ Sınıf 1 /
+ │ (0) /
+ │ /
+ │ / w1·x1 + w2·x2 + b = 0
+ │ /
+ │ / Sınıf 2
+ │ / (1)
+ ┼───────────/──────────── x1
 ```
 
 Çizginin bir tarafındaki her şey 0 çıktısı verir. Diğer tarafındaki her şey 1 çıktısı verir. Eğitim, sınıfları doğru bir şekilde ayırene kadar bu çizgiyi hareket ettirir.
@@ -74,12 +74,12 @@ Algılayıcı öğrenme kuralı basittir:
 
 ```
 Her eğitim örneği (x, y_gercek) için:
-    y_tahmin = predict(x)
-    hata = y_gercek - y_tahmin
+ y_tahmin = predict(x)
+ hata = y_gercek - y_tahmin
 
-    Her ağırlık için:
-        w_i = w_i + ogrenme_hizi * hata * x_i
-    bias = bias + ogrenme_hizi * hata
+ Her ağırlık için:
+ w_i = w_i + ogrenme_hizi * hata * x_i
+ bias = bias + ogrenme_hizi * hata
 ```
 
 Tahmin doğruysa, hata = 0, hiçbir şey değişmez. 0 tahmin etmesi gerekirken 1 tahmin ederse, ağırlıklar artar. 1 tahmin etmesi gerekirken 0 tahmin ederse, ağırlıklar azalır. Öğrenme hızı her ayarlamanın ne kadar büyük olduğunu kontrol eder.
@@ -89,12 +89,12 @@ Tahmin doğruysa, hata = 0, hiçbir şey değişmez. 0 tahmin etmesi gerekirken 
 İşte burada bozulur. Bu mantık kapılarına bakın:
 
 ```
-AND kapısı:           OR kapısı:            XOR kapısı:
-x1  x2  çıktı         x1  x2  çıktı         x1  x2  çıktı
-0   0   0           0   0   0           0   0   0
-0   1   0           0   1   1           0   1   1
-1   0   0           1   0   1           1   0   1
-1   1   1           1   1   1           1   1   0
+AND kapısı: OR kapısı: XOR kapısı:
+x1 x2 çıktı x1 x2 çıktı x1 x2 çıktı
+0 0 0 0 0 0 0 0 0
+0 1 0 0 1 1 0 1 1
+1 0 0 1 0 1 1 0 1
+1 1 1 1 1 1 1 1 0
 ```
 
 AND ve OR doğrusal olarak ayrılabilir: 0'lardan 1'leri ayırmak için tek bir çizgi çizebilirsiniz. XOR değildir. [0,1] ve [1,0] noktalarını [0,0] ve [1,1]'den ayıran tek bir çizgi çizilemez.
@@ -110,16 +110,16 @@ XOR'u çözmek için iki katmanlı bir ağ kullanın:
 ```python
 # XOR'u çözen iki katmanlı ağ
 def xor_network(x1, x2):
-    # 1. katman
-    and_gate = 1 if (x1 == 1 and x2 == 1) else 0
-    or_gate = 1 if (x1 == 1 or x2 == 1) else 0
-    
-    # 2. katman
-    # XOR = OR AND (NOT AND)
-    nand_gate = 1 if and_gate == 0 else 0
-    xor = 1 if (or_gate == 1 and nand_gate == 1) else 0
-    
-    return xor
+ # 1. katman
+ and_gate = 1 if (x1 == 1 and x2 == 1) else 0
+ or_gate = 1 if (x1 == 1 or x2 == 1) else 0
+ 
+ # 2. katman
+ # XOR = OR AND (NOT AND)
+ nand_gate = 1 if and_gate == 0 else 0
+ xor = 1 if (or_gate == 1 and nand_gate == 1) else 0
+ 
+ return xor
 ```
 
 ### Sigmoid Aktivasyon ile Eğitim

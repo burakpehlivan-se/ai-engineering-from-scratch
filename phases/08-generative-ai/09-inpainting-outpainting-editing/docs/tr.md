@@ -65,9 +65,9 @@ Standart koşulsuz bir diffüzyon modelini koruyun. Her ters adımda yeniden ör
 
 ```python
 def sample_data(rng):
-    cluster = rng.choice([0, 1])
-    center = [-1.0] * 5 if cluster == 0 else [1.0] * 5
-    return [c + rng.gauss(0, 0.2) for c in center], cluster
+ cluster = rng.choice([0, 1])
+ center = [-1.0] * 5 if cluster == 0 else [1.0] * 5
+ return [c + rng.gauss(0, 0.2) for c in center], cluster
 ```
 
 #### Açıklama
@@ -82,12 +82,12 @@ Standart DDPM. Ağ, 5-D gürültülü girdi için 5-D gürültü tahmini üretir
 
 ```python
 def inpaint_step(x_t, mask, clean_image, alpha_bars, t, rng):
-    # replace unmasked dims with a freshly noised version of the clean source
-    a_bar = alpha_bars[t]
-    for i in range(len(x_t)):
-        if not mask[i]:
-            x_t[i] = math.sqrt(a_bar) * clean_image[i] + math.sqrt(1 - a_bar) * rng.gauss(0, 1)
-    # ...then run the normal reverse step on x_t
+ # replace unmasked dims with a freshly noised version of the clean source
+ a_bar = alpha_bars[t]
+ for i in range(len(x_t)):
+ if not mask[i]:
+ x_t[i] = math.sqrt(a_bar) * clean_image[i] + math.sqrt(1 - a_bar) * rng.gauss(0, 1)
+ # ...then run the normal reverse step on x_t
 ```
 
 #### Açıklama

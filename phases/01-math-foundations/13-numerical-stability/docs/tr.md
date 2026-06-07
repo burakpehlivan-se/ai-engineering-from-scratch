@@ -46,19 +46,19 @@ Anlamlı, hassasiyeti belirler (kaç anlamlı basamak). Üs, aralığı belirler
 **1. Taşma (Overflow):** Sayı aralık dışına çıkar
 ```python
 import numpy as np
-x = np.float32(1e38) * 2  # inf olur
+x = np.float32(1e38) * 2 # inf olur
 ```
 
 **2. Taşma Altı (Underflow):** Sayı çok küçük olur ve sıfır olur
 ```python
-x = np.float32(1e-45) / 2  # 0 olur
+x = np.float32(1e-45) / 2 # 0 olur
 ```
 
 **3. Felaket İptali:** Büyük sayılar arasındaki küçük farkları kaybetme
 ```python
 a = np.float32(1.0000001)
 b = np.float32(1.0000000)
-print(a - b)  # 0 olabilir
+print(a - b) # 0 olabilir
 ```
 
 ### Sayısal Kararlı Softmax
@@ -67,9 +67,9 @@ Softmax, `exp()` kullanır. Büyük değerler taşar. Çözüm: maksimumu çıka
 
 ```python
 def kararli_softmax(z):
-    z = z - np.max(z)  # Maksimumu çıkar
-    exp_z = np.exp(z)
-    return exp_z / exp_z.sum()
+ z = z - np.max(z) # Maksimumu çıkar
+ exp_z = np.exp(z)
+ return exp_z / exp_z.sum()
 ```
 
 #### Açıklama
@@ -79,9 +79,9 @@ Maksimumu çıkarmak, değerleri negatif yaparak taşmayı önler. Sonuç aynıd
 
 ```python
 def kararli_ce(tahmin, hedef):
-    tahmin = tahmin - np.max(tahmin)  # Kararlı softmax
-    log_tahmin = np.log(tahmin + 1e-12)  # Log(0) önlemek için küçük epsilon
-    return -np.sum(hedef * log_tahmin)
+ tahmin = tahmin - np.max(tahmin) # Kararlı softmax
+ log_tahmin = np.log(tahmin + 1e-12) # Log(0) önlemek için küçük epsilon
+ return -np.sum(hedef * log_tahmin)
 ```
 
 ### bfloat16 vs float16

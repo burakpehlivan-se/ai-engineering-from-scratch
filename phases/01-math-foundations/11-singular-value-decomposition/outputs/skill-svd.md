@@ -69,7 +69,7 @@ A_compressed = U[:, :k] @ np.diag(S[:k]) @ Vt[:k, :]
 ```python
 U, S, Vt = np.linalg.svd(A, full_matrices=False)
 S_inv = np.array([1/s if s > 1e-10 else 0 for s in S])
-x = Vt.T @ np.diag(S_inv) @ U.T @ b
+x = Vt. T @ np.diag(S_inv) @ U. T @ b
 ```
 
 ### Gürültü giderme

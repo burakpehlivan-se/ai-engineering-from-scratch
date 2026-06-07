@@ -39,14 +39,14 @@ Sadece-decoder-spotlight'ı kazandı, ancak encoder-decoder hiç gitmedi.
 ### İleriye doğru döngü
 
 ```
-kaynak token'ları ─▶ encoder ─▶ (N_src, d_model)  ──┐
-                                                     │
-hedef token'ları ─▶ decoder bloğu                    │
-                 ├─▶ maskelenmiş self-attention       │
-                 ├─▶ çapraz-dikkat ◀─────────────────┘
-                 └─▶ FFN
-                ↓
-              bir sonraki token logit'leri
+kaynak token'ları ─▶ encoder ─▶ (N_src, d_model) ──┐
+ │
+hedef token'ları ─▶ decoder bloğu │
+ ├─▶ maskelenmiş self-attention │
+ ├─▶ çapraz-dikkat ◀─────────────────┘
+ └─▶ FFN
+ ↓
+ bir sonraki token logit'leri
 ```
 
 #### Açıklama
@@ -101,11 +101,11 @@ GPT ile aynı otonom üretim. Açgözlü / ışın / top-p örnelemesi uygulanı
 
 ```python
 def corrupt_spans(tokens, mask_rate=0.15, mean_span=3.0, rng=None):
-    """Pick spans summing to ~mask_rate of tokens. Return (corrupted_input, target)."""
-    n = len(tokens)
-    n_mask = max(1, int(n * mask_rate))
-    n_spans = max(1, int(round(n_mask / mean_span)))
-    ...
+ """Pick spans summing to ~mask_rate of tokens. Return (corrupted_input, target)."""
+ n = len(tokens)
+ n_mask = max(1, int(n * mask_rate))
+ n_spans = max(1, int(round(n_mask / mean_span)))
+ ...
 ```
 
 #### Açıklama

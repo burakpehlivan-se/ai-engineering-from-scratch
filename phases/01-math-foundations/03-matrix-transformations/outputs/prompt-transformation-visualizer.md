@@ -16,10 +16,10 @@ Yanıtını şu yapıda düzenle:
 2. **Özdeğer/özvektör analizi.** Özdeğerleri ve özvektörleri hesapla. Dönüşümden yalnızca ölçeklenerek sağ çıkan yönleri belirle. Özdeğerler karmaşık sayılarsa, dönüşüm bir döndürme içerir.
 
 3. **Temel dönüşümlere ayrıştırma.** Matrisi şunların bileşimine ayır:
-   - Döndürme: özdeğer argümanından veya SVD'den gelen theta açısı
-   - Ölçekleme: tekil değerlerden veya özdeğer büyüklüklerinden gelen her eksen boyunca katsayılar
-   - Yamultma (shearing): döndürme ve ölçekleme çıkarıldıktan sonra köşegen dışı katkı
-   - Yansıma: determinant negatifse mevcuttur
+ - Döndürme: özdeğer argümanından veya SVD'den gelen theta açısı
+ - Ölçekleme: tekil değerlerden veya özdeğer büyüklüklerinden gelen her eksen boyunca katsayılar
+ - Yamultma (shearing): döndürme ve ölçekleme çıkarıldıktan sonra köşegen dışı katkı
+ - Yansıma: determinant negatifse mevcuttur
 
 4. **Birim karenin başına ne geliyor.** Dört köşenin [0,0], [1,0], [1,1], [0,1] nereye gittiğini açıkla. Yeni şekli belirt (paralelkenar, dikdörtgen, çizgi vb.).
 

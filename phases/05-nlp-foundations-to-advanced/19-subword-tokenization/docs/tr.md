@@ -43,19 +43,19 @@ Kural:
 
 ```python
 def train_bpe(corpus, num_merges):
-    vocab = {tuple(word) + ("</w>",): count for word, count in corpus.items()}
-    merges = []
-    for _ in range(num_merges):
-        pairs = Counter()
-        for symbols, freq in vocab.items():
-            for a, b in zip(symbols, symbols[1:]):
-                pairs[(a, b)] += freq
-        if not pairs:
-            break
-        best = pairs.most_common(1)[0][0]
-        merges.append(best)
-        vocab = apply_merge(vocab, best)
-    return merges
+ vocab = {tuple(word) + ("</w>",): count for word, count in corpus.items()}
+ merges = []
+ for _ in range(num_merges):
+ pairs = Counter()
+ for symbols, freq in vocab.items():
+ for a, b in zip(symbols, symbols[1:]):
+ pairs[(a, b)] += freq
+ if not pairs:
+ break
+ best = pairs.most_common(1)[0][0]
+ merges.append(best)
+ vocab = apply_merge(vocab, best)
+ return merges
 ```
 
 #### Açıklama
@@ -65,15 +65,15 @@ Algoritmanın kodladığı üç gerçek. `</w>` kelime sonunu işaretler, böyle
 
 ```python
 def encode_bpe(word, merges):
-    symbols = list(word) + ["</w>"]
-    for a, b in merges:
-        i = 0
-        while i < len(symbols) - 1:
-            if symbols[i] == a and symbols[i + 1] == b:
-                symbols = symbols[:i] + [a + b] + symbols[i + 2:]
-            else:
-                i += 1
-    return symbols
+ symbols = list(word) + ["</w>"]
+ for a, b in merges:
+ i = 0
+ while i < len(symbols) - 1:
+ if symbols[i] == a and symbols[i + 1] == b:
+ symbols = symbols[:i] + [a + b] + symbols[i + 2:]
+ else:
+ i += 1
+ return symbols
 ```
 
 #### Açıklama
@@ -84,16 +84,16 @@ Basit O(n·|merges|). Production uygulamaları (tiktoken, HF Tokenizers) önceli
 ```python
 import sentencepiece as spm
 
-spm.SentencePieceTrainer.train(
-    input="corpus.txt",
-    model_prefix="my_tokenizer",
-    vocab_size=8000,
-    model_type="bpe",          # or "unigram"
-    character_coverage=0.9995, # lower for CJK (e.g. 0.9995 for English, 0.995 for Japanese)
-    normalization_rule_name="nmt_nfkc",
+spm. SentencePieceTrainer.train(
+ input="corpus.txt",
+ model_prefix="my_tokenizer",
+ vocab_size=8000,
+ model_type="bpe", # or "unigram"
+ character_coverage=0.9995, # lower for CJK (e.g. 0.9995 for English, 0.995 for Japanese)
+ normalization_rule_name="nmt_nfkc",
 )
 
-sp = spm.SentencePieceProcessor(model_file="my_tokenizer.model")
+sp = spm. SentencePieceProcessor(model_file="my_tokenizer.model")
 print(sp.encode("untokenizable", out_type=str))
 # ['▁un', 'token', 'izable']
 ```
@@ -106,8 +106,8 @@ Dikkat: ön-tokenizasyon gerekmez, boşluk `▁` olarak kodlanır, `character_co
 ```python
 import tiktoken
 enc = tiktoken.get_encoding("o200k_base")
-print(enc.encode("untokenizable"))        # [127340, 101028]
-print(len(enc.encode("Hello, world!")))   # 4
+print(enc.encode("untokenizable")) # [127340, 101028]
+print(len(enc.encode("Hello, world!"))) # 4
 ```
 
 #### Açıklama

@@ -44,13 +44,13 @@ Sonuç: Whisper large-v3, aksanlara, gırtılağa ve sıfır temiz etiketli veri
 Decoder istemi, modele ne yapacağını söyleyen kontrol token'larıyla başlar:
 
 ```
-<|startoftranscript|>  <|en|>  <|transcribe|>  <|0.00|>
+<|startoftranscript|> <|en|> <|transcribe|> <|0.00|>
 ```
 
 veya
 
 ```
-<|startoftranscript|>  <|fr|>  <|translate|>   <|0.00|>
+<|startoftranscript|> <|fr|> <|translate|> <|0.00|>
 ```
 
 #### Açıklama
@@ -104,10 +104,10 @@ Tam mel spektrogramı FFT gerektirir. `librosa` olmadan hattı gösteren basitle
 
 ```python
 def frame_signal(x, frame_size=400, hop=160):
-    frames = []
-    for start in range(0, len(x) - frame_size + 1, hop):
-        frames.append(x[start:start + frame_size])
-    return frames
+ frames = []
+ for start in range(0, len(x) - frame_size + 1, hop):
+ frames.append(x[start:start + frame_size])
+ return frames
 ```
 
 #### Açıklama
@@ -121,10 +121,10 @@ Whisper her zaman 30 saniyelik parçaları işler. Spektrogramı 3.000 çerçeve
 
 ```python
 def whisper_prompt(lang="en", task="transcribe", timestamps=True):
-    tokens = ["<|startoftranscript|>", f"<|{lang}|>", f"<|{task}|>"]
-    if not timestamps:
-        tokens.append("<|notimestamps|>")
-    return tokens
+ tokens = ["<|startoftranscript|>", f"<|{lang}|>", f"<|{task}|>"]
+ if not timestamps:
+ tokens.append("<|notimestamps|>")
+ return tokens
 ```
 
 #### Açıklama
@@ -147,7 +147,7 @@ from faster_whisper import WhisperModel
 model = WhisperModel("large-v3-turbo", compute_type="int8_float16")
 segments, info = model.transcribe("meeting.wav", vad_filter=True)
 for s in segments:
-    print(f"{s.start:.2f} - {s.end:.2f}: {s.text}")
+ print(f"{s.start:.2f} - {s.end:.2f}: {s.text}")
 ```
 
 #### Açıklama

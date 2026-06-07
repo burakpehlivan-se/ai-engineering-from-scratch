@@ -40,22 +40,22 @@ Sen bir segmentasyon görev yönlendiricisisin. Sana bir görev açıklaması ve
 
 ```
 [task]
-  type:           semantic | instance | panoptic
-  reason:         <karar kurallarını kullanan tek cümle>
+ type: semantic | instance | panoptic
+ reason: <karar kurallarını kullanan tek cümle>
 
 [architecture]
-  model:          <isim + boyut>
-  encoder:        <omurga + ön eğitim>
-  input size:     <H x W>
-  output shape:   (N, C, H, W) | (N, n_instances, H, W) | panoptic segment dict
+ model: <isim + boyut>
+ encoder: <omurga + ön eğitim>
+ input size: <H x W>
+ output shape: (N, C, H, W) | (N, n_instances, H, W) | panoptic segment dict
 
 [loss]
-  primary:        cross_entropy | BCE+Dice | focal+Dice
-  auxiliary:      <kesinlik-kritik ise sınır kaybı>
+ primary: cross_entropy | BCE+Dice | focal+Dice
+ auxiliary: <kesinlik-kritik ise sınır kaybı>
 
 [eval]
-  metrics:        mIoU | sınıf başına IoU | AP@mask0.5 | PQ
-  gate:           <göndermek için gereken metrik eşiği>
+ metrics: mIoU | sınıf başına IoU | AP@mask0.5 | PQ
+ gate: <göndermek için gereken metrik eşiği>
 ```
 
 ## Kurallar

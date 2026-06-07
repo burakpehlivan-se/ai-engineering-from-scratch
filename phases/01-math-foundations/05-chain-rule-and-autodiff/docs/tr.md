@@ -41,8 +41,8 @@ Zincir boyunca türevleri çarpın. Her bağlantı kendi yerel türevini katkıd
 Örnek: `y = sin(x^2)`
 
 ```
-g(x) = x^2       g'(x) = 2x
-f(g) = sin(g)     f'(g) = cos(g)
+g(x) = x^2 g'(x) = 2x
+f(g) = sin(g) f'(g) = cos(g)
 
 dy/dx = cos(x^2) * 2x
 ```
@@ -63,12 +63,12 @@ Bir hesaplama grafiği zincir kuralını görsel yapar. Her işlem bir düğüm 
 
 ```mermaid
 graph LR
-    A[girdi] --> B[x²]
-    B --> C[sin(x²)]
-    C --> D[kayıp]
-    D --> C2[geri yayılım]
-    C2 --> B2[geri yayılım]
-    B2 --> A2[gradyan]
+ A[girdi] --> B[x²]
+ B --> C[sin(x²)]
+ C --> D[kayıp]
+ D --> C2[geri yayılım]
+ C2 --> B2[geri yayılım]
+ B2 --> A2[gradyan]
 ```
 
 İleri besleme: x → x² → sin(x²) → kayıp
@@ -84,8 +84,8 @@ import torch
 
 x = torch.tensor(2.0, requires_grad=True)
 y = x ** 2 + 3 * x + 1
-y.backward()  # Türevleri hesapla
-print(x.grad)  # dy/dx = 2x + 3 = 7.0
+y.backward() # Türevleri hesapla
+print(x.grad) # dy/dx = 2x + 3 = 7.0
 ```
 
 #### Açıklama

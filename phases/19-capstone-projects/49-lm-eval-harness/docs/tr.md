@@ -28,13 +28,13 @@ Tuzak, demeti tek bir modele aşırı uydurmaktır. Düzeltme, aynı tuzağın t
 
 ```mermaid
 flowchart TD
-  tasks[görev JSONL'leri: prompt, targets, metric, extras] --> loader[load_all_tasks]
-  loader --> runner[run_leaderboard]
-  runner --> adapter[ModelAdapter.generate batch]
-  adapter --> metrics[METRIC_FNS ada göre dağıtım]
-  metrics --> scores[örnek başına skor]
-  scores --> board[Liderlik tablosu: görev başına + genel]
-  board --> out[leaderboard.json]
+ tasks[görev JSONL'leri: prompt, targets, metric, extras] --> loader[load_all_tasks]
+ loader --> runner[run_leaderboard]
+ runner --> adapter[ModelAdapter.generate batch]
+ adapter --> metrics[METRIC_FNS ada göre dağıtım]
+ metrics --> scores[örnek başına skor]
+ scores --> board[Liderlik tablosu: görev başına + genel]
+ board --> out[leaderboard.json]
 ```
 
 ### Görev belirtimi
@@ -49,11 +49,11 @@ Puanlama yardımcıları gerektiren metrikler için `extras` yan yükü taşır:
 
 ```json
 {
-  "id": "code-00",
-  "prompt": "python: write a function f that doubles its input",
-  "targets": ["ok"],
-  "metric": "code_exec",
-  "extras": {"io_pairs": [[1, 2], [3, 6]]}
+ "id": "code-00",
+ "prompt": "python: write a function f that doubles its input",
+ "targets": ["ok"],
+ "metric": "code_exec",
+ "extras": {"io_pairs": [[1, 2], [3, 6]]}
 }
 ```
 
@@ -85,9 +85,9 @@ Her metrik, `(prediction, targets, extras) -> float in [0.0, 1.0]` fonksiyonudur
 
 ```python
 class ModelAdapter(Protocol):
-    def generate(self, prompts: Sequence[str]) -> List[str]: ...
-    @property
-    def name(self) -> str: ...
+ def generate(self, prompts: Sequence[str]) -> List[str]: ...
+ @property
+ def name(self) -> str: ...
 ```
 
 Adaptör dikiştir. Ders, beş fixture görevindeki her prompt için doğru yanıtı döndüren deterministik bir kalıp eşleştirici olan `ToyAdapter`'ı gönderir. Gerçek bir adaptör modeli çağırır ve çıktısını döndürür. Demet hangisi olduğunu umursamaz.
@@ -98,11 +98,11 @@ Adaptör dikiştir. Ders, beş fixture görevindeki her prompt için doğru yan�
 
 ```mermaid
 flowchart LR
-  examples[N örnek] --> batches[B boyutunda batchler]
-  batches --> adapter[adapter.generate]
-  adapter --> per[örnek başına skor 0..1]
-  per --> avg[görev skoru]
-  avg --> over[genel = görev skorlarının ortalaması]
+ examples[N örnek] --> batches[B boyutunda batchler]
+ batches --> adapter[adapter.generate]
+ adapter --> per[örnek başına skor 0..1]
+ per --> avg[görev skoru]
+ avg --> over[genel = görev skorlarının ortalaması]
 ```
 
 ## İnşa Et
@@ -143,18 +143,18 @@ Gerçek bir modeli takmak için bir adaptör yazın. Şekil:
 
 ```python
 class HttpAdapter:
-    name = "vendor.v1"
+ name = "vendor.v1"
 
-    def __init__(self, endpoint, api_key):
-        self.endpoint = endpoint
-        self.api_key = api_key
+ def __init__(self, endpoint, api_key):
+ self.endpoint = endpoint
+ self.api_key = api_key
 
-    def generate(self, prompts):
-        out = []
-        for prompt in prompts:
-            response = http_post(self.endpoint, prompt, self.api_key)
-            out.append(response["text"])
-        return out
+ def generate(self, prompts):
+ out = []
+ for prompt in prompts:
+ response = http_post(self.endpoint, prompt, self.api_key)
+ out.append(response["text"])
+ return out
 ```
 
 `main()`'in başında `ToyAdapter`'ı `HttpAdapter` ile değiştirin. Demet, görevler, metrikler ve liderlik tablosu aynı kalır.

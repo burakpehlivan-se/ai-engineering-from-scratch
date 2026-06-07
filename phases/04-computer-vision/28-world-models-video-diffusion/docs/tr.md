@@ -30,21 +30,21 @@ Bu ders, Phase 4 için "büyük resim" dersidir. Görüntü üretimi, video anla
 
 ```mermaid
 flowchart LR
-    subgraph GEN["Saf video üretimi"]
-        G1["Metin / görüntü istemi"] --> G2["Video DiT"] --> G3["Video kareleri"]
-    end
-    subgraph ACTION["Eylem-koşullu dünya modeli"]
-        A1["Geçmiş kareler + eylem"] --> A2["Gizli-eylem video DiT"] --> A3["Sonraki kareler"]
-        A3 --> A1
-    end
-    subgraph RL["RL için dünya modelleri (DreamerV3)"]
-        R1["Durum + eylem"] --> R2["Gizli geçiş modeli"] --> R3["Sonraki gizli + ödül"]
-        R3 --> R1
-    end
+ subgraph GEN["Saf video üretimi"]
+ G1["Metin / görüntü istemi"] --> G2["Video DiT"] --> G3["Video kareleri"]
+ end
+ subgraph ACTION["Eylem-koşullu dünya modeli"]
+ A1["Geçmiş kareler + eylem"] --> A2["Gizli-eylem video DiT"] --> A3["Sonraki kareler"]
+ A3 --> A1
+ end
+ subgraph RL["RL için dünya modelleri (DreamerV3)"]
+ R1["Durum + eylem"] --> R2["Gizli geçiş modeli"] --> R3["Sonraki gizli + ödül"]
+ R3 --> R1
+ end
 
-    style GEN fill:#dbeafe,stroke:#2563eb
-    style ACTION fill:#fef3c7,stroke:#d97706
-    style RL fill:#dcfce7,stroke:#16a34a
+ style GEN fill:#dbeafe,stroke:#2563eb
+ style ACTION fill:#fef3c7,stroke:#d97706
+ style RL fill:#dcfce7,stroke:#16a34a
 ```
 
 - **Sora 2**, istemlerle koşullandırılmış saf video üretimidir. Eylem arayüzü yoktur. Orta yayılımda "yönlendiremezsiniz."
@@ -54,10 +54,10 @@ flowchart LR
 ### Video DiT mimarisi
 
 ```
-Video gizli uzayı:     (C, T, H, W)
-Patch'leme (uzamsal):  kare başına P_h x P_w patch ızgarası
+Video gizli uzayı: (C, T, H, W)
+Patch'leme (uzamsal): kare başına P_h x P_w patch ızgarası
 Patch'leme (zamansal): P_t kareyi bir zamansal patche grupla
-Sonuç token'ları:      (T / P_t) * (H / P_h) * (W / P_w) token
+Sonuç token'ları: (T / P_t) * (H / P_h) * (W / P_w) token
 ```
 
 Pozisyon kodlaması 3D'dir: (t, h, w) koordinatı başına döner (rotary) veya öğrenilmiş bir yerleştirme (embedding). Dikkat şunlar olabilir:
@@ -130,24 +130,24 @@ import torch
 import torch.nn as nn
 
 
-class VideoPatch3D(nn.Module):
-    def __init__(self, in_channels=4, dim=64, patch_t=2, patch_h=2, patch_w=2):
-        super().__init__()
-        self.proj = nn.Conv3d(
-            in_channels, dim,
-            kernel_size=(patch_t, patch_h, patch_w),
-            stride=(patch_t, patch_h, patch_w),
-        )
-        self.patch_t = patch_t
-        self.patch_h = patch_h
-        self.patch_w = patch_w
+class VideoPatch3D(nn. Module):
+ def __init__(self, in_channels=4, dim=64, patch_t=2, patch_h=2, patch_w=2):
+ super().__init__()
+ self.proj = nn. Conv3d(
+ in_channels, dim,
+ kernel_size=(patch_t, patch_h, patch_w),
+ stride=(patch_t, patch_h, patch_w),
+ )
+ self.patch_t = patch_t
+ self.patch_h = patch_h
+ self.patch_w = patch_w
 
-    def forward(self, x):
-        # x: (N, C, T, H, W)
-        x = self.proj(x)
-        n, c, t, h, w = x.shape
-        tokens = x.reshape(n, c, t * h * w).transpose(1, 2)
-        return tokens, (t, h, w)
+ def forward(self, x):
+ # x: (N, C, T, H, W)
+ x = self.proj(x)
+ n, c, t, h, w = x.shape
+ tokens = x.reshape(n, c, t * h * w).transpose(1, 2)
+ return tokens, (t, h, w)
 ```
 
 #### Açıklama
@@ -159,27 +159,27 @@ Döner Pozisyon Yerleştirmeleri (Rotary Position Embeddings — RoPE) `t`, `h`,
 
 ```python
 def rope_3d(tokens, t_dim, h_dim, w_dim, grid):
-    """
-    tokens: (N, T*H*W, D)
-    grid: (T, H, W) boyutları
-    t_dim + h_dim + w_dim == D
-    """
-    T, H, W = grid
-    n, seq, d = tokens.shape
-    if t_dim + h_dim + w_dim != d:
-        raise ValueError(f"t_dim+h_dim+w_dim ({t_dim}+{h_dim}+{w_dim}) D={d}'ye eşit olmalı")
-    assert seq == T * H * W
-    t_idx = torch.arange(T, device=tokens.device).repeat_interleave(H * W)
-    h_idx = torch.arange(H, device=tokens.device).repeat_interleave(W).repeat(T)
-    w_idx = torch.arange(W, device=tokens.device).repeat(T * H)
-    # Basitleştirilmiş: kanalları frekanslarla ölçeklendir. Gerçek RoPE çiftleri döndürür.
-    freqs_t = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(t_dim // 2, device=tokens.device) / (t_dim // 2))
-    freqs_h = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(h_dim // 2, device=tokens.device) / (h_dim // 2))
-    freqs_w = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(w_dim // 2, device=tokens.device) / (w_dim // 2))
-    emb_t = torch.cat([torch.sin(t_idx[:, None] * freqs_t), torch.cos(t_idx[:, None] * freqs_t)], dim=-1)
-    emb_h = torch.cat([torch.sin(h_idx[:, None] * freqs_h), torch.cos(h_idx[:, None] * freqs_h)], dim=-1)
-    emb_w = torch.cat([torch.sin(w_idx[:, None] * freqs_w), torch.cos(w_idx[:, None] * freqs_w)], dim=-1)
-    return tokens + torch.cat([emb_t, emb_h, emb_w], dim=-1)
+ """
+ tokens: (N, T*H*W, D)
+ grid: (T, H, W) boyutları
+ t_dim + h_dim + w_dim == D
+ """
+ T, H, W = grid
+ n, seq, d = tokens.shape
+ if t_dim + h_dim + w_dim != d:
+ raise ValueError(f"t_dim+h_dim+w_dim ({t_dim}+{h_dim}+{w_dim}) D={d}'ye eşit olmalı")
+ assert seq == T * H * W
+ t_idx = torch.arange(T, device=tokens.device).repeat_interleave(H * W)
+ h_idx = torch.arange(H, device=tokens.device).repeat_interleave(W).repeat(T)
+ w_idx = torch.arange(W, device=tokens.device).repeat(T * H)
+ # Basitleştirilmiş: kanalları frekanslarla ölçeklendir. Gerçek RoPE çiftleri döndürür.
+ freqs_t = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(t_dim // 2, device=tokens.device) / (t_dim // 2))
+ freqs_h = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(h_dim // 2, device=tokens.device) / (h_dim // 2))
+ freqs_w = torch.exp(-torch.log(torch.tensor(10000.0)) * torch.arange(w_dim // 2, device=tokens.device) / (w_dim // 2))
+ emb_t = torch.cat([torch.sin(t_idx[:, None] * freqs_t), torch.cos(t_idx[:, None] * freqs_t)], dim=-1)
+ emb_h = torch.cat([torch.sin(h_idx[:, None] * freqs_h), torch.cos(h_idx[:, None] * freqs_h)], dim=-1)
+ emb_w = torch.cat([torch.sin(w_idx[:, None] * freqs_w), torch.cos(w_idx[:, None] * freqs_w)], dim=-1)
+ return tokens + torch.cat([emb_t, emb_h, emb_w], dim=-1)
 ```
 
 #### Açıklama
@@ -188,29 +188,29 @@ Basitleştirilmiş toplamalı form. Gerçek RoPE, frekanslarda eşleştirilmiş 
 ### Adım 3: Bölünmüş dikkat bloğu
 
 ```python
-class DividedAttentionBlock(nn.Module):
-    def __init__(self, dim=64, heads=2):
-        super().__init__()
-        self.time_attn = nn.MultiheadAttention(dim, heads, batch_first=True)
-        self.space_attn = nn.MultiheadAttention(dim, heads, batch_first=True)
-        self.ln1 = nn.LayerNorm(dim)
-        self.ln2 = nn.LayerNorm(dim)
-        self.ln3 = nn.LayerNorm(dim)
-        self.mlp = nn.Sequential(nn.Linear(dim, 4 * dim), nn.GELU(), nn.Linear(4 * dim, dim))
+class DividedAttentionBlock(nn. Module):
+ def __init__(self, dim=64, heads=2):
+ super().__init__()
+ self.time_attn = nn. MultiheadAttention(dim, heads, batch_first=True)
+ self.space_attn = nn. MultiheadAttention(dim, heads, batch_first=True)
+ self.ln1 = nn. LayerNorm(dim)
+ self.ln2 = nn. LayerNorm(dim)
+ self.ln3 = nn. LayerNorm(dim)
+ self.mlp = nn. Sequential(nn. Linear(dim, 4 * dim), nn. GELU(), nn. Linear(4 * dim, dim))
 
-    def forward(self, x, grid):
-        T, H, W = grid
-        n, seq, d = x.shape
-        # zaman dikkati: aynı (h, w), t boyunca
-        xt = x.view(n, T, H * W, d).permute(0, 2, 1, 3).reshape(n * H * W, T, d)
-        a, _ = self.time_attn(self.ln1(xt), self.ln1(xt), self.ln1(xt), need_weights=False)
-        xt = (xt + a).reshape(n, H * W, T, d).permute(0, 2, 1, 3).reshape(n, seq, d)
-        # uzay dikkati: aynı t, (h, w) boyunca
-        xs = xt.view(n, T, H * W, d).reshape(n * T, H * W, d)
-        a, _ = self.space_attn(self.ln2(xs), self.ln2(xs), self.ln2(xs), need_weights=False)
-        xs = (xs + a).reshape(n, T, H * W, d).reshape(n, seq, d)
-        xs = xs + self.mlp(self.ln3(xs))
-        return xs
+ def forward(self, x, grid):
+ T, H, W = grid
+ n, seq, d = x.shape
+ # zaman dikkati: aynı (h, w), t boyunca
+ xt = x.view(n, T, H * W, d).permute(0, 2, 1, 3).reshape(n * H * W, T, d)
+ a, _ = self.time_attn(self.ln1(xt), self.ln1(xt), self.ln1(xt), need_weights=False)
+ xt = (xt + a).reshape(n, H * W, T, d).permute(0, 2, 1, 3).reshape(n, seq, d)
+ # uzay dikkati: aynı t, (h, w) boyunca
+ xs = xt.view(n, T, H * W, d).reshape(n * T, H * W, d)
+ a, _ = self.space_attn(self.ln2(xs), self.ln2(xs), self.ln2(xs), need_weights=False)
+ xs = (xs + a).reshape(n, T, H * W, d).reshape(n, seq, d)
+ xs = xs + self.mlp(self.ln3(xs))
+ return xs
 ```
 
 #### Açıklama
@@ -219,18 +219,18 @@ Zaman dikkati, her uzamsal pozisyon içinde zaman boyunca dikkat eder; uzay dikk
 ### Adım 4: Küçük bir video DiT oluşturma
 
 ```python
-class TinyVideoDiT(nn.Module):
-    def __init__(self, in_channels=4, dim=64, depth=2, heads=2):
-        super().__init__()
-        self.patch = VideoPatch3D(in_channels=in_channels, dim=dim, patch_t=2, patch_h=2, patch_w=2)
-        self.blocks = nn.ModuleList([DividedAttentionBlock(dim, heads) for _ in range(depth)])
-        self.out = nn.Linear(dim, in_channels * 2 * 2 * 2)
+class TinyVideoDiT(nn. Module):
+ def __init__(self, in_channels=4, dim=64, depth=2, heads=2):
+ super().__init__()
+ self.patch = VideoPatch3D(in_channels=in_channels, dim=dim, patch_t=2, patch_h=2, patch_w=2)
+ self.blocks = nn. ModuleList([DividedAttentionBlock(dim, heads) for _ in range(depth)])
+ self.out = nn. Linear(dim, in_channels * 2 * 2 * 2)
 
-    def forward(self, x):
-        tokens, grid = self.patch(x)
-        for blk in self.blocks:
-            tokens = blk(tokens, grid)
-        return self.out(tokens), grid
+ def forward(self, x):
+ tokens, grid = self.patch(x)
+ for blk in self.blocks:
+ tokens = blk(tokens, grid)
+ return self.out(tokens), grid
 ```
 
 #### Açıklama
@@ -239,10 +239,10 @@ class TinyVideoDiT(nn.Module):
 ### Adım 5: Şekilleri kontrol etme
 
 ```python
-vid = torch.randn(1, 4, 8, 16, 16)  # (N, C, T, H, W)
+vid = torch.randn(1, 4, 8, 16, 16) # (N, C, T, H, W)
 model = TinyVideoDiT()
 out, grid = model(vid)
-print(f"girdi  {tuple(vid.shape)}")
+print(f"girdi {tuple(vid.shape)}")
 print(f"token ızgarası {grid}")
 print(f"çıktı {tuple(out.shape)}")
 ```

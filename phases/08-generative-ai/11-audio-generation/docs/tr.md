@@ -27,11 +27,11 @@ Encodec (Meta, 2022), SoundStream (Google, 2021), Descript Audio Codec (DAC, 202
 
 ```
 waveform (16000 samples/sec)
-    └─ encoder conv ─┐
-                     ├─ RVQ layer 1 → indices at 75 Hz
-                     ├─ RVQ layer 2 → indices at 75 Hz
-                     ├─ ...
-                     └─ RVQ layer 8
+ └─ encoder conv ─┐
+ ├─ RVQ layer 1 → indices at 75 Hz
+ ├─ RVQ layer 2 → indices at 75 Hz
+ ├─ ...
+ └─ RVQ layer 8
 ```
 
 #### Açıklama
@@ -68,10 +68,10 @@ RVQ'nin her katmanı bir öncekinin artık (residual) değerini modellemesi, ses
 
 ```python
 def make_tokens(style, length, vocab_size, rng):
-    if style == 0:  # "speech-like": alternating
-        return [i % vocab_size for i in range(length)]
-    # "music-like": ramp
-    return [(i * 3) % vocab_size for i in range(length)]
+ if style == 0: # "speech-like": alternating
+ return [i % vocab_size for i in range(length)]
+ # "music-like": ramp
+ return [(i * 3) % vocab_size for i in range(length)]
 ```
 
 ### Adım 2: küçük bir token tahmincisi eğitin

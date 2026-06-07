@@ -27,15 +27,15 @@ Her yalnızca çözücü (decoder-only) transformer bloğu, `(batch, sequence, e
 
 ```mermaid
 flowchart TB
-  X[Input embedding<br/>shape B, T, D] --> N1[LayerNorm 1]
-  N1 --> MHA[Multi head causal attention]
-  MHA --> R1[Add residual]
-  X --> R1
-  R1 --> N2[LayerNorm 2]
-  N2 --> MLP[Position wise MLP<br/>D to 4D to D]
-  MLP --> R2[Add residual]
-  R1 --> R2
-  R2 --> Y[Output, same shape]
+ X[Input embedding<br/>shape B, T, D] --> N1[LayerNorm 1]
+ N1 --> MHA[Multi head causal attention]
+ MHA --> R1[Add residual]
+ X --> R1
+ R1 --> N2[LayerNorm 2]
+ N2 --> MLP[Position wise MLP<br/>D to 4D to D]
+ MLP --> R2[Add residual]
+ R1 --> R2
+ R2 --> Y[Output, same shape]
 ```
 
 #### Açıklama
@@ -47,15 +47,15 @@ Post-LN varyantı, LayerNorm'u artık toplamadan sonraya taşır.
 
 ```mermaid
 flowchart TB
-  X[Input] --> MHA[Multi head causal attention]
-  MHA --> R1[Add residual]
-  X --> R1
-  R1 --> N1[LayerNorm 1]
-  N1 --> MLP[Position wise MLP]
-  MLP --> R2[Add residual]
-  N1 --> R2
-  R2 --> N2[LayerNorm 2]
-  N2 --> Y[Output]
+ X[Input] --> MHA[Multi head causal attention]
+ MHA --> R1[Add residual]
+ X --> R1
+ R1 --> N1[LayerNorm 1]
+ N1 --> MLP[Position wise MLP]
+ MLP --> R2[Add residual]
+ N1 --> R2
+ R2 --> N2[LayerNorm 2]
+ N2 --> Y[Output]
 ```
 
 #### Açıklama
@@ -95,7 +95,7 @@ python3 code/main.py
 
 ## Yığın
 
-- Tensör matematiği, autograd ve `nn.Module` tesisatı için `torch`.
+- Tensör matematiği, autograd ve `nn. Module` tesisatı için `torch`.
 - Hayır `transformers`, hayır önceden eğitilmiş ağırlıklar. Blok ilkellerden uygulanır.
 
 ## Vahşi Doğadaki Üretim Desenleri
@@ -117,7 +117,7 @@ python3 code/main.py
 ## Alıştırmalar
 
 1. Bloktaki her doğrusala bir `bias=False` bayrağı ekleyin. Modern açık ağırlıklı LLM'ler, doğrusal katmanlar üzerinde bias olmadan gönderilir. 12 katmanlı 768 boyutlu bir modelde kaç parametre tasarruf ettiğinizi ölçün.
-2. `nn.LayerNorm`'u el yapımı bir RMSNorm ile değiştirin ve çıktı şeklinin değişmediğini doğrulayın.
+2. `nn. LayerNorm`'u el yapımı bir RMSNorm ile değiştirin ve çıktı şeklinin değişmediğini doğrulayın.
 3. İlk kafa için dikkat ağırlıklarını `(B, T, T)` tensörü olarak döndüren bir bayrak ekleyin. Üst üçgenin softmax'tan sonra sıfır olduğunu doğrulamak için çizin.
 4. `(2, 16, 384)` tensörünü `H=6` ile her iki varyanttan geçiren ve ağırlıklar aynı şekilde başlatıldığında ve dropout sıfıra ayarlandığında ileri çıktıların farklı olduğunu doğrulayan bir sağlamlık denetimi inşa edin (örneğin, `not torch.allclose`).
 

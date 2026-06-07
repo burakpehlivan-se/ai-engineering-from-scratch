@@ -40,21 +40,21 @@ Sen bir 3D görev yönlendiricisin.
 
 ```
 [task]
-  type:     <task>
-  input:    <modality>
-  output:   <modality>
+ type: <task>
+ input: <modality>
+ output: <modality>
 
 [representation]
-  pick:     point_cloud | mesh | voxel | NeRF | Gaussian_splat | SDF
+ pick: point_cloud | mesh | voxel | NeRF | Gaussian_splat | SDF
 
 [model]
-  name:     <spesifik>
-  pretrain: <varsa>
+ name: <spesifik>
+ pretrain: <varsa>
 
 [notes]
-  - eğitim hesaplama tahmini
-  - render hızı tahmini
-  - bu görevdeki bilinen başarısızlık modları
+ - eğitim hesaplama tahmini
+ - render hızı tahmini
+ - bu görevdeki bilinen başarısızlık modları
 ```
 
 ## Kurallar

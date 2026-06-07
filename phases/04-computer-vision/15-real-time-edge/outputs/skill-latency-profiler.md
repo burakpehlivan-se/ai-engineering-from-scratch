@@ -20,7 +20,7 @@ Herhangi bir PyTorch modeli için disiplinli bir gecikme karşılaştırması ü
 
 ## Girdiler
 
-- `model`: PyTorch `nn.Module`.
+- `model`: PyTorch `nn. Module`.
 - `input_shape`: `(1, 3, 224, 224)` gibi bir demet.
 - `device`: `cpu` | `cuda` | `mps`.
 - `warmup`: varsayılan 10.
@@ -43,7 +43,7 @@ Tam zamanlama listesini sıralayın. `p50, p90, p95, p99, ortalama, std` raporla
 
 ### 5. Bellek
 `cuda` için, çalıştırmadan sonra `torch.cuda.max_memory_allocated()` çağırın ve herhangi bir taban çizgisini çıkarın.
-`cpu` için, `tracemalloc` veya `psutil.Process().memory_info().rss` kullanın (önce ve sonra).
+`cpu` için, `tracemalloc` veya `psutil. Process().memory_info().rss` kullanın (önce ve sonra).
 
 ### 6. Toplu iş boyutu taraması
 İsteğe bağlı olarak, verim vs gecikme takaslarını ortaya çıkarmak için karşılaştırmayı `batch_size in [1, 4, 16, 32]` için tekrarlayın.
@@ -56,54 +56,54 @@ import torch
 import psutil, os
 
 def profile(model, input_shape, device="cpu", warmup=10, iters=100):
-    proc = psutil.Process(os.getpid())
-    baseline_rss = proc.memory_info().rss / 1e6
+ proc = psutil. Process(os.getpid())
+ baseline_rss = proc.memory_info().rss / 1e6
 
-    model = model.to(device).eval()
-    x = torch.randn(input_shape, device=device)
+ model = model.to(device).eval()
+ x = torch.randn(input_shape, device=device)
 
-    def sync():
-        if device == "cuda":
-            torch.cuda.synchronize()
-        elif device == "mps":
-            torch.mps.synchronize()
+ def sync():
+ if device == "cuda":
+ torch.cuda.synchronize()
+ elif device == "mps":
+ torch.mps.synchronize()
 
-    with torch.no_grad():
-        for _ in range(warmup):
-            model(x)
-        sync()
-        if device == "cuda":
-            torch.cuda.reset_peak_memory_stats()
+ with torch.no_grad():
+ for _ in range(warmup):
+ model(x)
+ sync()
+ if device == "cuda":
+ torch.cuda.reset_peak_memory_stats()
 
-        times = []
-        for _ in range(iters):
-            sync()
-            t0 = time.perf_counter()
-            model(x)
-            sync()
-            times.append((time.perf_counter() - t0) * 1000)
+ times = []
+ for _ in range(iters):
+ sync()
+ t0 = time.perf_counter()
+ model(x)
+ sync()
+ times.append((time.perf_counter() - t0) * 1000)
 
-    times.sort()
-    mean = sum(times) / len(times)
-    std  = (sum((t - mean) ** 2 for t in times) / len(times)) ** 0.5
+ times.sort()
+ mean = sum(times) / len(times)
+ std = (sum((t - mean) ** 2 for t in times) / len(times)) ** 0.5
 
-    def pct(p):
-        idx = max(0, min(len(times) - 1, int(len(times) * p) - 1))
-        return times[idx]
+ def pct(p):
+ idx = max(0, min(len(times) - 1, int(len(times) * p) - 1))
+ return times[idx]
 
-    report = {
-        "p50_ms":  pct(0.50),
-        "p90_ms":  pct(0.90),
-        "p95_ms":  pct(0.95),
-        "p99_ms":  pct(0.99),
-        "mean_ms": mean,
-        "std_ms":  std,
-        "rss_mb":  proc.memory_info().rss / 1e6 - baseline_rss,
-    }
-    if device == "cuda":
-        report["peak_cuda_mb"] = torch.cuda.max_memory_allocated() / 1e6
+ report = {
+ "p50_ms": pct(0.50),
+ "p90_ms": pct(0.90),
+ "p95_ms": pct(0.95),
+ "p99_ms": pct(0.99),
+ "mean_ms": mean,
+ "std_ms": std,
+ "rss_mb": proc.memory_info().rss / 1e6 - baseline_rss,
+ }
+ if device == "cuda":
+ report["peak_cuda_mb"] = torch.cuda.max_memory_allocated() / 1e6
 
-    return report
+ return report
 ```
 
 ## Kurallar

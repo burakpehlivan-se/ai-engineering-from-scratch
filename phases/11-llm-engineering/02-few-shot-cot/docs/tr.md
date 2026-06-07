@@ -36,16 +36,16 @@ Wei vd. (2022) bunu 8 benchmark'ta ölçmüştür. Duygu sınıflandırması gib
 
 ```mermaid
 graph TD
-    subgraph Comparison["Zero-Shot vs Few-Shot"]
-        direction LR
-        Z["Zero-Shot\n'Bu incelemeyi sınıflandır'\nModel formatı tahmin eder\nGSM8K'da %78"]
-        F["Few-Shot\n'İşte 3 örnek...\nŞimdi bu incelemeyi sınıflandır'\nModel örüntüyü eşler\nGSM8K'da %85"]
-    end
+ subgraph Comparison["Zero-Shot vs Few-Shot"]
+ direction LR
+ Z["Zero-Shot\n'Bu incelemeyi sınıflandır'\nModel formatı tahmin eder\nGSM8K'da %78"]
+ F["Few-Shot\n'İşte 3 örnek...\nŞimdi bu incelemeyi sınıflandır'\nModel örüntüyü eşler\nGSM8K'da %85"]
+ end
 
-    Z ~~~ F
+ Z ~~~ F
 
-    style Z fill:#1a1a2e,stroke:#e94560,color:#fff
-    style F fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Z fill:#1a1a2e,stroke:#e94560,color:#fff
+ style F fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
 #### Açıklama
@@ -70,19 +70,19 @@ Chain-of-Thought (CoT) prompting Wei vd. (2022) tarafından Google Brain'de tan�
 
 ```mermaid
 graph LR
-    subgraph Standard["Standard Prompting"]
-        Q1["S: Roger'ın 5 topu var.\n2 kutu 3'lük alıyor.\nKaç topu var?"] --> A1["C: 11"]
-    end
+ subgraph Standard["Standard Prompting"]
+ Q1["S: Roger'ın 5 topu var.\n2 kutu 3'lük alıyor.\nKaç topu var?"] --> A1["C: 11"]
+ end
 
-    subgraph CoT["Chain-of-Thought Prompting"]
-        Q2["S: Roger'ın 5 topu var.\n2 kutu 3'lük alıyor.\nKaç topu var?"] --> R2["Roger 5 ile başlıyor.\n2 kutu 3 = 6.\n5 + 6 = 11."] --> A2["C: 11"]
-    end
+ subgraph CoT["Chain-of-Thought Prompting"]
+ Q2["S: Roger'ın 5 topu var.\n2 kutu 3'lük alıyor.\nKaç topu var?"] --> R2["Roger 5 ile başlıyor.\n2 kutu 3 = 6.\n5 + 6 = 11."] --> A2["C: 11"]
+ end
 
-    style Q1 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style A1 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style Q2 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style R2 fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style A2 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Q1 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style A1 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style Q2 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style R2 fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style A2 fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
 #### Açıklama
@@ -117,27 +117,27 @@ Wang vd. (2023) self-consistency'yi tanıtmıştır. Tek bir CoT yolu muhakeme h
 
 ```mermaid
 graph TD
-    P["Problem: 'Bir mağazada 48 elma var.\nPazartesi 1/3'ünü satıyor\nve Salı kalanın 1/4'ünü.\nKaç tane kaldı?'"]
+ P["Problem: 'Bir mağazada 48 elma var.\nPazartesi 1/3'ünü satıyor\nve Salı kalanın 1/4'ünü.\nKaç tane kaldı?'"]
 
-    P --> Path1["Yol 1: 48 - 16 = 32\n32 - 8 = 24\nCevap: 24"]
-    P --> Path2["Yol 2: 48'in 1/3 = 16\nKalan: 32\n32'nin 1/4 = 8\n32 - 8 = 24\nCevap: 24"]
-    P --> Path3["Yol 3: 48/3 = 16 satıldı\n48 - 16 = 32\n32/4 = 8 satıldı\n32 - 8 = 24\nCevap: 24"]
-    P --> Path4["Yol 4: 1/3 sat: 48 - 12 = 36\n1/4 sat: 36 - 9 = 27\nCevap: 27"]
-    P --> Path5["Yol 5: Pazartesi: 48 * 2/3 = 32\nSalı: 32 * 3/4 = 24\nCevap: 24"]
+ P --> Path1["Yol 1: 48 - 16 = 32\n32 - 8 = 24\nCevap: 24"]
+ P --> Path2["Yol 2: 48'in 1/3 = 16\nKalan: 32\n32'nin 1/4 = 8\n32 - 8 = 24\nCevap: 24"]
+ P --> Path3["Yol 3: 48/3 = 16 satıldı\n48 - 16 = 32\n32/4 = 8 satıldı\n32 - 8 = 24\nCevap: 24"]
+ P --> Path4["Yol 4: 1/3 sat: 48 - 12 = 36\n1/4 sat: 36 - 9 = 27\nCevap: 27"]
+ P --> Path5["Yol 5: Pazartesi: 48 * 2/3 = 32\nSalı: 32 * 3/4 = 24\nCevap: 24"]
 
-    Path1 --> V["Çoğunluk Oyu\n24: 4 oy\n27: 1 oy\nSonuç: 24"]
-    Path2 --> V
-    Path3 --> V
-    Path4 --> V
-    Path5 --> V
+ Path1 --> V["Çoğunluk Oyu\n24: 4 oy\n27: 1 oy\nSonuç: 24"]
+ Path2 --> V
+ Path3 --> V
+ Path4 --> V
+ Path5 --> V
 
-    style P fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style Path1 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style Path2 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style Path3 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style Path4 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style Path5 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style V fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style P fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style Path1 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Path2 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Path3 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Path4 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style Path5 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style V fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
 #### Açıklama
@@ -152,41 +152,41 @@ Yao vd. (2023) Tree-of-Thought'u (ToT) tanıtmıştır. CoT tek bir doğrusal mu
 
 ```mermaid
 graph TD
-    Root["Problem"] --> B1["Düşünce 1a"]
-    Root --> B2["Düşünce 1b"]
-    Root --> B3["Düşünce 1c"]
+ Root["Problem"] --> B1["Düşünce 1a"]
+ Root --> B2["Düşünce 1b"]
+ Root --> B3["Düşünce 1c"]
 
-    B1 --> E1["Değerlendirme: 0.8"]
-    B2 --> E2["Değerlendirme: 0.3"]
-    B3 --> E3["Değerlendirme: 0.9"]
+ B1 --> E1["Değerlendirme: 0.8"]
+ B2 --> E2["Değerlendirme: 0.3"]
+ B3 --> E3["Değerlendirme: 0.9"]
 
-    E1 -->|Devam| B1a["Düşünce 2a"]
-    E1 -->|Devam| B1b["Düşünce 2b"]
-    E3 -->|Devam| B3a["Düşünce 2a"]
-    E3 -->|Devam| B3b["Düşünce 2b"]
+ E1 -->|Devam| B1a["Düşünce 2a"]
+ E1 -->|Devam| B1b["Düşünce 2b"]
+ E3 -->|Devam| B3a["Düşünce 2a"]
+ E3 -->|Devam| B3b["Düşünce 2b"]
 
-    E2 -->|Budama| X["X"]
+ E2 -->|Budama| X["X"]
 
-    B1a --> E4["Değerlendirme: 0.7"]
-    B3a --> E5["Değerlendirme: 0.95"]
+ B1a --> E4["Değerlendirme: 0.7"]
+ B3a --> E5["Değerlendirme: 0.95"]
 
-    E5 -->|En iyi yol| Final["Çözüm"]
+ E5 -->|En iyi yol| Final["Çözüm"]
 
-    style Root fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style E2 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style X fill:#1a1a2e,stroke:#e94560,color:#fff
-    style E5 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style Final fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style B1 fill:#1a1a2e,stroke:#808080,color:#fff
-    style B2 fill:#1a1a2e,stroke:#808080,color:#fff
-    style B3 fill:#1a1a2e,stroke:#808080,color:#fff
-    style B1a fill:#1a1a2e,stroke:#808080,color:#fff
-    style B1b fill:#1a1a2e,stroke:#808080,color:#fff
-    style B3a fill:#1a1a2e,stroke:#808080,color:#fff
-    style B3b fill:#1a1a2e,stroke:#808080,color:#fff
-    style E1 fill:#1a1a2e,stroke:#808080,color:#fff
-    style E3 fill:#1a1a2e,stroke:#808080,color:#fff
-    style E4 fill:#1a1a2e,stroke:#808080,color:#fff
+ style Root fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style E2 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style X fill:#1a1a2e,stroke:#e94560,color:#fff
+ style E5 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Final fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style B1 fill:#1a1a2e,stroke:#808080,color:#fff
+ style B2 fill:#1a1a2e,stroke:#808080,color:#fff
+ style B3 fill:#1a1a2e,stroke:#808080,color:#fff
+ style B1a fill:#1a1a2e,stroke:#808080,color:#fff
+ style B1b fill:#1a1a2e,stroke:#808080,color:#fff
+ style B3a fill:#1a1a2e,stroke:#808080,color:#fff
+ style B3b fill:#1a1a2e,stroke:#808080,color:#fff
+ style E1 fill:#1a1a2e,stroke:#808080,color:#fff
+ style E3 fill:#1a1a2e,stroke:#808080,color:#fff
+ style E4 fill:#1a1a2e,stroke:#808080,color:#fff
 ```
 
 #### Açıklama
@@ -207,27 +207,27 @@ Yao vd. (2022) muhakeme izlerini eylemlerle birleştirdi. Model düşünme (muha
 
 ```mermaid
 graph LR
-    Q["Soru:\nEyfel Kulesi'nin\nbulunduğu ülkenin\nnüfusu nedir?"]
-    T1["Düşünce: Hangi ülkede\nEyfel Kulesi var\nbulmalıyım"]
-    A1["Eylem: ara\n'Eyfel Kulesi konumu'"]
-    O1["Gözlem:\nParis, Fransa"]
-    T2["Düşünce: Şimdi Fransa'nın\nnüfusuna ihtiyacım var"]
-    A2["Eylem: ara\n'Fransa nüfusu 2024'"]
-    O2["Gözlem:\n68.4 milyon"]
-    T3["Düşünce: Cevabım\nvar"]
-    F["Cevap:\n68.4 milyon"]
+ Q["Soru:\nEyfel Kulesi'nin\nbulunduğu ülkenin\nnüfusu nedir?"]
+ T1["Düşünce: Hangi ülkede\nEyfel Kulesi var\nbulmalıyım"]
+ A1["Eylem: ara\n'Eyfel Kulesi konumu'"]
+ O1["Gözlem:\nParis, Fransa"]
+ T2["Düşünce: Şimdi Fransa'nın\nnüfusuna ihtiyacım var"]
+ A2["Eylem: ara\n'Fransa nüfusu 2024'"]
+ O2["Gözlem:\n68.4 milyon"]
+ T3["Düşünce: Cevabım\nvar"]
+ F["Cevap:\n68.4 milyon"]
 
-    Q --> T1 --> A1 --> O1 --> T2 --> A2 --> O2 --> T3 --> F
+ Q --> T1 --> A1 --> O1 --> T2 --> A2 --> O2 --> T3 --> F
 
-    style Q fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style T1 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style A1 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style O1 fill:#1a1a2e,stroke:#808080,color:#fff
-    style T2 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style A2 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style O2 fill:#1a1a2e,stroke:#808080,color:#fff
-    style T3 fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style F fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style Q fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style T1 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style A1 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style O1 fill:#1a1a2e,stroke:#808080,color:#fff
+ style T2 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style A2 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style O2 fill:#1a1a2e,stroke:#808080,color:#fff
+ style T3 fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style F fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
 #### Açıklama
@@ -300,20 +300,20 @@ Bazı görevler tek prompt için çok karmaşıktır. Prompt zincirleme bunları
 
 ```mermaid
 graph LR
-    I["Ham Girdi"] --> P1["Prompt 1:\nAnahtarı çıkar\nbilgiler"]
-    P1 --> O1["Bilgiler"]
-    O1 --> P2["Prompt 2:\nBilgileri\nanaliz et"]
-    P2 --> O2["Analiz"]
-    O2 --> P3["Prompt 3:\nÖneri\nüret"]
-    P3 --> F["Son Çıktı"]
+ I["Ham Girdi"] --> P1["Prompt 1:\nAnahtarı çıkar\nbilgiler"]
+ P1 --> O1["Bilgiler"]
+ O1 --> P2["Prompt 2:\nBilgileri\nanaliz et"]
+ P2 --> O2["Analiz"]
+ O2 --> P3["Prompt 3:\nÖneri\nüret"]
+ P3 --> F["Son Çıktı"]
 
-    style I fill:#1a1a2e,stroke:#808080,color:#fff
-    style P1 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style O1 fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style P2 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style O2 fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style P3 fill:#1a1a2e,stroke:#e94560,color:#fff
-    style F fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style I fill:#1a1a2e,stroke:#808080,color:#fff
+ style P1 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style O1 fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style P2 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style O2 fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style P3 fill:#1a1a2e,stroke:#e94560,color:#fff
+ style F fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
 #### Açıklama
@@ -352,12 +352,12 @@ Tam uygulama `code/advanced_prompting.py`'dedir. İşte ana bileşenler.
 
 ```python
 GSM8K_EXAMPLES = [
-    {
-        "question": "Janet's ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells every egg at the farmers' market for $2. How much does she make every day at the farmers' market?",
-        "reasoning": "Janet's ducks lay 16 eggs per day. She eats 3 and bakes 4, using 3 + 4 = 7 eggs. So she has 16 - 7 = 9 eggs left. She sells each for $2, so she makes 9 * 2 = $18 per day.",
-        "answer": "18"
-    },
-    ...
+ {
+ "question": "Janet's ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells every egg at the farmers' market for $2. How much does she make every day at the farmers' market?",
+ "reasoning": "Janet's ducks lay 16 eggs per day. She eats 3 and bakes 4, using 3 + 4 = 7 eggs. So she has 16 - 7 = 9 eggs left. She sells each for $2, so she makes 9 * 2 = $18 per day.",
+ "answer": "18"
+ },
+ ...
 ]
 ```
 
@@ -371,20 +371,20 @@ Prompt oluşturucu bir system message, muhakeme zincirleriyle few-shot örnekler
 
 ```python
 def build_cot_prompt(question, examples, num_examples=3):
-    system = (
-        "You are a math problem solver. "
-        "For each problem, show your step-by-step reasoning, "
-        "then give the final numerical answer on the last line "
-        "in the format: 'The answer is [number]'."
-    )
+ system = (
+ "You are a math problem solver. "
+ "For each problem, show your step-by-step reasoning, "
+ "then give the final numerical answer on the last line "
+ "in the format: 'The answer is [number]'."
+ )
 
-    example_text = ""
-    for ex in examples[:num_examples]:
-        example_text += f"Q: {ex['question']}\n"
-        example_text += f"A: {ex['reasoning']} The answer is {ex['answer']}.\n\n"
+ example_text = ""
+ for ex in examples[:num_examples]:
+ example_text += f"Q: {ex['question']}\n"
+ example_text += f"A: {ex['reasoning']} The answer is {ex['answer']}.\n\n"
 
-    user = f"{example_text}Q: {question}\nA:"
-    return system, user
+ user = f"{example_text}Q: {question}\nA:"
+ return system, user
 ```
 
 #### Açıklama
@@ -397,30 +397,30 @@ N muhakeme yolu örnekleme ve çoğunluk cevabını alma.
 
 ```python
 def self_consistency_solve(question, examples, client, model, n_samples=5):
-    system, user = build_cot_prompt(question, examples)
+ system, user = build_cot_prompt(question, examples)
 
-    answers = []
-    reasonings = []
-    for _ in range(n_samples):
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": user}
-            ],
-            temperature=0.7
-        )
-        text = response.choices[0].message.content
-        reasonings.append(text)
-        answer = extract_answer(text)
-        if answer is not None:
-            answers.append(answer)
+ answers = []
+ reasonings = []
+ for _ in range(n_samples):
+ response = client.chat.completions.create(
+ model=model,
+ messages=[
+ {"role": "system", "content": system},
+ {"role": "user", "content": user}
+ ],
+ temperature=0.7
+ )
+ text = response.choices[0].message.content
+ reasonings.append(text)
+ answer = extract_answer(text)
+ if answer is not None:
+ answers.append(answer)
 
-    vote_counts = Counter(answers)
-    best_answer = vote_counts.most_common(1)[0][0] if vote_counts else None
-    confidence = vote_counts[best_answer] / len(answers) if best_answer else 0
+ vote_counts = Counter(answers)
+ best_answer = vote_counts.most_common(1)[0][0] if vote_counts else None
+ confidence = vote_counts[best_answer] / len(answers) if best_answer else 0
 
-    return best_answer, confidence, reasonings, vote_counts
+ return best_answer, confidence, reasonings, vote_counts
 ```
 
 #### Açıklama
@@ -433,21 +433,21 @@ Doğrusal muhakemenin başarısız olduğu problemler için ToT çoklu yaklaşı
 
 ```python
 def tree_of_thought_solve(question, client, model, breadth=3, depth=3):
-    thoughts = generate_initial_thoughts(question, client, model, breadth)
-    scored = [(t, evaluate_thought(t, question, client, model)) for t in thoughts]
-    scored.sort(key=lambda x: x[1], reverse=True)
+ thoughts = generate_initial_thoughts(question, client, model, breadth)
+ scored = [(t, evaluate_thought(t, question, client, model)) for t in thoughts]
+ scored.sort(key=lambda x: x[1], reverse=True)
 
-    for current_depth in range(1, depth):
-        next_thoughts = []
-        for thought, score in scored[:2]:
-            extensions = extend_thought(thought, question, client, model, breadth)
-            for ext in extensions:
-                ext_score = evaluate_thought(ext, question, client, model)
-                next_thoughts.append((ext, ext_score))
-        scored = sorted(next_thoughts, key=lambda x: x[1], reverse=True)
+ for current_depth in range(1, depth):
+ next_thoughts = []
+ for thought, score in scored[:2]:
+ extensions = extend_thought(thought, question, client, model, breadth)
+ for ext in extensions:
+ ext_score = evaluate_thought(ext, question, client, model)
+ next_thoughts.append((ext, ext_score))
+ scored = sorted(next_thoughts, key=lambda x: x[1], reverse=True)
 
-    best_thought = scored[0][0] if scored else ""
-    return extract_answer(best_thought), best_thought
+ best_thought = scored[0][0] if scored else ""
+ return extract_answer(best_thought), best_thought
 ```
 
 #### Açıklama
@@ -460,19 +460,19 @@ Pipeline tüm teknikleri bir yükseltme stratejisiyle birleştirir.
 
 ```python
 def solve_with_escalation(question, examples, client, model):
-    system, user = build_cot_prompt(question, examples)
-    single_response = call_llm(client, model, system, user, temperature=0.0)
-    single_answer = extract_answer(single_response)
+ system, user = build_cot_prompt(question, examples)
+ single_response = call_llm(client, model, system, user, temperature=0.0)
+ single_answer = extract_answer(single_response)
 
-    sc_answer, confidence, _, _ = self_consistency_solve(
-        question, examples, client, model, n_samples=5
-    )
+ sc_answer, confidence, _, _ = self_consistency_solve(
+ question, examples, client, model, n_samples=5
+ )
 
-    if confidence >= 0.8:
-        return sc_answer, "self_consistency", confidence
+ if confidence >= 0.8:
+ return sc_answer, "self_consistency", confidence
 
-    tot_answer, _ = tree_of_thought_solve(question, client, model)
-    return tot_answer, "tree_of_thought", None
+ tot_answer, _ = tree_of_thought_solve(question, client, model)
+ return tot_answer, "tree_of_thought", None
 ```
 
 #### Açıklama
@@ -490,15 +490,15 @@ from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
 from langchain_openai import ChatOpenAI
 
 example_prompt = PromptTemplate(
-    input_variables=["question", "reasoning", "answer"],
-    template="Q: {question}\nA: {reasoning} The answer is {answer}."
+ input_variables=["question", "reasoning", "answer"],
+ template="Q: {question}\nA: {reasoning} The answer is {answer}."
 )
 
 few_shot_prompt = FewShotPromptTemplate(
-    examples=examples,
-    example_prompt=example_prompt,
-    suffix="Q: {input}\nA: Let's think step by step.",
-    input_variables=["input"]
+ examples=examples,
+ example_prompt=example_prompt,
+ suffix="Q: {input}\nA: Let's think step by step.",
+ input_variables=["input"]
 )
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.7)
@@ -515,9 +515,9 @@ from langchain_core.example_selectors import SemanticSimilarityExampleSelector
 from langchain_openai import OpenAIEmbeddings
 
 selector = SemanticSimilarityExampleSelector.from_examples(
-    examples,
-    OpenAIEmbeddings(),
-    k=3
+ examples,
+ OpenAIEmbeddings(),
+ k=3
 )
 ```
 
@@ -530,14 +530,14 @@ DSPy prompt stratejilerini optimize edilebilir modüller olarak ele alır. CoT p
 ```python
 import dspy
 
-dspy.configure(lm=dspy.LM("openai/gpt-4o", temperature=0.7))
+dspy.configure(lm=dspy. LM("openai/gpt-4o", temperature=0.7))
 
-class MathSolver(dspy.Module):
-    def __init__(self):
-        self.solve = dspy.ChainOfThought("question -> answer")
+class MathSolver(dspy. Module):
+ def __init__(self):
+ self.solve = dspy. ChainOfThought("question -> answer")
 
-    def forward(self, question):
-        return self.solve(question=question)
+ def forward(self, question):
+ return self.solve(question=question)
 
 solver = MathSolver()
 result = solver(question="Janet's ducks lay 16 eggs per day...")
@@ -549,8 +549,8 @@ DSPy'nin `ChainOfThought`'u otomatik olarak muhakeme izleri ekler. `dspy.majorit
 
 ```python
 result = dspy.majority(
-    [solver(question=q) for _ in range(5)],
-    field="answer"
+ [solver(question=q) for _ in range(5)],
+ field="answer"
 )
 ```
 
@@ -562,7 +562,7 @@ result = dspy.majority(
 |---------|--------------------------|-----------|------|
 | Prompt formatı kontrolü | Tam | Şablon tabanlı | Otomatik |
 | Self-consistency | Elle oylama | Elle | Yerleşik (`dspy.majority`) |
-| Örnek seçimi | Özel mantık | `ExampleSelector` | `dspy.BootstrapFewShot` |
+| Örnek seçimi | Özel mantık | `ExampleSelector` | `dspy. BootstrapFewShot` |
 | Tree-of-Thought | Özel ağaç araması | Topluluk zincirleri | Yerleşik değil |
 | Prompt optimizasyonu | Elle iterasyon | Elle | Otomatik derleme |
 | En iyi nerede | Öğrenme, özel pipeline'lar | Standart iş akışları | Araştırma, optimizasyon |

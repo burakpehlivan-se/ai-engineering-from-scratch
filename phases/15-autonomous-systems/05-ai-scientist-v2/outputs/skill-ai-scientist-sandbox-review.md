@@ -14,23 +14,23 @@ Bir AI-Scientist-v2 tarzı döngü tarafından üretilen otonom bir araştırma 
 Üretin:
 
 1. **Sandbox aşaması.** Herhangi bir artefakt sandbox'tan çıkmadan önce:
-   - Döngünün yaptığı her ağ çağrısını ve hedefini listeleyin. Önceden onaylanmamış olanları işaretleyin.
-   - Döngünün çalışma dizininin dışına yazdığı her dosyayı envanterleyin.
-   - Docker / seccomp / gVisor (sandbox container çekirdek izolasyonu) kapsamının tüm çalıştırma boyunca tutulduğunu doğrulayın.
-   - Hiçbir alt sürecin (subprocess) sandbox denetiminden kaçmadığını doğrulayın.
-   Herhangi bir kontrol başarısız olursa, dışa aktarmayı engelleyin; bir insana iletin.
+ - Döngünün yaptığı her ağ çağrısını ve hedefini listeleyin. Önceden onaylanmamış olanları işaretleyin.
+ - Döngünün çalışma dizininin dışına yazdığı her dosyayı envanterleyin.
+ - Docker / seccomp / gVisor (sandbox container çekirdek izolasyonu) kapsamının tüm çalıştırma boyunca tutulduğunu doğrulayın.
+ - Hiçbir alt sürecin (subprocess) sandbox denetiminden kaçmadığını doğrulayın.
+ Herhangi bir kontrol başarısız olursa, dışa aktarmayı engelleyin; bir insana iletin.
 2. **Deney denetimi.** Makaleyi değil, deney kodunu okuyun:
-   - İddia edilen her deneyin gerçekten çalıştığını ve raporlanan sayıların tekrarlanabilir olduğunu doğrulayın.
-   - Başarısız deneylerin başarısızlık olarak raporlandığını, sonradan negatif sonuçlar olarak yeniden çerçevelenmediğini kontrol edin.
-   - Fikir üzerindeki "novelty" (yenilik) etiketinin, bir insan domain uzmanı tarafından yapılan literatür taramasına karşı dayandığını kontrol edin.
+ - İddia edilen her deneyin gerçekten çalıştığını ve raporlanan sayıların tekrarlanabilir olduğunu doğrulayın.
+ - Başarısız deneylerin başarısızlık olarak raporlandığını, sonradan negatif sonuçlar olarak yeniden çerçevelenmediğini kontrol edin.
+ - Fikir üzerindeki "novelty" (yenilik) etiketinin, bir insan domain uzmanı tarafından yapılan literatür taramasına karşı dayandığını kontrol edin.
 3. **Cilalama denetimi.** Şekilleri okuyun:
-   - Her şeklin verisinin loglanmış bir deney çalıştırmasından geldiğinden emin olun, cilalama aşamasında yeniden yazılmadığından emin olun.
-   - Eksenlerin, ölçeklerin ve açıklamaların altta yatan veriyle eşleştiğini doğrulayın.
-   - Altyazısı, verinin desteklediğinden fazlasını iddia eden her şekli işaretleyin.
+ - Her şeklin verisinin loglanmış bir deney çalıştırmasından geldiğinden emin olun, cilalama aşamasında yeniden yazılmadığından emin olun.
+ - Eksenlerin, ölçeklerin ve açıklamaların altta yatan veriyle eşleştiğini doğrulayın.
+ - Altyazısı, verinin desteklediğinden fazlasını iddia eden her şekli işaretleyin.
 4. **Açıklama planı.** Artefakt harici dağıtım için tasarlandıysa:
-   - Artefaktın agent tarafından yazıldığını açıklayın.
-   - Kullanılan araçları açıklayın (model ailesi, döngü versiyonu).
-   - Kontrol eden insan incelemeyi ve neyi kontrol ettiğini açıklayın.
+ - Artefaktın agent tarafından yazıldığını açıklayın.
+ - Kullanılan araçları açıklayın (model ailesi, döngü versiyonu).
+ - Kontrol eden insan incelemeyi ve neyi kontrol ettiğini açıklayın.
 5. **Negatif yayınlama kararı.** Artefakt herhangi bir denetim adımında başarısız olursa, varsayılan yayınlamamadır. Bu varsayılanı geçersiz kılmak adlandırılmış bir insan sahibi gerektirir.
 
 Keskin redler:

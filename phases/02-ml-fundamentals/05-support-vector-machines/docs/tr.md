@@ -31,8 +31,8 @@ Bu sezgi, ML'deki en matematiksel olarak zarif algoritmalardan biri olan Destek 
 Doğrusal olarak ayrılabilir veriler için, etiketler y_i ∈ {-1, +1} ve özellik vektörleri x_i ile, sınıfları ayıran bir hiperdüzlem w^T x + b = 0 istiyoruz.
 
 ```
-maksimize    2 / ||w||     (marj genişliği)
-kısıt olarak y_i × (w^T x_i + b) ≥ 1  tüm i için
+maksimize 2 / ||w|| (marj genişliği)
+kısıt olarak y_i × (w^T x_i + b) ≥ 1 tüm i için
 ```
 
 Marj sınırlarında oturan veri noktaları (y_i × (w^T x_i + b) = 1 olanlar) destek vektörleridir. Karar sınırını belirleyen tek noktalardır.

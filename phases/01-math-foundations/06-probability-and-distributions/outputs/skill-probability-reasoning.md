@@ -24,21 +24,21 @@ Veri modellediğinde, kayıp fonksiyonları tasarladığında veya öncül (prio
 
 ```
 Değişken ayrık mı?
-  Evet --> Yalnızca 2 sonuç? --> Bernoulli (p)
-     |    k sonuç, tek deneme? --> Categorical (p1...pk)
-     |    k sonuç, n deneme? --> Multinomial (n, p1...pk)
-     |    n denemede başarı sayısı? --> Binomial (n, p)
-     |    Aralık başına olay sayısı? --> Poisson (lambda)
-     |    İlk başarıya kadar deneme sayısı? --> Geometric (p)
-     |    r başarıya kadar deneme sayısı? --> Negative Binomial (r, p)
-  Hayır --> Simetrik, çan şeklinde? --> Normal (mu, sigma)
-     |   Pozitif değerler, sağa çarpık? --> Log-normal veya Exponential
-     |   [0, 1] aralığında sınırlı? --> Beta (alpha, beta)
-     |   Pozitif değerler, esnek şekil? --> Gamma (alpha, beta)
-     |   Olaylar arasındaki süre? --> Exponential (lambda)
-     |   Ağır kuyruklar mı gerekli? --> Student's t (nu) veya Cauchy
-     |   Çok değişkenli, çan şeklinde? --> Multivariate Normal
-     |   Bir simplekste mi (toplamı 1)? --> Dirichlet (alpha)
+ Evet --> Yalnızca 2 sonuç? --> Bernoulli (p)
+ | k sonuç, tek deneme? --> Categorical (p1...pk)
+ | k sonuç, n deneme? --> Multinomial (n, p1...pk)
+ | n denemede başarı sayısı? --> Binomial (n, p)
+ | Aralık başına olay sayısı? --> Poisson (lambda)
+ | İlk başarıya kadar deneme sayısı? --> Geometric (p)
+ | r başarıya kadar deneme sayısı? --> Negative Binomial (r, p)
+ Hayır --> Simetrik, çan şeklinde? --> Normal (mu, sigma)
+ | Pozitif değerler, sağa çarpık? --> Log-normal veya Exponential
+ | [0, 1] aralığında sınırlı? --> Beta (alpha, beta)
+ | Pozitif değerler, esnek şekil? --> Gamma (alpha, beta)
+ | Olaylar arasındaki süre? --> Exponential (lambda)
+ | Ağır kuyruklar mı gerekli? --> Student's t (nu) veya Cauchy
+ | Çok değişkenli, çan şeklinde? --> Multivariate Normal
+ | Bir simplekste mi (toplamı 1)? --> Dirichlet (alpha)
 ```
 
 ## Gerçek dünya ML senaryolarını dağılımlarla eşleştirme

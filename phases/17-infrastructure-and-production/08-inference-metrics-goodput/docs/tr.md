@@ -28,9 +28,9 @@ Inference'ın birden çok gecikme ekseni vardır ve her biri farklı şekilde ba
 
 Prefill, istemler uzun olduğunda baskındır. H100 üzerinde Llama-3.3-70B FP8'de, 32k istem ~800 ms saf prefill sürer. Kuyruk süresi, yük altında scheduler davranışıdır. Ağ isteği, TLS dahil tel süresidir. TTFT, kullanıcının herhangi bir şey geri akmadan önce gördüğü gecikmedir.
 
-### TPOT / ITL — tokenlar-arası gecikme
+### TPOT / ITL — token'lar-arası gecikme
 
-Tek bir nicelik için birçok ad. `TPOT` (çıktı token başına süre), `ITL` (tokenlar-arası gecikme), `decode gecikmesi token başına` — hepsi aynı. İlk token'dan sonra, art arda akışı sağlanan tokenlar arasındaki süredir.
+Tek bir nicelik için birçok ad. `TPOT` (çıktı token başına süre), `ITL` (token'lar-arası gecikme), `decode gecikmesi token başına` — hepsi aynı. İlk token'dan sonra, art arda akışı sağlanan token'lar arasındaki süredir.
 
 `TPOT = (decode_forward_time + scheduler_overhead) / tokens_produced`
 
@@ -122,7 +122,7 @@ Bu ders `outputs/skill-slo-goodput-gate.md` üretir. İş yükü ve SLO verildi�
 |-------|----------------------|----------------------------|
 | TTFT | "ilk token süresi" | Kuyruk + ağ + prefill; uzun istemlerde prefill baskın |
 | TPOT | "çıktı token başına süre" | İlkten sonra token başına bellek-bağlı decode maliyeti |
-| ITL | "tokenlar-arası gecikme" | Çoğu araçta TPOT ile aynı (hepsinde değil — GenAI-Perf'e bakın) |
+| ITL | "token'lar-arası gecikme" | Çoğu araçta TPOT ile aynı (hepsinde değil — GenAI-Perf'e bakın) |
 | E2E | "uçtan uca" | TTFT + TPOT * çıktı_uzunluğu; üzerine yanıt-tarafı ağ |
 | Verim | "tok/s" | Filo verimliliği; gecikme yüzdelikleri olmadan işe yaramaz |
 | Goodput | "SLO-karşılanma oranı" | Her SLO kısıtını aynı anda karşılayan isteklerin kesri |

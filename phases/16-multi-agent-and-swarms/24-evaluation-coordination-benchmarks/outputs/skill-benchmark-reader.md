@@ -19,11 +19,11 @@ Yayınlanmış veya dahili çok-agent'lı benchmark performansı iddiası verild
 6. **Maliyet açıklaması.** Görev başına token, görev başına duvar-saati, görev başına dolar maliyeti. 20x maliyette %90'lık bir çözüm iş kararıdır; maliyet olmadan, iddia eksiktir.
 7. **Harf notu + tek cümlelik karar.**
 
-   - **A:** Altı kontrolün tümü geçer; iddia muhtemelen sağlamdır.
-   - **B:** Bir zayıflık; iddia notlu uyarılarla olasıdır.
-   - **C:** İki zayıflık; iddia telkindir ancak çoğaltma gerektirir.
-   - **D:** Üç veya daha fazla zayıflık; iddia kanıt değildir.
-   - **F:** Diskalifiye edici sorun (açıklanmamış split üzerinde kontaminasyon, istatistik yok, temel yok).
+ - **A:** Altı kontrolün tümü geçer; iddia muhtemelen sağlamdır.
+ - **B:** Bir zayıflık; iddia notlu uyarılarla olasıdır.
+ - **C:** İki zayıflık; iddia telkindir ancak çoğaltma gerektirir.
+ - **D:** Üç veya daha fazla zayıflık; iddia kanıt değildir.
+ - **F:** Diskalifiye edici sorun (açıklanmamış split üzerinde kontaminasyon, istatistik yok, temel yok).
 
 Keskin redler:
 

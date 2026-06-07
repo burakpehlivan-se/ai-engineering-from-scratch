@@ -23,22 +23,22 @@ Bu bellek zehirlenmesidir. MAST taksonomisinde (Cemri ve diğerleri, arXiv:2503.
 
 ```
 agent-A ──write──▶ ┌────────────────┐ ◀──read── agent-D
-                   │ mesaj havuzu   │
-agent-B ──write──▶ │                │ ◀──read── agent-E
-                   │ (küresel günlük)│
+ │ mesaj havuzu │
+agent-B ──write──▶ │ │ ◀──read── agent-E
+ │ (küresel günlük)│
 agent-C ──write──▶ └────────────────┘ ◀──read── agent-F
 ```
 
 **Abonelikli karatahta.** Agent'lar konulara ilgi bildirir; alt katman yalnızca ilgili mesajları yönlendirir. CA-MCP (arXiv:2601.11595) ve Matrix merkezsiz çatısı (arXiv:2511.21686) bunu kullanır. Daha fazla ölçeklenir, ancak abonelikleri anlamlı kılmak için önceden şema tasarımı gerektirir.
 
 ```
-                   ┌─ konu: fiyatlar ──┐
-agent-A ──pub────▶ │                  │ ──▶ agent-D (abone)
-                   ├─ konu: siparişler─┤
-agent-B ──pub────▶ │                  │ ──▶ agent-E (abone)
-                   ├─ konu: uyarılar  ┤
-agent-C ──pub────▶ │                  │ ──▶ agent-F (abone)
-                   └──────────────────┘
+ ┌─ konu: fiyatlar ──┐
+agent-A ──pub────▶ │ │ ──▶ agent-D (abone)
+ ├─ konu: siparişler─┤
+agent-B ──pub────▶ │ │ ──▶ agent-E (abone)
+ ├─ konu: uyarılar ┤
+agent-C ──pub────▶ │ │ ──▶ agent-F (abone)
+ └──────────────────┘
 ```
 
 ### Hangisi ne zaman kazanır

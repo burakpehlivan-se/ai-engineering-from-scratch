@@ -28,9 +28,9 @@ Bir yapay zeka mühendisliği ortamının dört katmanı vardır:
 
 ```mermaid
 graph TD
-    A["4. Yapay Zeka/ML Kütüphaneleri\nPyTorch, JAX, transformers vb."] --> B["3. Dil Çalışma Zamanları\nPython 3.11+, Node 20+, Rust, Julia"]
-    B --> C["2. Paket Yöneticileri\nuv, pnpm, cargo, juliaup"]
-    C --> D["1. Sistem Altyapısı\nİşletim sistemi, kabuk, git, düzenleyici, GPU sürücüleri"]
+ A["4. Yapay Zeka/ML Kütüphaneleri\nPyTorch, JAX, transformers vb."] --> B["3. Dil Çalışma Zamanları\nPython 3.11+, Node 20+, Rust, Julia"]
+ B --> C["2. Paket Yöneticileri\nuv, pnpm, cargo, juliaup"]
+ C --> D["1. Sistem Altyapısı\nİşletim sistemi, kabuk, git, düzenleyici, GPU sürücüleri"]
 ```
 
 Altten üste doğru kurulum yaparız. Her katman bir altındaki katmana bağlıdır.
@@ -66,7 +66,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv python install 3.12
 
 uv venv
-source .venv/bin/activate  # Windows'ta .venv\Scripts\activate
+source .venv/bin/activate # Windows'ta .venv\Scripts\activate
 
 uv pip install numpy matplotlib jupyter
 ```
@@ -147,7 +147,7 @@ uv pip install torch torchvision torchaudio --index-url https://download.pytorch
 import torch
 print(f"CUDA available: {torch.cuda.is_available()}")
 if torch.cuda.is_available():
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
+ print(f"GPU: {torch.cuda.get_device_name(0)}")
 ```
 
 #### Açıklama

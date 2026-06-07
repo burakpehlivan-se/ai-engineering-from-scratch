@@ -58,7 +58,7 @@ Bu Bayes teoremidir. Tüm olasılık hesaplamalarının temelidir.
 
 ```
 P(durum|kanıt) = P(kanıt|durum) × P(durum) / P(kanıt)
-  sonraki       olabilirlik     öncül       kanıt
+ sonraki olabilirlik öncül kanıt
 ```
 
 - **Öncül (P(durum))**: Kanıttan ÖNCE duruma inanma dereceniz
@@ -73,8 +73,8 @@ Testin doğru pozitif oranı: %99 = 0.99 (olasılık)
 Testin yanlış pozitif oranı: %1 = 0.01
 
 P(hasta|pozitif) = 0.99 × 0.001 / (0.99 × 0.001 + 0.01 × 0.999)
-                 = 0.00099 / (0.00099 + 0.00999)
-                 = 0.09 = %9
+ = 0.00099 / (0.00099 + 0.00999)
+ = 0.09 = %9
 ```
 
 #### Açıklama

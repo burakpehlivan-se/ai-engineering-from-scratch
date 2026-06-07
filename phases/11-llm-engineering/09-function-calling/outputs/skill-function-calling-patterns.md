@@ -45,8 +45,8 @@ Araçlar kullanan bir LLM uygulaması oluştururken, bu karar çerçevesini uygu
 
 ```python
 tools=[{"type": "function", "function": {"name": ..., "parameters": ...}}]
-tool_choice="auto"       # model karar verir
-tool_choice="required"   # en az bir araç çağırmalıdır
+tool_choice="auto" # model karar verir
+tool_choice="required" # en az bir araç çağırmalıdır
 tool_choice={"type": "function", "function": {"name": "belirli_arac"}}
 ```
 
@@ -59,8 +59,8 @@ tool_choice={"type": "function", "function": {"name": "belirli_arac"}}
 
 ```python
 tools=[{"name": ..., "description": ..., "input_schema": ...}]
-tool_choice={"type": "auto"}     # model karar verir
-tool_choice={"type": "any"}      # en az bir araç çağırmalıdır
+tool_choice={"type": "auto"} # model karar verir
+tool_choice={"type": "any"} # en az bir araç çağırmalıdır
 tool_choice={"type": "tool", "name": "belirli_arac"}
 ```
 
@@ -73,7 +73,7 @@ tool_choice={"type": "tool", "name": "belirli_arac"}
 
 ```python
 function_declarations=[{"name": ..., "description": ..., "parameters": ...}]
-function_calling_config={"mode": "AUTO"}   # veya "ANY" veya "NONE"
+function_calling_config={"mode": "AUTO"} # veya "ANY" veya "NONE"
 ```
 
 - Üst düzeyde `function_declarations` kullanır

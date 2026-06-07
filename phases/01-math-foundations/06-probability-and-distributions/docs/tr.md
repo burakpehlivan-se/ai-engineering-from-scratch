@@ -30,12 +30,12 @@ Bir modelin her tahmini bir olasılık dağılımıdır. Her kayıp fonksiyonu, 
 
 ```
 Para atışı:
-  S = {YAZI, TURA}
-  P(YAZI) = 0.5,  P(TURA) = 0.5
+ S = {YAZI, TURA}
+ P(YAZI) = 0.5, P(TURA) = 0.5
 
 Tek zar atışı:
-  S = {1, 2, 3, 4, 5, 6}
-  P(çift) = P({2, 4, 6}) = 3/6 = 0.5
+ S = {1, 2, 3, 4, 5, 6}
+ P(çift) = P({2, 4, 6}) = 3/6 = 0.5
 ```
 
 Üç aksiyom tüm olasılığı tanımlar:
@@ -53,15 +53,15 @@ P(A|B), B olduktan sonra A'nın olasılığıdır.
 P(A|B) = P(A ve B) / P(B)
 
 Örnek: iskambil destesi
-  P(Kral | Resimli Kart) = P(Kral ve Resimli Kart) / P(Resimli Kart)
-                         = (4/52) / (12/52)
-                         = 4/12 = 1/3
+ P(Kral | Resimli Kart) = P(Kral ve Resimli Kart) / P(Resimli Kart)
+ = (4/52) / (12/52)
+ = 4/12 = 1/3
 ```
 
 İki olay, birini bilmek diğerini etkilemediğinde bağımsızdır:
 
 ```
-P(A ve B) = P(A) × P(B)    (bağımsız ise)
+P(A ve B) = P(A) × P(B) (bağımsız ise)
 ```
 
 ### Beklenen Değer ve Varyans
@@ -110,9 +110,9 @@ Sayısal kararlılık için:
 import numpy as np
 
 def softmax(z):
-    z = z - np.max(z)  # Sayısal kararlılık için maks çıkar
-    exp_z = np.exp(z)
-    return exp_z / exp_z.sum()
+ z = z - np.max(z) # Sayısal kararlılık için maks çıkar
+ exp_z = np.exp(z)
+ return exp_z / exp_z.sum()
 ```
 
 ### Çapraz Entropi Kaybı

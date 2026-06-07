@@ -50,29 +50,29 @@ import numpy as np
 
 
 def fit_lda(documents, n_topics=5, max_features=1000):
-    cv = CountVectorizer(
-        max_features=max_features,
-        stop_words="english",
-        min_df=2,
-        max_df=0.9,
-    )
-    X = cv.fit_transform(documents)
-    lda = LatentDirichletAllocation(
-        n_components=n_topics,
-        random_state=42,
-        max_iter=50,
-        learning_method="online",
-    )
-    doc_topic = lda.fit_transform(X)
-    feature_names = cv.get_feature_names_out()
-    return lda, cv, doc_topic, feature_names
+ cv = CountVectorizer(
+ max_features=max_features,
+ stop_words="english",
+ min_df=2,
+ max_df=0.9,
+ )
+ X = cv.fit_transform(documents)
+ lda = LatentDirichletAllocation(
+ n_components=n_topics,
+ random_state=42,
+ max_iter=50,
+ learning_method="online",
+ )
+ doc_topic = lda.fit_transform(X)
+ feature_names = cv.get_feature_names_out()
+ return lda, cv, doc_topic, feature_names
 
 
 def print_top_words(lda, feature_names, n_top=10):
-    for idx, topic in enumerate(lda.components_):
-        top_idx = np.argsort(-topic)[:n_top]
-        words = [feature_names[i] for i in top_idx]
-        print(f"topic {idx}: {' '.join(words)}")
+ for idx, topic in enumerate(lda.components_):
+ top_idx = np.argsort(-topic)[:n_top]
+ words = [feature_names[i] for i in top_idx]
+ print(f"topic {idx}: {' '.join(words)}")
 ```
 
 #### Açıklama
@@ -84,9 +84,9 @@ Dikkat edin: durak kelimeler kaldırılmış, min_df ve max_df nadir ve her yerd
 from bertopic import BERTopic
 
 topic_model = BERTopic(
-    embedding_model="sentence-transformers/all-MiniLM-L6-v2",
-    min_topic_size=15,
-    verbose=True,
+ embedding_model="sentence-transformers/all-MiniLM-L6-v2",
+ min_topic_size=15,
+ verbose=True,
 )
 
 topics, probs = topic_model.fit_transform(documents)
@@ -94,7 +94,7 @@ info = topic_model.get_topic_info()
 print(info.head(20))
 valid_topics = info[info["Topic"] != -1]["Topic"].tolist()
 for topic_id in valid_topics[:5]:
-    print(f"topic {topic_id}: {topic_model.get_topic(topic_id)[:10]}")
+ print(f"topic {topic_id}: {topic_model.get_topic(topic_id)[:10]}")
 ```
 
 #### Açıklama
@@ -104,7 +104,7 @@ for topic_id in valid_topics[:5]:
 
 Her iki yöntem de konu kelimeleri üretir. Soru, bu kelimelerin tutarlı olup olmadığıdır:
 
-- **Konu tutarlılığı (c_v).** Üst kelime çiftlerinin kayan pencere bağlamındaki NPMI'sini (normalized pointwise mutual information) birleştirir, skorları konu vektörlerine toplar ve bu vektörleri cosinüs benzerliği ile karşılaştırır. Daha yükseği daha iyidir. `gensim.models.CoherenceModel` ile `coherence="c_v"` kullanın.
+- **Konu tutarlılığı (c_v).** Üst kelime çiftlerinin kayan pencere bağlamındaki NPMI'sini (normalized pointwise mutual information) birleştirir, skorları konu vektörlerine toplar ve bu vektörleri cosinüs benzerliği ile karşılaştırır. Daha yükseği daha iyidir. `gensim.models. CoherenceModel` ile `coherence="c_v"` kullanın.
 - **Konu çeşitliliği.** Tüm konuların üst kelimeleri arasındaki benzersiz kelimelerin oranı. Daha yükseği daha iyidir (konular çakışmaz).
 - **Nitel inceleme.** Her konunun üst kelimelerini okuyun. Gerçek bir şeyi mi adlandırıyorlar? İnsan yargısı hâlâ son savunma hattıdır.
 
@@ -127,8 +127,8 @@ En büyük pratik husus belge uzunluğudur. BERT embedding'leri kesilir; LDA say
 2026 stacki:
 
 - **BERTopic.** Kısa metin ve anlamsallığın önemli olduğu her şey için varsayılan.
-- **`gensim.models.LdaModel`.** Production için klasik LDA, olgun, savaşta test edilmiş.
-- **`sklearn.decomposition.LatentDirichletAllocation`.** Deneyler için kolay LDA.
+- **`gensim.models. LdaModel`.** Production için klasik LDA, olgun, savaşta test edilmiş.
+- **`sklearn.decomposition. LatentDirichletAllocation`.** Deneyler için kolay LDA.
 - **NMF.** Negatif olmayan matris ayrıştırması. LDA için hızlı alternatif, kısa metinde karşılaştırılabilir kalite.
 - **Top2Vec.** BERTopic'e benzer tasarım. Daha küçük topluluk ama bazı benchmark'larda iyi.
 - **FASTopic.** Daha yeni, çok büyük corpus'larda BERTopic'ten daha hızlı.
@@ -152,7 +152,7 @@ Given a corpus description (document count, avg length, domain, language, comput
 
 1. Algorithm. LDA / NMF / BERTopic / Top2Vec / FASTopic. One-sentence reason.
 2. Configuration. Number of topics: `recommended = max(5, round(sqrt(n_docs)))`, clamped to 200 for corpora under 40,000 docs; permit >200 only when the corpus is genuinely large (>40k) and note the increased compute cost. `min_df` / `max_df` filters and embedding model for neural approaches also belong here.
-3. Evaluation. Topic coherence (c_v) via `gensim.models.CoherenceModel`, topic diversity, and a 20-sample human read.
+3. Evaluation. Topic coherence (c_v) via `gensim.models. CoherenceModel`, topic diversity, and a 20-sample human read.
 4. Failure mode to probe. For LDA, "junk topics" absorbing stopwords and frequent terms. For BERTopic, the -1 outlier cluster swallowing ambiguous documents.
 
 Refuse BERTopic on documents longer than the embedding model's context window without a chunking strategy. Refuse LDA on very short text (tweets, reviews under 10 tokens) as coherence collapses. Flag any n_topics choice below 5 as likely wrong; flag >200 on corpora under 40k docs as likely over-splitting.

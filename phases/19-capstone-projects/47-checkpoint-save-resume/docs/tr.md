@@ -28,13 +28,13 @@ Atomik kayıt, sözleşmenin diğer yarısıdır. Son dosya adına yazmak, yazma
 
 ```mermaid
 flowchart TD
-  ckpt[kontrol noktası yükü] --> m[model state_dict]
-  ckpt --> o[optimize edici state_dict]
-  ckpt --> s[zamanlayıcı state_dict]
-  ckpt --> tr[eğitim durumu: adım, epoch, epoch_içi_batch, kayıplar]
-  ckpt --> rng[rng durumu: python, numpy, torch_cpu, torch_cuda]
-  ckpt --> meta[kaydedilme_zamanı, şema]
-  ckpt --> write[atomik yazma: geçici dosya sonra os.replace]
+ ckpt[kontrol noktası yükü] --> m[model state_dict]
+ ckpt --> o[optimize edici state_dict]
+ ckpt --> s[zamanlayıcı state_dict]
+ ckpt --> tr[eğitim durumu: adım, epoch, epoch_içi_batch, kayıplar]
+ ckpt --> rng[rng durumu: python, numpy, torch_cpu, torch_cuda]
+ ckpt --> meta[kaydedilme_zamanı, şema]
+ ckpt --> write[atomik yazma: geçici dosya sonra os.replace]
 ```
 
 ### Beş durum kovası
@@ -51,11 +51,11 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  payload[yük] --> tmpf[.ckpt.pt.XXXX.tmp'a yaz]
-  tmpf --> rename[os.replace ile ckpt.pt'ye]
-  rename --> done[ckpt.pt geçerli]
-  crash1[yeniden adlandırmadan önce çökme] --> orig[ckpt.pt değişmedi]
-  crash2[yeniden adlandırmadan sonra çökme] --> done
+ payload[yük] --> tmpf[.ckpt.pt. XXXX.tmp'a yaz]
+ tmpf --> rename[os.replace ile ckpt.pt'ye]
+ rename --> done[ckpt.pt geçerli]
+ crash1[yeniden adlandırmadan önce çökme] --> orig[ckpt.pt değişmedi]
+ crash2[yeniden adlandırmadan sonra çökme] --> done
 ```
 
 İki kural. Birincisi, geçici dosya hedefle aynı dizinde yaşar, böylece yeniden adlandırma aynı dosya sistemi içinde kalır; cihazlar arası yeniden adlandırmalar atomik değildir. İkincisi, geçici ad deneme başına benzersizdir, böylece iki yazar birbirini eşelemez.
@@ -66,14 +66,14 @@ Model büyüdüğünde tek-dosya yükü, hızlı yüklemek için çok büyük, i
 
 ```mermaid
 flowchart LR
-  state[state_dict] --> split[anahtarları N parçaya round-robin]
-  split --> s0[model.shard-000.pt]
-  split --> s1[model.shard-001.pt]
-  split --> sN[model.shard-NNN.pt]
-  s0 --> idx[index.json]
-  s1 --> idx
-  sN --> idx
-  meta[meta.pt: optimize edici + zamanlayıcı + eğitim_durumu + rng] --> idx
+ state[state_dict] --> split[anahtarları N parçaya round-robin]
+ split --> s0[model.shard-000.pt]
+ split --> s1[model.shard-001.pt]
+ split --> sN[model.shard-NNN.pt]
+ s0 --> idx[index.json]
+ s1 --> idx
+ sN --> idx
+ meta[meta.pt: optimize edici + zamanlayıcı + eğitim_durumu + rng] --> idx
 ```
 
 Dizin, parça sayısını, her parçanın sha256'sını ve meta dosyasının sha256'sını kaydeder. Yükleyici, herhangi bir hash uyuşmazlığında yüksek sesle başarısız olur. Parçalar farklı fiziksel disklere inebilir; meta küçüktür ve önce okunur.

@@ -11,7 +11,7 @@
 
 ## Öğrenme Hedefleri
 
-- PyTorch'un nn.Module, nn.Sequential ve autograd'ını kullanarak sinir ağları inşa edin ve eğitin
+- PyTorch'un nn. Module, nn. Sequential ve autograd'ını kullanarak sinir ağları inşa edin ve eğitin
 - PyTorch tensor'larını, GPU hızlandırmasını ve standart eğitim döngüsünü (zero_grad, forward, loss, backward, step) kullanın
 - Sıfırdan yazdığınız mini framework bileşenlerini PyTorch karşılıklarına dönüştürün
 - Saf Python framework'ünüz ile PyTorch'u aynı görevde karşılaştırın
@@ -33,9 +33,9 @@ PyTorch otomatik türev, GPU desteği, serileştirme, dağıtık eğitim ve karm
 Tensor, üç kritik özelliği olan çok boyutlu bir dizidir: shape (şekil), dtype (veri tipi), device (cihaz).
 
 ```python
-x = torch.zeros(3, 4)           # shape: (3, 4), dtype: float32, device: cpu
+x = torch.zeros(3, 4) # shape: (3, 4), dtype: float32, device: cpu
 x = torch.randn(2, 3, 224, 224) # batch of 2 RGB images, 224x224
-x = torch.tensor([1, 2, 3])     # from a Python list
+x = torch.tensor([1, 2, 3]) # from a Python list
 ```
 
 `RuntimeError: Expected all tensors to be on the same device` — yeni başlayanların 1 numaralı PyTorch hatası.
@@ -49,26 +49,26 @@ x = torch.randn(3, requires_grad=True)
 y = x ** 2 + 3 * x
 z = y.sum()
 z.backward()
-print(x.grad)  # dz/dx = 2x + 3
+print(x.grad) # dz/dx = 2x + 3
 ```
 
 Üç kural: 1) Sadece `requires_grad=True` olan leaf tensor'lar gradyan biriktirir. 2) Gradyanlar varsayılan olarak birikir — her backward öncesi `zero_grad()`. 3) `torch.no_grad()` gradyan izlemeyi devre dışı bırakır.
 
-### nn.Module
+### nn. Module
 
 PyTorch'ta her sinir ağı bileşeninin temel sınıfı. Otomatik parametre kaydı, özyinelemeli modül keşfi, cihaz yönetimi ve state_dict serileştirmesi ekler.
 
 ```python
-class MLP(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(784, 256), nn.ReLU(), nn.Dropout(0.2),
-            nn.Linear(256, 128), nn.ReLU(), nn.Dropout(0.2),
-            nn.Linear(128, 10),
-        )
-    def forward(self, x):
-        return self.net(x)
+class MLP(nn. Module):
+ def __init__(self):
+ super().__init__()
+ self.net = nn. Sequential(
+ nn. Linear(784, 256), nn. ReLU(), nn. Dropout(0.2),
+ nn. Linear(256, 128), nn. ReLU(), nn. Dropout(0.2),
+ nn. Linear(128, 10),
+ )
+ def forward(self, x):
+ return self.net(x)
 ```
 
 ### Eğitim Döngüsü
@@ -76,13 +76,13 @@ class MLP(nn.Module):
 Her PyTorch eğitim döngüsü aynı 5 adımlı deseni izler:
 ```python
 for epoch in range(num_epochs):
-    model.train()
-    for inputs, targets in train_loader:
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, targets)
-        loss.backward()
-        optimizer.step()
+ model.train()
+ for inputs, targets in train_loader:
+ optimizer.zero_grad()
+ outputs = model(inputs)
+ loss = criterion(outputs, targets)
+ loss.backward()
+ optimizer.step()
 ```
 
 Beş satır. GPT-4, Stable Diffusion ve LLaMA'yı eğiten beş satır.
@@ -97,8 +97,8 @@ model = model.to(device)
 Karma hassasiyet (mixed precision) belleği yarıya indirir ve verimi ikiye katlar:
 ```python
 with autocast(device_type="cuda"):
-    outputs = model(inputs)
-    loss = criterion(outputs, targets)
+ outputs = model(inputs)
+ loss = criterion(outputs, targets)
 ```
 
 ## Uygulama
@@ -121,7 +121,7 @@ Her zaman `state_dict()` kaydedin, model nesnesini değil.
 |-------|--------------------------|
 | Tensor | Otomatik türev desteği olan, tipli, cihaz bilincine sahip çok boyutlu dizi |
 | Autograd | İleri geçişte işlemleri kaydedip geriye doğru oynatan bant tabanlı sistem |
-| nn.Module | Parametre kaydeden, iç içe geçmeyi destekleyen türevlenebilir hesaplama bloğu |
+| nn. Module | Parametre kaydeden, iç içe geçmeyi destekleyen türevlenebilir hesaplama bloğu |
 | state_dict | Parametre adlarını tensor'lara eşleyen sıralı sözlük |
 | .backward() | Hesaplama grafiğini tersine çaprazlayarak gradyan hesaplama |
 | Karma hassasiyet | Hız için float16, kararlılık için float32 master ağırlıklar |

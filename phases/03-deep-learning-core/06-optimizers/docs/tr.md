@@ -75,8 +75,8 @@ Epsilon (genellikle 1e-8), bir parametre henüz güncellenmediğinde sıfıra b�
 Adam her iki fikri birleştirir. Her parametre için iki üstel hareketli ortalama sürdürür:
 
 ```
-m_t = beta1 × m_{t-1} + (1 - beta1) × gradyan        (birinci moment: ortalama)
-v_t = beta2 × v_{t-1} + (1 - beta2) × gradyan²       (ikinci moment: kare ortalama)
+m_t = beta1 × m_{t-1} + (1 - beta1) × gradyan (birinci moment: ortalama)
+v_t = beta2 × v_{t-1} + (1 - beta2) × gradyan² (ikinci moment: kare ortalama)
 ```
 
 Önyargı düzeltmesi (ilk birkaç adım için):

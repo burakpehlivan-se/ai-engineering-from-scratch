@@ -25,7 +25,7 @@ Bu ders bag of words'ü sıfırdan oluşturur, ardından TF-IDF'i. Sonra scikit-
 
 ```
 TF-IDF(w, d) = TF(w, d) * IDF(w)
-             = count(w in d) / |d| * log(N / df(w))
+ = count(w in d) / |d| * log(N / df(w))
 ```
 
 Burada `TF` belgedeki terim sıklığıdır, `df` belge sıklığıdır (kelimeyi kaç belgenin içerdiği), `N` toplam belge sayısıdır. `log`, her yerde görünen kelimeler için ağırlığı sınırlı tutar.
@@ -38,12 +38,12 @@ Anahtar özellik: her ikisi de yorumlanabilir eksenlere sahip seyrek vektörler 
 
 ```python
 def build_vocab(docs):
-    vocab = {}
-    for doc in docs:
-        for token in doc:
-            if token not in vocab:
-                vocab[token] = len(vocab)
-    return vocab
+ vocab = {}
+ for doc in docs:
+ for token in doc:
+ if token not in vocab:
+ vocab[token] = len(vocab)
+ return vocab
 ```
 
 Girdi: tokenlanmış belgelerin listesi (herhangi bir kelime düzeyi tokenizer işe yarar; bu dersteki `code/main.py` basitleştirilmiş küçük harf varyantı kullanır). Çıktı: `{kelime: indeks}` sözlüğü. Kararlı ekleme sırası, kelime indeksi 0'ın ilk belgede görünen ilk kelime olduğunu anlamına gelir. Sözleşme değişir; scikit-learn alfabetik sıralar.
@@ -52,12 +52,12 @@ Girdi: tokenlanmış belgelerin listesi (herhangi bir kelime düzeyi tokenizer i
 
 ```python
 def bag_of_words(docs, vocab):
-    matrix = [[0] * len(vocab) for _ in docs]
-    for i, doc in enumerate(docs):
-        for token in doc:
-            if token in vocab:
-                matrix[i][vocab[token]] += 1
-    return matrix
+ matrix = [[0] * len(vocab) for _ in docs]
+ for i, doc in enumerate(docs):
+ for token in doc:
+ if token in vocab:
+ matrix[i][vocab[token]] += 1
+ return matrix
 ```
 
 ```python
@@ -76,20 +76,20 @@ import math
 
 
 def term_frequency(doc_bow, doc_length):
-    return [c / doc_length if doc_length else 0 for c in doc_bow]
+ return [c / doc_length if doc_length else 0 for c in doc_bow]
 
 
 def document_frequency(bow_matrix):
-    df = [0] * len(bow_matrix[0])
-    for row in bow_matrix:
-        for j, count in enumerate(row):
-            if count > 0:
-                df[j] += 1
-    return df
+ df = [0] * len(bow_matrix[0])
+ for row in bow_matrix:
+ for j, count in enumerate(row):
+ if count > 0:
+ df[j] += 1
+ return df
 
 
 def inverse_document_frequency(df, n_docs):
-    return [math.log((n_docs + 1) / (d + 1)) + 1 for d in df]
+ return [math.log((n_docs + 1) / (d + 1)) + 1 for d in df]
 ```
 
 Adlandırmaya değer iki yumuşatma hilesi. `(n+1)/(d+1)` ifadesi `log(x/0)` durumunu önler. Sondaki `+1`, her belgedeki bir kelimenin IDF'inin 1 (0 değil) olmasını sağlar; bu scikit-learn'ün varsayılanıyla eşleşir. Diğer uygulamalar ham `log(N/df)` kullanır. İkisi de çalışır; yumuşatılmış versiyon daha dostane.
@@ -98,22 +98,22 @@ Adlandırmaya değer iki yumuşatma hilesi. `(n+1)/(d+1)` ifadesi `log(x/0)` dur
 
 ```python
 def tfidf(bow_matrix):
-    n_docs = len(bow_matrix)
-    df = document_frequency(bow_matrix)
-    idf = inverse_document_frequency(df, n_docs)
-    out = []
-    for row in bow_matrix:
-        length = sum(row)
-        tf = term_frequency(row, length)
-        out.append([tf_j * idf_j for tf_j, idf_j in zip(tf, idf)])
-    return out
+ n_docs = len(bow_matrix)
+ df = document_frequency(bow_matrix)
+ idf = inverse_document_frequency(df, n_docs)
+ out = []
+ for row in bow_matrix:
+ length = sum(row)
+ tf = term_frequency(row, length)
+ out.append([tf_j * idf_j for tf_j, idf_j in zip(tf, idf)])
+ return out
 ```
 
 ```python
 >>> docs = [
-...     ["the", "cat", "sat"],
-...     ["the", "dog", "sat"],
-...     ["the", "cat", "ran"],
+... ["the", "cat", "sat"],
+... ["the", "dog", "sat"],
+... ["the", "cat", "ran"],
 ... ]
 >>> vocab = build_vocab(docs)
 >>> bow = bag_of_words(docs, vocab)
@@ -126,11 +126,11 @@ def tfidf(bow_matrix):
 
 ```python
 def l2_normalize(matrix):
-    out = []
-    for row in matrix:
-        norm = math.sqrt(sum(x * x for x in row))
-        out.append([x / norm if norm else 0 for x in row])
-    return out
+ out = []
+ for row in matrix:
+ norm = math.sqrt(sum(x * x for x in row))
+ out.append([x / norm if norm else 0 for x in row])
+ return out
 ```
 
 Normalize etmeden, daha uzun bir belge daha büyük bir vektör alır ve benzerlik puanlarına hakim olur. L2 normalizasyonu her belgeyi birim hipersferine koyar. Satırlar arasındaki cosinesimilarity artık sadece bir nokta çarpımıdır.
@@ -190,19 +190,19 @@ Diğer başarısızlık: çıkarımda sözlük-dışı (OOV) kelimeler. IMDb yor
 
 ```python
 def tfidf_weighted_embedding(doc, tfidf_scores, embedding_table, dim):
-    vec = [0.0] * dim
-    total_weight = 0.0
-    for token in doc:
-        if token not in embedding_table or token not in tfidf_scores:
-            continue
-        weight = tfidf_scores[token]
-        emb = embedding_table[token]
-        for i in range(dim):
-            vec[i] += weight * emb[i]
-        total_weight += weight
-    if total_weight == 0:
-        return vec
-    return [v / total_weight for v in vec]
+ vec = [0.0] * dim
+ total_weight = 0.0
+ for token in doc:
+ if token not in embedding_table or token not in tfidf_scores:
+ continue
+ weight = tfidf_scores[token]
+ emb = embedding_table[token]
+ for i in range(dim):
+ vec[i] += weight * emb[i]
+ total_weight += weight
+ if total_weight == 0:
+ return vec
+ return [v / total_weight for v in vec]
 ```
 
 Embedding'lerden anlamsal kapasite, TF-IDF'ten nadir kelime vurgusu elde edersiniz. Sınıflandıcı havuzlanmış vektör üzerinde eğitilir. sentiment analysis, topic ve niyet sınıflandırmasında yaklaşık 50 bin etiketlenmiş örneğe kadar her ikisinden ayrı olarak daha iyi performans gösterir.

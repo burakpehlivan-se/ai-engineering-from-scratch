@@ -28,24 +28,24 @@ Kopyasızlık bir imza sorunudur. Tam-hash kopyasızlık, benzer kopyaları kaç
 
 ```mermaid
 flowchart TD
-  Source[Uzak parça URL'leri] --> Plan[Manifest girişlerini planla]
-  Plan --> Download[Range ile akan GET]
-  Download --> Verify[Kısmi byte'ları hashle]
-  Verify -->|uyuşmazlık| Resume[Range isteği ver]
-  Verify -->|eşleşme| Decompress[zstd üzerinden akıt]
-  Decompress --> Iterate[JSONL belgelerini yinele]
-  Iterate --> Sig[MinHash imzası]
-  Sig --> Bucket[LSH kova araması]
-  Bucket -->|yeni| Keep[Parçaya ekle]
-  Bucket -->|yakın kopya| Drop[Kararla düşür]
-  Keep --> Manifest[Manifest girişini güncelle]
-  Drop --> Manifest
-  Manifest --> Done[Parça manifesti yayınlandı]
+ Source[Uzak parça URL'leri] --> Plan[Manifest girişlerini planla]
+ Plan --> Download[Range ile akan GET]
+ Download --> Verify[Kısmi byte'ları hashle]
+ Verify -->|uyuşmazlık| Resume[Range isteği ver]
+ Verify -->|eşleşme| Decompress[zstd üzerinden akıt]
+ Decompress --> Iterate[JSONL belgelerini yinele]
+ Iterate --> Sig[MinHash imzası]
+ Sig --> Bucket[LSH kova araması]
+ Bucket -->|yeni| Keep[Parçaya ekle]
+ Bucket -->|yakın kopya| Drop[Kararla düşür]
+ Keep --> Manifest[Manifest girişini güncelle]
+ Drop --> Manifest
+ Manifest --> Done[Parça manifesti yayınlandı]
 ```
 
 ### `urllib` ile akış
 
-Standart kütüphane `urllib.request.urlopen`, dosya benzeri bir nesne döndürür. Bunu bir `zstandard.ZstdDecompressor().stream_reader` içine sarın ve byte'lar ağdan açıcı üzerinden belge yineleyicisine akar; sıkıştırılmış parça veya açılmış parça bellekte hiç gerçekleşmez. Tek bellek maliyeti, satır arabelleği, geçerli belge için MinHash imzası ve LSH dizinidir.
+Standart kütüphane `urllib.request.urlopen`, dosya benzeri bir nesne döndürür. Bunu bir `zstandard. ZstdDecompressor().stream_reader` içine sarın ve byte'lar ağdan açıcı üzerinden belge yineleyicisine akar; sıkıştırılmış parça veya açılmış parça bellekte hiç gerçekleşmez. Tek bellek maliyeti, satır arabelleği, geçerli belge için MinHash imzası ve LSH dizinidir.
 
 ### `Range` ile sürdürme
 
@@ -67,7 +67,7 @@ LSH daha sonra `k` bileşenlerini her biri `r` satırlık `b` banda gruplar, bur
 
 - `ShardPlanner` - bir parça URL'leri listesini okur ve planlanmış manifest girişleri üretir.
 - `StreamingDownloader` - isteğe bağlı `Range` ile bir `urllib` akışı açar, geçici bir dosyaya yazar, `.partial.json` kontrol noktasını her chunk'ta günceller ve sürdürmede sha256 önekini doğrular.
-- `ZstdDocIterator` - dosya benzeri akışı `zstandard.ZstdDecompressor` içine sarar ve satır başına bir belge verir.
+- `ZstdDocIterator` - dosya benzeri akışı `zstandard. ZstdDecompressor` içine sarar ve satır başına bir belge verir.
 - `MinHasher` - sabit bir hash seed ailesi kullanarak bir dize için `k` bileşenli imza üretir.
 - `LSHIndex` - imzaları banda göre kovalar ve çarpışmaları rapor eder.
 - `Dedup` - hasher ve dizini birleştirerek her belgeyi `keep` veya `near_duplicate` olarak, eşleşen parça kimliğiyle birlikte etiketler.

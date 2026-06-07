@@ -29,11 +29,11 @@ Zihinsel model basittir; matematik, çoğu tanıtımın rasterizasyondan başlay
 Bir 3B Gaussian, uzayda şu niteliklere sahip parametrik bir bulanıklıktır:
 
 ```
-position         mu         (3,)    dünya koordinatlarında merkez
-rotation         q          (4,)    yönelimi kodlayan birim kuaterniyon
-scale            s          (3,)    eksen başına log-ölçekler (render anında üstel)
-opacity          alpha      (1,)    sigmoid sonrası opaklık [0, 1]
-SH coefficients  c_lm       (3 * (L+1)^2,)   bakışa bağlı renk
+position mu (3,) dünya koordinatlarında merkez
+rotation q (4,) yönelimi kodlayan birim kuaterniyon
+scale s (3,) eksen başına log-ölçekler (render anında üstel)
+opacity alpha (1,) sigmoid sonrası opaklık [0, 1]
+SH coefficients c_lm (3 * (L+1)^2,) bakışa bağlı renk
 ```
 
 Dönüş + ölçek, 3x3'lük bir kovaryans oluşturur: `Sigma = R S S^T R^T`. Bu, Gaussian'ın 3B'deki şeklidir. Küresel harmonikler (spherical harmonics), rengin bakış yönüyle değişmesini sağlar — speküler vurgular, ince parlaklık, bakışa bağlı ışıltı — görüş başına doku saklamadan. SH derece 3 ile kanal başına 16 katsayı, sadece renk için Gauss başına 48 float elde edilir.
@@ -44,15 +44,15 @@ Bir sahne tipik olarak 1-5 milyon Gaussian içerir. Her biri yaklaşık 60 float
 
 ```mermaid
 flowchart LR
-    SCENE["Milyonlarca 3B Gaussian<br/>(konum, dönüş, ölçek,<br/>opaklık, SH renk)"] --> PROJ["2B'ye izdüşüm<br/>(kamera extrinsic + intrinsic)"]
-    PROJ --> TILES["Tile'lara ata<br/>(16x16 ekran-uzayı)"]
-    TILES --> SORT["Derinlik-sırala<br/>tile başına"]
-    SORT --> ALPHA["Alpha-composite<br/>önden arkaya"]
-    ALPHA --> PIX["Piksel rengi"]
+ SCENE["Milyonlarca 3B Gaussian<br/>(konum, dönüş, ölçek,<br/>opaklık, SH renk)"] --> PROJ["2B'ye izdüşüm<br/>(kamera extrinsic + intrinsic)"]
+ PROJ --> TILES["Tile'lara ata<br/>(16x16 ekran-uzayı)"]
+ TILES --> SORT["Derinlik-sırala<br/>tile başına"]
+ SORT --> ALPHA["Alpha-composite<br/>önden arkaya"]
+ ALPHA --> PIX["Piksel rengi"]
 
-    style SCENE fill:#dbeafe,stroke:#2563eb
-    style ALPHA fill:#fef3c7,stroke:#d97706
-    style PIX fill:#dcfce7,stroke:#16a34a
+ style SCENE fill:#dbeafe,stroke:#2563eb
+ style ALPHA fill:#fef3c7,stroke:#d97706
+ style PIX fill:#dcfce7,stroke:#16a34a
 ```
 
 Beş adım, tamamı GPU dostu. Piksel başına MLP sorgusu yok. Tek bir RTX 3080 Ti, 6 milyon splat'ı 147 fps'de render eder.
@@ -63,7 +63,7 @@ Dünya konumu `mu` ve 3B kovaryans `Sigma`'daki 3B Gaussian, ekran konumu `mu'` 
 
 ```
 mu' = project(mu)
-Sigma' = J W Sigma W^T J^T          (2 x 2)
+Sigma' = J W Sigma W^T J^T (2 x 2)
 
 W = görüntü dönüşümü (kameranın rotasyon + translasyonu)
 J = mu'deki perspektif izdüşümün Jacobian'ı
@@ -78,9 +78,9 @@ Bir piksel için, onu kaplayan Gaussian'lar arkadan öne (veya eşdeğer olarak 
 ```
 C_pixel = sum_i alpha_i * T_i * c_i
 
-T_i = prod_{j < i} (1 - alpha_j)       i'ye kadar geçirgenlik
-alpha_i = opacity_i * exp(-0.5 * d^T Sigma'^-1 d)   yerel katkı
-c_i = eval_SH(SH_i, view_direction)    bakışa bağlı renk
+T_i = prod_{j < i} (1 - alpha_j) i'ye kadar geçirgenlik
+alpha_i = opacity_i * exp(-0.5 * d^T Sigma'^-1 d) yerel katkı
+c_i = eval_SH(SH_i, view_direction) bakışa bağlı renk
 ```
 
 Bu, **NeRF'in volümetrik render'ı (volumetric rendering) ile aynı denklemdir**, sadece bir ışın boyunca yoğun örnekler yerine açık bir seyrek Gauss kümesi üzerinde. Bu özdeşlik, render kalitesinin NeRF ile eşleşmesinin nedenidir — her ikisi de aynı radyans-alanı denklemini entegre eder.
@@ -106,12 +106,12 @@ Bakışa bağlı renk, birim küre üzerinde bir `c(direction)` fonksiyonudur. K
 ### 2026 üretim yığını
 
 ```
-1. Yakalama        akıllı telefon / DJI drone / el tarayıcısı
-2. SfM / MVS       COLMAP veya GLOMAP kamera pozlarını + seyrek noktaları türetir
-3. 3DGS eğitimi    nerfstudio / gsplat / inria official / PostShot (~10-30 dk RTX 4090'da)
-4. Düzenleme       SuperSplat / SplatForge (yüzen nesneleri temizle, segmentle)
-5. Dışa aktarım    .ply -> glTF KHR_gaussian_splatting veya .usd (OpenUSD 26.03)
-6. Görüntüleme     Cesium / Unreal / Babylon.js / Three.js / Vision Pro
+1. Yakalama akıllı telefon / DJI drone / el tarayıcısı
+2. SfM / MVS COLMAP veya GLOMAP kamera pozlarını + seyrek noktaları türetir
+3. 3DGS eğitimi nerfstudio / gsplat / inria official / PostShot (~10-30 dk RTX 4090'da)
+4. Düzenleme SuperSplat / SplatForge (yüzen nesneleri temizle, segmentle)
+5. Dışa aktarım .ply -> glTF KHR_gaussian_splatting veya .usd (OpenUSD 26.03)
+6. Görüntüleme Cesium / Unreal / Babylon.js / Three.js / Vision Pro
 ```
 
 ### 4D ve üretken varyantlar
@@ -133,20 +133,20 @@ import torch.nn.functional as F
 
 
 def eval_2d_gaussian(means, covs, points):
-    """
-    means:  (G, 2)      merkezler
-    covs:   (G, 2, 2)   kovaryans matrisleri
-    points: (H, W, 2)   piksel koordinatları
-    returns: (G, H, W)  her Gaussian için her pikseldeki yoğunluk
-    """
-    G = means.size(0)
-    H, W, _ = points.shape
-    flat = points.view(-1, 2)
-    inv = torch.linalg.inv(covs)
-    diff = flat[None, :, :] - means[:, None, :]
-    d = torch.einsum("gpi,gij,gpj->gp", diff, inv, diff)
-    density = torch.exp(-0.5 * d)
-    return density.view(G, H, W)
+ """
+ means: (G, 2) merkezler
+ covs: (G, 2, 2) kovaryans matrisleri
+ points: (H, W, 2) piksel koordinatları
+ returns: (G, H, W) her Gaussian için her pikseldeki yoğunluk
+ """
+ G = means.size(0)
+ H, W, _ = points.shape
+ flat = points.view(-1, 2)
+ inv = torch.linalg.inv(covs)
+ diff = flat[None, :, :] - means[:, None, :]
+ d = torch.einsum("gpi,gij,gpj->gp", diff, inv, diff)
+ density = torch.exp(-0.5 * d)
+ return density.view(G, H, W)
 ```
 #### Açıklama
 `einsum`, `diff^T Sigma^-1 diff` kuadratik formunu her (Gaussian, piksel) çifti için hesaplar.
@@ -157,38 +157,38 @@ Alpha-compositing önden arkaya. 2B'de derinlik anlamsızdır, bu nedenle sıral
 
 ```python
 def rasterise_2d(means, covs, colours, opacities, depths, image_size):
-    """
-    means:     (G, 2)
-    covs:      (G, 2, 2)
-    colours:   (G, 3)
-    opacities: (G,)     [0, 1] aralığında
-    depths:    (G,)     sıralama için Gauss başına skaler
-    image_size: (H, W)
-    returns:   (H, W, 3) render edilmiş görüntü
-    """
-    H, W = image_size
-    yy, xx = torch.meshgrid(
-        torch.arange(H, dtype=torch.float32, device=means.device),
-        torch.arange(W, dtype=torch.float32, device=means.device),
-        indexing="ij",
-    )
-    points = torch.stack([xx, yy], dim=-1)
+ """
+ means: (G, 2)
+ covs: (G, 2, 2)
+ colours: (G, 3)
+ opacities: (G,) [0, 1] aralığında
+ depths: (G,) sıralama için Gauss başına skaler
+ image_size: (H, W)
+ returns: (H, W, 3) render edilmiş görüntü
+ """
+ H, W = image_size
+ yy, xx = torch.meshgrid(
+ torch.arange(H, dtype=torch.float32, device=means.device),
+ torch.arange(W, dtype=torch.float32, device=means.device),
+ indexing="ij",
+ )
+ points = torch.stack([xx, yy], dim=-1)
 
-    densities = eval_2d_gaussian(means, covs, points)
-    alphas = opacities[:, None, None] * densities
-    alphas = alphas.clamp(0.0, 0.99)
+ densities = eval_2d_gaussian(means, covs, points)
+ alphas = opacities[:, None, None] * densities
+ alphas = alphas.clamp(0.0, 0.99)
 
-    order = torch.argsort(depths)
-    alphas = alphas[order]
-    colours_sorted = colours[order]
+ order = torch.argsort(depths)
+ alphas = alphas[order]
+ colours_sorted = colours[order]
 
-    T = torch.ones(H, W, device=means.device)
-    out = torch.zeros(H, W, 3, device=means.device)
-    for i in range(means.size(0)):
-        a = alphas[i]
-        out += (T * a)[..., None] * colours_sorted[i][None, None, :]
-        T = T * (1.0 - a)
-    return out
+ T = torch.ones(H, W, device=means.device)
+ out = torch.zeros(H, W, 3, device=means.device)
+ for i in range(means.size(0)):
+ a = alphas[i]
+ out += (T * a)[..., None] * colours_sorted[i][None, None, :]
+ T = T * (1.0 - a)
+ return out
 ```
 #### Açıklama
 Hızlı değil — gerçek bir uygulama tile tabanlı CUDA çekirdekleri kullanır — ancak matematik olarak tamamen doğru ve tamamen differentiable'dır.
@@ -196,33 +196,33 @@ Hızlı değil — gerçek bir uygulama tile tabanlı CUDA çekirdekleri kullan�
 ### Adım 3: Eğitilebilir bir 2B splat sahnesi
 
 ```python
-class Splats2D(nn.Module):
-    def __init__(self, num_splats=128, image_size=64, seed=0):
-        super().__init__()
-        g = torch.Generator().manual_seed(seed)
-        H, W = image_size, image_size
-        self.means = nn.Parameter(torch.rand(num_splats, 2, generator=g) * torch.tensor([W, H]))
-        self.log_scale = nn.Parameter(torch.ones(num_splats, 2) * math.log(2.0))
-        self.rot = nn.Parameter(torch.zeros(num_splats))  # 2B'de tek açı
-        self.colour_logits = nn.Parameter(torch.randn(num_splats, 3, generator=g) * 0.5)
-        self.opacity_logit = nn.Parameter(torch.zeros(num_splats))
-        self.depth = nn.Parameter(torch.rand(num_splats, generator=g))
+class Splats2D(nn. Module):
+ def __init__(self, num_splats=128, image_size=64, seed=0):
+ super().__init__()
+ g = torch. Generator().manual_seed(seed)
+ H, W = image_size, image_size
+ self.means = nn. Parameter(torch.rand(num_splats, 2, generator=g) * torch.tensor([W, H]))
+ self.log_scale = nn. Parameter(torch.ones(num_splats, 2) * math.log(2.0))
+ self.rot = nn. Parameter(torch.zeros(num_splats)) # 2B'de tek açı
+ self.colour_logits = nn. Parameter(torch.randn(num_splats, 3, generator=g) * 0.5)
+ self.opacity_logit = nn. Parameter(torch.zeros(num_splats))
+ self.depth = nn. Parameter(torch.rand(num_splats, generator=g))
 
-    def covs(self):
-        s = torch.exp(self.log_scale)
-        c, si = torch.cos(self.rot), torch.sin(self.rot)
-        R = torch.stack([
-            torch.stack([c, -si], dim=-1),
-            torch.stack([si, c], dim=-1),
-        ], dim=-2)
-        S = torch.diag_embed(s ** 2)
-        return R @ S @ R.transpose(-1, -2)
+ def covs(self):
+ s = torch.exp(self.log_scale)
+ c, si = torch.cos(self.rot), torch.sin(self.rot)
+ R = torch.stack([
+ torch.stack([c, -si], dim=-1),
+ torch.stack([si, c], dim=-1),
+ ], dim=-2)
+ S = torch.diag_embed(s ** 2)
+ return R @ S @ R.transpose(-1, -2)
 
-    def forward(self, image_size):
-        covs = self.covs()
-        colours = torch.sigmoid(self.colour_logits)
-        opacities = torch.sigmoid(self.opacity_logit)
-        return rasterise_2d(self.means, covs, colours, opacities, self.depth, image_size)
+ def forward(self, image_size):
+ covs = self.covs()
+ colours = torch.sigmoid(self.colour_logits)
+ opacities = torch.sigmoid(self.opacity_logit)
+ return rasterise_2d(self.means, covs, colours, opacities, self.depth, image_size)
 ```
 #### Açıklama
 `log_scale`, `opacity_logit` ve `colour_logits` tümü kısıtlanmamış parametrelerdir ve render anında doğru aktivasyonla eşlenir. Bu, her 3DGS uygulamasındaki standart desendir.
@@ -234,27 +234,27 @@ import math
 import numpy as np
 
 def make_target(size=64):
-    yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
-    img = np.zeros((size, size, 3), dtype=np.float32)
-    # Kırmızı daire
-    mask = (xx - 20) ** 2 + (yy - 20) ** 2 < 10 ** 2
-    img[mask] = [1.0, 0.2, 0.2]
-    # Mavi kare
-    mask = (np.abs(xx - 45) < 8) & (np.abs(yy - 40) < 8)
-    img[mask] = [0.2, 0.3, 1.0]
-    return torch.from_numpy(img)
+ yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
+ img = np.zeros((size, size, 3), dtype=np.float32)
+ # Kırmızı daire
+ mask = (xx - 20) ** 2 + (yy - 20) ** 2 < 10 ** 2
+ img[mask] = [1.0, 0.2, 0.2]
+ # Mavi kare
+ mask = (np.abs(xx - 45) < 8) & (np.abs(yy - 40) < 8)
+ img[mask] = [0.2, 0.3, 1.0]
+ return torch.from_numpy(img)
 
 
 target = make_target(64)
 model = Splats2D(num_splats=64, image_size=64)
-opt = torch.optim.Adam(model.parameters(), lr=0.05)
+opt = torch.optim. Adam(model.parameters(), lr=0.05)
 
 for step in range(200):
-    pred = model((64, 64))
-    loss = F.mse_loss(pred, target)
-    opt.zero_grad(); loss.backward(); opt.step()
-    if step % 40 == 0:
-        print(f"step {step:3d}  mse {loss.item():.4f}")
+ pred = model((64, 64))
+ loss = F.mse_loss(pred, target)
+ opt.zero_grad(); loss.backward(); opt.step()
+ if step % 40 == 0:
+ print(f"step {step:3d} mse {loss.item():.4f}")
 ```
 #### Açıklama
 200 adımda 64 Gaussian iki şekle yerleşir. Bütün fikir budur — açık geometrik ilkeller üzerinde gradyan inişi.
@@ -277,33 +277,33 @@ Derece 3'e kadar SH tabanı, kanal başına 16 terime sahiptir. Değerlendirme:
 
 ```python
 def eval_sh_degree_3(sh_coeffs, dirs):
-    """
-    sh_coeffs: (..., 16, 3)   son boyut RGB kanalları
-    dirs:      (..., 3)       birim vektörler
-    returns:   (..., 3)
-    """
-    C0 = 0.282094791773878
-    C1 = 0.488602511902920
-    C2 = [1.092548430592079, 1.092548430592079,
-          0.315391565252520, 1.092548430592079,
-          0.546274215296039]
-    x, y, z = dirs[..., 0], dirs[..., 1], dirs[..., 2]
-    x2, y2, z2 = x * x, y * y, z * z
-    xy, yz, xz = x * y, y * z, x * z
+ """
+ sh_coeffs: (..., 16, 3) son boyut RGB kanalları
+ dirs: (..., 3) birim vektörler
+ returns: (..., 3)
+ """
+ C0 = 0.282094791773878
+ C1 = 0.488602511902920
+ C2 = [1.092548430592079, 1.092548430592079,
+ 0.315391565252520, 1.092548430592079,
+ 0.546274215296039]
+ x, y, z = dirs[..., 0], dirs[..., 1], dirs[..., 2]
+ x2, y2, z2 = x * x, y * y, z * z
+ xy, yz, xz = x * y, y * z, x * z
 
-    result = C0 * sh_coeffs[..., 0, :]
-    result = result - C1 * y[..., None] * sh_coeffs[..., 1, :]
-    result = result + C1 * z[..., None] * sh_coeffs[..., 2, :]
-    result = result - C1 * x[..., None] * sh_coeffs[..., 3, :]
+ result = C0 * sh_coeffs[..., 0, :]
+ result = result - C1 * y[..., None] * sh_coeffs[..., 1, :]
+ result = result + C1 * z[..., None] * sh_coeffs[..., 2, :]
+ result = result - C1 * x[..., None] * sh_coeffs[..., 3, :]
 
-    result = result + C2[0] * xy[..., None] * sh_coeffs[..., 4, :]
-    result = result + C2[1] * yz[..., None] * sh_coeffs[..., 5, :]
-    result = result + C2[2] * (2.0 * z2 - x2 - y2)[..., None] * sh_coeffs[..., 6, :]
-    result = result + C2[3] * xz[..., None] * sh_coeffs[..., 7, :]
-    result = result + C2[4] * (x2 - y2)[..., None] * sh_coeffs[..., 8, :]
+ result = result + C2[0] * xy[..., None] * sh_coeffs[..., 4, :]
+ result = result + C2[1] * yz[..., None] * sh_coeffs[..., 5, :]
+ result = result + C2[2] * (2.0 * z2 - x2 - y2)[..., None] * sh_coeffs[..., 6, :]
+ result = result + C2[3] * xz[..., None] * sh_coeffs[..., 7, :]
+ result = result + C2[4] * (x2 - y2)[..., None] * sh_coeffs[..., 8, :]
 
-    # derece 3 terimleri, kısalık amacıyla burada atlanmıştır; tam 16-katsayılı versiyon kod dosyasında
-    return result
+ # derece 3 terimleri, kısalık amacıyla burada atlanmıştır; tam 16-katsayılı versiyon kod dosyasında
+ return result
 ```
 #### Açıklama
 Öğrenilen `sh_coeffs`, o Gaussian için "her yöndeki rengi" saklar. Render anında mevcut bakış yönüne karşı değerlendirilir ve bir 3-vektörlü RGB elde edilir.

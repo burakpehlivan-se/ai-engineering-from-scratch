@@ -30,10 +30,10 @@ Dikkati yumuşak bir veritabanı sorgulaması olarak düşünün:
 
 ```
 Geleneksel veritabanı:
-  Sorgu: "Fransa'nın başkenti"  -->  tam eşleşme  -->  "Paris"
+ Sorgu: "Fransa'nın başkenti" --> tam eşleşme --> "Paris"
 
 Dikkat:
-  Sorgu: "Fransa'nın başkenti"  -->  TÜM anahtarlara benzerlik  -->  TÜM değerlerin ağırlıklı karışımı
+ Sorgu: "Fransa'nın başkenti" --> TÜM anahtarlara benzerlik --> TÜM değerlerin ağırlıklı karışımı
 ```
 
 #### Açıklama
@@ -53,19 +53,19 @@ Her token gömüsü (embedding), öğrenilen üç ağırlık matrisi boyunca pro
 ```
 Girdi gömüler dizisi (n token, her biri d-boyutlu):
 
-  X = [x1, x2, x3, ..., xn]       şekil: (n, d)
+ X = [x1, x2, x3, ..., xn] şekil: (n, d)
 
 Üç ağırlık matrisi:
 
-  Wq  şekil: (d, dk)
-  Wk  şekil: (d, dk)
-  Wv  şekil: (d, dv)
+ Wq şekil: (d, dk)
+ Wk şekil: (d, dk)
+ Wv şekil: (d, dv)
 
 Projeksiyonlar:
 
-  Q = X @ Wq    şekil: (n, dk)      her token'ın sorgusu
-  K = X @ Wk    şekil: (n, dk)      her token'ın anahtarı
-   V = X @ Wv    şekil: (n, dv)      her token'ın değeri
+ Q = X @ Wq şekil: (n, dk) her token'ın sorgusu
+ K = X @ Wk şekil: (n, dk) her token'ın anahtarı
+ V = X @ Wv şekil: (n, dv) her token'ın değeri
 ```
 
 #### Açıklama
@@ -74,14 +74,14 @@ Her token gömüsü, öğrenilen üç farklı ağırlık matrisi ile çarpılara
 Görsel olarak, bir token için:
 
 ```
-             Wq
-  x_i ------[*]------> q_i    "Ne arıyorum?"
-       |
-       |     Wk
-       +----[*]------> k_i    "Ne içeriyorum?"
-       |
-       |     Wv
-       +----[*]------> v_i    "Ne sunuyorum?"
+ Wq
+ x_i ------[*]------> q_i "Ne arıyorum?"
+ |
+ | Wk
+ +----[*]------> k_i "Ne içeriyorum?"
+ |
+ | Wv
+ +----[*]------> v_i "Ne sunuyorum?"
 ```
 
 ### Dikkat Matrisi
@@ -89,20 +89,20 @@ Görsel olarak, bir token için:
 Tüm token'lar için Q, K, V'yi aldığınızda, dikkat puanları bir matris oluşturur:
 
 ```
-Puanlar = Q @ K^T    şekil: (n, n)
+Puanlar = Q @ K^T şekil: (n, n)
 
-              k1    k2    k3    k4    k5
-        +-----+-----+-----+-----+-----+
-   q1   | 2.1 | 0.3 | 0.1 | 0.8 | 0.2 |   <- q1 her anahtara ne kadar dikkat ediyor
-        +-----+-----+-----+-----+-----+
-   q2   | 0.4 | 1.9 | 0.7 | 0.1 | 0.3 |
-        +-----+-----+-----+-----+-----+
-   q3   | 0.2 | 0.6 | 2.3 | 0.5 | 0.1 |
-        +-----+-----+-----+-----+-----+
-   q4   | 0.9 | 0.1 | 0.4 | 1.7 | 0.6 |
-        +-----+-----+-----+-----+-----+
-   q5   | 0.1 | 0.3 | 0.2 | 0.5 | 2.0 |
-        +-----+-----+-----+-----+-----+
+ k1 k2 k3 k4 k5
+ +-----+-----+-----+-----+-----+
+ q1 | 2.1 | 0.3 | 0.1 | 0.8 | 0.2 | <- q1 her anahtara ne kadar dikkat ediyor
+ +-----+-----+-----+-----+-----+
+ q2 | 0.4 | 1.9 | 0.7 | 0.1 | 0.3 |
+ +-----+-----+-----+-----+-----+
+ q3 | 0.2 | 0.6 | 2.3 | 0.5 | 0.1 |
+ +-----+-----+-----+-----+-----+
+ q4 | 0.9 | 0.1 | 0.4 | 1.7 | 0.6 |
+ +-----+-----+-----+-----+-----+
+ q5 | 0.1 | 0.3 | 0.2 | 0.5 | 2.0 |
+ +-----+-----+-----+-----+-----+
 
 Her satır: bir token'ın tüm dizi boyunca dikkati
 ```
@@ -128,11 +128,11 @@ Nokta çarpımlarının boyutla birlikte büyümesi, softmaks fonksiyonunun doym
 Softmax ham puanları her satır üzerinde bir olasılık dağılımına dönüştürür:
 
 ```
-q1 için ham puanlar:   [2.1, 0.3, 0.1, 0.8, 0.2]
-                            |
-                         softmax
-                            |
-Dikkat ağırlıkları:   [0.52, 0.09, 0.07, 0.14, 0.08]   (~1.0 toplar)
+q1 için ham puanlar: [2.1, 0.3, 0.1, 0.8, 0.2]
+ |
+ softmax
+ |
+Dikkat ağırlıkları: [0.52, 0.09, 0.07, 0.14, 0.08] (~1.0 toplar)
 ```
 
 #### Açıklama
@@ -145,32 +145,32 @@ Softmax, ham puanları toplamı 1 olan bir olasılık dağılımına dönüştü
 Her token için nihai çıktı, tüm değer vektörlerinin ağırlıklı toplamıdır:
 
 ```
-output_i = sum( dikkat_agirlik[i][j] * v_j  için tüm j )
+output_i = sum( dikkat_agirlik[i][j] * v_j için tüm j )
 
 Token 1 için:
-  output_1 = 0.52 * v1 + 0.09 * v2 + 0.07 * v3 + 0.14 * v4 + 0.08 * v5
+ output_1 = 0.52 * v1 + 0.09 * v2 + 0.07 * v3 + 0.14 * v4 + 0.08 * v5
 ```
 
 ### Tam Hat
 
 ```
-                    +-------+
-  X (girdi)  ----->|  @ Wq  |-----> Q
-                    +-------+
-                    +-------+
-  X (girdi)  ----->|  @ Wk  |-----> K
-                    +-------+                     +----------+
-                    +-------+                     |          |
-  X (girdi)  ----->|  @ Wv  |-----> V ---------->| ağırlıklı|----> çıktı
-                    +-------+          ^          |  toplam   |
-                                       |          +----------+
-                              +--------+--------+
-                              |    softmax      |
-                              +---------+-------+
-                                        ^
-                              +---------+-------+
-                              | Q @ K^T / sqrt  |
-                              +-----------------+
+ +-------+
+ X (girdi) ----->| @ Wq |-----> Q
+ +-------+
+ +-------+
+ X (girdi) ----->| @ Wk |-----> K
+ +-------+ +----------+
+ +-------+ | |
+ X (girdi) ----->| @ Wv |-----> V ---------->| ağırlıklı|----> çıktı
+ +-------+ ^ | toplam |
+ | +----------+
+ +--------+--------+
+ | softmax |
+ +---------+-------+
+ ^
+ +---------+-------+
+ | Q @ K^T / sqrt |
+ +-----------------+
 ```
 
 Tek satır formül:
@@ -189,14 +189,14 @@ Softmax ham logitleri olasılıklara dönüştürür. Sayısal kararlılık içi
 import numpy as np
 
 def softmax(x):
-    shifted = x - np.max(x, axis=-1, keepdims=True)
-    exp_x = np.exp(shifted)
-    return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
+ shifted = x - np.max(x, axis=-1, keepdims=True)
+ exp_x = np.exp(shifted)
+ return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
 
 logits = np.array([2.0, 1.0, 0.1])
-print(f"logits:  {logits}")
+print(f"logits: {logits}")
 print(f"softmax: {softmax(logits)}")
-print(f"sum:     {softmax(logits).sum():.4f}")
+print(f"sum: {softmax(logits).sum():.4f}")
 ```
 
 #### Açıklama
@@ -208,11 +208,11 @@ Temel işlev. Q, K, V matrislerini alır ve dikkat çıktısı ile ağırlık ma
 
 ```python
 def scaled_dot_product_attention(Q, K, V):
-    dk = Q.shape[-1]
-    scores = Q @ K.T / np.sqrt(dk)
-    weights = softmax(scores)
-    output = weights @ V
-    return output, weights
+ dk = Q.shape[-1]
+ scores = Q @ K. T / np.sqrt(dk)
+ weights = softmax(scores)
+ output = weights @ V
+ return output, weights
 ```
 
 #### Açıklama
@@ -224,21 +224,21 @@ Wq, Wk, Wv ağırlık matrisleri Xavier benzeri ölçekleme ile başlatılmış 
 
 ```python
 class SelfAttention:
-    def __init__(self, d_model, dk, dv, seed=42):
-        rng = np.random.default_rng(seed)
-        scale = np.sqrt(2.0 / (d_model + dk))
-        self.Wq = rng.normal(0, scale, (d_model, dk))
-        self.Wk = rng.normal(0, scale, (d_model, dk))
-        scale_v = np.sqrt(2.0 / (d_model + dv))
-        self.Wv = rng.normal(0, scale_v, (d_model, dv))
-        self.dk = dk
+ def __init__(self, d_model, dk, dv, seed=42):
+ rng = np.random.default_rng(seed)
+ scale = np.sqrt(2.0 / (d_model + dk))
+ self. Wq = rng.normal(0, scale, (d_model, dk))
+ self. Wk = rng.normal(0, scale, (d_model, dk))
+ scale_v = np.sqrt(2.0 / (d_model + dv))
+ self. Wv = rng.normal(0, scale_v, (d_model, dv))
+ self.dk = dk
 
-    def forward(self, X):
-        Q = X @ self.Wq
-        K = X @ self.Wk
-        V = X @ self.Wv
-        output, weights = scaled_dot_product_attention(Q, K, V)
-        return output, weights
+ def forward(self, X):
+ Q = X @ self. Wq
+ K = X @ self. Wk
+ V = X @ self. Wv
+ output, weights = scaled_dot_product_attention(Q, K, V)
+ return output, weights
 ```
 
 #### Açıklama
@@ -264,15 +264,15 @@ output, weights = attn.forward(X)
 print("Dikkat ağırlıkları (her satır: o token'ın nereye baktığı):\n")
 print(f"{'':>6}", end="")
 for token in sentence:
-    print(f"{token:>6}", end="")
+ print(f"{token:>6}", end="")
 print()
 
 for i, token in enumerate(sentence):
-    print(f"{token:>6}", end="")
-    for j in range(n_tokens):
-        w = weights[i][j]
-        print(f"{w:6.3f}", end="")
-    print()
+ print(f"{token:>6}", end="")
+ for j in range(n_tokens):
+ w = weights[i][j]
+ print(f"{w:6.3f}", end="")
+ print()
 ```
 
 ### Adım 5: Dikkati ASCII ısı haritasıyla görselleştirin
@@ -281,26 +281,26 @@ Dikkat ağırlıklarını hızlı bir görsel için karakterlere eşleyin.
 
 ```python
 def ascii_heatmap(weights, tokens, chars=" ░▒▓█"):
-    n = len(tokens)
-    print(f"\n{'':>6}", end="")
-    for t in tokens:
-        print(f"{t:>6}", end="")
-    print()
+ n = len(tokens)
+ print(f"\n{'':>6}", end="")
+ for t in tokens:
+ print(f"{t:>6}", end="")
+ print()
 
-    for i in range(n):
-        print(f"{tokens[i]:>6}", end="")
-        for j in range(n):
-            level = int(weights[i][j] * (len(chars) - 1) / weights.max())
-            level = min(level, len(chars) - 1)
-            print(f"{'  ' + chars[level] + '   '}", end="")
-        print()
+ for i in range(n):
+ print(f"{tokens[i]:>6}", end="")
+ for j in range(n):
+ level = int(weights[i][j] * (len(chars) - 1) / weights.max())
+ level = min(level, len(chars) - 1)
+ print(f"{' ' + chars[level] + ' '}", end="")
+ print()
 
 ascii_heatmap(weights, sentence)
 ```
 
 ## Kullan
 
-PyTorch'un `nn.MultiheadAttention`'ı tam olarak inşa ettiğimiz şeyi yapar, artı çoklu-baş bölme ve çıktı projeksiyonu:
+PyTorch'un `nn. MultiheadAttention`'ı tam olarak inşa ettiğimiz şeyi yapar, artı çoklu-baş bölme ve çıktı projeksiyonu:
 
 ```python
 import torch
@@ -310,14 +310,14 @@ d_model = 8
 n_heads = 2
 seq_len = 6
 
-mha = nn.MultiheadAttention(embed_dim=d_model, num_heads=n_heads, batch_first=True)
+mha = nn. MultiheadAttention(embed_dim=d_model, num_heads=n_heads, batch_first=True)
 
 X_torch = torch.randn(1, seq_len, d_model)
 
 output, attn_weights = mha(X_torch, X_torch, X_torch)
 
-print(f"Girdi şekli:            {X_torch.shape}")
-print(f"Çıktı şekli:           {output.shape}")
+print(f"Girdi şekli: {X_torch.shape}")
+print(f"Çıktı şekli: {output.shape}")
 print(f"Dikkat ağırlık şekli: {attn_weights.shape}")
 print(f"\nDikkat ağırlıkları (başlar ortalaması):")
 print(attn_weights[0].detach().numpy().round(3))

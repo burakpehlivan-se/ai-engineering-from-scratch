@@ -15,9 +15,9 @@ Bir iş yükü (ad, gecikme için kullanıcı beklentisi, trafik hacmi, paylaş�
 2. **Mevcut maliyet.** Mevcut yapılandırmada (senkron, önbellek yok vb.) aylık maliyeti hesapla.
 3. **Hedef maliyet.** Önerilen yapılandırmadan (toplu iş + önbellek veya senkron + önbellek) sonraki maliyeti hesapla. Mevcut durumun %'si olarak ifade et.
 4. **Geçiş planı.** Sağlayıcıya-özgü adımlar (iş yükünün modeliyle eşleşeni seç, ikisini birden değil):
-   - OpenAI: `/v1/batches`'e geçir. İstem önbellekleme uygun istemler için (≥1024 token) otomatik olarak etkinleştirilir — ayarlanacak `cache_control` yok. İsteğe bağlı olarak daha sıkı atıf için `prompt_cache_key` geçir.
-   - Anthropic: Message Batches'e geçir. Önbellek yeniden kullanımı, önbelleklenebilir istem aralıklarında açık `cache_control` blokları (ör. `{"type": "ephemeral"}`) gerektirir; toplu iş indirimi önbellekli-okuma fiyatlandırmasıyla yığılır.
-   - İkisi: Bir başarı/başarısızlık webhook'u ve dönüş penceresini kaçıran toplu işler için senkrone taşma şeridi enstrüman et.
+ - OpenAI: `/v1/batches`'e geçir. İstem önbellekleme uygun istemler için (≥1024 token) otomatik olarak etkinleştirilir — ayarlanacak `cache_control` yok. İsteğe bağlı olarak daha sıkı atıf için `prompt_cache_key` geçir.
+ - Anthropic: Message Batches'e geçir. Önbellek yeniden kullanımı, önbelleklenebilir istem aralıklarında açık `cache_control` blokları (ör. `{"type": "ephemeral"}`) gerektirir; toplu iş indirimi önbellekli-okuma fiyatlandırmasıyla yığılır.
+ - İkisi: Bir başarı/başarısızlık webhook'u ve dönüş penceresini kaçıran toplu işler için senkrone taşma şeridi enstrüman et.
 5. **Risk.** Toplu iş dönüşü P99'da 20 saat ise ne olur? Aşağı akış sistem davranışını adlandır (e-posta teslimi, senkrone kuyruk taşması).
 6. **Gözlemlenebilir.** Yanlış-triyajı yakalayan metrik: toplu iş tamamlama gecikmesi P95; > 12 saat ise uyar.
 

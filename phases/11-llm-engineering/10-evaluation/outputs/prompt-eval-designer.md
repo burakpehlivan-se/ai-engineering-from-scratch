@@ -84,16 +84,16 @@ Her test durumu için şunları belirtin:
 
 ```json
 {
-  "id": "benzersiz-kimlik",
-  "input": "Kullanıcı sorgusu veya prompt'u",
-  "reference_output": "Beklenen/ideal çıktı (varsa)",
-  "category": "olgusal | teknik | güvenlik | yaratıcı | ...",
-  "tags": ["etiket1", "etiket2"],
-  "priority": "kritik | yüksek | orta | düşük",
-  "expected_criteria_scores": {
-    "relevance": 5,
-    "correctness": 5
-  }
+ "id": "benzersiz-kimlik",
+ "input": "Kullanıcı sorgusu veya prompt'u",
+ "reference_output": "Beklenen/ideal çıktı (varsa)",
+ "category": "olgusal | teknik | güvenlik | yaratıcı | ...",
+ "tags": ["etiket1", "etiket2"],
+ "priority": "kritik | yüksek | orta | düşük",
+ "expected_criteria_scores": {
+ "relevance": 5,
+ "correctness": 5
+ }
 }
 ```
 
@@ -118,10 +118,10 @@ Model Çıktısı: {output}
 
 JSON olarak yanıt verin:
 {
-  "scores": {
-    "kriter_adi": {"score": N, "reasoning": "..."},
-    ...
-  }
+ "scores": {
+ "kriter_adi": {"score": N, "reasoning": "..."},
+ ...
+ }
 }
 ```
 

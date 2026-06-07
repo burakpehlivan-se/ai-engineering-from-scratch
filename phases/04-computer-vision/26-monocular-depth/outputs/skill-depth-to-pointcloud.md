@@ -38,52 +38,52 @@ Bir derinlik haritası artı bir renkli görüntüyü dokulu bir nokta bulutuna 
 import numpy as np
 
 def depth_to_point_cloud(depth, intrinsics, depth_scale=1.0, min_depth=0.1, max_depth=100.0):
-    H, W = depth.shape
-    fx, fy, cx, cy = intrinsics
-    v, u = np.meshgrid(np.arange(H), np.arange(W), indexing="ij")
-    z = depth.astype(np.float32) * depth_scale
-    valid = (z > min_depth) & (z < max_depth) & np.isfinite(z)
-    x = (u - cx) * z / fx
-    y = (v - cy) * z / fy
-    points = np.stack([x, y, z], axis=-1)
-    return points, valid
+ H, W = depth.shape
+ fx, fy, cx, cy = intrinsics
+ v, u = np.meshgrid(np.arange(H), np.arange(W), indexing="ij")
+ z = depth.astype(np.float32) * depth_scale
+ valid = (z > min_depth) & (z < max_depth) & np.isfinite(z)
+ x = (u - cx) * z / fx
+ y = (v - cy) * z / fy
+ points = np.stack([x, y, z], axis=-1)
+ return points, valid
 
 
 def write_ply(path, points, colors=None, valid_mask=None):
-    p = points.reshape(-1, 3)
-    if valid_mask is not None:
-        p = p[valid_mask.flatten()]
-    lines = [
-        "ply",
-        "format ascii 1.0",
-        f"element vertex {p.shape[0]}",
-        "property float x", "property float y", "property float z",
-    ]
-    if colors is not None:
-        c = colors.reshape(-1, 3).astype(np.uint8)
-        if valid_mask is not None:
-            c = c[valid_mask.flatten()]
-        lines += ["property uchar red", "property uchar green", "property uchar blue"]
-    lines.append("end_header")
-    with open(path, "w") as f:
-        f.write("\n".join(lines) + "\n")
-        if colors is not None:
-            for pt, col in zip(p, c):
-                f.write(f"{pt[0]:.4f} {pt[1]:.4f} {pt[2]:.4f} {col[0]} {col[1]} {col[2]}\n")
-        else:
-            for pt in p:
-                f.write(f"{pt[0]:.4f} {pt[1]:.4f} {pt[2]:.4f}\n")
+ p = points.reshape(-1, 3)
+ if valid_mask is not None:
+ p = p[valid_mask.flatten()]
+ lines = [
+ "ply",
+ "format ascii 1.0",
+ f"element vertex {p.shape[0]}",
+ "property float x", "property float y", "property float z",
+ ]
+ if colors is not None:
+ c = colors.reshape(-1, 3).astype(np.uint8)
+ if valid_mask is not None:
+ c = c[valid_mask.flatten()]
+ lines += ["property uchar red", "property uchar green", "property uchar blue"]
+ lines.append("end_header")
+ with open(path, "w") as f:
+ f.write("\n".join(lines) + "\n")
+ if colors is not None:
+ for pt, col in zip(p, c):
+ f.write(f"{pt[0]:.4f} {pt[1]:.4f} {pt[2]:.4f} {col[0]} {col[1]} {col[2]}\n")
+ else:
+ for pt in p:
+ f.write(f"{pt[0]:.4f} {pt[1]:.4f} {pt[2]:.4f}\n")
 ```
 
 ## Rapor
 
 ```
 [export]
-  input depth shape:  (H, W)
-  valid points:       <H*W>'den <N>
-  output format:      ply | xyz | pcd | las
-  coordinate system:  camera (+X sağ, +Y aşağı, +Z ileri)
-  scale:              metres | millimetres | normalised
+ input depth shape: (H, W)
+ valid points: <H*W>'den <N>
+ output format: ply | xyz | pcd | las
+ coordinate system: camera (+X sağ, +Y aşağı, +Z ileri)
+ scale: metres | millimetres | normalised
 ```
 
 ## Kurallar

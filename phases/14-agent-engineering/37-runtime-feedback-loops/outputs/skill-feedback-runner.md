@@ -36,9 +36,9 @@ Refusal kuralları:
 <repo>/
 ├── feedback_record.jsonl
 └── tools/
-    ├── run_with_feedback.py
-    ├── feedback_loader.py
-    └── test_feedback_runner.py
+ ├── run_with_feedback.py
+ ├── feedback_loader.py
+ └── test_feedback_runner.py
 ```
 
 Şuraya işaret eden bir "sırada ne okumalı" ile bitir:

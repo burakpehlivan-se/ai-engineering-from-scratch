@@ -23,7 +23,7 @@ Done naively, checkpointing costs roughly 33% more forward-pass FLOPs per step. 
 
 `output = layer(input)`. Backward wants `grad_input` and `grad_params`. To compute them it needs:
 
-- `input` (to compute `grad_params = input.T @ grad_output` for linear layers)
+- `input` (to compute `grad_params = input. T @ grad_output` for linear layers)
 - some activation derivative intermediates (the derivative of ReLU/GELU/softmax depends on the activation value)
 
 The forward pass stores these automatically in the autograd graph. Every `tensor.retain_grad()` and every op that needs its input retains a reference.
@@ -63,7 +63,7 @@ flops_bwd_normal = 2 * L * f_layer
 flops_total_normal = 3 * L * f_layer
 
 flops_fwd_ckpt = L * f_layer
-flops_recompute = L * f_layer  # one extra forward per layer in the segment
+flops_recompute = L * f_layer # one extra forward per layer in the segment
 flops_bwd_ckpt = 2 * L * f_layer
 flops_total_ckpt = 4 * L * f_layer
 overhead = 4 / 3 - 1 = 0.33 = 33%
@@ -117,141 +117,141 @@ import numpy as np
 
 
 def linear_forward(x, w, b):
-    return x @ w + b
+ return x @ w + b
 
 
 def relu(x):
-    return np.maximum(x, 0)
+ return np.maximum(x, 0)
 
 
 def layer_forward(x, w1, b1, w2, b2):
-    h = relu(linear_forward(x, w1, b1))
-    return linear_forward(h, w2, b2)
+ h = relu(linear_forward(x, w1, b1))
+ return linear_forward(h, w2, b2)
 
 
 def model_forward(x, params):
-    activations = [x]
-    h = x
-    for w1, b1, w2, b2 in params:
-        h = layer_forward(h, w1, b1, w2, b2)
-        activations.append(h)
-    return h, activations
+ activations = [x]
+ h = x
+ for w1, b1, w2, b2 in params:
+ h = layer_forward(h, w1, b1, w2, b2)
+ activations.append(h)
+ return h, activations
 ```
 
 ### Step 2: Naive Backward Needing All Activations
 
 ```python
 def model_backward(grad_output, activations, params):
-    grads = [None] * len(params)
-    g = grad_output
-    for i in range(len(params) - 1, -1, -1):
-        w1, b1, w2, b2 = params[i]
-        x_in = activations[i]
-        h_pre = linear_forward(x_in, w1, b1)
-        h = relu(h_pre)
-        gh = g @ w2.T
-        gw2 = h.T @ g
-        gb2 = g.sum(axis=0)
-        g_pre = gh * (h_pre > 0)
-        gx = g_pre @ w1.T
-        gw1 = x_in.T @ g_pre
-        gb1 = g_pre.sum(axis=0)
-        grads[i] = (gw1, gb1, gw2, gb2)
-        g = gx
-    return g, grads
+ grads = [None] * len(params)
+ g = grad_output
+ for i in range(len(params) - 1, -1, -1):
+ w1, b1, w2, b2 = params[i]
+ x_in = activations[i]
+ h_pre = linear_forward(x_in, w1, b1)
+ h = relu(h_pre)
+ gh = g @ w2. T
+ gw2 = h. T @ g
+ gb2 = g.sum(axis=0)
+ g_pre = gh * (h_pre > 0)
+ gx = g_pre @ w1. T
+ gw1 = x_in. T @ g_pre
+ gb1 = g_pre.sum(axis=0)
+ grads[i] = (gw1, gb1, gw2, gb2)
+ g = gx
+ return g, grads
 ```
 
 ### Step 3: Checkpoint-Every-k Memory
 
 ```python
 def model_forward_checkpointed(x, params, k=4):
-    saved_inputs = [x]
-    h = x
-    for i, (w1, b1, w2, b2) in enumerate(params):
-        h = layer_forward(h, w1, b1, w2, b2)
-        if (i + 1) % k == 0:
-            saved_inputs.append(h)
-    return h, saved_inputs
+ saved_inputs = [x]
+ h = x
+ for i, (w1, b1, w2, b2) in enumerate(params):
+ h = layer_forward(h, w1, b1, w2, b2)
+ if (i + 1) % k == 0:
+ saved_inputs.append(h)
+ return h, saved_inputs
 
 
 def model_backward_checkpointed(grad_output, saved_inputs, params, k=4):
-    grads = [None] * len(params)
-    g = grad_output
-    segments = [(j * k, min((j + 1) * k, len(params))) for j in range(len(saved_inputs))]
-    for seg_idx in range(len(saved_inputs) - 1, -1, -1):
-        start, end = segments[seg_idx]
-        if start >= end:
-            continue
-        x_in = saved_inputs[seg_idx]
-        _, seg_acts = model_forward(x_in, params[start:end])
-        g, seg_grads = model_backward(g, seg_acts, params[start:end])
-        for j, gr in enumerate(seg_grads):
-            grads[start + j] = gr
-    return g, grads
+ grads = [None] * len(params)
+ g = grad_output
+ segments = [(j * k, min((j + 1) * k, len(params))) for j in range(len(saved_inputs))]
+ for seg_idx in range(len(saved_inputs) - 1, -1, -1):
+ start, end = segments[seg_idx]
+ if start >= end:
+ continue
+ x_in = saved_inputs[seg_idx]
+ _, seg_acts = model_forward(x_in, params[start:end])
+ g, seg_grads = model_backward(g, seg_acts, params[start:end])
+ for j, gr in enumerate(seg_grads):
+ grads[start + j] = gr
+ return g, grads
 ```
 
 ### Step 4: Cost Model
 
 ```python
 def checkpoint_cost(n_layers, segment_size, flops_per_layer=1.0):
-    fwd = n_layers * flops_per_layer
-    recompute = n_layers * flops_per_layer
-    bwd = 2 * n_layers * flops_per_layer
-    return {
-        "fwd": fwd,
-        "recompute": recompute,
-        "bwd": bwd,
-        "total": fwd + recompute + bwd,
-        "overhead_vs_no_ckpt": (fwd + recompute + bwd) / (fwd + bwd) - 1.0,
-    }
+ fwd = n_layers * flops_per_layer
+ recompute = n_layers * flops_per_layer
+ bwd = 2 * n_layers * flops_per_layer
+ return {
+ "fwd": fwd,
+ "recompute": recompute,
+ "bwd": bwd,
+ "total": fwd + recompute + bwd,
+ "overhead_vs_no_ckpt": (fwd + recompute + bwd) / (fwd + bwd) - 1.0,
+ }
 
 
 def selective_checkpoint_cost(n_layers, attention_fraction=0.15,
-                              flops_per_layer=1.0):
-    fwd = n_layers * flops_per_layer
-    recompute = n_layers * attention_fraction * flops_per_layer
-    bwd = 2 * n_layers * flops_per_layer
-    return {
-        "fwd": fwd,
-        "recompute": recompute,
-        "bwd": bwd,
-        "total": fwd + recompute + bwd,
-        "overhead_vs_no_ckpt": (fwd + recompute + bwd) / (fwd + bwd) - 1.0,
-    }
+ flops_per_layer=1.0):
+ fwd = n_layers * flops_per_layer
+ recompute = n_layers * attention_fraction * flops_per_layer
+ bwd = 2 * n_layers * flops_per_layer
+ return {
+ "fwd": fwd,
+ "recompute": recompute,
+ "bwd": bwd,
+ "total": fwd + recompute + bwd,
+ "overhead_vs_no_ckpt": (fwd + recompute + bwd) / (fwd + bwd) - 1.0,
+ }
 ```
 
 ### Step 5: Memory Estimator
 
 ```python
 def activation_memory_mb(n_layers, hidden=8192, seq=8192,
-                        batch=1, bytes_per_value=2):
-    per_layer = 12 * batch * seq * hidden * bytes_per_value
-    return n_layers * per_layer / 1e6
+ batch=1, bytes_per_value=2):
+ per_layer = 12 * batch * seq * hidden * bytes_per_value
+ return n_layers * per_layer / 1e6
 
 
 def memory_after_checkpoint(n_layers, segment_size, hidden=8192,
-                           seq=8192, batch=1, bytes_per_value=2):
-    n_seg = max(1, n_layers // segment_size)
-    saved = (n_seg + segment_size) * 1 * batch * seq * hidden * bytes_per_value
-    return saved / 1e6
+ seq=8192, batch=1, bytes_per_value=2):
+ n_seg = max(1, n_layers // segment_size)
+ saved = (n_seg + segment_size) * 1 * batch * seq * hidden * bytes_per_value
+ return saved / 1e6
 ```
 
 ### Step 6: Optimal Segment Size
 
 ```python
 def optimal_segment(n_layers):
-    return int(round(np.sqrt(n_layers)))
+ return int(round(np.sqrt(n_layers)))
 ```
 
 ### Step 7: Selective Checkpoint Decision
 
 ```python
 def should_recompute(layer_type, activation_bytes, recompute_flops_ratio):
-    if layer_type == "attention" and activation_bytes > 100 * 1e6:
-        return True
-    if layer_type == "ffn" and activation_bytes > 500 * 1e6:
-        return recompute_flops_ratio < 0.1
-    return False
+ if layer_type == "attention" and activation_bytes > 100 * 1e6:
+ return True
+ if layer_type == "ffn" and activation_bytes > 500 * 1e6:
+ return recompute_flops_ratio < 0.1
+ return False
 ```
 
 ## Use It

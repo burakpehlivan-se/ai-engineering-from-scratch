@@ -28,13 +28,13 @@ Kavramsal değişim şudur: modelin eğitildiği bahane görevi (pretext task), 
 
 ```mermaid
 flowchart LR
-    A["Karşılaştırmalı<br/>SimCLR, MoCo, CLIP"] --> AT["pozitif çiftler<br/>(aynı görüntü, 2 artırım)<br/>birbirine çekilir,<br/>negatifler itilir"]
-    B["Öğretmen-öğrenci<br/>DINO, BYOL, iBOT"] --> BT["öğrenci öğretmenin<br/>çıktısını tahmin eder;<br/>öğretmen öğrencinin EMA'sıdır"]
-    C["Maskeli yeniden yapılandırma<br/>MAE, BEiT, SimMIM"] --> CT["parçaların %75'ini maskele;<br/>piksel veya token<br/>hedeflerini yeniden inşa et"]
+ A["Karşılaştırmalı<br/>SimCLR, MoCo, CLIP"] --> AT["pozitif çiftler<br/>(aynı görüntü, 2 artırım)<br/>birbirine çekilir,<br/>negatifler itilir"]
+ B["Öğretmen-öğrenci<br/>DINO, BYOL, iBOT"] --> BT["öğrenci öğretmenin<br/>çıktısını tahmin eder;<br/>öğretmen öğrencinin EMA'sıdır"]
+ C["Maskeli yeniden yapılandırma<br/>MAE, BEiT, SimMIM"] --> CT["parçaların %75'ini maskele;<br/>piksel veya token<br/>hedeflerini yeniden inşa et"]
 
-    style A fill:#dbeafe,stroke:#2563eb
-    style B fill:#fef3c7,stroke:#d97706
-    style C fill:#dcfce7,stroke:#16a34a
+ style A fill:#dbeafe,stroke:#2563eb
+ style B fill:#fef3c7,stroke:#d97706
+ style C fill:#dcfce7,stroke:#16a34a
 ```
 
 ### Karşılaştırmalı öğrenme (Contrastive learning / SimCLR)
@@ -44,7 +44,7 @@ Bir görüntü al, iki rastgele artırım (augmentation) uygula, iki görüntü 
 ```
 Batch'teki 2N görüntü için pozitif çift (z_i, z_j) kaybı:
 
-   L_ij = -log( exp(sim(z_i, z_j) / tau) / sum_k in batch \ {i} exp(sim(z_i, z_k) / tau) )
+ L_ij = -log( exp(sim(z_i, z_j) / tau) / sum_k in batch \ {i} exp(sim(z_i, z_k) / tau) )
 
 sim = kosinüs benzerliği (cosine similarity)
 tau = sıcaklık (temperature / 0.1 standart)
@@ -58,10 +58,10 @@ Bu InfoNCE kaybıdır (loss). Pozitif başına çok sayıda negatif gerektirir, 
 Aynı mimariye sahip iki ağ: öğrenci (student) ve öğretmen (teacher). Öğretmen, öğrencinin ağırlıklarının üstel hareketli ortalamasıdır (exponential moving average / EMA). İkisi de görüntünün artırılmış görünümlerini (augmented views) görür. Öğrencinin çıktısı, öğretmenin çıktısıyla eşleşecek şekilde eğitilir — açık negatif yoktur.
 
 ```
-loss = CE( student_output(view_1),  teacher_output(view_2) )
-     + CE( student_output(view_2),  teacher_output(view_1) )
+loss = CE( student_output(view_1), teacher_output(view_2) )
+ + CE( student_output(view_2), teacher_output(view_1) )
 
-teacher_weights = m * teacher_weights + (1 - m) * student_weights   (m ≈ 0.996)
+teacher_weights = m * teacher_weights + (1 - m) * student_weights (m ≈ 0.996)
 ```
 
 #### Açıklama
@@ -74,9 +74,9 @@ DINO, DINOv2'nin 142M küratörlü görüntü üzerinde ölçeklediği şeydir. 
 Bir ViT girdisinin parçalarının %75'ini maskele. Kodlayıcıdan sadece görünen %25'i geçir. Küçük bir kod çözücü (decoder), kodlayıcının çıktısını artı maskelenmiş konumlardaki maske token'larını alır ve maskelenmiş parçaların piksellerini yeniden inşa edecek şekilde eğitilir.
 
 ```
-Kodlayıcı:  parçaların görünen %25'i -> öznitelikler
-Kod çözücü:  öznitelikler + maskelenmiş konumlarda maske token'ları -> yeniden inşa edilmiş pikseller
-Kayıp:      Sadece maskelenmiş parçalarda yeniden inşa edilen ve orijinal pikseller arasında MSE
+Kodlayıcı: parçaların görünen %25'i -> öznitelikler
+Kod çözücü: öznitelikler + maskelenmiş konumlarda maske token'ları -> yeniden inşa edilmiş pikseller
+Kayıp: Sadece maskelenmiş parçalarda yeniden inşa edilen ve orijinal pikseller arasında MSE
 ```
 
 #### Açıklama
@@ -116,28 +116,28 @@ Doğrusal yoklama, öznitelik kalitesinin saf bir ölçüsüdür; ince ayar (fin
 import torch
 import torchvision.transforms as T
 
-two_view_train = lambda: T.Compose([
-    T.RandomResizedCrop(96, scale=(0.2, 1.0)),
-    T.RandomHorizontalFlip(),
-    T.ColorJitter(0.4, 0.4, 0.4, 0.1),
-    T.RandomGrayscale(p=0.2),
-    T.ToTensor(),
+two_view_train = lambda: T. Compose([
+ T. RandomResizedCrop(96, scale=(0.2, 1.0)),
+ T. RandomHorizontalFlip(),
+ T. ColorJitter(0.4, 0.4, 0.4, 0.1),
+ T. RandomGrayscale(p=0.2),
+ T. ToTensor(),
 ])
 
 
-class TwoViewDataset(torch.utils.data.Dataset):
-    def __init__(self, base):
-        self.base = base
-        self.aug = two_view_train()
+class TwoViewDataset(torch.utils.data. Dataset):
+ def __init__(self, base):
+ self.base = base
+ self.aug = two_view_train()
 
-    def __len__(self):
-        return len(self.base)
+ def __len__(self):
+ return len(self.base)
 
-    def __getitem__(self, i):
-        img, _ = self.base[i]
-        v1 = self.aug(img)
-        v2 = self.aug(img)
-        return v1, v2
+ def __getitem__(self, i):
+ img, _ = self.base[i]
+ v1 = self.aug(img)
+ v2 = self.aug(img)
+ return v1, v2
 ```
 
 #### Açıklama
@@ -149,18 +149,18 @@ Her `__getitem__` aynı görüntünün iki artırılmış görünümünü dönd�
 import torch.nn.functional as F
 
 def info_nce(z1, z2, tau=0.1):
-    """
-    z1, z2: (N, D) L2-normalize edilmiş eşleştirilmiş görünüm gömme'leri
-    """
-    N, D = z1.shape
-    z = torch.cat([z1, z2], dim=0)  # (2N, D)
-    sim = z @ z.T / tau              # (2N, 2N)
+ """
+ z1, z2: (N, D) L2-normalize edilmiş eşleştirilmiş görünüm gömme'leri
+ """
+ N, D = z1.shape
+ z = torch.cat([z1, z2], dim=0) # (2N, D)
+ sim = z @ z. T / tau # (2N, 2N)
 
-    mask = torch.eye(2 * N, dtype=torch.bool, device=z.device)
-    sim = sim.masked_fill(mask, float("-inf"))
+ mask = torch.eye(2 * N, dtype=torch.bool, device=z.device)
+ sim = sim.masked_fill(mask, float("-inf"))
 
-    targets = torch.cat([torch.arange(N, 2 * N), torch.arange(0, N)]).to(z.device)
-    return F.cross_entropy(sim, targets)
+ targets = torch.cat([torch.arange(N, 2 * N), torch.arange(0, N)]).to(z.device)
+ return F.cross_entropy(sim, targets)
 ```
 
 #### Açıklama
@@ -174,8 +174,8 @@ z2 = z1.clone()
 loss_same = info_nce(z1, z2, tau=0.1).item()
 z2_random = F.normalize(torch.randn(16, 32), dim=-1)
 loss_random = info_nce(z1, z2_random, tau=0.1).item()
-print(f"InfoNCE with identical pairs:  {loss_same:.3f}")
-print(f"InfoNCE with random pairs:     {loss_random:.3f}")
+print(f"InfoNCE with identical pairs: {loss_same:.3f}")
+print(f"InfoNCE with random pairs: {loss_random:.3f}")
 ```
 
 #### Açıklama
@@ -185,18 +185,18 @@ print(f"InfoNCE with random pairs:     {loss_random:.3f}")
 
 ```python
 def random_mask_indices(num_patches, mask_ratio=0.75, seed=0):
-    g = torch.Generator().manual_seed(seed)
-    n_keep = int(num_patches * (1 - mask_ratio))
-    perm = torch.randperm(num_patches, generator=g)
-    visible = perm[:n_keep]
-    masked = perm[n_keep:]
-    return visible.sort().values, masked.sort().values
+ g = torch. Generator().manual_seed(seed)
+ n_keep = int(num_patches * (1 - mask_ratio))
+ perm = torch.randperm(num_patches, generator=g)
+ visible = perm[:n_keep]
+ masked = perm[n_keep:]
+ return visible.sort().values, masked.sort().values
 
 
 num_patches = 196
 visible, masked = random_mask_indices(num_patches, mask_ratio=0.75)
 print(f"visible: {len(visible)} / {num_patches}")
-print(f"masked:  {len(masked)} / {num_patches}")
+print(f"masked: {len(masked)} / {num_patches}")
 ```
 
 #### Açıklama
@@ -216,9 +216,9 @@ model.eval()
 
 # Sıfır atışlı erişim için görüntü başına gömme'ler
 with torch.no_grad():
-    inputs = processor(images=[pil_image], return_tensors="pt")
-    outputs = model(**inputs)
-    embedding = outputs.last_hidden_state[:, 0]  # CLS token
+ inputs = processor(images=[pil_image], return_tensors="pt")
+ outputs = model(**inputs)
+ embedding = outputs.last_hidden_state[:, 0] # CLS token
 ```
 
 #### Açıklama

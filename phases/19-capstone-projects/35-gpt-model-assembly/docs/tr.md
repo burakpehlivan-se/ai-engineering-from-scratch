@@ -25,19 +25,19 @@ Modelin şekli de önemlidir. Referans GPT-2 small, yukarıdaki yapılandırmada
 
 ```mermaid
 flowchart TB
-  T[Token kimlikleri<br/>şekil B, T] --> E[Token gömme<br/>50257, 768]
-  T --> P[Konum araması<br/>0 - T-1]
-  P --> PE[Konum gömme<br/>1024, 768]
-  E --> A[Topla]
-  PE --> A
-  A --> D[Gömme dropout]
-  D --> B1[Blok 1]
-  B1 --> B2[Blok 2]
-  B2 --> Bk[...]
-  Bk --> B12[Blok 12]
-  B12 --> L[Son LayerNorm]
-  L --> H[LM kafası<br/>token gömme'ye bağlı]
-  H --> O[Logitler<br/>şekil B, T, 50257]
+ T[Token kimlikleri<br/>şekil B, T] --> E[Token gömme<br/>50257, 768]
+ T --> P[Konum araması<br/>0 - T-1]
+ P --> PE[Konum gömme<br/>1024, 768]
+ E --> A[Topla]
+ PE --> A
+ A --> D[Gömme dropout]
+ D --> B1[Blok 1]
+ B1 --> B2[Blok 2]
+ B2 --> Bk[...]
+ Bk --> B12[Blok 12]
+ B12 --> L[Son LayerNorm]
+ L --> H[LM kafası<br/>token gömme'ye bağlı]
+ H --> O[Logitler<br/>şekil B, T, 50257]
 ```
 
 #### Açıklama
@@ -59,15 +59,15 @@ GPT-2, öğrenilmiş bir konum gömme ile gönderilir. Konum tablosu, `(1024, 76
 
 ```mermaid
 flowchart LR
-  P[Prompt token'ları] --> M[Model ileri geçişi]
-  M --> Last[Son konum logitlerini al]
-  Last --> T[Sıcaklığa böl]
-  T --> K[Top k'ya maskele]
-  K --> S[Softmax]
-  S --> MN[Multinominal örnekleme]
-  MN --> A[Bağlama ekle]
-  A --> Slide[Bağlam > ctx_len ise kaydır]
-  Slide --> M
+ P[Prompt token'ları] --> M[Model ileri geçişi]
+ M --> Last[Son konum logitlerini al]
+ Last --> T[Sıcaklığa böl]
+ T --> K[Top k'ya maskele]
+ K --> S[Softmax]
+ S --> MN[Multinominal örnekleme]
+ MN --> A[Bağlama ekle]
+ A --> Slide[Bağlam > ctx_len ise kaydır]
+ Slide --> M
 ```
 
 #### Açıklama
@@ -100,7 +100,7 @@ Demonun hızlı kalması için, betik aynı zamanda küçük bir yapılandırmay
 
 ## Yığın
 
-- Tensör matematiği, autograd ve `nn.Module` tesisatı için `torch`.
+- Tensör matematiği, autograd ve `nn. Module` tesisatı için `torch`.
 - `code/main.py`, 34. dersteki aynı blok desenini yerel olarak yeniden uygular.
 
 ## Vahşi Doğadaki Üretim Desenleri

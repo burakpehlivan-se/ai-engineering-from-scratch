@@ -36,11 +36,11 @@ Ortak yerleşim: her ikisi için optimize edilmiş GPU'lar satın alırsınız. 
 
 ```mermaid
 flowchart LR
-    R[İstek] --> Y[Yönlendirici]
-    Y --> P[Prefill Havuzu<br/>hesaplama]
-    P -->|NIXL ile KV cache| D[Decode Havuzu<br/>bellek]
-    D --> T[token'lar]
-    T --> C[İstemci]
+ R[İstek] --> Y[Yönlendirici]
+ Y --> P[Prefill Havuzu<br/>hesaplama]
+ P -->|NIXL ile KV cache| D[Decode Havuzu<br/>bellek]
+ D --> T[token'lar]
+ T --> C[İstemci]
 ```
 
 #### Açıklama

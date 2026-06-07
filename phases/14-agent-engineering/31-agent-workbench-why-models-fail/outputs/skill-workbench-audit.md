@@ -45,7 +45,7 @@ workbench-audit/
 ├── workbench_audit.json
 ├── workbench_audit.md
 ├── patches/
-│   └── <weakest-surface>.patch
+│ └── <weakest-surface>.patch
 └── README.md
 ```
 

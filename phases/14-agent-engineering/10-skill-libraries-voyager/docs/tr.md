@@ -42,10 +42,10 @@ Minecraft değerlendirmesi (Wang ve diğerleri, 2024): temellere göre 3.3x daha
 
 ```text
 async function craftIronPickaxe(bot) {
-  await mineIron(bot, 3);
-  await mineStick(bot, 2);
-  await placeCraftingTable(bot);
-  await craft(bot, 'iron_pickaxe');
+ await mineIron(bot, 3);
+ await mineStick(bot, 2);
+ await placeCraftingTable(bot);
+ await craft(bot, 'iron_pickaxe');
 }
 ```
 

@@ -35,7 +35,7 @@ Her model, yetersiz uyum (underfitting — deseni yakalamak için çok basit) il
 En basit düzenleme tekniği. Eğitim sırasında, her nöronun çıktısını p olasılığıyla rastgele sıfırlayın.
 
 ```
-çıktı = aktivasyon(z) × maske    burada maske[i] ~ Bernoulli(1 - p)
+çıktı = aktivasyon(z) × maske burada maske[i] ~ Bernoulli(1 - p)
 ```
 
 p = 0.5 ile nöronların yarısı her ileri geçişte sıfırlanır. Ağ, yedekli gösterimler öğrenmelidir çünkü hangi nöronların kullanılabilir olacağını tahmin edemez. Bu, ko-adaptasyonu önler.
@@ -44,8 +44,8 @@ Ensemble yorumu: N nöronlu bir ağ, dropout ile 2^N olası alt ağ oluşturur. 
 
 Uygulamada ölçekleme eğitim sırasında uygulanır (ters dropout):
 ```
-Eğitim:   çıktı = aktivasyon(z) × maske / (1 - p)
-Test:     çıktı = aktivasyon(z)   (değişiklik gerekmez)
+Eğitim: çıktı = aktivasyon(z) × maske / (1 - p)
+Test: çıktı = aktivasyon(z) (değişiklik gerekmez)
 ```
 
 ### Ağırlık Azaltma (Weight Decay / L2 Düzenlemesi)
@@ -103,10 +103,10 @@ Aşağıdaki kodları `code/main.py` içinde sıfırdan inşa edin: Dropout sın
 
 PyTorch tüm normalleştirme ve düzenlemeyi modül olarak sunar:
 ```python
-model = nn.Sequential(
-    nn.Linear(784, 256), nn.BatchNorm1d(256), nn.ReLU(), nn.Dropout(0.3),
-    nn.Linear(256, 128), nn.BatchNorm1d(128), nn.ReLU(), nn.Dropout(0.3),
-    nn.Linear(128, 10),
+model = nn. Sequential(
+ nn. Linear(784, 256), nn. BatchNorm1d(256), nn. ReLU(), nn. Dropout(0.3),
+ nn. Linear(256, 128), nn. BatchNorm1d(128), nn. ReLU(), nn. Dropout(0.3),
+ nn. Linear(128, 10),
 )
 ```
 

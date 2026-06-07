@@ -73,7 +73,7 @@ Anlamsal bir görev (sınıflandırma, geri çağırma) için 256 token. OCR vey
 
 ### Paketleme maskesi
 
-Birçok uygulamanın takıldığı yer blok çapraz maskedir. `i=0..B-1` görüntülerini ve `n_i` uzunluklarını kapsayan `N_total` uzunluğunda paketlenmiş bir dizi için, `(N_total, N_total)` boyutunda `M` maskesi, her iki indeks de aynı görüntü bloğundaysa 1, aksi halde 0'dır. Kümelenmiş uzunluk listesinden oluşturabilirsiniz:
+Birçok uygulamanın takıldığı yer blok çapraz maskedir. `i=0.. B-1` görüntülerini ve `n_i` uzunluklarını kapsayan `N_total` uzunluğunda paketlenmiş bir dizi için, `(N_total, N_total)` boyutunda `M` maskesi, her iki indeks de aynı görüntü bloğundaysa 1, aksi halde 0'dır. Kümelenmiş uzunluk listesinden oluşturabilirsiniz:
 
 ```
 offsets = [0, n_0, n_0+n_1, ..., N_total]

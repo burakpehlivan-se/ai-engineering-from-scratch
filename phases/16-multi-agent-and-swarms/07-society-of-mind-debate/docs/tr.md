@@ -20,7 +20,7 @@ Tartışma (debate), doygunluğu kırar. Bir modelden N bağımsız örnek almak
 arXiv:2305.14325'ten (ICML 2024):
 
 1. N agent'ın her biri soruya bir başlangıç yanıtı üretir.
-2. Tur r = 2..R için: her agent'a diğer agent'ların r-1 turundaki yanıtları gösterilir ve "bunları göz önünde bulundurarak, güncellenmiş yanıtınızı ver" denir.
+2. Tur r = 2.. R için: her agent'a diğer agent'ların r-1 turundaki yanıtları gösterilir ve "bunları göz önünde bulundurarak, güncellenmiş yanıtınızı ver" denir.
 3. R turdan sonra, son yanıtları çoğunluk oyuyla toplayın.
 
 Makale MMLU, GSM8K, biyografiler, MATH ve gerçeklik kıyaslamalarında test eder. Tartışma, sürekli olarak CoT ve Öz-Refleksiyonu yener.

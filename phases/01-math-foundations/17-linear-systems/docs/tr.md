@@ -29,14 +29,14 @@ Ax = b denklemi her yerde görünür. A, bilinen katsayıların matrisidir. b, b
 Doğrusal denklem sistemi几何 bir yorumu vardır. Her denklem bir hiperdüzlem tanımlar. Çözüm, tüm hiperdüzlemlerin kesiştiği noktadır.
 
 ```
-2x + y = 5          2B'de iki çizgi.
-x - y  = 1          x=2, y=1'de kesişirler.
+2x + y = 5 2B'de iki çizgi.
+x - y = 1 x=2, y=1'de kesişirler.
 ```
 
 ```mermaid
 graph LR
-    A["2x + y = 5"] --- S["Çözüm: (2, 1)"]
-    B["x - y = 1"] --- S
+ A["2x + y = 5"] --- S["Çözüm: (2, 1)"]
+ B["x - y = 1"] --- S
 ```
 
 ### Gaussian Eliminasyonu
@@ -47,20 +47,20 @@ Sistemi üst üçgensel forma dönüştürüp geri yerine koyma ile çözer.
 import numpy as np
 
 def gaussian_eliminasyon(A, b):
-    n = len(b)
-    # İleri eleme
-    for i in range(n):
-        for j in range(i+1, n):
-            oran = A[j][i] / A[i][i]
-            for k in range(i, n):
-                A[j][k] -= oran * A[i][k]
-            b[j] -= oran * b[i]
-    
-    # Geri yerine koyma
-    x = np.zeros(n)
-    for i in range(n-1, -1, -1):
-        x[i] = (b[i] - np.dot(A[i][i+1:], x[i+1:])) / A[i][i]
-    return x
+ n = len(b)
+ # İleri eleme
+ for i in range(n):
+ for j in range(i+1, n):
+ oran = A[j][i] / A[i][i]
+ for k in range(i, n):
+ A[j][k] -= oran * A[i][k]
+ b[j] -= oran * b[i]
+ 
+ # Geri yerine koyma
+ x = np.zeros(n)
+ for i in range(n-1, -1, -1):
+ x[i] = (b[i] - np.dot(A[i][i+1:], x[i+1:])) / A[i][i]
+ return x
 ```
 
 #### Açıklama

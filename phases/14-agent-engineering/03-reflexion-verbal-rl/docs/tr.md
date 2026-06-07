@@ -27,8 +27,8 @@ Sonuç: ALFWorld'da ReAct ve diğer fine-tune edilmemiş temelleri yener. Hotpot
 ### Üç bileşen
 
 ```text
-Actor         : bir trajectory üretir (ReAct tarzı döngü)
-Evaluator     : trajectory'yi puanlar — ikili, sezgisel veya öz-değerlendirmeli
+Actor : bir trajectory üretir (ReAct tarzı döngü)
+Evaluator : trajectory'yi puanlar — ikili, sezgisel veya öz-değerlendirmeli
 Self-Reflector: başarısızlık üzerine doğal dilde bir yansıma yazar
 ```
 

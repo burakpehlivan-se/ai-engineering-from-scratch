@@ -31,13 +31,13 @@ tags: [vlm, üretim, izleme, halüsinasyon]
 import torch
 
 def cmer_flag(image_emb, text_emb, text_conf, sim_thr=0.25, conf_thr=0.8):
-    if image_emb.shape != text_emb.shape:
-        raise ValueError(f"emb shape mismatch: {image_emb.shape} vs {text_emb.shape}")
-    image_emb = image_emb / (image_emb.norm() + 1e-8)
-    text_emb = text_emb / (text_emb.norm() + 1e-8)
-    sim = float((image_emb * text_emb).sum())
-    flagged = (text_conf > conf_thr) and (sim < sim_thr)
-    return {"sim": sim, "flagged": flagged}
+ if image_emb.shape != text_emb.shape:
+ raise ValueError(f"emb shape mismatch: {image_emb.shape} vs {text_emb.shape}")
+ image_emb = image_emb / (image_emb.norm() + 1e-8)
+ text_emb = text_emb / (text_emb.norm() + 1e-8)
+ sim = float((image_emb * text_emb).sum())
+ flagged = (text_conf > conf_thr) and (sim < sim_thr)
+ return {"sim": sim, "flagged": flagged}
 ```
 
 Gömme'ler bağımsız bir CLIP ailesi kodlayıcıdan 1 boyutlu PyTorch tensörleridir (`torch.float32`). NumPy dizileri kullanıyorsanız, `.norm()`'u `np.linalg.norm(...)` ile değiştirin ve çıktıyı uygun şekilde dönüştürün.

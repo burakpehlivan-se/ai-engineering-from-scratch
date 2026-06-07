@@ -46,41 +46,41 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
 def build_model(num_classes={NUM_CLASSES}):
-    model = {MODEL_NAME}(weights={MODEL_WEIGHTS}.DEFAULT)
-    in_features = model.roi_heads.box_predictor.cls_score.in_features
-    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-    in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
-    model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask, 256, num_classes)
+ model = {MODEL_NAME}(weights={MODEL_WEIGHTS}. DEFAULT)
+ in_features = model.roi_heads.box_predictor.cls_score.in_features
+ model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+ in_features_mask = model.roi_heads.mask_predictor.conv5_mask.in_channels
+ model.roi_heads.mask_predictor = MaskRCNNPredictor(in_features_mask, 256, num_classes)
 
-    {FREEZE_BLOCK}
+ {FREEZE_BLOCK}
 
-    return model
+ return model
 ```
 
 Burada `{FREEZE_BLOCK}` şudur:
 
 - `none` -> boş
 - `backbone` ->
-  ```python
-  for p in model.backbone.parameters():
-      p.requires_grad = False
-  ```
+ ```python
+ for p in model.backbone.parameters():
+ p.requires_grad = False
+ ```
 - `backbone_fpn` ->
-  ```python
-  for p in model.backbone.parameters():
-      p.requires_grad = False
-  # FPN parametreleri backbone.fpn içinde yaşar
-  ```
+ ```python
+ for p in model.backbone.parameters():
+ p.requires_grad = False
+ # FPN parametreleri backbone.fpn içinde yaşar
+ ```
 
 ## Rapor
 
 ```
 [head-swap]
-  model:         <MODEL_NAME>
-  num_classes:   <N>  (arka plan dahil)
-  freeze policy: <seçim>
-  trainable:     <N>
-  total:         <N>
+ model: <MODEL_NAME>
+ num_classes: <N> (arka plan dahil)
+ freeze policy: <seçim>
+ trainable: <N>
+ total: <N>
 ```
 
 ## Kurallar

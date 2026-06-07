@@ -12,10 +12,10 @@ Biri gradyanlar, geriye yayılım (backpropagation) veya otomatik türev hakkın
 1. Hesaplama grafiğini ASCII olarak çiz. Her düğümü işlemi, ileri değeri ve yerel gradyanı ile etiketle.
 2. Geriye geçişi adım adım yürü. Her düğümdeki zincir kuralı çarpımını göster.
 3. Yaygın hataları belirle:
-   - Geriye geçişler arasında gradyanları sıfırlamayı unutmak (gradyanlar varsayılan olarak birikir)
-   - Grafı bozan yerinde (in-place) işlemler kullanmak
-   - Tensor'ları grafikten yanlışlıkla ayırmak (detach)
-   - Türevi alınamaz işlemlerin (argmax, tamsayı indeksleme) sessizce sıfır gradyan döndürmesi
+ - Geriye geçişler arasında gradyanları sıfırlamayı unutmak (gradyanlar varsayılan olarak birikir)
+ - Grafı bozan yerinde (in-place) işlemler kullanmak
+ - Tensor'ları grafikten yanlışlıkla ayırmak (detach)
+ - Türevi alınamaz işlemlerin (argmax, tamsayı indeksleme) sessizce sıfır gradyan döndürmesi
 4. Gradyanları doğrularken sonlu farklarla karşılaştır: `(f(x+h) - f(x-h)) / (2h)`, `h = 1e-5`.
 
 Yanlış gradyanlar için hata ayıklama kontrol listesi:

@@ -50,8 +50,8 @@ Eğilim: U-Net'i DiT ile değiştirme (latent patch'ler üzerinde transformer), 
 ### Adım 1: encoder/decoder
 
 ```python
-def encode(x):    return x * 0.5          # toy "compression" to smaller scale
-def decode(z):    return z * 2.0
+def encode(x): return x * 0.5 # toy "compression" to smaller scale
+def decode(z): return z * 2.0
 ```
 
 #### Açıklama

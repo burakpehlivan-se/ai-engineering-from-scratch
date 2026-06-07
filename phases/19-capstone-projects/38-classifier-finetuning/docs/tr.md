@@ -31,11 +31,11 @@ Bu ders ikisini de kurar, böylece aynı fixture (sabit test verisi) üzerinde k
 
 ```mermaid
 flowchart LR
-  T[Tokenler] --> E[Token + konum<br/>embeddingleri]
-  E --> B[Transformer gövdesi<br/>N blok]
-  B --> H1[Eski: LM başı<br/>vocab yansıtma]
-  B --> H2[Yeni: sınıflandırıcı başı<br/>2 logite lineer]
-  H2 --> L[Cross-entropy kaybı<br/>etikete karşı]
+ T[Tokenler] --> E[Token + konum<br/>embeddingleri]
+ E --> B[Transformer gövdesi<br/>N blok]
+ B --> H1[Eski: LM başı<br/>vocab yansıtma]
+ B --> H2[Yeni: sınıflandırıcı başı<br/>2 logite lineer]
+ H2 --> L[Cross-entropy kaybı<br/>etikete karşı]
 ```
 
 Model, `f_theta(tokens) -> hidden_states` fonksiyonudur. Baş, `g_phi(hidden) -> logits` fonksiyonudur. Baş değiştirmek, `theta`'yı tutmak ve `g_phi`'yi değiştirmek demektir. Gövdenin parametreleri pahalı kısımdır. Baş, tek bir lineer katmandır.
@@ -61,11 +61,11 @@ Bu derste, açık attention maskesi ağırlıklandırmasıyla ortalama havuzlama
 
 ```mermaid
 flowchart LR
-  H[Gizli durumlar<br/>B x T x D] --> M[Pad'leri maskele]
-  M --> S[T boyunca topla]
-  S --> N[Pad olmayan<br/>sayıya böl]
-  N --> P[Havuzlanmış<br/>B x D]
-  P --> C[Sınıflandırıcı başı<br/>D x 2]
+ H[Gizli durumlar<br/>B x T x D] --> M[Pad'leri maskele]
+ M --> S[T boyunca topla]
+ S --> N[Pad olmayan<br/>sayıya böl]
+ N --> P[Havuzlanmış<br/>B x D]
+ P --> C[Sınıflandırıcı başı<br/>D x 2]
 ```
 
 ## Veri
@@ -95,15 +95,15 @@ Karışıklık matrisi, dört sayımı 2x2 ızgara olarak yazdırır. Demo bunu 
 
 ```mermaid
 flowchart TD
-  Toks[(SMS fixture'ı<br/>800 etiketli)] --> Tok[ByteTokenizer<br/>vocab 260]
-  Tok --> DS[ClassificationDataset<br/>pad + mask]
-  DS --> DL[DataLoader<br/>batchli]
-  DL --> M[Classifier<br/>gövde + mean-pool + baş]
-  M --> L[Cross-entropy kaybı]
-  L --> O[Adam optimize edici]
-  O -->|yalnızca baş| M
-  O -->|tam FT| M
-  M --> E[Değerlendirici<br/>P / R / F1]
+ Toks[(SMS fixture'ı<br/>800 etiketli)] --> Tok[ByteTokenizer<br/>vocab 260]
+ Tok --> DS[ClassificationDataset<br/>pad + mask]
+ DS --> DL[DataLoader<br/>batchli]
+ DL --> M[Classifier<br/>gövde + mean-pool + baş]
+ M --> L[Cross-entropy kaybı]
+ L --> O[Adam optimize edici]
+ O -->|yalnızca baş| M
+ O -->|tam FT| M
+ M --> E[Değerlendirici<br/>P / R / F1]
 ```
 
 Gövde, bilinçli olarak küçük bir transformer'dır: vocab 260, hidden 64, 4 baş, 2 blok, maksimum dizi 32. CPU'da doksan saniye içinde her iki rejimi de yakınsamaya (convergence) eğitecek kadar küçüktür. Derste önceden eğitilmez; bunun yerine `pretrain_quick` yardımcısı, gövdeye anlamlı bir başlangıç noktası vermek için aynı fixture'ın metni üzerinde beş epoch LM eğitimi yapar. Bu, dersi kendi kendine yeterli tutar.

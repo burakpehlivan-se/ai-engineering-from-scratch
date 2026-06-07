@@ -40,27 +40,27 @@ Bu istif, çok katmanlı ağdır. Bugün üretimdeki her derin öğrenme modelin
 
 ```mermaid
 graph LR
-    subgraph Girdi["Girdi Katmanı"]
-        x1["x1"]
-        x2["x2"]
-    end
-    subgraph Gizli["Gizli Katman (3 nöron)"]
-        h1["h1"]
-        h2["h2"]
-        h3["h3"]
-    end
-    subgraph Cikti["Çıktı Katmanı"]
-        y["y"]
-    end
-    x1 --> h1
-    x1 --> h2
-    x1 --> h3
-    x2 --> h1
-    x2 --> h2
-    x2 --> h3
-    h1 --> y
-    h2 --> y
-    h3 --> y
+ subgraph Girdi["Girdi Katmanı"]
+ x1["x1"]
+ x2["x2"]
+ end
+ subgraph Gizli["Gizli Katman (3 nöron)"]
+ h1["h1"]
+ h2["h2"]
+ h3["h3"]
+ end
+ subgraph Cikti["Çıktı Katmanı"]
+ y["y"]
+ end
+ x1 --> h1
+ x1 --> h2
+ x1 --> h3
+ x2 --> h1
+ x2 --> h2
+ x2 --> h3
+ h1 --> y
+ h2 --> y
+ h3 --> y
 ```
 
 Bu bir 2-3-1 ağıdır. İki girdi, üç gizli nöron, bir çıktı. Her bağlantı bir ağırlık taşır. Her nöron (girdi hariç) bir bias taşır.
@@ -89,21 +89,21 @@ Sigmoid herhangi bir sayıyı (0, 1) aralığına sıkıştırır. Büyük pozit
 
 ```mermaid
 graph TD
-    X["Girdi: [x1, x2]"] --> WH["Ağırlık Matrisi W1 (2x3) ile çarp"]
-    WH --> BH["Bias Vektörü b1 (3,) ekle"]
-    BH --> AH["Her elemana sigmoid uygula"]
-    AH --> H["Gizli Çıktı: [h1, h2, h3]"]
-    H --> WO["Ağırlık Matrisi W2 (3x1) ile çarp"]
-    WO --> BO["Bias Vektörü b2 (1,) ekle"]
-    BO --> AO["Sigmoid uygula"]
-    AO --> Y["Çıktı: y"]
+ X["Girdi: [x1, x2]"] --> WH["Ağırlık Matrisi W1 (2x3) ile çarp"]
+ WH --> BH["Bias Vektörü b1 (3,) ekle"]
+ BH --> AH["Her elemana sigmoid uygula"]
+ AH --> H["Gizli Çıktı: [h1, h2, h3]"]
+ H --> WO["Ağırlık Matrisi W2 (3x1) ile çarp"]
+ WO --> BO["Bias Vektörü b2 (1,) ekle"]
+ BO --> AO["Sigmoid uygula"]
+ AO --> Y["Çıktı: y"]
 ```
 
 Her katmanda, üç işlem sırayla gerçekleşir:
 
 ```
-z = W * girdi + b       (doğrusal dönüşüm)
-a = sigmoid(z)           (aktivasyon)
+z = W * girdi + b (doğrusal dönüşüm)
+a = sigmoid(z) (aktivasyon)
 ```
 
 Bir katmanın çıktısı bir sonrakinin girdisi olur. Tüm ileri besleme budur.
@@ -130,17 +130,17 @@ Boyutları takip etmek, derin öğrenmedeki en önemli hata ayıklama becerisidi
 import numpy as np
 
 def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
+ return 1 / (1 + np.exp(-z))
 
 # XOR verisi
 X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 y = np.array([[0], [1], [1], [0]])
 
 # Elle ayarlanmış ağırlıklar (2-2-1)
-W1 = np.array([[1, 1], [1, 1]])   # 2x2
-b1 = np.array([[-0.5, -1.5]])      # 1x2
-W2 = np.array([[1], [-2]])          # 2x1
-b2 = np.array([[-0.5]])             # 1x1
+W1 = np.array([[1, 1], [1, 1]]) # 2x2
+b1 = np.array([[-0.5, -1.5]]) # 1x2
+W2 = np.array([[1], [-2]]) # 2x1
+b2 = np.array([[-0.5]]) # 1x1
 
 # İleri besleme
 z1 = X @ W1 + b1

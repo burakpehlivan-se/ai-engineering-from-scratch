@@ -13,7 +13,7 @@ Bir model "The cats were running." cümlesini okuyamaz. Tam sayılar okur.
 
 Her NLP sistemi aynı üç soruyla başlar. Bir kelimenin nerede başladığı. Kelimenin kökünün ne olduğu. "run", "running", "ran" ifadelerini ne zaman aynı şey olarak ele alacağımızı ve ne zaman farklı olarak ele alacağımızı nasıl belirleriz.
 
-Tokenization yanlış yapılırsa model çöpten öğrenir. Tokenizerınız `don't` ifadesini bir token olarak ele alırken `do n't` ifadesini iki token olarak ele alırsa, eğitim dağılımı bölünür. Stemmerınız `organization` ve `organ` kelimelerini aynı köke indirirse topic modeling ölür. Lemmatizerınız POS tagging (kelime türü etiketleme) bağlamına ihtiyaç duyuyorsa ve siz bunu iletmiyorsanız, fiiller isim olarak ele alınır.
+Tokenization yanlış yapılırsa model çöpten öğrenir. Tokenizer'ınız `don't` ifadesini bir token olarak ele alırken `do n't` ifadesini iki token olarak ele alırsa, eğitim dağılımı bölünür. Stemmer'ınız `organization` ve `organ` kelimelerini aynı köke indirirse topic modeling ölür. Lemmatizer'ınız POS tagging (kelime türü etiketleme) bağlamına ihtiyaç duyuyorsa ve siz bunu iletmiyorsanız, fiiller isim olarak ele alınır.
 
 Bu ders, üç ön-işleme adımını sıfırdan oluşturur ve ardından NLTK ile spaCy'in aynı işi nasıl yaptığını gösterir; böylece ödünleşimleri görebilirsiniz.
 
@@ -21,7 +21,7 @@ Bu ders, üç ön-işleme adımını sıfırdan oluşturur ve ardından NLTK ile
 
 Üç işlem. Her birinin bir görevi ve bir başarısızlık modu vardır.
 
-**Tokenization**, bir dizgeyi (string) tokenlara böler. "Token" kasıtlı olarak belirsizdir; çünkü granülarite göreve bağlıdır. Kelime düzeyi klasik NLP için. Subword (alt kelime) transformer'lar için. Boşluk içermeyen diller için karakter düzeyi.
+**Tokenization**, bir dizgeyi (string) token'lara böler. "Token" kasıtlı olarak belirsizdir; çünkü granülarite göreve bağlıdır. Kelime düzeyi klasik NLP için. Subword (alt kelime) transformer'lar için. Boşluk içermeyen diller için karakter düzeyi.
 
 **Stemming**, kurallarla ekleri keser. Hızlı, agresif, kaba. `running -> run`. `organization -> organ`. İkincisi başarısızlık modudur.
 
@@ -33,13 +33,13 @@ Kural olarak: hız önemliyse ve gürültüye tahammül edebiliyorsanız stemmin
 
 ### Adım 1: regex tabanlı kelime tokenizer
 
-En basit kullanışlı tokenizer, olmayan-alfasayısal karakterler üzerinde bölerken noktalama işaretlerini kendi tokenları olarak korur. Mükemmel değil, nihai değil, ama tek satırda çalışır.
+En basit kullanışlı tokenizer, olmayan-alfasayısal karakterler üzerinde bölerken noktalama işaretlerini kendi token'ları olarak korur. Mükemmel değil, nihai değil, ama tek satırda çalışır.
 
 ```python
 import re
 
 def tokenize(text):
-    return re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+|[^\sA-Za-z0-9]", text)
+ return re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+|[^\sA-Za-z0-9]", text)
 ```
 
 Üç desen öncelik sırasıyla. İç apostroflu kelimeler (`don't`, `it's`). Saf sayılar. Tek bir olmayan-boşluk-olmayan-alfasayısal karakterin bağımsız token olarak ele alınması (noktalama).
@@ -57,15 +57,15 @@ Tam Porter algoritması beş kural aşamasına sahiptir. 1a adımı tek başına
 
 ```python
 def stem_step_1a(word):
-    if word.endswith("sses"):
-        return word[:-2]
-    if word.endswith("ies"):
-        return word[:-2]
-    if word.endswith("ss"):
-        return word
-    if word.endswith("s") and len(word) > 1:
-        return word[:-1]
-    return word
+ if word.endswith("sses"):
+ return word[:-2]
+ if word.endswith("ies"):
+ return word[:-2]
+ if word.endswith("ss"):
+ return word
+ if word.endswith("s") and len(word) > 1:
+ return word[:-1]
+ return word
 ```
 
 ```python
@@ -81,27 +81,27 @@ Düzgün lemmatization morfoloji gerektirir. Öğretilebilir bir sürüm küçü
 
 ```python
 LEMMA_TABLE = {
-    ("running", "VERB"): "run",
-    ("ran", "VERB"): "run",
-    ("runs", "VERB"): "run",
-    ("better", "ADJ"): "good",
-    ("best", "ADJ"): "good",
-    ("cats", "NOUN"): "cat",
-    ("cat", "NOUN"): "cat",
-    ("were", "VERB"): "be",
-    ("was", "VERB"): "be",
-    ("is", "VERB"): "be",
+ ("running", "VERB"): "run",
+ ("ran", "VERB"): "run",
+ ("runs", "VERB"): "run",
+ ("better", "ADJ"): "good",
+ ("best", "ADJ"): "good",
+ ("cats", "NOUN"): "cat",
+ ("cat", "NOUN"): "cat",
+ ("were", "VERB"): "be",
+ ("was", "VERB"): "be",
+ ("is", "VERB"): "be",
 }
 
 def lemmatize(word, pos):
-    key = (word.lower(), pos)
-    if key in LEMMA_TABLE:
-        return LEMMA_TABLE[key]
-    if pos == "VERB" and word.endswith("ing"):
-        return word[:-3]
-    if pos == "NOUN" and word.endswith("s"):
-        return word[:-1]
-    return word.lower()
+ key = (word.lower(), pos)
+ if key in LEMMA_TABLE:
+ return LEMMA_TABLE[key]
+ if pos == "VERB" and word.endswith("ing"):
+ return word[:-3]
+ if pos == "NOUN" and word.endswith("s"):
+ return word[:-1]
+ return word.lower()
 ```
 
 ```python
@@ -121,11 +121,11 @@ Son durum ana öğretme anıdır. `watched` tablomuzda yok ve yedek mekanizmamı
 
 ```python
 def preprocess(text, pos_tagger=None):
-    tokens = tokenize(text)
-    stems = [stem_step_1a(t.lower()) for t in tokens]
-    tags = pos_tagger(tokens) if pos_tagger else [(t, "NOUN") for t in tokens]
-    lemmas = [lemmatize(word, pos) for word, pos in tags]
-    return {"tokens": tokens, "stems": stems, "lemmas": lemmas}
+ tokens = tokenize(text)
+ stems = [stem_step_1a(t.lower()) for t in tokens]
+ tags = pos_tagger(tokens) if pos_tagger else [(t, "NOUN") for t in tokens]
+ lemmas = [lemmatize(word, pos) for word, pos in tags]
+ return {"tokens": tokens, "stems": stems, "lemmas": lemmas}
 ```
 
 Eksik parça bir POS tagger'dır. Faz 5 · 07 (POS Tagging) dersinde bir tane oluşturulur. Şu an her şeyi `NOUN` olarak varsayın ve bu kısıtlamayı kabul edin.
@@ -154,13 +154,13 @@ tagged = pos_tag(tokens)
 
 
 def nltk_pos_to_wordnet(tag):
-    if tag.startswith("V"):
-        return "v"
-    if tag.startswith("J"):
-        return "a"
-    if tag.startswith("R"):
-        return "r"
-    return "n"
+ if tag.startswith("V"):
+ return "v"
+ if tag.startswith("J"):
+ return "a"
+ if tag.startswith("R"):
+ return "r"
+ return "n"
 
 
 lemmas = [lemmatizer.lemmatize(t, nltk_pos_to_wordnet(tag)) for t, tag in tagged]
@@ -177,15 +177,15 @@ nlp = spacy.load("en_core_web_sm")
 doc = nlp("The cats were running.")
 
 for token in doc:
-    print(token.text, token.lemma_, token.pos_)
+ print(token.text, token.lemma_, token.pos_)
 ```
 
 ```
-The      the     DET
-cats     cat     NOUN
-were     be      AUX
-running  run     VERB
-.        .       PUNCT
+The the DET
+cats cat NOUN
+were be AUX
+running run VERB
+. . PUNCT
 ```
 
 spaCy tüm hattı `nlp(text)` arkasına gizler. Tokenization, POS tagging ve lemmatization hepsi çalışır. Ölçek olarak NLTK'dan daha hızlıdır. Kutudan çıktığı haliyle daha hassastır. Ödünleşim, tek bileşenleri kolayca değiştirememenizdir.

@@ -22,8 +22,8 @@ Bir düşünce zinciri (chain-of-thought) ajanı token yayınlar ve döngünün 
 İki parça. Plan üreten bir planlayıcı. Planı çalıştıran bir yürütücü. İlginç olan iş, yürütücü bir başarısızlığa çarptığında olur. Üç seçenek:
 
 ```text
-1. İptal         (başarısız dön, hatayı yüzeye çıkar)
-2. Atla          (adımı başarısız işaretle, geri kalanıyla devam et)
+1. İptal (başarısız dön, hatayı yüzeye çıkar)
+2. Atla (adımı başarısız işaretle, geri kalanıyla devam et)
 3. Yeniden planla (hatayı planlayıcıya ver, imleçten yeni plan al)
 ```
 
@@ -36,12 +36,12 @@ Yeniden planlama, bir betiği ajana dönüştüren şeydir.
 
 ```text
 Step
-  id              : int           (plan revizyonu içinde tek düze)
-  tool_name       : str
-  args            : dict
-  expected_outcome: str           (planlayıcının belirttiği başarı koşulu)
-  result          : Any | None
-  error           : str | None
+ id : int (plan revizyonu içinde tek düze)
+ tool_name : str
+ args : dict
+ expected_outcome: str (planlayıcının belirttiği başarı koşulu)
+ result : Any | None
+ error : str | None
 ```
 
 #### Açıklama
@@ -53,7 +53,7 @@ Bu yapı, planlayıcının ürettiği her adımın veri biçimini tanımlar. `ex
 
 ```python
 def planner(goal: str, history: list[Step], last_error: str | None) -> list[Step]:
-    ...
+ ...
 ```
 
 Saf bir fonksiyon. `goal` kullanıcı hedefidir. `history` zaten yürütülen adımlardır (sonuçlar ve hatalarla doldurulur). `last_error` ilk çağrıda None, sonraki her çağrıda en son başarısızlık mesajıdır. Planlayıcı, imleçten başlayarak bir sonraki planı döndürür.
@@ -66,15 +66,15 @@ Yürütücü küçük bir durum makinesidir. Her adım dağıtıcı (dispatcher)
 
 ```mermaid
 stateDiagram-v2
-    [*] --> EXEC
-    EXEC --> NEXT: success
-    NEXT --> EXEC: n+1 < len(plan)
-    NEXT --> DONE: n+1 == len(plan)
-    EXEC --> REPLAN: failure
-    REPLAN --> EXEC: new plan, replans_used < max_replans
-    REPLAN --> FAILED: replans_used >= max_replans
-    FAILED --> [*]
-    DONE --> [*]
+ [*] --> EXEC
+ EXEC --> NEXT: success
+ NEXT --> EXEC: n+1 < len(plan)
+ NEXT --> DONE: n+1 == len(plan)
+ EXEC --> REPLAN: failure
+ REPLAN --> EXEC: new plan, replans_used < max_replans
+ REPLAN --> FAILED: replans_used >= max_replans
+ FAILED --> [*]
+ DONE --> [*]
 ```
 
 #### Açıklama
@@ -86,7 +86,7 @@ Planlayıcı bir başarısızlıktan sonra yeni bir plan döndürdüğünde, yü
 
 ```text
 removed: eski planda olup yeni planda olmayan adım id'leri listesi
-added  : yeni planda olup eski planda olmayan adım id'leri listesi
+added : yeni planda olup eski planda olmayan adım id'leri listesi
 revised: tool_name veya args'ı değişen adım id'leri listesi
 ```
 
@@ -106,10 +106,10 @@ Bir izleyici ya da UI bunu, kaldırılan adımların üzerini çizgili, eklenenl
 Bu derste model çağırmıyoruz. Ders, `last_error`'a göre plan seçen deterministik bir planlayıcı sunar.
 
 ```text
-last_error None ise           -> dört adımlı plan yay
-last_error X ile eşleşiyorsa   -> X'in etrafından dolaşan üç adımlı plan yay
-last_error Y ile eşleşiyorsa   -> zarifçe vazgeçen iki adımlı plan yay
-aksi halde                    -> [] döndür (yeniden planlanacak bir şey yok sinyali)
+last_error None ise -> dört adımlı plan yay
+last_error X ile eşleşiyorsa -> X'in etrafından dolaşan üç adımlı plan yay
+last_error Y ile eşleşiyorsa -> zarifçe vazgeçen iki adımlı plan yay
+aksi halde -> [] döndür (yeniden planlanacak bir şey yok sinyali)
 ```
 
 #### Açıklama
@@ -121,11 +121,11 @@ Bu, yürütücünün her geçiş yolundaki davranışını test etmek için yete
 
 ```text
 SessionResult
-  status      : "completed" | "failed"
-  reason      : str     ("goal_met" | "step_budget" | "replan_budget" | "no_plan")
-  history     : list[Step]
-  revisions   : list[PlanDiff]
-  events      : list[Event]
+ status : "completed" | "failed"
+ reason : str ("goal_met" | "step_budget" | "replan_budget" | "no_plan")
+ history : list[Step]
+ revisions : list[PlanDiff]
+ events : list[Event]
 ```
 
 #### Açıklama

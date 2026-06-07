@@ -32,22 +32,22 @@ Convolution derin öğrenme için icat edilmemiştir. JPEG sıkıştırmayı, Ph
 
 ```mermaid
 flowchart LR
-    subgraph IN["Input (H x W)"]
-        direction LR
-        I1["5 x 5 image"]
-    end
-    subgraph K["Kernel (3 x 3)"]
-        K1["learned<br/>weights"]
-    end
-    subgraph OUT["Output (H-2 x W-2)"]
-        O1["3 x 3 map"]
-    end
-    I1 --> |"slide kernel<br/>compute dot product<br/>at each position"| O1
-    K1 --> O1
+ subgraph IN["Input (H x W)"]
+ direction LR
+ I1["5 x 5 image"]
+ end
+ subgraph K["Kernel (3 x 3)"]
+ K1["learned<br/>weights"]
+ end
+ subgraph OUT["Output (H-2 x W-2)"]
+ O1["3 x 3 map"]
+ end
+ I1 --> |"slide kernel<br/>compute dot product<br/>at each position"| O1
+ K1 --> O1
 
-    style IN fill:#dbeafe,stroke:#2563eb
-    style K fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style IN fill:#dbeafe,stroke:#2563eb
+ style K fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 #### Açıklama
@@ -56,13 +56,13 @@ Convolution işleminin şeması: Kernel, girdi görüntü üzerinde kaydırılı
 5x5 girdi üzerinde somut bir 3x3 örneği (padding yok, stride 1):
 
 ```text
-Input X (5 x 5):                Kernel W (3 x 3):
+Input X (5 x 5): Kernel W (3 x 3):
 
-  1  2  0  1  2                   1  0 -1
-  0  1  3  1  0                   2  0 -2
-  2  1  0  2  1                   1  0 -1
-  1  0  2  1  3
-  2  1  1  0  1
+ 1 2 0 1 2 1 0 -1
+ 0 1 3 1 0 2 0 -2
+ 2 1 0 2 1 1 0 -1
+ 1 0 2 1 3
+ 2 1 1 0 1
 
 The kernel slides across every valid 3 x 3 window. Output Y is 3 x 3:
 
@@ -108,13 +108,13 @@ Padding olmadan, her convolution feature map'i küçültür. 20 tanesini istifle
 ```text
 Zero padding (P = 1) on a 5 x 5 input:
 
-  0  0  0  0  0  0  0
-  0  1  2  0  1  2  0
-  0  0  1  3  1  0  0
-  0  2  1  0  2  1  0       Now the kernel can centre on pixel
-  0  1  0  2  1  3  0       (0, 0) and still have three rows and
-  0  2  1  1  0  1  0       three columns of values to multiply.
-  0  0  0  0  0  0  0
+ 0 0 0 0 0 0 0
+ 0 1 2 0 1 2 0
+ 0 0 1 3 1 0 0
+ 0 2 1 0 2 1 0 Now the kernel can centre on pixel
+ 0 1 0 2 1 3 0 (0, 0) and still have three rows and
+ 0 2 1 1 0 1 0 three columns of values to multiply.
+ 0 0 0 0 0 0 0
 ```
 
 #### Açıklama
@@ -129,18 +129,18 @@ Stride, kaydırmanın adım boyutudur. `stride=1` varsayılandır. `stride=2` uz
 ```text
 Stride 1 on a 5 x 5 input, 3 x 3 kernel:
 
-  starts: (0,0) (0,1) (0,2)        -> output row 0
-          (1,0) (1,1) (1,2)        -> output row 1
-          (2,0) (2,1) (2,2)        -> output row 2
+ starts: (0,0) (0,1) (0,2) -> output row 0
+ (1,0) (1,1) (1,2) -> output row 1
+ (2,0) (2,1) (2,2) -> output row 2
 
-  Output: 3 x 3
+ Output: 3 x 3
 
 Stride 2 on the same input:
 
-  starts: (0,0) (0,2)              -> output row 0
-          (2,0) (2,2)              -> output row 1
+ starts: (0,0) (0,2) -> output row 0
+ (2,0) (2,2) -> output row 1
 
-  Output: 2 x 2
+ Output: 2 x 2
 ```
 
 #### Açıklama
@@ -151,16 +151,16 @@ Stride değeri kernel'in her adımda kaç piksel atlayacağını belirler. Strid
 Gerçek görüntülerin üç kanalı vardır. RGB girdi üzerinde 3x3 convolution aslında 3x3x3'lük bir hacimdir: her girdi kanalı için bir adet 3x3 dilim. Her uzaysal pozisyonda, üç dilim boyunca çarpma ve toplama yapılır ve bir bias eklenir.
 
 ```text
-Input:   (C_in,  H,  W)        3 x 5 x 5
-Kernel:  (C_in,  K,  K)        3 x 3 x 3 (one kernel)
-Output:  (1,     H', W')       2D map
+Input: (C_in, H, W) 3 x 5 x 5
+Kernel: (C_in, K, K) 3 x 3 x 3 (one kernel)
+Output: (1, H', W') 2D map
 
 For a layer that produces C_out output channels, you stack C_out kernels:
 
-Weight:  (C_out, C_in, K, K)   e.g. 64 x 3 x 3 x 3
-Output:  (C_out, H', W')       64 x 3 x 3
+Weight: (C_out, C_in, K, K) e.g. 64 x 3 x 3 x 3
+Output: (C_out, H', W') 64 x 3 x 3
 
-Parameter count: C_out * C_in * K * K + C_out   (the + C_out is biases)
+Parameter count: C_out * C_in * K * K + C_out (the + C_out is biases)
 ```
 
 #### Açıklama
@@ -174,16 +174,16 @@ Son satır, bir model planlarken hesaplayacağınız şeydir. 3 kanallı girdide
 
 ```mermaid
 flowchart LR
-    X["Input<br/>(C_in, H, W)"] --> IM2COL["im2col<br/>(extract patches)"]
-    IM2COL --> COLS["Cols matrix<br/>(C_in * K * K, H_out * W_out)"]
-    W["Weight<br/>(C_out, C_in, K, K)"] --> FLAT["Flatten<br/>(C_out, C_in * K * K)"]
-    FLAT --> MM["matmul"]
-    COLS --> MM
-    MM --> OUT["Output<br/>(C_out, H_out * W_out)<br/>reshape to (C_out, H_out, W_out)"]
+ X["Input<br/>(C_in, H, W)"] --> IM2COL["im2col<br/>(extract patches)"]
+ IM2COL --> COLS["Cols matrix<br/>(C_in * K * K, H_out * W_out)"]
+ W["Weight<br/>(C_out, C_in, K, K)"] --> FLAT["Flatten<br/>(C_out, C_in * K * K)"]
+ FLAT --> MM["matmul"]
+ COLS --> MM
+ MM --> OUT["Output<br/>(C_out, H_out * W_out)<br/>reshape to (C_out, H_out, W_out)"]
 
-    style X fill:#dbeafe,stroke:#2563eb
-    style W fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style X fill:#dbeafe,stroke:#2563eb
+ style W fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 #### Açıklama
@@ -198,7 +198,7 @@ Tek bir 3x3 conv, 9 girdi pikseline bakar. İki 3x3 conv istifleyin ve ikinci ka
 ```text
 RF after L stacked K x K convs (stride 1) = 1 + L * (K - 1)
 
-With strides:   RF grows multiplicatively with stride along each layer.
+With strides: RF grows multiplicatively with stride along each layer.
 ```
 
 #### Açıklama
@@ -216,12 +216,12 @@ En küçük temel öğeyle başlayın: bir H x W dizinin etrafına sıfır ekley
 import numpy as np
 
 def pad2d(x, p):
-    if p == 0:
-        return x
-    h, w = x.shape[-2:]
-    out = np.zeros(x.shape[:-2] + (h + 2 * p, w + 2 * p), dtype=x.dtype)
-    out[..., p:p + h, p:p + w] = x
-    return out
+ if p == 0:
+ return x
+ h, w = x.shape[-2:]
+ out = np.zeros(x.shape[:-2] + (h + 2 * p, w + 2 * p), dtype=x.dtype)
+ out[..., p:p + h, p:p + w] = x
+ return out
 
 x = np.arange(9).reshape(3, 3)
 print(x)
@@ -238,25 +238,25 @@ Referans uygulama — yavaş ama net. `torch.nn.functional.conv2d` prensipte bun
 
 ```python
 def conv2d_naive(x, w, b=None, stride=1, padding=0):
-    c_in, h, w_in = x.shape
-    c_out, c_in_w, kh, kw = w.shape
-    assert c_in == c_in_w
+ c_in, h, w_in = x.shape
+ c_out, c_in_w, kh, kw = w.shape
+ assert c_in == c_in_w
 
-    x_pad = pad2d(x, padding)
-    h_out = (h + 2 * padding - kh) // stride + 1
-    w_out = (w_in + 2 * padding - kw) // stride + 1
+ x_pad = pad2d(x, padding)
+ h_out = (h + 2 * padding - kh) // stride + 1
+ w_out = (w_in + 2 * padding - kw) // stride + 1
 
-    out = np.zeros((c_out, h_out, w_out), dtype=np.float32)
-    for oc in range(c_out):
-        for i in range(h_out):
-            for j in range(w_out):
-                hs = i * stride
-                ws = j * stride
-                patch = x_pad[:, hs:hs + kh, ws:ws + kw]
-                out[oc, i, j] = np.sum(patch * w[oc])
-        if b is not None:
-            out[oc] += b[oc]
-    return out
+ out = np.zeros((c_out, h_out, w_out), dtype=np.float32)
+ for oc in range(c_out):
+ for i in range(h_out):
+ for j in range(w_out):
+ hs = i * stride
+ ws = j * stride
+ patch = x_pad[:, hs:hs + kh, ws:ws + kw]
+ out[oc, i, j] = np.sum(patch * w[oc])
+ if b is not None:
+ out[oc] += b[oc]
+ return out
 ```
 
 #### Açıklama
@@ -268,14 +268,14 @@ Dikey bir Sobel kernel oluşturun, sentetik bir basamak görüntüsüne uygulay�
 
 ```python
 def synthetic_step_image():
-    img = np.zeros((1, 16, 16), dtype=np.float32)
-    img[:, :, 8:] = 1.0
-    return img
+ img = np.zeros((1, 16, 16), dtype=np.float32)
+ img[:, :, 8:] = 1.0
+ return img
 
 sobel_x = np.array([
-    [[-1, 0, 1],
-     [-2, 0, 2],
-     [-1, 0, 1]]
+ [[-1, 0, 1],
+ [-2, 0, 2],
+ [-1, 0, 1]]
 ], dtype=np.float32)[None]
 
 x = synthetic_step_image()
@@ -292,21 +292,21 @@ Girdideki her kernel boyutundaki pencereyi bir matrisin sütununa dönüştürü
 
 ```python
 def im2col(x, kh, kw, stride=1, padding=0):
-    c_in, h, w = x.shape
-    x_pad = pad2d(x, padding)
-    h_out = (h + 2 * padding - kh) // stride + 1
-    w_out = (w + 2 * padding - kw) // stride + 1
+ c_in, h, w = x.shape
+ x_pad = pad2d(x, padding)
+ h_out = (h + 2 * padding - kh) // stride + 1
+ w_out = (w + 2 * padding - kw) // stride + 1
 
-    cols = np.zeros((c_in * kh * kw, h_out * w_out), dtype=x.dtype)
-    col = 0
-    for i in range(h_out):
-        for j in range(w_out):
-            hs = i * stride
-            ws = j * stride
-            patch = x_pad[:, hs:hs + kh, ws:ws + kw]
-            cols[:, col] = patch.reshape(-1)
-            col += 1
-    return cols, h_out, w_out
+ cols = np.zeros((c_in * kh * kw, h_out * w_out), dtype=x.dtype)
+ col = 0
+ for i in range(h_out):
+ for j in range(w_out):
+ hs = i * stride
+ ws = j * stride
+ patch = x_pad[:, hs:hs + kh, ws:ws + kw]
+ cols[:, col] = patch.reshape(-1)
+ col += 1
+ return cols, h_out, w_out
 ```
 
 #### Açıklama
@@ -318,13 +318,13 @@ Dörtlü döngüyü tek bir matris çarpımıyla değiştirin.
 
 ```python
 def conv2d_im2col(x, w, b=None, stride=1, padding=0):
-    c_out, c_in, kh, kw = w.shape
-    cols, h_out, w_out = im2col(x, kh, kw, stride, padding)
-    w_flat = w.reshape(c_out, -1)
-    out = w_flat @ cols
-    if b is not None:
-        out += b[:, None]
-    return out.reshape(c_out, h_out, w_out)
+ c_out, c_in, kh, kw = w.shape
+ cols, h_out, w_out = im2col(x, kh, kw, stride, padding)
+ w_flat = w.reshape(c_out, -1)
+ out = w_flat @ cols
+ if b is not None:
+ out += b[:, None]
+ return out.reshape(c_out, h_out, w_out)
 ```
 
 #### Açıklama
@@ -353,17 +353,17 @@ Herhangi bir eğitim öncesinde tek bir conv katmanının neler ifade edebilece�
 
 ```python
 KERNELS = {
-    "identity": np.array([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=np.float32),
-    "blur_3x3": np.ones((3, 3), dtype=np.float32) / 9.0,
-    "sharpen": np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], dtype=np.float32),
-    "sobel_x": np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32),
-    "sobel_y": np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.float32),
+ "identity": np.array([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=np.float32),
+ "blur_3x3": np.ones((3, 3), dtype=np.float32) / 9.0,
+ "sharpen": np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], dtype=np.float32),
+ "sobel_x": np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32),
+ "sobel_y": np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.float32),
 }
 
 def apply_kernel(img2d, kernel):
-    x = img2d[None].astype(np.float32)
-    w = kernel[None, None]
-    return conv2d_im2col(x, w, padding=1)[0]
+ x = img2d[None].astype(np.float32)
+ w = kernel[None, None]
+ return conv2d_im2col(x, w, padding=1)[0]
 ```
 
 #### Açıklama
@@ -371,26 +371,26 @@ Herhangi bir gri tonlamalı görüntüye uygulandığında, blur yumuşatır, sh
 
 ## Kullan
 
-PyTorch'un `nn.Conv2d`'si aynı işlemi autograd, CUDA kernel'leri ve cuDNN optimizasyonuyla sarar. Şekil semantikleri aynıdır.
+PyTorch'un `nn. Conv2d`'si aynı işlemi autograd, CUDA kernel'leri ve cuDNN optimizasyonuyla sarar. Şekil semantikleri aynıdır.
 
 ```python
 import torch
 import torch.nn as nn
 
-conv = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1)
+conv = nn. Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1)
 print(conv)
-print(f"weight shape: {tuple(conv.weight.shape)}   # (C_out, C_in, K, K)")
-print(f"bias shape:   {tuple(conv.bias.shape)}")
-print(f"param count:  {sum(p.numel() for p in conv.parameters())}")
+print(f"weight shape: {tuple(conv.weight.shape)} # (C_out, C_in, K, K)")
+print(f"bias shape: {tuple(conv.bias.shape)}")
+print(f"param count: {sum(p.numel() for p in conv.parameters())}")
 
 x = torch.randn(8, 3, 224, 224)
 y = conv(x)
-print(f"\ninput  shape: {tuple(x.shape)}")
+print(f"\ninput shape: {tuple(x.shape)}")
 print(f"output shape: {tuple(y.shape)}")
 ```
 
 #### Açıklama
-PyTorch'ta `nn.Conv2d` kullanımı. `padding=1` ile çıktı 224x224, `padding=0` ile 222x222, `stride=2` ile 112x112 olur.
+PyTorch'ta `nn. Conv2d` kullanımı. `padding=1` ile çıktı 224x224, `padding=0` ile 222x222, `stride=2` ile 112x112 olur.
 
 `padding=1` yerine `padding=0` koyun ve çıktı 222x222'ye düşer. `stride=1` yerine `stride=2` koyun ve 112x112'ye düşer. Yukarıda ezberlediğiniz formülün aynısı.
 
@@ -403,7 +403,7 @@ Bu ders şunları üretir:
 
 ## Alıştırmalar
 
-1. **(Kolay)** 128x128 gri tonlamalı bir girdi ve `[Conv3x3(s=1,p=1), Conv3x3(s=2,p=1), Conv3x3(s=1,p=1), Conv3x3(s=2,p=1)]` yığını verildiğinde, her katmandaki çıktı uzaysal boyutunu ve receptive field'i elle hesaplayın. PyTorch `nn.Sequential` ile sahte conv'ler kullanarak doğrulayın.
+1. **(Kolay)** 128x128 gri tonlamalı bir girdi ve `[Conv3x3(s=1,p=1), Conv3x3(s=2,p=1), Conv3x3(s=1,p=1), Conv3x3(s=2,p=1)]` yığını verildiğinde, her katmandaki çıktı uzaysal boyutunu ve receptive field'i elle hesaplayın. PyTorch `nn. Sequential` ile sahte conv'ler kullanarak doğrulayın.
 2. **(Orta)** `conv2d_naive` ve `conv2d_im2col` fonksiyonlarını bir `groups` argümanı kabul edecek şekilde genişletin. `groups=C_in=C_out` durumunun bir depthwise convolution ürettiğini ve parametre sayısının `C * C * K * K` yerine `C * K * K` olduğunu gösterin.
 3. **(Zor)** `conv2d_im2col`'un geriye geçişini elle uygulayın: çıktının gradient'i verildiğinde, `x` ve `w`'nin gradient'ini hesaplayın. Aynı girdi ve ağırlıklar üzerinde `torch.autograd.grad` ile doğrulayın. İşin püf noktası: im2col'un gradient'i `col2im`'dir ve örtüşen pencereleri biriktirmesi gerekir.
 

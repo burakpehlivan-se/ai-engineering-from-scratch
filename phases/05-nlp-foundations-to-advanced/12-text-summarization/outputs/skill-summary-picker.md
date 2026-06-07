@@ -10,7 +10,7 @@ tags: [nlp, summarization]
 Bir görev (belge türü, uyumluluk gereksinimi, uzunluk, hesaplama bütçesi) verildiğinde şunu üretirsiniz:
 
 1. Yaklaşım. Çıkarıcı veya soyutlayıcı. Tek cümlede nedenini açıklayın.
-2. Başlangıç modeli / kütüphanesi. Adını belirtin. `sumy.TextRankSummarizer`, `facebook/bart-large-cnn`, `google/pegasus-pubmed` veya bir LLM istemi.
+2. Başlangıç modeli / kütüphanesi. Adını belirtin. `sumy. TextRankSummarizer`, `facebook/bart-large-cnn`, `google/pegasus-pubmed` veya bir LLM istemi.
 3. Değerlendirme planı. ROUGE-1, ROUGE-2, ROUGE-L (kök bulma ile `rouge-score` kullanın). Soyutlayıcı ise artı gerçeklik kontrolü.
 4. Araştırılacak bir başarısızlık modu. Soyutlayıcı haber özetlemede varlık yer değiştirmesi en yaygın olanıdır; kaynaktaki varlıkların özette bulunmadığı örnekleri işaretleyin.
 

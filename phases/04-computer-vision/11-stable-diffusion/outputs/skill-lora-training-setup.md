@@ -65,52 +65,52 @@ Aşırıya kaçmanın bedeli ağırdır — eğitim görüntülerini ezberlemiş
 
 ```yaml
 model:
-  base: <base_model HF kimliği>
-  precision: fp16 | bf16
+ base: <base_model HF kimliği>
+ precision: fp16 | bf16
 
 lora:
-  rank: <int>
-  alpha: <int>
-  targets: unet.cross_attention  # ve/veya unet.to_q, to_k, to_v, to_out
+ rank: <int>
+ alpha: <int>
+ targets: unet.cross_attention # ve/veya unet.to_q, to_k, to_v, to_out
 
 training:
-  steps:          <int>
-  batch_size:     <int, gpu_vram_gb'ye göre ayarlı>
-  grad_accum:     <int, genellikle >=16 GB'de 1, <=12 GB'de 4>
-  learning_rate:  <float>
-  optimizer:      AdamW8bit | AdamW
-  scheduler:      cosine_with_warmup | constant
-  warmup_steps:   <int>
-  save_every:     <int>
+ steps: <int>
+ batch_size: <int, gpu_vram_gb'ye göre ayarlı>
+ grad_accum: <int, genellikle >=16 GB'de 1, <=12 GB'de 4>
+ learning_rate: <float>
+ optimizer: AdamW8bit | AdamW
+ scheduler: cosine_with_warmup | constant
+ warmup_steps: <int>
+ save_every: <int>
 
 data:
-  images_dir:     <yol>
-  caption_source: <manual | BLIP2 | native>
-  trigger_token:   <purpose==subject ise dize>
-  resolution:      <SD 1.5 için 512, SDXL için 1024>
-  aspect_ratio_bucketing: true
-  augmentation:
-    flip:          true
-    color_jitter:  false
+ images_dir: <yol>
+ caption_source: <manual | BLIP2 | native>
+ trigger_token: <purpose==subject ise dize>
+ resolution: <SD 1.5 için 512, SDXL için 1024>
+ aspect_ratio_bucketing: true
+ augmentation:
+ flip: true
+ color_jitter: false
 
 validation:
-  prompts:
-    - "<trigger> ...test prompt..."
-    - "<trigger> in a different scene"
-  every_steps: 250
+ prompts:
+ - "<trigger> ...test prompt..."
+ - "<trigger> in a different scene"
+ every_steps: 250
 ```
 
 ## Rapor
 
 ```
 [lora setup]
-  purpose:   <subject|style|concept>
-  base:      <model>
-  rank:      <int>
-  steps:     <int>
-  batch:     <int>   grad_accum: <int>
-  lr:        <float>
-  vram est.: <float> GB
+ purpose: <subject|style|concept>
+ base: <model>
+ rank: <int>
+ steps: <int>
+ batch: <int> grad_accum: <int>
+ lr: <float>
+ vram est.: <float> GB
 ```
 
 ## Kurallar

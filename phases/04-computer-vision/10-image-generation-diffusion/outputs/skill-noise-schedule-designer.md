@@ -52,27 +52,27 @@ k = 6 ila 12. İyi bir orta yol; bazı SDXL varyantları tarafından kullanılı
 3. SNR_t = alpha_bar_t / (1 - alpha_bar_t) hesaplayın; zaman içinde SNR özeti üretin.
 4. `alphas_cumprod[T-1]`'in `target_alpha_bar_final`'ın %10'u içinde olduğunu doğrulayın; aksi halde beta_end (doğrusal), s (kosinüs) veya k (sigmoid) ayarlayın ve yeniden deneyin.
 5. Üç kontrol noktasını raporlayın:
-   - `t=T*0.25` — erken bozulma
-   - `t=T*0.5` — orta yol
-   - `t=T*0.75` — sona yakın
+ - `t=T*0.25` — erken bozulma
+ - `t=T*0.5` — orta yol
+ - `t=T*0.75` — sona yakın
 
 ## Rapor
 
 ```
 [schedule]
-  type:   <isim>
-  T:      <int>
-  beta_start: <float>   beta_end: <float>
+ type: <isim>
+ T: <int>
+ beta_start: <float> beta_end: <float>
 
 [signal retention]
-  t=0.25T:  alpha_bar=<X>  SNR=<X>
-  t=0.5T:   alpha_bar=<X>  SNR=<X>
-  t=0.75T:  alpha_bar=<X>  SNR=<X>
-  t=T:      alpha_bar=<X>  SNR=<X>
+ t=0.25T: alpha_bar=<X> SNR=<X>
+ t=0.5T: alpha_bar=<X> SNR=<X>
+ t=0.75T: alpha_bar=<X> SNR=<X>
+ t=T: alpha_bar=<X> SNR=<X>
 
 [warnings]
-  - <alpha_bar 0.75T'den önce çökerse>
-  - <beta_end log-SNR'da NaN üretirse>
+ - <alpha_bar 0.75T'den önce çökerse>
+ - <beta_end log-SNR'da NaN üretirse>
 ```
 
 ## Kurallar

@@ -96,15 +96,15 @@ MoBA (Moonshot, arXiv:2502.13189) was concurrently published and takes a similar
 
 ```python
 def compress(K, l):
-    n = len(K)
-    n_blocks = (n + l - 1) // l
-    out = []
-    for b in range(n_blocks):
-        start, end = b * l, min((b + 1) * l, n)
-        block = K[start:end]
-        summary = [sum(row[d] for row in block) / len(block) for d in range(len(K[0]))]
-        out.append(summary)
-    return out
+ n = len(K)
+ n_blocks = (n + l - 1) // l
+ out = []
+ for b in range(n_blocks):
+ start, end = b * l, min((b + 1) * l, n)
+ block = K[start:end]
+ summary = [sum(row[d] for row in block) / len(block) for d in range(len(K[0]))]
+ out.append(summary)
+ return out
 ```
 
 ### Step 2: compressed-branch attention

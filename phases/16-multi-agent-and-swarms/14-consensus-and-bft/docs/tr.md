@@ -65,9 +65,9 @@ LLM ajanları için minimal bir BFT turu:
 3. toplayıcı tüm n ajandan (a_i, c_i) toplar
 4. toplayıcı anlamsal kümeye göre gruplar (eşdeğer cevaplar)
 5. toplayıcı her küme C için ağırlık hesaplar:
-      w(C) = sum_{i in C} c_i
+ w(C) = sum_{i in C} c_i
 6. kazanan = max ağırlıklı küme, eğer max > eşik * sum(c_i)
-   aksi halde: yeniden dene veya yükselt
+ aksi halde: yeniden dene veya yükselt
 7. azınlık kümeleri, sonradan denetim için kaynağıyla birlikte kaydedilir
 ```
 

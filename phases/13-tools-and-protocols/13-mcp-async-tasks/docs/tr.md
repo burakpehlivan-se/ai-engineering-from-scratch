@@ -32,16 +32,16 @@ Bir istek `params._meta.task.required: true` (veya `optional: true`, sunucu kara
 
 ```json
 {
-  "jsonrpc": "2.0", "id": 1,
-  "result": {
-    "_meta": {
-      "task": {
-        "id": "tsk_9f7b...",
-        "state": "working",
-        "ttl": 900000
-      }
-    }
-  }
+ "jsonrpc": "2.0", "id": 1,
+ "result": {
+ "_meta": {
+ "task": {
+ "id": "tsk_9f7b...",
+ "state": "working",
+ "ttl": 900000
+ }
+ }
+ }
 }
 ```
 
@@ -60,10 +60,10 @@ Bir `generate_report` aracı `required` olurdu. Bir `notes_search` aracı `forbi
 ### Durumlar
 
 ```
-working  -> input_required -> working  (ricada bulunma yoluyla döngü)
-working  -> completed
-working  -> failed
-working  -> cancelled
+working -> input_required -> working (ricada bulunma yoluyla döngü)
+working -> completed
+working -> failed
+working -> cancelled
 ```
 
 Durum makinesi yalnızca eklemeli (append-only): `completed`, `failed` veya `cancelled` bir kez geçildiğinde görev sonludur.

@@ -29,16 +29,16 @@ Bu, erken derslerin planlara, araç çağrılarına ve iz'lere uyguladığı ayn
 
 ```mermaid
 flowchart TB
-    Paper[Paper] --> Meta[meta veri]
-    Paper --> Sections[bölümler listesi]
-    Paper --> Figures[şekiller listesi]
-    Paper --> Bib[bibliyografya listesi]
-    Meta --> Title[başlık]
-    Meta --> Authors[yazarlar]
-    Meta --> Abstract[özet]
-    Sections --> Sec1[Bölüm: kimlik, başlık, gövde, alıntılar]
-    Figures --> Fig1[Şekil: kimlik, yol, altyazı, etiket]
-    Bib --> Entry1[BibEntry: anahtar, alanlar]
+ Paper[Paper] --> Meta[meta veri]
+ Paper --> Sections[bölümler listesi]
+ Paper --> Figures[şekiller listesi]
+ Paper --> Bib[bibliyografya listesi]
+ Meta --> Title[başlık]
+ Meta --> Authors[yazarlar]
+ Meta --> Abstract[özet]
+ Sections --> Sec1[Bölüm: kimlik, başlık, gövde, alıntılar]
+ Figures --> Fig1[Şekil: kimlik, yol, altyazı, etiket]
+ Bib --> Entry1[BibEntry: anahtar, alanlar]
 ```
 
 Her alan, sade Python verisidir. Oluşturucu, `Paper`'dan bir LaTeX dizesine saf bir fonksiyondur. Hat, oluşturmadan önce makaleyi içe bakabilir: bölümleri saymak, eksik şekil dosyalarını listelemek, her `\cite{key}`'in eşleşen bir `BibEntry`'si olduğunu kontrol etmek.
@@ -55,11 +55,11 @@ Bu parçadaki erken dersler, deney çıktılarını JSON manifestoları olarak �
 
 ```mermaid
 flowchart LR
-    Exp[experiment.json] --> Reader[read_experiment_manifest]
-    Reader --> Figs[Şekil listesi]
-    Figs --> Paper[Paper.figures]
-    Paper --> Render[render_latex]
-    Render --> Out[paper.tex]
+ Exp[experiment.json] --> Reader[read_experiment_manifest]
+ Reader --> Figs[Şekil listesi]
+ Figs --> Paper[Paper.figures]
+ Paper --> Render[render_latex]
+ Render --> Out[paper.tex]
 ```
 
 Enjeksiyon deterministiktir. Şekil kimlikleri, deney adı artı tekdüze bir sayacdan türetilir. Altyazılar manifestodan gelir. Yollar, makalenin çıktı dizinine göre normalleştirilir, böylece deney çıktıları disk üzerinde başka yerde oturuyor olsa bile LaTeX derlenir.
@@ -76,12 +76,12 @@ Yazar, çıktı dizinine üç dosya yayar.
 
 ```mermaid
 flowchart TB
-    Writer[PaperWriter.write] --> Tex[paper.tex]
-    Writer --> Bib[references.bib]
-    Writer --> Man[manifest.json]
-    Man --> F[başvurulan şekiller]
-    Man --> C[kullanılan alıntılar]
-    Man --> S[oluşturulan bölümler]
+ Writer[PaperWriter.write] --> Tex[paper.tex]
+ Writer --> Bib[references.bib]
+ Writer --> Man[manifest.json]
+ Man --> F[başvurulan şekiller]
+ Man --> C[kullanılan alıntılar]
+ Man --> S[oluşturulan bölümler]
 ```
 
 Manifestoyu, downstream bir değerlendirici veya eleştirmen döngüsü okur. LaTeX'i ayrıştırmaz; manifestoyu okur. Sonraki ders, eleştirmen döngüsü, bu manifestoyu girdi olarak alır ve bir geri bildirim listesi üretir. Bu, manifestonun sözleşmenin bir parçası olmasının ve LaTeX'in olmamasının nedenidir.

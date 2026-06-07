@@ -76,9 +76,9 @@ key = sha256(json.dumps({"model": m, "messages": msgs, "temp": 0}))
 ### Anahtar kelime tabanlı (basit, hızlı)
 
 ```
-basit:  <= 5 kelime VEYA SSS anahtar kelimeleriyle eşleşir -> gpt-4o-mini ($0.15/$0.60)
-orta:   genel sorgular, özetler                        -> claude-sonnet ($3/$15)
-karmaşık: "analiz et", "karşılaştır", "hata ayıkla"     -> gpt-4o ($2.50/$10)
+basit: <= 5 kelime VEYA SSS anahtar kelimeleriyle eşleşir -> gpt-4o-mini ($0.15/$0.60)
+orta: genel sorgular, özetler -> claude-sonnet ($3/$15)
+karmaşık: "analiz et", "karşılaştır", "hata ayıkla" -> gpt-4o ($2.50/$10)
 ```
 
 - Uygulama: 1 saat
@@ -144,18 +144,18 @@ Her API çağrısını şu alanlarla günlüğe kaydedin:
 
 ```json
 {
-  "timestamp": "2026-04-02T10:30:00Z",
-  "model": "gpt-4o",
-  "input_tokens": 1523,
-  "output_tokens": 487,
-  "cached_input_tokens": 1024,
-  "latency_ms": 1847,
-  "cost_usd": 0.006142,
-  "user_id": "user_abc123",
-  "cache_status": "partial_hit",
-  "request_category": "customer_support",
-  "complexity_class": "medium",
-  "routed_from": "gpt-4o"
+ "timestamp": "2026-04-02T10:30:00Z",
+ "model": "gpt-4o",
+ "input_tokens": 1523,
+ "output_tokens": 487,
+ "cached_input_tokens": 1024,
+ "latency_ms": 1847,
+ "cost_usd": 0.006142,
+ "user_id": "user_abc123",
+ "cache_status": "partial_hit",
+ "request_category": "customer_support",
+ "complexity_class": "medium",
+ "routed_from": "gpt-4o"
 }
 ```
 

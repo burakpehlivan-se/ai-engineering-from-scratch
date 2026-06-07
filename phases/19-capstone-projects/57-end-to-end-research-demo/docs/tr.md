@@ -19,15 +19,15 @@
 
 ```mermaid
 flowchart LR
-    Seed[Seed hypotheses] --> Sched[Iteration scheduler]
-    Sched --> Exp[Experiment runner]
-    Exp --> Bus[Result bus]
-    Bus --> Sched
-    Bus --> Trig[Paper trigger]
-    Trig --> Pick[Best result picker]
-    Pick --> Critic[Critic loop]
-    Critic --> Writer[Paper writer]
-    Writer --> Report[Demo report]
+ Seed[Seed hypotheses] --> Sched[Iteration scheduler]
+ Sched --> Exp[Experiment runner]
+ Exp --> Bus[Result bus]
+ Bus --> Sched
+ Bus --> Trig[Paper trigger]
+ Trig --> Pick[Best result picker]
+ Pick --> Critic[Critic loop]
+ Critic --> Writer[Paper writer]
+ Writer --> Report[Demo report]
 ```
 
 #### Açıklama
@@ -39,10 +39,10 @@ Beş aşama. Tohum, üç hipotezden oluşan bir listedir. Zamanlayıcı, üç pa
 
 ```mermaid
 flowchart TB
-    Demo[57: end-to-end demo] --> A[54: PaperWriter]
-    Demo --> B[55: CriticLoop]
-    Demo --> C[56: IterationScheduler]
-    Demo --> Inline[Inline stub: seed and runner]
+ Demo[57: end-to-end demo] --> A[54: PaperWriter]
+ Demo --> B[55: CriticLoop]
+ Demo --> C[56: IterationScheduler]
+ Demo --> Inline[Inline stub: seed and runner]
 ```
 
 #### Açıklama
@@ -58,11 +58,11 @@ Aynı seed verildiğinde demo aynı raporu üretir. Test, demo'yu iki kez çalı
 
 ```mermaid
 flowchart TB
-    Rep[DemoReport] --> Sch[scheduler_report]
-    Rep --> Pick[best_branch and best_reward]
-    Rep --> Cri[critic_result]
-    Rep --> Pap[paper_manifest]
-    Rep --> Term[stop_reason]
+ Rep[DemoReport] --> Sch[scheduler_report]
+ Rep --> Pick[best_branch and best_reward]
+ Rep --> Cri[critic_result]
+ Rep --> Pap[paper_manifest]
+ Rep --> Term[stop_reason]
 ```
 
 #### Açıklama
@@ -74,7 +74,7 @@ Her aşama ya başarılı olur ya da tipli (typed) bir hata fırlatır.
 
 ```text
 Scheduler ........ returns SchedulerReport with stop_reason
-                   in {queue_empty, max_experiments, deadline}
+ in {queue_empty, max_experiments, deadline}
 Best-result pick . raises NoTriggerError if no paper trigger fired
 Critic loop ...... returns LoopResult with status converged or stopped
 Paper writer ..... raises PaperValidationError on contract break

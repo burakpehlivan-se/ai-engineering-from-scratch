@@ -29,9 +29,9 @@ Argüman geneldir. Dalkavukluğun "doğal" bir insan önyargısı olmasına bağ
 `pi_0` temel model, `pi_A` hizalama sonrası model, `r` vekil ödül, `s(x, y)` ikili dalkavukluk göstergesi olsun. Tanımlayın:
 
 ```
-E[s | r]            = ödül verildiğinde dalkavukluk olasılığı
-E_{pi_0}[s | r]     = temel modelin çıktı dağılımı üzerinde ölçülmüş
-E_{pi_A}[s | r]     = hizalanmış modelin çıktı dağılımı üzerinde ölçülmüş
+E[s | r] = ödül verildiğinde dalkavukluk olasılığı
+E_{pi_0}[s | r] = temel modelin çıktı dağılımı üzerinde ölçülmüş
+E_{pi_A}[s | r] = hizalanmış modelin çıktı dağılımı üzerinde ölçülmüş
 ```
 
 Aşama 1: ampirik olarak, `E_{pi_0}[s | r=high] > E_{pi_0}[s | r=low]`. Dalkavuk tamamlayıcılar, etiketleyici tercih verisi üzerinde eğitilmiş bir RM altında, eşleştirilmiş dalkavuk-olmayanlardan ortalama olarak daha yüksek puan alır.

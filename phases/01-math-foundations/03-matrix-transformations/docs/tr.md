@@ -30,19 +30,19 @@ Matrisler sadece sayı ızgaraları değildir. Uzamsal makinelerdir. Döndürme 
 
 ```mermaid
 graph LR
-    subgraph Önce["Standart Temel"]
-        e1["e1 = [1, 0] (x boyunca)"]
-        e2["e2 = [0, 1] (y boyunca)"]
-    end
-    subgraph Dönüşüm["Matris M"]
-        M["M = sütunlar yeni temel vektörleridir"]
-    end
-    subgraph Sonra["Dönüşüm M Sonrası"]
-        e1p["e1' = yeni x-temeli"]
-        e2p["e2' = yeni y-temeli"]
-    end
-    e1 --> M --> e1p
-    e2 --> M --> e2p
+ subgraph Önce["Standart Temel"]
+ e1["e1 = [1, 0] (x boyunca)"]
+ e2["e2 = [0, 1] (y boyunca)"]
+ end
+ subgraph Dönüşüm["Matris M"]
+ M["M = sütunlar yeni temel vektörleridir"]
+ end
+ subgraph Sonra["Dönüşüm M Sonrası"]
+ e1p["e1' = yeni x-temeli"]
+ e2p["e2' = yeni y-temeli"]
+ end
+ e1 --> M --> e1p
+ e2 --> M --> e2p
 ```
 
 ### Döndürme
@@ -51,35 +51,35 @@ Teta açısıyla yapılan 2B döndürme, mesafeleri ve açıları korur. Her nok
 
 ```mermaid
 graph LR
-    subgraph Önce["Döndürme Öncesi"]
-        A["A(2, 1)"]
-        B["B(0, 2)"]
-    end
-    subgraph Döndür["45 Derece Döndür"]
-        R["R(θ) = [[cos θ, -sin θ], [sin θ, cos θ]]"]
-    end
-    subgraph Sonra["Döndürme Sonrası"]
-        Ap["A'(0.71, 2.12)"]
-        Bp["B'(-1.41, 1.41)"]
-    end
-    A --> R --> Ap
-    B --> R --> Bp
+ subgraph Önce["Döndürme Öncesi"]
+ A["A(2, 1)"]
+ B["B(0, 2)"]
+ end
+ subgraph Döndür["45 Derece Döndür"]
+ R["R(θ) = [[cos θ, -sin θ], [sin θ, cos θ]]"]
+ end
+ subgraph Sonra["Döndürme Sonrası"]
+ Ap["A'(0.71, 2.12)"]
+ Bp["B'(-1.41, 1.41)"]
+ end
+ A --> R --> Ap
+ B --> R --> Bp
 ```
 
 3B'de bir eksen etrafında döndürürsünüz. Her eksendi kendi döndürme matrisi vardır:
 
 ```
-Rz(theta) = | cos  -sin  0 |     z ekseni etrafında döndür
-            | sin   cos  0 |     (x-y düzlemini döndürür, z sabit)
-            |  0     0   1 |
+Rz(theta) = | cos -sin 0 | z ekseni etrafında döndür
+ | sin cos 0 | (x-y düzlemini döndürür, z sabit)
+ | 0 0 1 |
 
-Rx(theta) = | 1   0     0    |   x ekseni etrafında döndür
-            | 0  cos  -sin   |   (y-z düzlemini döndürür, x sabit)
-            | 0  sin   cos   |
+Rx(theta) = | 1 0 0 | x ekseni etrafında döndür
+ | 0 cos -sin | (y-z düzlemini döndürür, x sabit)
+ | 0 sin cos |
 
-Ry(theta) = |  cos  0  sin |     y ekseni etrafında döndür
-            |   0   1   0  |     (x-z düzlemini döndürür, y sabit)
-            | -sin  0  cos |
+Ry(theta) = | cos 0 sin | y ekseni etrafında döndür
+ | 0 1 0 | (x-z düzlemini döndürür, y sabit)
+ | -sin 0 cos |
 ```
 
 #### Açıklama
@@ -90,8 +90,8 @@ Her döndürme matrisi trigonometrik fonksiyonlar kullanarak noktaları belirli 
 Ölçekleme matrisi noktaları boyut olarak değiştirir.
 
 ```
-S = | sx  0  |    x boyunca sx, y boyunca sy ölçekleme
-    | 0  sy |
+S = | sx 0 | x boyunca sx, y boyunca sy ölçekleme
+ | 0 sy |
 ```
 
 Yapay zekada ölçekleme:
@@ -103,8 +103,8 @@ Yapay zekada ölçekleme:
 Eğme matrisi noktaları eğerek bozar, ama paralellik ve alanı korur.
 
 ```
-Sh = | 1  k  |    k eğme miktarı
-     | 0  1  |
+Sh = | 1 k | k eğme miktarı
+ | 0 1 |
 ```
 
 ### Yansıma
@@ -112,11 +112,11 @@ Sh = | 1  k  |    k eğme miktarı
 Yansıma matrisi noktaları bir eksen etrafında simetrik olarak çevirir.
 
 ```
-Mx = | 1   0  |    x ekseni etrafında yansıtma
-     | 0  -1  |
+Mx = | 1 0 | x ekseni etrafında yansıtma
+ | 0 -1 |
 
-My = | -1  0  |    y ekseni etrafında yansıtma
-     |  0  1  |
+My = | -1 0 | y ekseni etrafında yansıtma
+ | 0 1 |
 ```
 
 ### Özdeğer ve Özvektör

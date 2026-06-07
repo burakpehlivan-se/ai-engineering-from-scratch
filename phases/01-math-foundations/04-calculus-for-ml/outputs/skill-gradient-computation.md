@@ -58,10 +58,10 @@ Sinir ağlarında kullanılan kayıp fonksiyonlarının, aktivasyon fonksiyonlar
 
 ```
 For each parameter w:
-  numeric_grad = (loss(w + h) - loss(w - h)) / (2h)
-  auto_grad = backward pass value
-  relative_error = |numeric - auto| / max(|numeric|, |auto|, 1e-8)
-  assert relative_error < 1e-5
+ numeric_grad = (loss(w + h) - loss(w - h)) / (2h)
+ auto_grad = backward pass value
+ relative_error = |numeric - auto| / max(|numeric|, |auto|, 1e-8)
+ assert relative_error < 1e-5
 ```
 
 1e-3'ün üzerindeki göreli hata, bir şeylerin yanlış olduğu anlamına gelir. 1e-5 ile 1e-3 arasında, araştır.

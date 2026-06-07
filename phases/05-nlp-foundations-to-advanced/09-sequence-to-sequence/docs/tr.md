@@ -38,16 +38,16 @@ import torch
 import torch.nn as nn
 
 
-class Encoder(nn.Module):
-    def __init__(self, src_vocab_size, embed_dim, hidden_dim):
-        super().__init__()
-        self.embed = nn.Embedding(src_vocab_size, embed_dim, padding_idx=0)
-        self.gru = nn.GRU(embed_dim, hidden_dim, batch_first=True)
+class Encoder(nn. Module):
+ def __init__(self, src_vocab_size, embed_dim, hidden_dim):
+ super().__init__()
+ self.embed = nn. Embedding(src_vocab_size, embed_dim, padding_idx=0)
+ self.gru = nn. GRU(embed_dim, hidden_dim, batch_first=True)
 
-    def forward(self, src):
-        e = self.embed(src)
-        outputs, hidden = self.gru(e)
-        return outputs, hidden
+ def forward(self, src):
+ e = self.embed(src)
+ outputs, hidden = self.gru(e)
+ return outputs, hidden
 ```
 
 `outputs` `[batch, seq_len, hidden_dim]` şeklindedir — her giriş pozisyonu için bir gizli durum. `hidden` `[1, batch, hidden_dim]` şeklindedir — son adım. Ders 08'de "sınıflandırma için çıktılar üzerinde havuzlama yapın" demiştik. Burada son gizli durumu bağlam vektörü olarak tutuyoruz ve adım bazlı çıktıları görmezden geliyoruz.
@@ -55,18 +55,18 @@ class Encoder(nn.Module):
 ### Adım 2: bir kod çözücü
 
 ```python
-class Decoder(nn.Module):
-    def __init__(self, tgt_vocab_size, embed_dim, hidden_dim):
-        super().__init__()
-        self.embed = nn.Embedding(tgt_vocab_size, embed_dim, padding_idx=0)
-        self.gru = nn.GRU(embed_dim, hidden_dim, batch_first=True)
-        self.fc = nn.Linear(hidden_dim, tgt_vocab_size)
+class Decoder(nn. Module):
+ def __init__(self, tgt_vocab_size, embed_dim, hidden_dim):
+ super().__init__()
+ self.embed = nn. Embedding(tgt_vocab_size, embed_dim, padding_idx=0)
+ self.gru = nn. GRU(embed_dim, hidden_dim, batch_first=True)
+ self.fc = nn. Linear(hidden_dim, tgt_vocab_size)
 
-    def forward(self, token, hidden):
-        e = self.embed(token)
-        out, hidden = self.gru(e, hidden)
-        logits = self.fc(out)
-        return logits, hidden
+ def forward(self, token, hidden):
+ e = self.embed(token)
+ out, hidden = self.gru(e, hidden)
+ logits = self.fc(out)
+ return logits, hidden
 ```
 
 Kod çözücü tek adımda çağrılır. Giriş: tek token'lardan oluşan bir batch ve mevcut gizli durum. Çıkış: bir sonraki token için sözlük logit'leri ve güncellenmiş gizli durum.
@@ -75,26 +75,26 @@ Kod çözücü tek adımda çağrılır. Giriş: tek token'lardan oluşan bir ba
 
 ```python
 def train_batch(encoder, decoder, src, tgt, bos_id, optimizer, teacher_forcing_ratio=0.9):
-    optimizer.zero_grad()
-    _, hidden = encoder(src)
-    batch_size, tgt_len = tgt.shape
-    input_token = torch.full((batch_size, 1), bos_id, dtype=torch.long)
-    loss = 0.0
-    loss_fn = nn.CrossEntropyLoss(ignore_index=0)
+ optimizer.zero_grad()
+ _, hidden = encoder(src)
+ batch_size, tgt_len = tgt.shape
+ input_token = torch.full((batch_size, 1), bos_id, dtype=torch.long)
+ loss = 0.0
+ loss_fn = nn. CrossEntropyLoss(ignore_index=0)
 
-    for t in range(tgt_len):
-        logits, hidden = decoder(input_token, hidden)
-        step_loss = loss_fn(logits.squeeze(1), tgt[:, t])
-        loss += step_loss
-        use_teacher = torch.rand(1).item() < teacher_forcing_ratio
-        if use_teacher:
-            input_token = tgt[:, t].unsqueeze(1)
-        else:
-            input_token = logits.argmax(dim=-1)
+ for t in range(tgt_len):
+ logits, hidden = decoder(input_token, hidden)
+ step_loss = loss_fn(logits.squeeze(1), tgt[:, t])
+ loss += step_loss
+ use_teacher = torch.rand(1).item() < teacher_forcing_ratio
+ if use_teacher:
+ input_token = tgt[:, t].unsqueeze(1)
+ else:
+ input_token = logits.argmax(dim=-1)
 
-    loss.backward()
-    optimizer.step()
-    return loss.item() / tgt_len
+ loss.backward()
+ optimizer.step()
+ return loss.item() / tgt_len
 ```
 
 İsme değer iki ayar. `ignore_index=0` padding token'lar üzerindeki kaybı atlar. `teacher_forcing_ratio`, her adımda gerçek token ile modelin tahminini kullanma olasılığıdır. 1.0 ile başlayın (tam öğretici zorlama) ve eğitim boyunca ~0.5'e kadar düşürün, böylece maruz kalma yanlılığı (exposure bias) kapatılır.
@@ -104,18 +104,18 @@ def train_batch(encoder, decoder, src, tgt, bos_id, optimizer, teacher_forcing_r
 ```python
 @torch.no_grad()
 def greedy_decode(encoder, decoder, src, bos_id, eos_id, max_len=50):
-    _, hidden = encoder(src)
-    batch_size = src.shape[0]
-    input_token = torch.full((batch_size, 1), bos_id, dtype=torch.long)
-    output_ids = []
-    for _ in range(max_len):
-        logits, hidden = decoder(input_token, hidden)
-        next_token = logits.argmax(dim=-1)
-        output_ids.append(next_token)
-        input_token = next_token
-        if (next_token == eos_id).all():
-            break
-    return torch.cat(output_ids, dim=1)
+ _, hidden = encoder(src)
+ batch_size = src.shape[0]
+ input_token = torch.full((batch_size, 1), bos_id, dtype=torch.long)
+ output_ids = []
+ for _ in range(max_len):
+ logits, hidden = decoder(input_token, hidden)
+ next_token = logits.argmax(dim=-1)
+ output_ids.append(next_token)
+ input_token = next_token
+ if (next_token == eos_id).all():
+ break
+ return torch.cat(output_ids, dim=1)
 ```
 
 Açgözlü kodlama her adımda en yüksek olasılıklı token'ı seçer. Yoldan çıkabilir: bir token'a bir kez karar verildiğinde geri alınamaz. **Işın arama (beam search)** en iyi `k` tamamlanmamış diziyi canlı tutar ve sonunda en yüksek puanlı tamamlanmış olanı seçer. Işın genişliği 3-5 standarttır.
@@ -125,17 +125,17 @@ Açgözlü kodlama her adımda en yüksek olasılıklı token'ı seçer. Yoldan 
 Modeli bir oyuncak kopyalama görevi üzerinde eğitin: kaynak `[a, b, c, d, e]`, hedef `[a, b, c, d, e]`. Dizi uzunluğunu artırın. Doğruluğu gözlemleyin.
 
 ```
-seq_len=5   copy accuracy: 98%
-seq_len=10  copy accuracy: 91%
-seq_len=20  copy accuracy: 62%
-seq_len=40  copy accuracy: 23%
+seq_len=5 copy accuracy: 98%
+seq_len=10 copy accuracy: 91%
+seq_len=20 copy accuracy: 62%
+seq_len=40 copy accuracy: 23%
 ```
 
 Tek bir GRU gizli durumu, 40 token'lık bir girişi kayıpsız olarak ezberleyemez. Bilgi her kodlayıcı adımında mevcuttur, ama kod çözücü sadece son durumu görür. Attention bunu doğrudan çözer.
 
 ## Kullan
 
-PyTorch'ta `nn.Transformer` ve `nn.LSTM` tabanlı seq2seq şablonları vardır. Hugging Face'in `transformers` kütüphanesi milyarlarca token üzerinde eğitilmiş tam kodlayıcı-kod çözücü modelleri (BART, T5, mBART, NLLB) sunar.
+PyTorch'ta `nn. Transformer` ve `nn. LSTM` tabanlı seq2seq şablonları vardır. Hugging Face'in `transformers` kütüphanesi milyarlarca token üzerinde eğitilmiş tam kodlayıcı-kod çözücü modelleri (BART, T5, mBART, NLLB) sunar.
 
 ```python
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM

@@ -26,25 +26,25 @@ Dağıtım Kubernetes'tir. vLLM 0.7, GPU başına veya tensör-paralel dilim ba�
 
 ```
 request ingress
-    |
-    v
+ |
+ v
 vLLM server (0.7) or SGLang (0.4)
-    |
-    +-- draft: EAGLE-3 heads | P-EAGLE parallel | ngram fallback
-    +-- target: Llama 3.3 70B | Qwen3-Coder-30B | GPT-OSS-120B
-    |     quantized FP8-Marlin or INT4-AWQ
-    |
-    v
+ |
+ +-- draft: EAGLE-3 heads | P-EAGLE parallel | ngram fallback
+ +-- target: Llama 3.3 70B | Qwen3-Coder-30B | GPT-OSS-120B
+ | quantized FP8-Marlin or INT4-AWQ
+ |
+ v
 verify pass: batch k draft tokens through target
-    |
-    v (accept prefix; resample for rejected suffix)
-    v
+ |
+ v (accept prefix; resample for rejected suffix)
+ v
 token stream back to client
-    |
-    v
+ |
+ v
 Prometheus metrics: throughput, acceptance rate, queue wait, latency p50/p99
-    |
-    v
+ |
+ v
 HPA on queue-wait metric
 ```
 
@@ -87,10 +87,10 @@ Bu mimari istek alımından token akışına kadar tam veri akışını gösteri
 
 ```
 $ curl https://infer.example.com/v1/chat/completions -d '{"messages":[...]}'
-[serve]     vLLM 0.7, Llama 3.3 70B FP8, EAGLE-3 active
-[decode]    bs=8, accepted_tokens_per_step=3.2, acceptance_rate=0.76
-[latency]   first-token 42ms, full-response 980ms (620 tokens)
-[cost]      $0.34 per 1M output tokens at sustained throughput
+[serve] vLLM 0.7, Llama 3.3 70B FP8, EAGLE-3 active
+[decode] bs=8, accepted_tokens_per_step=3.2, acceptance_rate=0.76
+[latency] first-token 42ms, full-response 980ms (620 tokens)
+[cost] $0.34 per 1M output tokens at sustained throughput
 ```
 
 #### Açıklama
@@ -129,7 +129,7 @@ Bu örnek tek bir çıkarım isteğinin metriklerini gösterir. vLLM 0.7, FP8 ni
 | Taslak model | "Spekülatör" | Hedefin doğrulaması için N token öneren küçük model |
 | EAGLE-3 | "2026 taslak mimarisi" | Hedef gizli durumları üzerinde eğitilmiş taslak kafası; ~%75 kabul |
 | P-EAGLE | "Paralel spekülasyon" | Tek bir hedef geçişinde doğrulanmış taslak dalları ağacı |
-| Kabul oranı | "İsabet oranı" | Yeniden örnekleme olmaksızın kabul edilen taslak tokenların oranı |
+| Kabul oranı | "İsabet oranı" | Yeniden örnekleme olmaksızın kabul edilen taslak token'ların oranı |
 | Niceleme | "FP8 / INT4" | GPU belleğine daha fazla model sığdırmak için düşük hassasiyetli ağırlıklar |
 | Kuyruk bekleme | "HPA metriği" | Çıkarım başlamadan önce bir isteğin bekleyen kuyrukta geçirdiği süre |
 | Speculators hub | "Hizalanmış taslaklar" | Yaygın açık modeller için Red Hat Neural Magic'in EAGLE taslakları merkezi |

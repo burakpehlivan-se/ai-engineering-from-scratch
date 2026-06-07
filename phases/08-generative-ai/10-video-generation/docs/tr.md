@@ -68,9 +68,9 @@ Açık ağırlıklar, görüntü alanındaki boşluğu görüntü alanından dah
 
 ```python
 def make_video(T_frames=8, rng=None):
-    # a "video" is a sequence of 1-D values following a smooth trajectory
-    base = rng.gauss(0, 1)
-    return [base + 0.3 * t + rng.gauss(0, 0.1) for t in range(T_frames)]
+ # a "video" is a sequence of 1-D values following a smooth trajectory
+ base = rng.gauss(0, 1)
+ return [base + 0.3 * t + rng.gauss(0, 0.1) for t in range(T_frames)]
 ```
 
 #### Açıklama
@@ -81,7 +81,7 @@ def make_video(T_frames=8, rng=None):
 
 ```python
 def pos_embed(t, dim):
-    return sinusoidal(t, dim)
+ return sinusoidal(t, dim)
 ```
 
 ### Adım 3: gürültü temizleyici tüm diziyi görür

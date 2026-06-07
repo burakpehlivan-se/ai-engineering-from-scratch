@@ -9,7 +9,7 @@ tags: [bilgisayarlı-gör, resnet, kod-içeleme, pytorch]
 
 # Artık Blok (Residual Block) İnceleyicisi
 
-Bir artık blok uyguladığını iddia eden herhangi bir PyTorch `nn.Module`'ü için odaklı bir inceleyici. Bozuk her ResNet yeniden yazımının neredeyse tamamından sorumlu dört hatayı yakalar.
+Bir artık blok uyguladığını iddia eden herhangi bir PyTorch `nn. Module`'ü için odaklı bir inceleyici. Bozuk her ResNet yeniden yazımının neredeyse tamamından sorumlu dört hatayı yakalar.
 
 ## Ne zaman kullanılır
 
@@ -27,14 +27,14 @@ Bir artık blok uyguladığını iddia eden herhangi bir PyTorch `nn.Module`'ü 
 
 ### 1. Kısayol şekil hizalaması
 
-`stride != 1` veya `in_channels != out_channels` olan herhangi bir blok için, kısayol yolu **mutlaka** şekil eşleştiren bir modül olmalı — tipik olarak 1x1 evrişim artı BN. Bu durumda çıplak `nn.Identity()`, ileri geçişte garantili bir şekil uyumsuzluğu hatasıdır.
+`stride != 1` veya `in_channels != out_channels` olan herhangi bir blok için, kısayol yolu **mutlaka** şekil eşleştiren bir modül olmalı — tipik olarak 1x1 evrişim artı BN. Bu durumda çıplak `nn. Identity()`, ileri geçişte garantili bir şekil uyumsuzluğu hatasıdır.
 
 Tanısal:
 ```
 [shortcut]
-  detected:  nn.Identity | 1x1 Conv + BN | 1x1 Conv + BN + ReLU | diğer
-  required:  (stride != 1 veya in_c != out_c) ise şekil eşleştiren Conv, değilse Identity
-  verdict:   ok | wrong | unnecessarily heavy
+ detected: nn. Identity | 1x1 Conv + BN | 1x1 Conv + BN + ReLU | diğer
+ required: (stride != 1 veya in_c != out_c) ise şekil eşleştiren Conv, değilse Identity
+ verdict: ok | wrong | unnecessarily heavy
 ```
 
 ### 2. Toplamaya göre BN yerleşimi
@@ -44,8 +44,8 @@ Tanısal:
 Tanısal:
 ```
 [activation order]
-  pattern:  post-act (conv-BN-ReLU-conv-BN-add-ReLU) | pre-act (BN-ReLU-conv-BN-ReLU-conv-add) | diğer
-  verdict:  ok | suspect
+ pattern: post-act (conv-BN-ReLU-conv-BN-add-ReLU) | pre-act (BN-ReLU-conv-BN-ReLU-conv-add) | diğer
+ verdict: ok | suspect
 ```
 
 ### 3. Evrişim katmanlarında bias
@@ -55,31 +55,31 @@ Hemen ardından BatchNorm gelen evrişimler `bias=False` olmalıdır. BN'nin bet
 Tanısal:
 ```
 [bias]
-  BN ve bias=True olan evrişimler: <sayı>
-  önerilen düzeltme: bu katmanlarda bias=False ayarla
+ BN ve bias=True olan evrişimler: <sayı>
+ önerilen düzeltme: bu katmanlarda bias=False ayarla
 ```
 
 ### 4. Yerinde (in-place) ReLU ve autograd
 
-Kısayola eklenecek tensör üzerindeki `nn.ReLU(inplace=True)`, artık toplama için gerekli olabilecek değerlerin üzerine yazar. Eklemeden önce yeni bir tensör üreten bir katman tarafından takip edilmeyen herhangi bir `inplace=True`'yu işaretle.
+Kısayola eklenecek tensör üzerindeki `nn. ReLU(inplace=True)`, artık toplama için gerekli olabilecek değerlerin üzerine yazar. Eklemeden önce yeni bir tensör üreten bir katman tarafından takip edilmeyen herhangi bir `inplace=True`'yu işaretle.
 
 Tanısal:
 ```
 [in-place]
-  riskli yerinde işlemler: <liste>
-  düzeltme: artık eklemeden önce inplace=False
+ riskli yerinde işlemler: <liste>
+ düzeltme: artık eklemeden önce inplace=False
 ```
 
 ## Rapor
 
 ```
 [block-review]
-  variant:       basic | bottleneck | preact | se | other
-  shortcut:      ok | wrong | heavy
-  activation:    ok | suspect
-  bias-bn:       ok | bias=False gereken <N> evrişim
-  in-place:      ok | <N> riskli işlem
-  summary:       tek cümle
+ variant: basic | bottleneck | preact | se | other
+ shortcut: ok | wrong | heavy
+ activation: ok | suspect
+ bias-bn: ok | bias=False gereken <N> evrişim
+ in-place: ok | <N> riskli işlem
+ summary: tek cümle
 ```
 
 ## Kurallar

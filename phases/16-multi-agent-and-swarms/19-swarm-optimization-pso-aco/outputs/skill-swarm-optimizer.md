@@ -13,11 +13,11 @@ Bir LLM veya agent optimizasyon problemi verildiğinde, doğru optimize ediciyi 
 
 1. **Problem parmak izi.** Arama uzayı (sürekli sayısal, prompt dizesi, model ağırlıkları, yönlendirme grafı), uygunluk sinyali (otomatik test, LLM hakem, insan puanlayıcı, iş KPI'sı), değer-zamanı (dakika, saat, gün).
 2. **Optimize edici seçimi.** PSO, ACO, genetik algoritma, DPO/RL, manuel ayar. Her birinin varsayılan bir kullanım durumu vardır:
-   - sınırlı uzayda sürekli sayısal → PSO
-   - yönlendirme veya yol seçimi → ACO
-   - ayrık sembolik / programlar → genetik algoritmalar
-   - türevlenebilir ödül → DPO/RL
-   - düşük-boyutlu, hızlı değerlendirme → grid/rastgele arama
+ - sınırlı uzayda sürekli sayısal → PSO
+ - yönlendirme veya yol seçimi → ACO
+ - ayrık sembolik / programlar → genetik algoritmalar
+ - türevlenebilir ödül → DPO/RL
+ - düşük-boyutlu, hızlı değerlendirme → grid/rastgele arama
 3. **Popülasyon boyutlandırması.** PSO/GA için 10-30, ACO için feromon matris boyutu. Bütçe hesaplaması: N × T × değerlendirme başına maliyet. Ürettikleri değerden fazla maliyeti olan swarm'ları çalıştırmayın.
 4. **Uygunluk + kalite kapısı.** Adayı hangi fonksiyon puanlar? ACO yönlendirmesi için, feromon birikimini hangi kalite eşiği tetikler?
 5. **Yakınsama izleme.** İterasyon başına g_best veya feromon stabilitesini loglayın. Iraksamada (felaket-düzeyinde sürüklenme) ve erken yakınsamada (yerel optimum) uyarın.

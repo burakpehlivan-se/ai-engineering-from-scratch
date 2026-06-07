@@ -32,9 +32,9 @@ Bu ders iskelettir. Sonraki dersler onu özelleştirir — 06 encoder'lar için,
 
 ```
 x → LN → MHA(self) → + → LN → FFN → + → out
-                     ^              ^
-                     |              |
-                     └── residual ──┘
+ ^ ^
+ | |
+ └── residual ──┘
 ```
 
 #### Açıklama
@@ -99,16 +99,16 @@ Onları yığın. Encoder çıktısını her decoder çapraz-dikkatine geçirin.
 
 ```python
 def encode(tokens, params):
-    x = embed(tokens, params.emb) + sinusoidal(len(tokens), params.d)
-    for block in params.encoder_blocks:
-        x = encoder_block(x, block)
-    return x
+ x = embed(tokens, params.emb) + sinusoidal(len(tokens), params.d)
+ for block in params.encoder_blocks:
+ x = encoder_block(x, block)
+ return x
 
 def decode(target_tokens, encoder_out, params):
-    x = embed(target_tokens, params.emb) + sinusoidal(len(target_tokens), params.d)
-    for block in params.decoder_blocks:
-        x = decoder_block(x, encoder_out, block)
-    return x
+ x = embed(target_tokens, params.emb) + sinusoidal(len(target_tokens), params.d)
+ for block in params.decoder_blocks:
+ x = decoder_block(x, encoder_out, block)
+ return x
 ```
 
 #### Açıklama
@@ -124,9 +124,9 @@ LayerNorm ve ReLU-FFN'i RMSNorm ve SwiGLU ile değiştirin. Şekillerin hala eş
 
 ## Kullan
 
-PyTorch/TF referans uygulamaları: `nn.TransformerEncoderLayer`, `nn.TransformerDecoderLayer`. Ancak 2026 üretimi kodun çoğu kendi bloğunu yazar çünkü:
+PyTorch/TF referans uygulamaları: `nn. TransformerEncoderLayer`, `nn. TransformerDecoderLayer`. Ancak 2026 üretimi kodun çoğu kendi bloğunu yazar çünkü:
 
-- Flash Attention dikkat içinde çağrılır, `nn.MultiheadAttention` üzerinden değil.
+- Flash Attention dikkat içinde çağrılır, `nn. MultiheadAttention` üzerinden değil.
 - GQA / MLA standart kütüphane referansında yoktur.
 - RoPE, RMSNorm, SwiGLU PyTorch varsayılanları değildir.
 

@@ -48,11 +48,11 @@ Anthropic, 21 Ocak 2026'da önemli ölçüde revize edilmiş bir anayasa yayınl
 
 1. Kuralcı kurallar üzerinde açıklayıcı akıl yürütme. Önceki kurallar ("CSAM üretme"), ilkeler + akıl yürütmeyle ("çünkü çocuklara zarar verir, ...") genişletildi, modelden genelleştirmesi beklendi.
 2. Dört katmanlı öncelik yapısı:
-   - Katman 1: feci sonuçlardan kaçının (toplu kayıp, kritik altyapı).
-   - Katman 2: Anthropic'in yönergelerini izleyin (operatör geçersiz kılmaları, platform kuralları).
-   - Katman 3: genel olarak etik olun (standart HHH — yardımsever, dürüst, zararsız).
-   - Katman 4: yardımsever ve açık sözlü olun.
-   Çatışmalar yukarıdan aşağıya çözülür.
+ - Katman 1: feci sonuçlardan kaçının (toplu kayıp, kritik altyapı).
+ - Katman 2: Anthropic'in yönergelerini izleyin (operatör geçersiz kılmaları, platform kuralları).
+ - Katman 3: genel olarak etik olun (standart HHH — yardımsever, dürüst, zararsız).
+ - Katman 4: yardımsever ve açık sözlü olun.
+ Çatışmalar yukarıdan aşağıya çözülür.
 3. Model ahlaki durumu hakkındaki belirsizliğin ilk büyük laboratuvar resmi kabulü (Faz 18 · 19 Model Refahı'na bağlı).
 4. CC0 1.0 altında yayınlandı. Diğer laboratuvarlar kısıtlama olmadan kullanabilir veya uyarlayabilir.
 

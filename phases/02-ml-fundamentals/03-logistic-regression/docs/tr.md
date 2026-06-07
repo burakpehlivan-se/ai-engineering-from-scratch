@@ -31,8 +31,8 @@ Bu, pratikte en yaygın kullanılan algoritmalardan biridir. Adına rağmen, loj
 Çalışma saatlerine dayanarak geçme/kalma (1/0) tahmini yaptığınızı hayal edin. Doğrusal regresyon veriye bir çizgi uydurur:
 
 ```
-saatler:  1   2   3   4   5   6   7   8   9   10
-gerçek:   0   0   0   0   1   1   1   1   1   1
+saatler: 1 2 3 4 5 6 7 8 9 10
+gerçek: 0 0 0 0 1 1 1 1 1 1
 ```
 
 Doğrusal uyum, 1. saatte -0.2 ve 10. saatte 1.3 gibi tahminler üretebilir. Bu değerler olasılık değildir. 0'ın altına ve 1'in üstüne gider. Daha da kötüsü, tek bir aykırı değer (50 saat çalışan biri) tüm çizgiyi çeker, herkesin tahminini değiştirir.
@@ -65,11 +65,11 @@ Model z = wx + b hesaplar (doğrusal regresyonla aynı), sonra sigmoid uygular:
 
 ```mermaid
 flowchart LR
-    X[Girdi özellikleri x] --> L["Doğrusal: z = wx + b"]
-    L --> S["Sigmoid: p = 1/(1+e^-z)"]
-    S --> D{"p >= 0.5?"}
-    D -->|Evet| P[1 Tahmin Et]
-    D -->|Hayır| N[0 Tahmin Et]
+ X[Girdi özellikleri x] --> L["Doğrusal: z = wx + b"]
+ L --> S["Sigmoid: p = 1/(1+e^-z)"]
+ S --> D{"p >= 0.5?"}
+ D -->|Evet| P[1 Tahmin Et]
+ D -->|Hayır| N[0 Tahmin Et]
 ```
 
 Çıktı p, P(y=1 | x) olarak yorumlanır, yani girdinin 1. sınıfa ait olma olasılığıdır. Karar sınırı wx + b = 0 olan yerdir, bu da sigmoid çıktısını tam olarak 0.5 yapar.

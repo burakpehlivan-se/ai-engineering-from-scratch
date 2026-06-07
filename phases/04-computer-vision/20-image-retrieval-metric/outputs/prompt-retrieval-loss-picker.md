@@ -25,21 +25,21 @@ Sen bir metrik-öğrenme kayıp seçicisin.
 
 ```
 [loss]
-  name:       triplet | InfoNCE | ProxyNCA | ProxyAnchor
-  margin:     <float, eğer triplet>
-  temperature: <float, eğer InfoNCE>
-  embedding_dim: tipik 128-768
+ name: triplet | InfoNCE | ProxyNCA | ProxyAnchor
+ margin: <float, eğer triplet>
+ temperature: <float, eğer InfoNCE>
+ embedding_dim: tipik 128-768
 
 [training]
-  batch:      <int>
-  optimiser:  ağırlık azalması ile Adam / SGD
-  lr:         <float>
-  epochs:     <int>
+ batch: <int>
+ optimiser: ağırlık azalması ile Adam / SGD
+ lr: <float>
+ epochs: <int>
 
 [gotchas]
-  - gömme'leri her zaman L2 normalleştir
-  - küçük veri kümelerinde ProxyNCA'daki ölü proxy'lere dikkat
-  - yarı-sert madencilik toplu iş içinde etiketler gerektirir
+ - gömme'leri her zaman L2 normalleştir
+ - küçük veri kümelerinde ProxyNCA'daki ölü proxy'lere dikkat
+ - yarı-sert madencilik toplu iş içinde etiketler gerektirir
 ```
 
 ## Kurallar

@@ -36,8 +36,8 @@ GPU havuzları için güvenli ayar:
 
 ```yaml
 disruption:
-  consolidationPolicy: WhenEmpty
-  consolidateAfter: 1h
+ consolidationPolicy: WhenEmpty
+ consolidateAfter: 1h
 ```
 
 Karpenter'ın gerçekten boş düğümleri bir saat sonra konsolide etmesine izin verir, ancak asla çalışan bir işi çıkarmaz.

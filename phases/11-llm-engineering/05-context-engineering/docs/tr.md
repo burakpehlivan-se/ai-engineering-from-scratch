@@ -35,23 +35,23 @@ Context window'ı RAM olarak düşünün, disk olarak değil. Hızlıdır ve do�
 
 ```mermaid
 graph TD
-    subgraph Window["Context Window (128K token)"]
-        direction TB
-        S["Sistem Promptu\n~500 token"] --> T["Araç Tanımları\n~2K-8K token"]
-        T --> R["Getirilen Context\n~2K-10K token"]
-        R --> H["Konuşma Geçmişi\n~2K-20K token"]
-        H --> F["Few-shot Örnekleri\n~1K-3K token"]
-        F --> Q["Kullanıcı Sorgusu\n~100-500 token"]
-        Q --> G["Üretim Bütçesi\n~2K-8K token"]
-    end
+ subgraph Window["Context Window (128K token)"]
+ direction TB
+ S["Sistem Promptu\n~500 token"] --> T["Araç Tanımları\n~2K-8K token"]
+ T --> R["Getirilen Context\n~2K-10K token"]
+ R --> H["Konuşma Geçmişi\n~2K-20K token"]
+ H --> F["Few-shot Örnekleri\n~1K-3K token"]
+ F --> Q["Kullanıcı Sorgusu\n~100-500 token"]
+ Q --> G["Üretim Bütçesi\n~2K-8K token"]
+ end
 
-    style S fill:#1a1a2e,stroke:#e94560,color:#fff
-    style T fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style R fill:#1a1a2e,stroke:#ffa500,color:#fff
-    style H fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style F fill:#1a1a2e,stroke:#9b59b6,color:#fff
-    style Q fill:#1a1a2e,stroke:#e94560,color:#fff
-    style G fill:#1a1a2e,stroke:#0f3460,color:#fff
+ style S fill:#1a1a2e,stroke:#e94560,color:#fff
+ style T fill:#1a1a2e,stroke:#0f3460,color:#fff
+ style R fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style H fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style F fill:#1a1a2e,stroke:#9b59b6,color:#fff
+ style Q fill:#1a1a2e,stroke:#e94560,color:#fff
+ style G fill:#1a1a2e,stroke:#0f3460,color:#fff
 ```
 
 Her bileşen alan için yarışır. Daha fazla araç tanımı eklemek, konuşma geçmişinden alan çalmak demektir. Daha fazla getirilen context eklemek, few-shot örneklerinden alan çalmak demektir. Context engineering, bu bütçeyi görev performansını en üst düzeye çıkarmak için dağıtma sanatıdır.
@@ -71,20 +71,20 @@ Bu durumun doğrudan mühendislik sonuçları vardır:
 
 ```mermaid
 graph LR
-    subgraph Attention["Context Genelindeki Attention Dağılımı"]
-        direction LR
-        P1["Pozisyon 0-20%\nYÜKSEK attention\n(sistem promptu)"]
-        P2["Pozisyon 20-40%\nORTA"]
-        P3["Pozisyon 40-70%\nDÜŞÜK attention\n(ortada kaybolma)"]
-        P4["Pozisyon 70-90%\nORTA"]
-        P5["Pozisyon 90-100%\nYÜKSEK attention\n(mevcut sorgu)"]
-    end
+ subgraph Attention["Context Genelindeki Attention Dağılımı"]
+ direction LR
+ P1["Pozisyon 0-20%\nYÜKSEK attention\n(sistem promptu)"]
+ P2["Pozisyon 20-40%\nORTA"]
+ P3["Pozisyon 40-70%\nDÜŞÜK attention\n(ortada kaybolma)"]
+ P4["Pozisyon 70-90%\nORTA"]
+ P5["Pozisyon 90-100%\nYÜKSEK attention\n(mevcut sorgu)"]
+ end
 
-    style P1 fill:#51cf66,color:#000
-    style P2 fill:#ffa500,color:#000
-    style P3 fill:#ff6b6b,color:#fff
-    style P4 fill:#ffa500,color:#000
-    style P5 fill:#51cf66,color:#000
+ style P1 fill:#51cf66,color:#000
+ style P2 fill:#ffa500,color:#000
+ style P3 fill:#ff6b6b,color:#fff
+ style P4 fill:#ffa500,color:#000
+ style P5 fill:#51cf66,color:#000
 ```
 
 ### Context Bileşenleri
@@ -123,25 +123,25 @@ Context engineering üç zaman ufku kapsar.
 
 ```mermaid
 graph TD
-    subgraph Memory["Bellek Mimarisi"]
-        direction TB
-        STM["Kısa Vadeli Bellek\n(mevcut konuşma)\nContext window'da doğrudan"]
-        LTM["Uzun Vadeli Bellek\n(gerçekler, tercihler)\nDB -> oturum başında getirilir"]
-        EM["Episodik Bellek\n(geçmiş etkileşimler)\nEmbeddings -> benzerlikle getirilir"]
-    end
+ subgraph Memory["Bellek Mimarisi"]
+ direction TB
+ STM["Kısa Vadeli Bellek\n(mevcut konuşma)\nContext window'da doğrudan"]
+ LTM["Uzun Vadeli Bellek\n(gerçekler, tercihler)\nDB -> oturum başında getirilir"]
+ EM["Episodik Bellek\n(geçmiş etkileşimler)\nEmbeddings -> benzerlikle getirilir"]
+ end
 
-    Q["Mevcut Sorgu"] --> STM
-    Q --> LTM
-    Q --> EM
+ Q["Mevcut Sorgu"] --> STM
+ Q --> LTM
+ Q --> EM
 
-    STM --> CW["Context Window"]
-    LTM --> CW
-    EM --> CW
+ STM --> CW["Context Window"]
+ LTM --> CW
+ EM --> CW
 
-    style STM fill:#1a1a2e,stroke:#51cf66,color:#fff
-    style LTM fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style EM fill:#1a1a2e,stroke:#e94560,color:#fff
-    style CW fill:#1a1a2e,stroke:#ffa500,color:#fff
+ style STM fill:#1a1a2e,stroke:#51cf66,color:#fff
+ style LTM fill:#1a1a2e,stroke:#0f3460,color:#fff
+ style EM fill:#1a1a2e,stroke:#e94560,color:#fff
+ style CW fill:#1a1a2e,stroke:#ffa500,color:#fff
 ```
 
 ### Dinamik Context Birleştirme
@@ -169,12 +169,12 @@ import numpy as np
 from collections import OrderedDict
 
 def count_tokens(text):
-    if not text:
-        return 0
-    return int(len(text.split()) * 1.3)
+ if not text:
+ return 0
+ return int(len(text.split()) * 1.3)
 
 def count_tokens_json(obj):
-    return count_tokens(json.dumps(obj))
+ return count_tokens(json.dumps(obj))
 ```
 
 #### Açıklama
@@ -185,55 +185,55 @@ Temel soyutlama. Bütçe yöneticisi her bileşenin kaç token kullandığını 
 
 ```python
 class ContextBudget:
-    def __init__(self, max_tokens=128000, generation_reserve=4000):
-        self.max_tokens = max_tokens
-        self.generation_reserve = generation_reserve
-        self.available = max_tokens - generation_reserve
-        self.allocations = OrderedDict()
+ def __init__(self, max_tokens=128000, generation_reserve=4000):
+ self.max_tokens = max_tokens
+ self.generation_reserve = generation_reserve
+ self.available = max_tokens - generation_reserve
+ self.allocations = OrderedDict()
 
-    def allocate(self, component, content, max_tokens=None):
-        tokens = count_tokens(content)
-        if max_tokens and tokens > max_tokens:
-            words = content.split()
-            target_words = int(max_tokens / 1.3)
-            content = " ".join(words[:target_words])
-            tokens = count_tokens(content)
+ def allocate(self, component, content, max_tokens=None):
+ tokens = count_tokens(content)
+ if max_tokens and tokens > max_tokens:
+ words = content.split()
+ target_words = int(max_tokens / 1.3)
+ content = " ".join(words[:target_words])
+ tokens = count_tokens(content)
 
-        used = sum(self.allocations.values())
-        if used + tokens > self.available:
-            allowed = self.available - used
-            if allowed <= 0:
-                return None, 0
-            words = content.split()
-            target_words = int(allowed / 1.3)
-            content = " ".join(words[:target_words])
-            tokens = count_tokens(content)
+ used = sum(self.allocations.values())
+ if used + tokens > self.available:
+ allowed = self.available - used
+ if allowed <= 0:
+ return None, 0
+ words = content.split()
+ target_words = int(allowed / 1.3)
+ content = " ".join(words[:target_words])
+ tokens = count_tokens(content)
 
-        self.allocations[component] = tokens
-        return content, tokens
+ self.allocations[component] = tokens
+ return content, tokens
 
-    def remaining(self):
-        used = sum(self.allocations.values())
-        return self.available - used
+ def remaining(self):
+ used = sum(self.allocations.values())
+ return self.available - used
 
-    def utilization(self):
-        used = sum(self.allocations.values())
-        return used / self.max_tokens
+ def utilization(self):
+ used = sum(self.allocations.values())
+ return used / self.max_tokens
 
-    def report(self):
-        total_used = sum(self.allocations.values())
-        lines = []
-        lines.append(f"Context Bütçe Raporu ({self.max_tokens:,} token pencere)")
-        lines.append("-" * 50)
-        for component, tokens in self.allocations.items():
-            pct = tokens / self.max_tokens * 100
-            bar = "#" * int(pct / 2)
-            lines.append(f"  {component:<25} {tokens:>6} token ({pct:>5.1f}%) {bar}")
-        lines.append("-" * 50)
-        lines.append(f"  {'Kullanılan':<25} {total_used:>6} token ({total_used/self.max_tokens*100:.1f}%)")
-        lines.append(f"  {'Üretim ayrılan':<25} {self.generation_reserve:>6} token")
-        lines.append(f"  {'Kalan':<25} {self.remaining():>6} token")
-        return "\n".join(lines)
+ def report(self):
+ total_used = sum(self.allocations.values())
+ lines = []
+ lines.append(f"Context Bütçe Raporu ({self.max_tokens:,} token pencere)")
+ lines.append("-" * 50)
+ for component, tokens in self.allocations.items():
+ pct = tokens / self.max_tokens * 100
+ bar = "#" * int(pct / 2)
+ lines.append(f" {component:<25} {tokens:>6} token ({pct:>5.1f}%) {bar}")
+ lines.append("-" * 50)
+ lines.append(f" {'Kullanılan':<25} {total_used:>6} token ({total_used/self.max_tokens*100:.1f}%)")
+ lines.append(f" {'Üretim ayrılan':<25} {self.generation_reserve:>6} token")
+ lines.append(f" {'Kalan':<25} {self.remaining():>6} token")
+ return "\n".join(lines)
 ```
 
 #### Açıklama
@@ -244,29 +244,29 @@ En önemli öğelerin başına ve sonuna gittiği, en az önemli olanların orta
 
 ```python
 def reorder_lost_in_middle(items, scores):
-    paired = sorted(zip(scores, items), reverse=True)
-    sorted_items = [item for _, item in paired]
+ paired = sorted(zip(scores, items), reverse=True)
+ sorted_items = [item for _, item in paired]
 
-    if len(sorted_items) <= 2:
-        return sorted_items
+ if len(sorted_items) <= 2:
+ return sorted_items
 
-    first_half = sorted_items[::2]
-    second_half = sorted_items[1::2]
-    second_half.reverse()
+ first_half = sorted_items[::2]
+ second_half = sorted_items[1::2]
+ second_half.reverse()
 
-    return first_half + second_half
+ return first_half + second_half
 
 def score_relevance(query, documents):
-    query_words = set(query.lower().split())
-    scores = []
-    for doc in documents:
-        doc_words = set(doc.lower().split())
-        if not query_words:
-            scores.append(0.0)
-            continue
-        overlap = len(query_words & doc_words) / len(query_words)
-        scores.append(round(overlap, 3))
-    return scores
+ query_words = set(query.lower().split())
+ scores = []
+ for doc in documents:
+ doc_words = set(doc.lower().split())
+ if not query_words:
+ scores.append(0.0)
+ continue
+ overlap = len(query_words & doc_words) / len(query_words)
+ scores.append(round(overlap, 3))
+ return scores
 ```
 
 #### Açıklama
@@ -277,49 +277,49 @@ Eski konuşma turlarını özetleyerek token bütçesini geri kazanın.
 
 ```python
 class ConversationManager:
-    def __init__(self, max_history_tokens=5000):
-        self.turns = []
-        self.summaries = []
-        self.max_history_tokens = max_history_tokens
+ def __init__(self, max_history_tokens=5000):
+ self.turns = []
+ self.summaries = []
+ self.max_history_tokens = max_history_tokens
 
-    def add_turn(self, role, content):
-        self.turns.append({"role": role, "content": content})
-        self._compress_if_needed()
+ def add_turn(self, role, content):
+ self.turns.append({"role": role, "content": content})
+ self._compress_if_needed()
 
-    def _compress_if_needed(self):
-        total = sum(count_tokens(t["content"]) for t in self.turns)
-        if total <= self.max_history_tokens:
-            return
+ def _compress_if_needed(self):
+ total = sum(count_tokens(t["content"]) for t in self.turns)
+ if total <= self.max_history_tokens:
+ return
 
-        while total > self.max_history_tokens and len(self.turns) > 4:
-            old_turns = self.turns[:2]
-            summary = self._summarize_turns(old_turns)
-            self.summaries.append(summary)
-            self.turns = self.turns[2:]
-            total = sum(count_tokens(t["content"]) for t in self.turns)
+ while total > self.max_history_tokens and len(self.turns) > 4:
+ old_turns = self.turns[:2]
+ summary = self._summarize_turns(old_turns)
+ self.summaries.append(summary)
+ self.turns = self.turns[2:]
+ total = sum(count_tokens(t["content"]) for t in self.turns)
 
-    def _summarize_turns(self, turns):
-        parts = []
-        for t in turns:
-            content = t["content"]
-            if len(content) > 100:
-                content = content[:100] + "..."
-            parts.append(f"{t['role']}: {content}")
-        return "Önceki: " + " | ".join(parts)
+ def _summarize_turns(self, turns):
+ parts = []
+ for t in turns:
+ content = t["content"]
+ if len(content) > 100:
+ content = content[:100] + "..."
+ parts.append(f"{t['role']}: {content}")
+ return "Önceki: " + " | ".join(parts)
 
-    def get_context(self):
-        parts = []
-        if self.summaries:
-            parts.append("[Konuşma Özeti]")
-            for s in self.summaries:
-                parts.append(s)
-        parts.append("[Son Konuşma]")
-        for t in self.turns:
-            parts.append(f"{t['role']}: {t['content']}")
-        return "\n".join(parts)
+ def get_context(self):
+ parts = []
+ if self.summaries:
+ parts.append("[Konuşma Özeti]")
+ for s in self.summaries:
+ parts.append(s)
+ parts.append("[Son Konuşma]")
+ for t in self.turns:
+ parts.append(f"{t['role']}: {t['content']}")
+ return "\n".join(parts)
 
-    def token_count(self):
-        return count_tokens(self.get_context())
+ def token_count(self):
+ return count_tokens(self.get_context())
 ```
 
 #### Açıklama
@@ -330,93 +330,93 @@ Yalnızca mevcut sorguyla ilgili araçları dahil edin. Niyeti sınıflandırın
 
 ```python
 TOOL_REGISTRY = {
-    "read_file": {
-        "description": "Read contents of a file",
-        "tokens": 120,
-        "categories": ["code", "files"],
-    },
-    "write_file": {
-        "description": "Write content to a file",
-        "tokens": 150,
-        "categories": ["code", "files"],
-    },
-    "search_code": {
-        "description": "Search for patterns in codebase",
-        "tokens": 130,
-        "categories": ["code"],
-    },
-    "run_command": {
-        "description": "Execute a shell command",
-        "tokens": 140,
-        "categories": ["code", "system"],
-    },
-    "create_calendar_event": {
-        "description": "Create a new calendar event",
-        "tokens": 180,
-        "categories": ["calendar"],
-    },
-    "list_emails": {
-        "description": "List recent emails",
-        "tokens": 160,
-        "categories": ["email"],
-    },
-    "send_email": {
-        "description": "Send an email message",
-        "tokens": 200,
-        "categories": ["email"],
-    },
-    "web_search": {
-        "description": "Search the web for information",
-        "tokens": 140,
-        "categories": ["research"],
-    },
-    "query_database": {
-        "description": "Run a SQL query on the database",
-        "tokens": 170,
-        "categories": ["code", "data"],
-    },
-    "generate_chart": {
-        "description": "Generate a chart from data",
-        "tokens": 190,
-        "categories": ["data", "visualization"],
-    },
+ "read_file": {
+ "description": "Read contents of a file",
+ "tokens": 120,
+ "categories": ["code", "files"],
+ },
+ "write_file": {
+ "description": "Write content to a file",
+ "tokens": 150,
+ "categories": ["code", "files"],
+ },
+ "search_code": {
+ "description": "Search for patterns in codebase",
+ "tokens": 130,
+ "categories": ["code"],
+ },
+ "run_command": {
+ "description": "Execute a shell command",
+ "tokens": 140,
+ "categories": ["code", "system"],
+ },
+ "create_calendar_event": {
+ "description": "Create a new calendar event",
+ "tokens": 180,
+ "categories": ["calendar"],
+ },
+ "list_emails": {
+ "description": "List recent emails",
+ "tokens": 160,
+ "categories": ["email"],
+ },
+ "send_email": {
+ "description": "Send an email message",
+ "tokens": 200,
+ "categories": ["email"],
+ },
+ "web_search": {
+ "description": "Search the web for information",
+ "tokens": 140,
+ "categories": ["research"],
+ },
+ "query_database": {
+ "description": "Run a SQL query on the database",
+ "tokens": 170,
+ "categories": ["code", "data"],
+ },
+ "generate_chart": {
+ "description": "Generate a chart from data",
+ "tokens": 190,
+ "categories": ["data", "visualization"],
+ },
 }
 
 def classify_intent(query):
-    query_lower = query.lower()
+ query_lower = query.lower()
 
-    intent_keywords = {
-        "code": ["code", "function", "bug", "error", "file", "implement", "refactor", "debug", "test"],
-        "calendar": ["meeting", "schedule", "calendar", "appointment", "event"],
-        "email": ["email", "mail", "send", "inbox", "message"],
-        "research": ["search", "find", "what is", "how does", "explain", "look up"],
-        "data": ["data", "query", "database", "chart", "graph", "analytics", "sql"],
-    }
+ intent_keywords = {
+ "code": ["code", "function", "bug", "error", "file", "implement", "refactor", "debug", "test"],
+ "calendar": ["meeting", "schedule", "calendar", "appointment", "event"],
+ "email": ["email", "mail", "send", "inbox", "message"],
+ "research": ["search", "find", "what is", "how does", "explain", "look up"],
+ "data": ["data", "query", "database", "chart", "graph", "analytics", "sql"],
+ }
 
-    scores = {}
-    for intent, keywords in intent_keywords.items():
-        score = sum(1 for kw in keywords if kw in query_lower)
-        if score > 0:
-            scores[intent] = score
+ scores = {}
+ for intent, keywords in intent_keywords.items():
+ score = sum(1 for kw in keywords if kw in query_lower)
+ if score > 0:
+ scores[intent] = score
 
-    if not scores:
-        return ["code"]
+ if not scores:
+ return ["code"]
 
-    max_score = max(scores.values())
-    return [intent for intent, score in scores.items() if score >= max_score * 0.5]
+ max_score = max(scores.values())
+ return [intent for intent, score in scores.items() if score >= max_score * 0.5]
 
 def select_tools(query, token_budget=2000):
-    intents = classify_intent(query)
-    relevant = {}
-    total_tokens = 0
+ intents = classify_intent(query)
+ relevant = {}
+ total_tokens = 0
 
-    for name, tool in TOOL_REGISTRY.items():
-        if any(cat in intents for cat in tool["categories"]):
-            if total_tokens + tool["tokens"] <= token_budget:
-                relevant[name] = tool
-                total_tokens += tool["tokens"]
+ for name, tool in TOOL_REGISTRY.items():
+ if any(cat in intents for cat in tool["categories"]):
+ if total_tokens + tool["tokens"] <= token_budget:
+ relevant[name] = tool
+ total_tokens += tool["tokens"]
 
-    return relevant, total_tokens
+ return relevant, total_tokens
 ```
 
 #### Açıklama
@@ -427,110 +427,110 @@ Her şeyi birbirine bağlayın. Bir sorgu verildiğinde, optimum context'i dinam
 
 ```python
 class ContextEngine:
-    def __init__(self, max_tokens=128000, generation_reserve=4000):
-        self.budget = ContextBudget(max_tokens, generation_reserve)
-        self.conversation = ConversationManager(max_history_tokens=5000)
-        self.system_prompt = (
-            "You are a helpful AI assistant. You have access to tools for "
-            "code editing, file management, web search, and data analysis. "
-            "Use the appropriate tools for each task. Be concise and accurate."
-        )
-        self.knowledge_base = [
-            "Python 3.12 introduced type parameter syntax for generic classes using bracket notation.",
-            "The project uses PostgreSQL 16 with pgvector for embedding storage.",
-            "Authentication is handled by Supabase Auth with JWT tokens.",
-            "The frontend is built with Next.js 15 using the App Router.",
-            "API rate limits are set to 100 requests per minute per user.",
-            "The deployment pipeline uses GitHub Actions with Docker multi-stage builds.",
-            "Test coverage must be above 80% for all new modules.",
-            "The codebase follows the repository pattern for data access.",
-        ]
+ def __init__(self, max_tokens=128000, generation_reserve=4000):
+ self.budget = ContextBudget(max_tokens, generation_reserve)
+ self.conversation = ConversationManager(max_history_tokens=5000)
+ self.system_prompt = (
+ "You are a helpful AI assistant. You have access to tools for "
+ "code editing, file management, web search, and data analysis. "
+ "Use the appropriate tools for each task. Be concise and accurate."
+ )
+ self.knowledge_base = [
+ "Python 3.12 introduced type parameter syntax for generic classes using bracket notation.",
+ "The project uses PostgreSQL 16 with pgvector for embedding storage.",
+ "Authentication is handled by Supabase Auth with JWT tokens.",
+ "The frontend is built with Next.js 15 using the App Router.",
+ "API rate limits are set to 100 requests per minute per user.",
+ "The deployment pipeline uses GitHub Actions with Docker multi-stage builds.",
+ "Test coverage must be above 80% for all new modules.",
+ "The codebase follows the repository pattern for data access.",
+ ]
 
-    def assemble(self, query):
-        self.budget = ContextBudget(self.budget.max_tokens, self.budget.generation_reserve)
+ def assemble(self, query):
+ self.budget = ContextBudget(self.budget.max_tokens, self.budget.generation_reserve)
 
-        system_content, _ = self.budget.allocate("system_prompt", self.system_prompt, max_tokens=1000)
+ system_content, _ = self.budget.allocate("system_prompt", self.system_prompt, max_tokens=1000)
 
-        tools, tool_tokens = select_tools(query, token_budget=2000)
-        tool_text = json.dumps(list(tools.keys()))
-        tool_content, _ = self.budget.allocate("tools", tool_text, max_tokens=2000)
+ tools, tool_tokens = select_tools(query, token_budget=2000)
+ tool_text = json.dumps(list(tools.keys()))
+ tool_content, _ = self.budget.allocate("tools", tool_text, max_tokens=2000)
 
-        relevance = score_relevance(query, self.knowledge_base)
-        threshold = 0.1
-        relevant_docs = [
-            doc for doc, score in zip(self.knowledge_base, relevance)
-            if score >= threshold
-        ]
+ relevance = score_relevance(query, self.knowledge_base)
+ threshold = 0.1
+ relevant_docs = [
+ doc for doc, score in zip(self.knowledge_base, relevance)
+ if score >= threshold
+ ]
 
-        if relevant_docs:
-            doc_scores = [s for s in relevance if s >= threshold]
-            reordered = reorder_lost_in_middle(relevant_docs, doc_scores)
-            doc_text = "\n".join(reordered)
-            doc_content, _ = self.budget.allocate("retrieved_context", doc_text, max_tokens=3000)
+ if relevant_docs:
+ doc_scores = [s for s in relevance if s >= threshold]
+ reordered = reorder_lost_in_middle(relevant_docs, doc_scores)
+ doc_text = "\n".join(reordered)
+ doc_content, _ = self.budget.allocate("retrieved_context", doc_text, max_tokens=3000)
 
-        history_text = self.conversation.get_context()
-        if history_text.strip():
-            history_content, _ = self.budget.allocate("conversation_history", history_text, max_tokens=5000)
+ history_text = self.conversation.get_context()
+ if history_text.strip():
+ history_content, _ = self.budget.allocate("conversation_history", history_text, max_tokens=5000)
 
-        query_content, _ = self.budget.allocate("user_query", query, max_tokens=500)
+ query_content, _ = self.budget.allocate("user_query", query, max_tokens=500)
 
-        return self.budget
+ return self.budget
 
-    def chat(self, query):
-        self.conversation.add_turn("user", query)
-        budget = self.assemble(query)
-        response = f"[Response to: {query[:50]}...]"
-        self.conversation.add_turn("assistant", response)
-        return budget
+ def chat(self, query):
+ self.conversation.add_turn("user", query)
+ budget = self.assemble(query)
+ response = f"[Response to: {query[:50]}...]"
+ self.conversation.add_turn("assistant", response)
+ return budget
 
 
 def run_demo():
-    print("=" * 60)
-    print("  Context Engineering Pipeline Demosu")
-    print("=" * 60)
+ print("=" * 60)
+ print(" Context Engineering Pipeline Demosu")
+ print("=" * 60)
 
-    engine = ContextEngine(max_tokens=128000, generation_reserve=4000)
+ engine = ContextEngine(max_tokens=128000, generation_reserve=4000)
 
-    print("\n--- Sorgu 1: Kod görevi ---")
-    budget = engine.chat("Fix the bug in the authentication module where JWT tokens expire too early")
-    print(budget.report())
+ print("\n--- Sorgu 1: Kod görevi ---")
+ budget = engine.chat("Fix the bug in the authentication module where JWT tokens expire too early")
+ print(budget.report())
 
-    print("\n--- Sorgu 2: Araştırma görevi ---")
-    budget = engine.chat("What is the best approach for implementing vector search in PostgreSQL?")
-    print(budget.report())
+ print("\n--- Sorgu 2: Araştırma görevi ---")
+ budget = engine.chat("What is the best approach for implementing vector search in PostgreSQL?")
+ print(budget.report())
 
-    print("\n--- Sorgu 3: Konuşma geçmişi birikiminden sonra ---")
-    for i in range(8):
-        engine.conversation.add_turn("user", f"Follow-up question number {i+1} about the implementation details of the system")
-        engine.conversation.add_turn("assistant", f"Here is the response to follow-up {i+1} with technical details about the architecture")
+ print("\n--- Sorgu 3: Konuşma geçmişi birikiminden sonra ---")
+ for i in range(8):
+ engine.conversation.add_turn("user", f"Follow-up question number {i+1} about the implementation details of the system")
+ engine.conversation.add_turn("assistant", f"Here is the response to follow-up {i+1} with technical details about the architecture")
 
-    budget = engine.chat("Now implement the changes we discussed")
-    print(budget.report())
+ budget = engine.chat("Now implement the changes we discussed")
+ print(budget.report())
 
-    print("\n--- Araç Seçimi Örnekleri ---")
-    test_queries = [
-        "Fix the bug in auth.py",
-        "Schedule a meeting with the team for Tuesday",
-        "Show me the database query performance stats",
-        "Search for best practices on error handling",
-    ]
+ print("\n--- Araç Seçimi Örnekleri ---")
+ test_queries = [
+ "Fix the bug in auth.py",
+ "Schedule a meeting with the team for Tuesday",
+ "Show me the database query performance stats",
+ "Search for best practices on error handling",
+ ]
 
-    for q in test_queries:
-        tools, tokens = select_tools(q)
-        intents = classify_intent(q)
-        print(f"\n  Sorgu: {q}")
-        print(f"  Niyetler: {intents}")
-        print(f"  Araçlar: {list(tools.keys())} ({tokens} token)")
+ for q in test_queries:
+ tools, tokens = select_tools(q)
+ intents = classify_intent(q)
+ print(f"\n Sorgu: {q}")
+ print(f" Niyetler: {intents}")
+ print(f" Araçlar: {list(tools.keys())} ({tokens} token)")
 
-    print("\n--- Lost-in-the-Middle Yeniden Sıralama ---")
-    docs = ["Doc A (en alakalı)", "Doc B (biraz alakalı)", "Doc C (en az alakalı)",
-            "Doc D (alakalı)", "Doc E (orta düzeyde alakalı)"]
-    scores = [0.95, 0.60, 0.20, 0.80, 0.50]
-    reordered = reorder_lost_in_middle(docs, scores)
-    print(f"  Orijinal sıra: {docs}")
-    print(f"  Skorlar:         {scores}")
-    print(f"  Yeniden sıralanmış:      {reordered}")
-    print(f"  (En alakalı başta ve sonda, en az alakalı ortada)")
+ print("\n--- Lost-in-the-Middle Yeniden Sıralama ---")
+ docs = ["Doc A (en alakalı)", "Doc B (biraz alakalı)", "Doc C (en az alakalı)",
+ "Doc D (alakalı)", "Doc E (orta düzeyde alakalı)"]
+ scores = [0.95, 0.60, 0.20, 0.80, 0.50]
+ reordered = reorder_lost_in_middle(docs, scores)
+ print(f" Orijinal sıra: {docs}")
+ print(f" Skorlar: {scores}")
+ print(f" Yeniden sıralanmış: {reordered}")
+ print(f" (En alakalı başta ve sonda, en az alakalı ortada)")
 ```
 
 #### Açıklama

@@ -30,7 +30,7 @@ Düzeltme, konumu bir şekilde gömelilere enjekte etmektir. Üç çağdan yanı
 Önceden `(max_len, d_model)` şeklinde sabit bir `PE` matrisi hesaplayın:
 
 ```
-PE[pos, 2i]   = sin(pos / 10000^(2i / d_model))
+PE[pos, 2i] = sin(pos / 10000^(2i / d_model))
 PE[pos, 2i+1] = cos(pos / 10000^(2i / d_model))
 ```
 
@@ -44,10 +44,10 @@ Sonra dikkatten önce `X' = X + PE[:N]`. Her boyut farklı frekansta bir sinüzd
 Q ve K vektörlerini (gömüleri değil) döndürün. `(2i, 2i+1)` boyut çifti için:
 
 ```
-[q'_2i    ]   [ cos(pos·θ_i)  -sin(pos·θ_i) ] [q_2i   ]
-[q'_2i+1  ] = [ sin(pos·θ_i)   cos(pos·θ_i) ] [q_2i+1 ]
+[q'_2i ] [ cos(pos·θ_i) -sin(pos·θ_i) ] [q_2i ]
+[q'_2i+1 ] = [ sin(pos·θ_i) cos(pos·θ_i) ] [q_2i+1 ]
 
-θ_i = base^(-2i / d_head),  varsayılan = 10000
+θ_i = base^(-2i / d_head), varsayılan = 10000
 ```
 
 #### Açıklama
@@ -62,7 +62,7 @@ RoPE'yi genişletme: `base`, yeniden eğitmeden daha uzun bağlamalara dışa ak
 Gömü numarasını atlayın. Dikkat puanlarını doğrudan eğilimlendirin:
 
 ```
-dikkat_puanı[i, j] = (q_i · k_j) / √d  -  m_h · |i - j|
+dikkat_puanı[i, j] = (q_i · k_j) / √d - m_h · |i - j|
 ```
 
 Burada `m_h` başa özgü bir eğimdir (ör. `1 / 2^(8·h/H)`). Daha yakın token'lar desteklenir; uzak token'lar cezalandırılır. Eğitim-sırası maliyeti yoktur. Makale, sinüzoidal ile RoPE'nin orijinal eğitim uzunluğunda eşleştiğini gösterir.
@@ -87,13 +87,13 @@ RoPE mimariyi değiştirmeden dikkatin içine girdiği, bağıl konumu kodladı�
 
 ```python
 def sinusoidal(N, d):
-    pe = [[0.0] * d for _ in range(N)]
-    for pos in range(N):
-        for i in range(d // 2):
-            theta = pos / (10000 ** (2 * i / d))
-            pe[pos][2 * i]     = math.sin(theta)
-            pe[pos][2 * i + 1] = math.cos(theta)
-    return pe
+ pe = [[0.0] * d for _ in range(N)]
+ for pos in range(N):
+ for i in range(d // 2):
+ theta = pos / (10000 ** (2 * i / d))
+ pe[pos][2 * i] = math.sin(theta)
+ pe[pos][2 * i + 1] = math.cos(theta)
+ return pe
 ```
 
 #### Açıklama
@@ -107,15 +107,15 @@ RoPE, Q ve K üzerinde yerinde çalışır. Her boyut çifti için:
 
 ```python
 def apply_rope(x, pos, base=10000):
-    d = len(x)
-    out = list(x)
-    for i in range(d // 2):
-        theta = pos / (base ** (2 * i / d))
-        c, s = math.cos(theta), math.sin(theta)
-        a, b = x[2 * i], x[2 * i + 1]
-        out[2 * i]     = a * c - b * s
-        out[2 * i + 1] = a * s + b * c
-    return out
+ d = len(x)
+ out = list(x)
+ for i in range(d // 2):
+ theta = pos / (base ** (2 * i / d))
+ c, s = math.cos(theta), math.sin(theta)
+ a, b = x[2 * i], x[2 * i + 1]
+ out[2 * i] = a * c - b * s
+ out[2 * i + 1] = a * s + b * c
+ return out
 ```
 
 #### Açıklama
@@ -127,13 +127,13 @@ Kritik: `m` konumundaki Q ve `n` konumundaki K'ya aynı işlevi uygulayın. Nokt
 
 ```python
 def alibi_bias(n_heads, seq_len):
-    # slope_h = 2 ** (-8 * h / n_heads) for h = 1..n_heads
-    slopes = [2 ** (-8 * (h + 1) / n_heads) for h in range(n_heads)]
-    bias = []
-    for m in slopes:
-        row = [[-m * abs(i - j) for j in range(seq_len)] for i in range(seq_len)]
-        bias.append(row)
-    return bias  # softmazdan önce dikkat puanlarına ekleyin
+ # slope_h = 2 ** (-8 * h / n_heads) for h = 1..n_heads
+ slopes = [2 ** (-8 * (h + 1) / n_heads) for h in range(n_heads)]
+ bias = []
+ for m in slopes:
+ row = [[-m * abs(i - j) for j in range(seq_len)] for i in range(seq_len)]
+ bias.append(row)
+ return bias # softmazdan önce dikkat puanlarına ekleyin
 ```
 
 #### Açıklama

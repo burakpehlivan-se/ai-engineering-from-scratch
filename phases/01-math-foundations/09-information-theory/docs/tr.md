@@ -39,11 +39,11 @@ I(x) = -log(p(x))
 Log tabanı 2 kullanırsanız bit, doğal log kullanırsanız nat alırsınız.
 
 ```
-Olay                Olasılık      Şaşkınlık (bit)
-Adaş para            0.5            1.0
-6 gelmesi            0.167          2.58
-1000'de 1 olay       0.001          9.97
-Kesin olay           1.0            0.0
+Olay Olasılık Şaşkınlık (bit)
+Adaş para 0.5 1.0
+6 gelmesi 0.167 2.58
+1000'de 1 olay 0.001 9.97
+Kesin olay 1.0 0.0
 ```
 
 Kesin olaylar sıfıraf bilgi taşır. Zaten olacaklarını biliyordunuz.

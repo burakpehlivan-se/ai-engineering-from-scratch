@@ -50,13 +50,13 @@ TERMINAL = (3, 3)
 ACTIONS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
 
 def step(state, action):
-    if state == TERMINAL:
-        return state, 0.0, True
-    dr, dc = ACTIONS[action]
-    r, c = state
-    nr = min(max(r + dr, 0), GRID - 1)
-    nc = min(max(c + dc, 0), GRID - 1)
-    return (nr, nc), -1.0, (nr, nc) == TERMINAL
+ if state == TERMINAL:
+ return state, 0.0, True
+ dr, dc = ACTIONS[action]
+ r, c = state
+ nr = min(max(r + dr, 0), GRID - 1)
+ nc = min(max(c + dc, 0), GRID - 1)
+ return (nr, nc), -1.0, (nr, nc) == TERMINAL
 ```
 
 #### Açıklama
@@ -68,18 +68,18 @@ Politika, durumdan eylem dağılımına bir fonksiyondur. En basiti: düzgün ra
 
 ```python
 def uniform_policy(state):
-    return {a: 0.25 for a in ACTIONS}
+ return {a: 0.25 for a in ACTIONS}
 
 def rollout(policy, max_steps=200):
-    s, total, steps = (0, 0), 0.0, 0
-    for _ in range(max_steps):
-        a = sample(policy(s))
-        s, r, done = step(s, a)
-        total += r
-        steps += 1
-        if done:
-            break
-    return total, steps
+ s, total, steps = (0, 0), 0.0, 0
+ for _ in range(max_steps):
+ a = sample(policy(s))
+ s, r, done = step(s, a)
+ total += r
+ steps += 1
+ if done:
+ break
+ return total, steps
 ```
 
 #### Açıklama
@@ -91,20 +91,20 @@ Küçük MDP'ler için Bellman denklemi bir lineer sistemdir. Durumları numaral
 
 ```python
 def policy_evaluation(policy, gamma=0.99, tol=1e-6):
-    V = {s: 0.0 for s in all_states()}
-    while True:
-        delta = 0.0
-        for s in all_states():
-            if s == TERMINAL:
-                continue
-            v = 0.0
-            for a, pi_a in policy(s).items():
-                s_next, r, _ = step(s, a)
-                v += pi_a * (r + gamma * V[s_next])
-            delta = max(delta, abs(v - V[s]))
-            V[s] = v
-        if delta < tol:
-            return V
+ V = {s: 0.0 for s in all_states()}
+ while True:
+ delta = 0.0
+ for s in all_states():
+ if s == TERMINAL:
+ continue
+ v = 0.0
+ for a, pi_a in policy(s).items():
+ s_next, r, _ = step(s, a)
+ v += pi_a * (r + gamma * V[s_next])
+ delta = max(delta, abs(v - V[s]))
+ V[s] = v
+ if delta < tol:
+ return V
 ```
 
 #### Açıklama

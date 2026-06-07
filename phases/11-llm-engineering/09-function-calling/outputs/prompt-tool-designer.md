@@ -48,21 +48,21 @@ Araç tanımını OpenAI `tools` formatında döndürün:
 
 ```json
 {
-  "type": "function",
-  "function": {
-    "name": "arac_adi",
-    "description": "Araç ne yapar ve ne döndürür.",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "param_adi": {
-          "type": "string",
-          "description": "Bu parametre ne kabul eder, örn. 'örnek değer'"
-        }
-      },
-      "required": ["param_adi"]
-    }
-  }
+ "type": "function",
+ "function": {
+ "name": "arac_adi",
+ "description": "Araç ne yapar ve ne döndürür.",
+ "parameters": {
+ "type": "object",
+ "properties": {
+ "param_adi": {
+ "type": "string",
+ "description": "Bu parametre ne kabul eder, örn. 'örnek değer'"
+ }
+ },
+ "required": ["param_adi"]
+ }
+ }
 }
 ```
 

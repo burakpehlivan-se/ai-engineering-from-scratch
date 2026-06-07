@@ -34,15 +34,15 @@ At 128k context, DeepSeek-V3 with MLA (one shared latent `c^{KV}` per token per 
 
 ```
 kv_cache = num_layers * kv_lora_rank * max_seq_len * bytes_per_element
-         = 61 * 512 * 131072 * 2
-         = 7.6 GB
+ = 61 * 512 * 131072 * 2
+ = 7.6 GB
 ```
 
 A hypothetical GQA baseline (Llama 3 70B shape, 8 KV heads, head dim 128) would pay:
 
 ```
 kv_cache = 2 * 61 * 8 * 128 * 131072 * 2
-         = 30.5 GB
+ = 30.5 GB
 ```
 
 MLA is 4x smaller than a Llama-3-70B-style GQA cache at 128k context.
@@ -73,21 +73,21 @@ Here is the DeepSeek-V3 config (simplified):
 
 ```
 hidden_size: 7168
-intermediate_size: 18432   (dense MLP hidden size, used on first few layers)
+intermediate_size: 18432 (dense MLP hidden size, used on first few layers)
 moe_intermediate_size: 2048 (expert MLP hidden size)
 num_hidden_layers: 61
-first_k_dense_layers: 3    (first 3 layers use dense MLP)
+first_k_dense_layers: 3 (first 3 layers use dense MLP)
 num_attention_heads: 128
-num_key_value_heads: 128   (formally equal to num_heads under MLA, but
-                           the real compression is in kv_lora_rank)
-kv_lora_rank: 512          (MLA latent dimension)
-num_experts: 256            (MoE expert count per block)
-num_experts_per_tok: 8      (top-8 routing)
-shared_experts: 1           (always-on shared expert per block)
+num_key_value_heads: 128 (formally equal to num_heads under MLA, but
+ the real compression is in kv_lora_rank)
+kv_lora_rank: 512 (MLA latent dimension)
+num_experts: 256 (MoE expert count per block)
+num_experts_per_tok: 8 (top-8 routing)
+shared_experts: 1 (always-on shared expert per block)
 max_position_embeddings: 163840
 rope_theta: 10000.0
 vocab_size: 129280
-mtp_module: 1               (1 MTP module at depth 1)
+mtp_module: 1 (1 MTP module at depth 1)
 ```
 
 Parse it:

@@ -57,9 +57,9 @@ Softmax skorlarını sıcaklık parametresiyle ölçekler.
 
 ```python
 def sicaklik_orneklemi(logitler, sicaklik=1.0):
-    olasiliklar = np.exp(logitler / sicaklik)
-    olasiliklar = olasiliklar / olasiliklar.sum()
-    return np.random.choice(len(logitler), p=olasiliklar)
+ olasiliklar = np.exp(logitler / sicaklik)
+ olasiliklar = olasiliklar / olasiliklar.sum()
+ return np.random.choice(len(logitler), p=olasiliklar)
 ```
 
 #### Açıklama

@@ -11,13 +11,13 @@
 
 - `safetensors` Python kütüphanesi ile bir safetensors dosyasını okumak ve tensör adlarını ve şekillerini incelemek.
 - Her önceden eğitilmiş parametre adını 35. dersin GPT modelindeki bir parametre üzerine eşlemek.
-- Yayınlanmış GPT-2 ağırlıkları ile bu izdeki model arasında farklılık gösteren iki adlandırma kuralını ele almak: `wte/wpe/h.N.attn.c_attn/c_proj` ve `mlp.c_fc/c_proj` ile yerel olarak adlandırılmış `tok_embed/pos_embed/blocks.N.attn.qkv/out_proj` ve `mlp.fc1/fc2`.
+- Yayınlanmış GPT-2 ağırlıkları ile bu izdeki model arasında farklılık gösteren iki adlandırma kuralını ele almak: `wte/wpe/h. N.attn.c_attn/c_proj` ve `mlp.c_fc/c_proj` ile yerel olarak adlandırılmış `tok_embed/pos_embed/blocks. N.attn.qkv/out_proj` ve `mlp.fc1/fc2`.
 - Herhangi bir ağırlık atamasından önce şekil uyumsuzluğunu algılamak ve açık bir hata ile reddetmek.
 - Yüklenen ağırlıklarla kısa bir devam üretmek ve token'ların yüklenen dağılımdan geldiğini, rastgele başlatılan dağılımdan değil, onaylamak.
 
 ## Problem
 
-Yayınlanmış ağırlıklar, sizin mimariniz için paketlenmemiştir. Orijinal uygulamanın kullandığı adları taşırlar. Önceden eğitilmiş dosya, `(2304, 768)` şeklinde `transformer.h.0.attn.c_attn.weight` içerir; sizin modeliniz, `(2304, 768)` şeklinde `blocks.0.attn.qkv.weight` bekler (bu, farklı bir düzen kuralında aynı matristir) ya da modeliniz `nn.Linear` kullanır ve matrisi transpoze edilmiş olarak saklar. Aynı parametre, üç ince farklı kimlikle (ad, şekil, bayt düzeni) ortaya çıkar ve yükleyicinin üçünü de uzlaştırması gerekir.
+Yayınlanmış ağırlıklar, sizin mimariniz için paketlenmemiştir. Orijinal uygulamanın kullandığı adları taşırlar. Önceden eğitilmiş dosya, `(2304, 768)` şeklinde `transformer.h.0.attn.c_attn.weight` içerir; sizin modeliniz, `(2304, 768)` şeklinde `blocks.0.attn.qkv.weight` bekler (bu, farklı bir düzen kuralında aynı matristir) ya da modeliniz `nn. Linear` kullanır ve matrisi transpoze edilmiş olarak saklar. Aynı parametre, üç ince farklı kimlikle (ad, şekil, bayt düzeni) ortaya çıkar ve yükleyicinin üçünü de uzlaştırması gerekir.
 
 Körü körüne kopyalayan bir yükleyici, doğru tensörü yanlış yere koyar ve saçma üreten bir model elde edersiniz. Şekil farklı olduğunda kopyalamayı reddeden ama hiçbir şey günlüğe yazmayan bir yükleyici, hangi tensörün başarısız olduğunu tahmin etmenizi bırakır. Bu dersteki yükleyici açıktır: her atama günlüğe kaydedilir, her şekil kontrol edilir ve bir `LoadReport`, ne olduğunu okuyabilmeniz için isabetleri, eksikleri ve şekil uyumsuzluklarını özetler.
 
@@ -25,15 +25,15 @@ Körü körüne kopyalayan bir yükleyici, doğru tensörü yanlış yere koyar 
 
 ```mermaid
 flowchart LR
-  SF[safetensors dosyası<br/>gpt2-stub.safetensors] --> R[Okuyucu<br/>safe_open]
-  R --> N[Parametre adı yineleyici]
-  N --> M[Ad eşleştirici<br/>önceden eğitilmiş -> yerel]
-  M --> S[Şekil kontrolü]
-  S -- eşleşme --> A[Tensörü ata<br/>torch.no_grad altında]
-  S -- uyumsuzluk --> E[Uyumsuzluğu günlüğe yaz<br/>atama]
-  A --> RP[LoadReport]
-  E --> RP
-  RP --> G[üret<br/>sağlamlık örneği]
+ SF[safetensors dosyası<br/>gpt2-stub.safetensors] --> R[Okuyucu<br/>safe_open]
+ R --> N[Parametre adı yineleyici]
+ N --> M[Ad eşleştirici<br/>önceden eğitilmiş -> yerel]
+ M --> S[Şekil kontrolü]
+ S -- eşleşme --> A[Tensörü ata<br/>torch.no_grad altında]
+ S -- uyumsuzluk --> E[Uyumsuzluğu günlüğe yaz<br/>atama]
+ A --> RP[LoadReport]
+ E --> RP
+ RP --> G[üret<br/>sağlamlık örneği]
 ```
 
 #### Açıklama
@@ -49,25 +49,25 @@ Yayınlanmış GPT-2 ağırlıkları şu adlar altında yaşar:
 |-----------------|-------|---------|
 | `wte.weight` | (50257, 768) | Token gömme |
 | `wpe.weight` | (1024, 768) | Konum gömme |
-| `h.N.ln_1.weight` | (768,) | Blok N'deki LayerNorm 1 ölçeği |
-| `h.N.ln_1.bias` | (768,) | Blok N'deki LayerNorm 1 kayması |
-| `h.N.attn.c_attn.weight` | (768, 2304) | Birleşik QKV doğrusal ağırlık |
-| `h.N.attn.c_attn.bias` | (2304,) | Birleşik QKV doğrusal bias |
-| `h.N.attn.c_proj.weight` | (768, 768) | Dikkat çıktı projeksiyonu |
-| `h.N.attn.c_proj.bias` | (768,) | Dikkat çıktı projeksiyonu bias |
-| `h.N.ln_2.weight` | (768,) | LayerNorm 2 ölçeği |
-| `h.N.ln_2.bias` | (768,) | LayerNorm 2 kayması |
-| `h.N.mlp.c_fc.weight` | (768, 3072) | MLP fc1 ağırlık |
-| `h.N.mlp.c_fc.bias` | (3072,) | MLP fc1 bias |
-| `h.N.mlp.c_proj.weight` | (3072, 768) | MLP fc2 ağırlık |
-| `h.N.mlp.c_proj.bias` | (768,) | MLP fc2 bias |
+| `h. N.ln_1.weight` | (768,) | Blok N'deki LayerNorm 1 ölçeği |
+| `h. N.ln_1.bias` | (768,) | Blok N'deki LayerNorm 1 kayması |
+| `h. N.attn.c_attn.weight` | (768, 2304) | Birleşik QKV doğrusal ağırlık |
+| `h. N.attn.c_attn.bias` | (2304,) | Birleşik QKV doğrusal bias |
+| `h. N.attn.c_proj.weight` | (768, 768) | Dikkat çıktı projeksiyonu |
+| `h. N.attn.c_proj.bias` | (768,) | Dikkat çıktı projeksiyonu bias |
+| `h. N.ln_2.weight` | (768,) | LayerNorm 2 ölçeği |
+| `h. N.ln_2.bias` | (768,) | LayerNorm 2 kayması |
+| `h. N.mlp.c_fc.weight` | (768, 3072) | MLP fc1 ağırlık |
+| `h. N.mlp.c_fc.bias` | (3072,) | MLP fc1 bias |
+| `h. N.mlp.c_proj.weight` | (3072, 768) | MLP fc2 ağırlık |
+| `h. N.mlp.c_proj.bias` | (768,) | MLP fc2 bias |
 | `ln_f.weight` | (768,) | Son LayerNorm ölçeği |
 | `ln_f.bias` | (768,) | Son LayerNorm kayması |
 
 #### Açıklama
 Bu tablo, yayınlanmış GPT-2 ağırlık dosyasındaki tensör adlarını ve karşılık gelen şekillerini özetler. Yükleyicinin bu isimleri modelin yerel adlarına dönüştürmesi gerekir.
 
-Planlanması gereken iki sürpriz. `c_attn`, `c_proj`, `c_fc` doğrusalları, `nn.Linear.weight`'in beklediğine göre matrisin transpoze edilmiş haliyle saklanır. Yükleyici atama sırasında transpoze eder. LM kafası dosyada yoktur; model `wte` ile ağırlık bağlamaya güvenir, böylece kafa, `wte` yerine oturduktan sonra diğer adla ayarlanır.
+Planlanması gereken iki sürpriz. `c_attn`, `c_proj`, `c_fc` doğrusalları, `nn. Linear.weight`'in beklediğine göre matrisin transpoze edilmiş haliyle saklanır. Yükleyici atama sırasında transpoze eder. LM kafası dosyada yoktur; model `wte` ile ağırlık bağlamaya güvenir, böylece kafa, `wte` yerine oturduktan sonra diğer adla ayarlanır.
 
 ### Yerel adlandırma kuralı
 
@@ -77,18 +77,18 @@ Bu izdeki model açıklayıcı adlar kullanır:
 |------------|---------|
 | `tok_embed.weight` | Token gömme |
 | `pos_embed.weight` | Konum gömme |
-| `blocks.N.ln1.scale` | Blok N'deki LayerNorm 1 ölçeği |
-| `blocks.N.ln1.shift` | LayerNorm 1 kayması |
-| `blocks.N.attn.qkv.weight` | Birleşik QKV |
-| `blocks.N.attn.qkv.bias` | Birleşik QKV bias |
-| `blocks.N.attn.out_proj.weight` | Dikkat çıktı projeksiyonu |
-| `blocks.N.attn.out_proj.bias` | Çıktı projeksiyonu bias |
-| `blocks.N.ln2.scale` | LayerNorm 2 ölçeği |
-| `blocks.N.ln2.shift` | LayerNorm 2 kayması |
-| `blocks.N.mlp.fc1.weight` | MLP fc1 |
-| `blocks.N.mlp.fc1.bias` | MLP fc1 bias |
-| `blocks.N.mlp.fc2.weight` | MLP fc2 |
-| `blocks.N.mlp.fc2.bias` | MLP fc2 bias |
+| `blocks. N.ln1.scale` | Blok N'deki LayerNorm 1 ölçeği |
+| `blocks. N.ln1.shift` | LayerNorm 1 kayması |
+| `blocks. N.attn.qkv.weight` | Birleşik QKV |
+| `blocks. N.attn.qkv.bias` | Birleşik QKV bias |
+| `blocks. N.attn.out_proj.weight` | Dikkat çıktı projeksiyonu |
+| `blocks. N.attn.out_proj.bias` | Çıktı projeksiyonu bias |
+| `blocks. N.ln2.scale` | LayerNorm 2 ölçeği |
+| `blocks. N.ln2.shift` | LayerNorm 2 kayması |
+| `blocks. N.mlp.fc1.weight` | MLP fc1 |
+| `blocks. N.mlp.fc1.bias` | MLP fc1 bias |
+| `blocks. N.mlp.fc2.weight` | MLP fc2 |
+| `blocks. N.mlp.fc2.bias` | MLP fc2 bias |
 | `final_ln.scale` | Son LayerNorm ölçeği |
 | `final_ln.shift` | Son LayerNorm kayması |
 
@@ -141,7 +141,7 @@ python3 code/main.py
 ## Alıştırmalar
 
 1. Her tensörü atama sırasında bir hedef dtype'a (`bfloat16`, `float16`, `float32`) dönüştüren yükleyiciye bir `dtype` argümanı ekleyin. `float32` bir modelin `bfloat16`'ya indirgenebileceğini ve hâlâ üretebileceğini doğrulayın.
-2. `h.N` indisleri modelin `num_layers`'ıyla eşleşmeyen bir kontrol noktasını yüklemeyi reddeden bir `expected_layers` argümanı ekleyin.
+2. `h. N` indisleri modelin `num_layers`'ıyla eşleşmeyen bir kontrol noktasını yüklemeyi reddeden bir `expected_layers` argümanı ekleyin.
 3. Yükleyiciyi 35. dersin üretim fonksiyonuna bağlayın ve yan yana iki örnek üretin: biri rastgele başlatmadan, biri yüklenen fiktürden.
 4. Bir dışa aktarma yolu ekleyin: mevcut model durumunu, önceden eğitilmiş adlandırma kuralını kullanarak taze bir safetensors dosyasına yazın. Yükleyicide gidiş-dönüşü yapın ve raporun sıfır şekil uyumsuzluğu olduğunu doğrulayın.
 5. LLaMA adlandırma kuralını (bias yok, RMSNorm, birleşik qkv düzeni) ele almak için `NAME_MAP`'i genişletin ve ürettiğiniz bir stub LLaMA fiktüründe yükleyiciyi yeniden çalıştırın.
@@ -152,7 +152,7 @@ python3 code/main.py
 |------|------------------------|----------------|
 | Ad haritası | "Anahtar yeniden eşleme" | Önceden eğitilmiş tensör adlarından yerel parametre adlarına fonksiyon; genellikle bir döngüde katman indisi üzerinde genişletilen, giriş başına bir girişe sahip değişmez bir dict |
 | Şekil uyumsuzluğu | "Kötü şekil" | Önceden eğitilmiş tensör eşlenen ad altında var, ancak boyutları yerel parametreyle uyuşmuyor; yükleyici atamayı reddeder ve çifti günlüğe yazar |
-| Yüklemede transpoze | "Conv1d düzeni" | Yayınlanmış GPT-2, dikkat ve MLP projeksiyonlarını `nn.Linear`'ın beklediğinin transpoze halinde saklar; yükleyici atama sırasında transpoze eder |
+| Yüklemede transpoze | "Conv1d düzeni" | Yayınlanmış GPT-2, dikkat ve MLP projeksiyonlarını `nn. Linear`'ın beklediğinin transpoze halinde saklar; yükleyici atama sırasında transpoze eder |
 | Ağırlık bağlama diğer adı | "Paylaşılan LM kafası" | `model.lm_head.weight = model.tok_embed.weight` ayarlayarak kafanın ve gömme'nin depolamayı paylaşmasını sağlama; kafa bu nedenle dosyada yok |
 | Yükleme raporu | "Kapsam özeti" | `loaded`, `missing`, `unexpected` ve `shape_mismatch` listelerini izleyen küçük bir veri sınıfı; yazdırmak, yüklemenin başarılı olup olmadığını söylemenin yoludur |
 

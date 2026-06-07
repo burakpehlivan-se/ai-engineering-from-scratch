@@ -55,11 +55,11 @@ ESC-50: 50 sınıf, her biri 40 klip — dengeli, kolay. UrbanSound8K: 10 sını
 
 ```python
 def featurize_mfcc(signal, sr, n_mfcc=13, n_mels=40, frame_len=400, hop=160):
-    mag = stft_magnitude(signal, frame_len, hop)
-    fb = mel_filterbank(n_mels, frame_len, sr)
-    mels = apply_filterbank(mag, fb)
-    log = log_transform(mels)
-    return [dct_ii(frame, n_mfcc) for frame in log]
+ mag = stft_magnitude(signal, frame_len, hop)
+ fb = mel_filterbank(n_mels, frame_len, sr)
+ mels = apply_filterbank(mag, fb)
+ log = log_transform(mels)
+ return [dct_ii(frame, n_mfcc) for frame in log]
 ```
 
 #### Açıklama
@@ -69,12 +69,12 @@ Ham sinyali MFCC özelliklerine dönüştürür. STFT genliği, mel filtre banka
 
 ```python
 def summarize(mfcc_frames):
-    n = len(mfcc_frames[0])
-    mean = [sum(f[i] for f in mfcc_frames) / len(mfcc_frames) for i in range(n)]
-    var = [
-        sum((f[i] - mean[i]) ** 2 for f in mfcc_frames) / len(mfcc_frames) for i in range(n)
-    ]
-    return mean + var
+ n = len(mfcc_frames[0])
+ mean = [sum(f[i] for f in mfcc_frames) / len(mfcc_frames) for i in range(n)]
+ var = [
+ sum((f[i] - mean[i]) ** 2 for f in mfcc_frames) / len(mfcc_frames) for i in range(n)
+ ]
+ return mean + var
 ```
 
 #### Açıklama
@@ -84,15 +84,15 @@ Basit ama güçlü: zaman boyunca ortalama + varyans, 13 katsayılı MFCC için 
 
 ```python
 def cosine(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a)) or 1e-12
-    nb = math.sqrt(sum(x * x for x in b)) or 1e-12
-    return dot / (na * nb)
+ dot = sum(x * y for x, y in zip(a, b))
+ na = math.sqrt(sum(x * x for x in a)) or 1e-12
+ nb = math.sqrt(sum(x * x for x in b)) or 1e-12
+ return dot / (na * nb)
 
 def knn_classify(q, bank, labels, k=5):
-    sims = sorted(range(len(bank)), key=lambda i: -cosine(q, bank[i]))[:k]
-    votes = Counter(labels[i] for i in sims)
-    return votes.most_common(1)[0][0]
+ sims = sorted(range(len(bank)), key=lambda i: -cosine(q, bank[i]))[:k]
+ votes = Counter(labels[i] for i in sims)
+ return votes.most_common(1)[0][0]
 ```
 
 #### Açıklama
@@ -105,19 +105,19 @@ PyTorch'ta:
 ```python
 import torch.nn as nn
 
-class AudioCNN(nn.Module):
-    def __init__(self, n_mels=80, n_classes=50):
-        super().__init__()
-        self.body = nn.Sequential(
-            nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
-            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
-            nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(),
-            nn.AdaptiveAvgPool2d(1),
-        )
-        self.head = nn.Linear(128, n_classes)
+class AudioCNN(nn. Module):
+ def __init__(self, n_mels=80, n_classes=50):
+ super().__init__()
+ self.body = nn. Sequential(
+ nn. Conv2d(1, 32, 3, padding=1), nn. ReLU(), nn. MaxPool2d(2),
+ nn. Conv2d(32, 64, 3, padding=1), nn. ReLU(), nn. MaxPool2d(2),
+ nn. Conv2d(64, 128, 3, padding=1), nn. ReLU(),
+ nn. AdaptiveAvgPool2d(1),
+ )
+ self.head = nn. Linear(128, n_classes)
 
-    def forward(self, x):  # x: (B, 1, T, n_mels)
-        return self.head(self.body(x).flatten(1))
+ def forward(self, x): # x: (B, 1, T, n_mels)
+ return self.head(self.body(x).flatten(1))
 ```
 
 #### Açıklama
@@ -130,9 +130,9 @@ from transformers import ASTFeatureExtractor, ASTForAudioClassification
 
 ext = ASTFeatureExtractor.from_pretrained("MIT/ast-finetuned-audioset-10-10-0.4593")
 model = ASTForAudioClassification.from_pretrained(
-    "MIT/ast-finetuned-audioset-10-10-0.4593",
-    num_labels=50,
-    ignore_mismatched_sizes=True,
+ "MIT/ast-finetuned-audioset-10-10-0.4593",
+ num_labels=50,
+ ignore_mismatched_sizes=True,
 )
 
 inputs = ext(audio, sampling_rate=16000, return_tensors="pt")

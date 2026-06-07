@@ -41,47 +41,47 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_dim, n_classes, filter_widths=(2, 3, 4), n_filters=64, dropout=0.3):
-        super().__init__()
-        self.embed = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.convs = nn.ModuleList([
-            nn.Conv1d(embed_dim, n_filters, kernel_size=k)
-            for k in filter_widths
-        ])
-        self.dropout = nn.Dropout(dropout)
-        self.fc = nn.Linear(n_filters * len(filter_widths), n_classes)
+class TextCNN(nn. Module):
+ def __init__(self, vocab_size, embed_dim, n_classes, filter_widths=(2, 3, 4), n_filters=64, dropout=0.3):
+ super().__init__()
+ self.embed = nn. Embedding(vocab_size, embed_dim, padding_idx=0)
+ self.convs = nn. ModuleList([
+ nn. Conv1d(embed_dim, n_filters, kernel_size=k)
+ for k in filter_widths
+ ])
+ self.dropout = nn. Dropout(dropout)
+ self.fc = nn. Linear(n_filters * len(filter_widths), n_classes)
 
-    def forward(self, token_ids):
-        x = self.embed(token_ids).transpose(1, 2)
-        pooled = []
-        for conv in self.convs:
-            c = F.relu(conv(x))
-            p = F.max_pool1d(c, c.size(2)).squeeze(2)
-            pooled.append(p)
-        h = torch.cat(pooled, dim=1)
-        return self.fc(self.dropout(h))
+ def forward(self, token_ids):
+ x = self.embed(token_ids).transpose(1, 2)
+ pooled = []
+ for conv in self.convs:
+ c = F.relu(conv(x))
+ p = F.max_pool1d(c, c.size(2)).squeeze(2)
+ pooled.append(p)
+ h = torch.cat(pooled, dim=1)
+ return self.fc(self.dropout(h))
 ```
 
-`transpose(1, 2)` operasyonu `[batch, seq_len, embed_dim]` tensörünü `[batch, embed_dim, seq_len]`形状ına dönüştürür çünkü `nn.Conv1d` orta ekseni kanal (channel) olarak işler. Havuzlanmış çıktı, giriş uzunluğundan bağımsız olarak sabit boyutludur.
+`transpose(1, 2)` operasyonu `[batch, seq_len, embed_dim]` tensörünü `[batch, embed_dim, seq_len]`形状ına dönüştürür çünkü `nn. Conv1d` orta ekseni kanal (channel) olarak işler. Havuzlanmış çıktı, giriş uzunluğundan bağımsız olarak sabit boyutludur.
 
 ### Adım 2: LSTM sınıflandırıcısı
 
 ```python
-class LSTMClassifier(nn.Module):
-    def __init__(self, vocab_size, embed_dim, hidden_dim, n_classes, bidirectional=True, dropout=0.3):
-        super().__init__()
-        self.embed = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.lstm = nn.LSTM(embed_dim, hidden_dim, batch_first=True, bidirectional=bidirectional)
-        factor = 2 if bidirectional else 1
-        self.dropout = nn.Dropout(dropout)
-        self.fc = nn.Linear(hidden_dim * factor, n_classes)
+class LSTMClassifier(nn. Module):
+ def __init__(self, vocab_size, embed_dim, hidden_dim, n_classes, bidirectional=True, dropout=0.3):
+ super().__init__()
+ self.embed = nn. Embedding(vocab_size, embed_dim, padding_idx=0)
+ self.lstm = nn. LSTM(embed_dim, hidden_dim, batch_first=True, bidirectional=bidirectional)
+ factor = 2 if bidirectional else 1
+ self.dropout = nn. Dropout(dropout)
+ self.fc = nn. Linear(hidden_dim * factor, n_classes)
 
-    def forward(self, token_ids):
-        x = self.embed(token_ids)
-        out, _ = self.lstm(x)
-        pooled = out.max(dim=1).values
-        return self.fc(self.dropout(pooled))
+ def forward(self, token_ids):
+ x = self.embed(token_ids)
+ out, _ = self.lstm(x)
+ pooled = out.max(dim=1).values
+ return self.fc(self.dropout(pooled))
 ```
 
 Dizi üzerinde maks havuzlama yapın, son durum havuzlaması değil. Sınıflandırma için maks havuzlama genellikle son gizli durumu almaktan daha iyi sonuç verir çünkü uzun bir dizinin sonundaki bilgi son duruma baskın çıkma eğilimindedir.
@@ -92,12 +92,12 @@ Kapı mekanizması olmayan düz bir RNN, uzun menzilli bağımlılıkları (long
 
 ```python
 def vanishing_gradient_sim(seq_len, recurrent_weight=0.9):
-    import math
-    return math.pow(recurrent_weight, seq_len)
+ import math
+ return math.pow(recurrent_weight, seq_len)
 
 
 # At weight=0.9 over 100 steps:
-#   0.9 ^ 100 ≈ 2.7e-5
+# 0.9 ^ 100 ≈ 2.7e-5
 # The gradient from step 100 to step 1 is effectively zero.
 ```
 
@@ -115,7 +115,7 @@ Attention hepsini çözdü. Transformer'lar özyinelemeyi tamamen bıraktı. Der
 
 ## Kullan
 
-PyTorch'un `nn.LSTM`, `nn.GRU` ve `nn.Conv1d` modülleri üretim kalitesindedir. Eğitim kodu standarttır.
+PyTorch'un `nn. LSTM`, `nn. GRU` ve `nn. Conv1d` modülleri üretim kalitesindedir. Eğitim kodu standarttır.
 
 Hugging Face, giriş katmanı olarak taktığınız önceden eğitilmiş gömmeleri sunar:
 
@@ -124,22 +124,22 @@ from transformers import AutoModel
 
 encoder = AutoModel.from_pretrained("bert-base-uncased")
 for param in encoder.parameters():
-    param.requires_grad = False
+ param.requires_grad = False
 
 
-class BertCNN(nn.Module):
-    def __init__(self, n_classes, filter_widths=(2, 3, 4), n_filters=64):
-        super().__init__()
-        self.encoder = encoder
-        self.convs = nn.ModuleList([nn.Conv1d(768, n_filters, kernel_size=k) for k in filter_widths])
-        self.fc = nn.Linear(n_filters * len(filter_widths), n_classes)
+class BertCNN(nn. Module):
+ def __init__(self, n_classes, filter_widths=(2, 3, 4), n_filters=64):
+ super().__init__()
+ self.encoder = encoder
+ self.convs = nn. ModuleList([nn. Conv1d(768, n_filters, kernel_size=k) for k in filter_widths])
+ self.fc = nn. Linear(n_filters * len(filter_widths), n_classes)
 
-    def forward(self, input_ids, attention_mask):
-        with torch.no_grad():
-            out = self.encoder(input_ids=input_ids, attention_mask=attention_mask).last_hidden_state
-        x = out.transpose(1, 2)
-        pooled = [F.max_pool1d(F.relu(conv(x)), kernel_size=conv(x).size(2)).squeeze(2) for conv in self.convs]
-        return self.fc(torch.cat(pooled, dim=1))
+ def forward(self, input_ids, attention_mask):
+ with torch.no_grad():
+ out = self.encoder(input_ids=input_ids, attention_mask=attention_mask).last_hidden_state
+ x = out.transpose(1, 2)
+ pooled = [F.max_pool1d(F.relu(conv(x)), kernel_size=conv(x).size(2)).squeeze(2) for conv in self.convs]
+ return self.fc(torch.cat(pooled, dim=1))
 ```
 
 Kısıtlamalara uygun olduğunda kullan kontrol listesi.

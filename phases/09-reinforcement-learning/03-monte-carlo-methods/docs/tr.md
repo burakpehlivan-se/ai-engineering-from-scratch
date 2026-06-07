@@ -50,16 +50,16 @@ Koşullar altında (her çift sonsuz kez ziyaret edilir, `α` Robbins-Monro sağ
 
 ```python
 def rollout(env, policy, max_steps=200):
-    trajectory = []
-    s = env.reset()
-    for _ in range(max_steps):
-        a = policy(s)
-        s_next, r, done = env.step(s, a)
-        trajectory.append((s, a, r))
-        s = s_next
-        if done:
-            break
-    return trajectory
+ trajectory = []
+ s = env.reset()
+ for _ in range(max_steps):
+ a = policy(s)
+ s_next, r, done = env.step(s, a)
+ trajectory.append((s, a, r))
+ s = s_next
+ if done:
+ break
+ return trajectory
 ```
 
 #### Açıklama
@@ -69,12 +69,12 @@ Model yok, sadece `env.reset()` ve `env.step(s, a)`. Gym ortamıyla aynı arayü
 
 ```python
 def returns_from(trajectory, gamma):
-    returns = []
-    G = 0.0
-    for _, _, r in reversed(trajectory):
-        G = r + gamma * G
-        returns.append(G)
-    return list(reversed(returns))
+ returns = []
+ G = 0.0
+ for _, _, r in reversed(trajectory):
+ G = r + gamma * G
+ returns.append(G)
+ return list(reversed(returns))
 ```
 
 #### Açıklama
@@ -84,19 +84,19 @@ Tek geçiş, `O(T)`. Ters rekürans `G_t = r_{t+1} + γ G_{t+1}` yeniden toplama
 
 ```python
 def mc_policy_evaluation(env, policy, episodes, gamma=0.99):
-    V = defaultdict(float)
-    counts = defaultdict(int)
-    for _ in range(episodes):
-        trajectory = rollout(env, policy)
-        returns = returns_from(trajectory, gamma)
-        seen = set()
-        for t, ((s, _, _), G) in enumerate(zip(trajectory, returns)):
-            if s in seen:
-                continue
-            seen.add(s)
-            counts[s] += 1
-            V[s] += (G - V[s]) / counts[s]
-    return V
+ V = defaultdict(float)
+ counts = defaultdict(int)
+ for _ in range(episodes):
+ trajectory = rollout(env, policy)
+ returns = returns_from(trajectory, gamma)
+ seen = set()
+ for t, ((s, _, _), G) in enumerate(zip(trajectory, returns)):
+ if s in seen:
+ continue
+ seen.add(s)
+ counts[s] += 1
+ V[s] += (G - V[s]) / counts[s]
+ return V
 ```
 
 #### Açıklama
@@ -106,25 +106,25 @@ def mc_policy_evaluation(env, policy, episodes, gamma=0.99):
 
 ```python
 def mc_control(env, episodes, gamma=0.99, epsilon=0.1):
-    Q = defaultdict(lambda: {a: 0.0 for a in ACTIONS})
-    counts = defaultdict(lambda: {a: 0 for a in ACTIONS})
+ Q = defaultdict(lambda: {a: 0.0 for a in ACTIONS})
+ counts = defaultdict(lambda: {a: 0 for a in ACTIONS})
 
-    def policy(s):
-        if random() < epsilon:
-            return choice(ACTIONS)
-        return max(Q[s], key=Q[s].get)
+ def policy(s):
+ if random() < epsilon:
+ return choice(ACTIONS)
+ return max(Q[s], key=Q[s].get)
 
-    for _ in range(episodes):
-        trajectory = rollout(env, policy)
-        returns = returns_from(trajectory, gamma)
-        seen = set()
-        for (s, a, _), G in zip(trajectory, returns):
-            if (s, a) in seen:
-                continue
-            seen.add((s, a))
-            counts[s][a] += 1
-            Q[s][a] += (G - Q[s][a]) / counts[s][a]
-    return Q, policy
+ for _ in range(episodes):
+ trajectory = rollout(env, policy)
+ returns = returns_from(trajectory, gamma)
+ seen = set()
+ for (s, a, _), G in zip(trajectory, returns):
+ if (s, a) in seen:
+ continue
+ seen.add((s, a))
+ counts[s][a] += 1
+ Q[s][a] += (G - Q[s][a]) / counts[s][a]
+ return Q, policy
 ```
 
 #### Açıklama

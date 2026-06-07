@@ -32,19 +32,19 @@ Lojistik regresyon bağımsızlık varsayımını düzeltir. Olumsuz ağırlıkl
 
 ```python
 POSITIVE = [
-    "absolutely loved this movie",
-    "beautiful cinematography and a great story",
-    "one of the best films of the year",
-    "brilliant acting from the lead",
-    "heartwarming and funny",
+ "absolutely loved this movie",
+ "beautiful cinematography and a great story",
+ "one of the best films of the year",
+ "brilliant acting from the lead",
+ "heartwarming and funny",
 ]
 
 NEGATIVE = [
-    "boring and far too long",
-    "not worth your time",
-    "the plot made no sense",
-    "terrible acting, awful script",
-    "i want my two hours back",
+ "boring and far too long",
+ "not worth your time",
+ "the plot made no sense",
+ "terrible acting, awful script",
+ "i want my two hours back",
 ]
 ```
 
@@ -58,32 +58,32 @@ from collections import Counter
 
 
 def train_nb(docs_by_class, vocab, alpha=1.0):
-    class_priors = {}
-    class_word_probs = {}
-    total_docs = sum(len(d) for d in docs_by_class.values())
+ class_priors = {}
+ class_word_probs = {}
+ total_docs = sum(len(d) for d in docs_by_class.values())
 
-    for cls, docs in docs_by_class.items():
-        class_priors[cls] = len(docs) / total_docs
-        counts = Counter()
-        for doc in docs:
-            for token in doc:
-                counts[token] += 1
-        total = sum(counts.values()) + alpha * len(vocab)
-        class_word_probs[cls] = {
-            w: (counts[w] + alpha) / total for w in vocab
-        }
-    return class_priors, class_word_probs
+ for cls, docs in docs_by_class.items():
+ class_priors[cls] = len(docs) / total_docs
+ counts = Counter()
+ for doc in docs:
+ for token in doc:
+ counts[token] += 1
+ total = sum(counts.values()) + alpha * len(vocab)
+ class_word_probs[cls] = {
+ w: (counts[w] + alpha) / total for w in vocab
+ }
+ return class_priors, class_word_probs
 
 
 def predict_nb(doc, class_priors, class_word_probs):
-    scores = {}
-    for cls in class_priors:
-        s = math.log(class_priors[cls])
-        for token in doc:
-            if token in class_word_probs[cls]:
-                s += math.log(class_word_probs[cls][token])
-        scores[cls] = s
-    return max(scores, key=scores.get)
+ scores = {}
+ for cls in class_priors:
+ s = math.log(class_priors[cls])
+ for token in doc:
+ if token in class_word_probs[cls]:
+ s += math.log(class_word_probs[cls][token])
+ scores[cls] = s
+ return max(scores, key=scores.get)
 ```
 
 Additif yumuşatma (alpha=1.0) Laplace yumuşatmasıdır. Olmadan, bir sınıfta hiç görülmemiş bir kelimenin olasılığı sıfırdır ve log sonsuza gider. `alpha=0.01` pratikte yaygındır. `alpha=1.0` öğretim varsayılanıdır.
@@ -95,26 +95,26 @@ import numpy as np
 
 
 def sigmoid(x):
-    return 1.0 / (1.0 + np.exp(-np.clip(x, -20, 20)))
+ return 1.0 / (1.0 + np.exp(-np.clip(x, -20, 20)))
 
 
 def train_lr(X, y, epochs=500, lr=0.05, l2=0.01):
-    n_features = X.shape[1]
-    w = np.zeros(n_features)
-    b = 0.0
-    for _ in range(epochs):
-        logits = X @ w + b
-        preds = sigmoid(logits)
-        err = preds - y
-        grad_w = X.T @ err / len(y) + l2 * w
-        grad_b = err.mean()
-        w -= lr * grad_w
-        b -= lr * grad_b
-    return w, b
+ n_features = X.shape[1]
+ w = np.zeros(n_features)
+ b = 0.0
+ for _ in range(epochs):
+ logits = X @ w + b
+ preds = sigmoid(logits)
+ err = preds - y
+ grad_w = X. T @ err / len(y) + l2 * w
+ grad_b = err.mean()
+ w -= lr * grad_w
+ b -= lr * grad_b
+ return w, b
 
 
 def predict_lr(X, w, b):
-    return (sigmoid(X @ w + b) >= 0.5).astype(int)
+ return (sigmoid(X @ w + b) >= 0.5).astype(int)
 ```
 
 Burada L2 düzenlileştirme önemlidir. Metin özellikleri seyrektir; L2 olmadan model eğitim örneklerini ezer. `0.01` ile başlayın ve ayarlayın.
@@ -131,19 +131,19 @@ NEGATION_TERMINATORS = {".", "!", "?", ",", ";"}
 
 
 def apply_negation(tokens):
-    out = []
-    negate = False
-    for token in tokens:
-        if token in NEGATION_TERMINATORS:
-            negate = False
-            out.append(token)
-            continue
-        if token in NEGATION_WORDS:
-            negate = True
-            out.append(token)
-            continue
-        out.append(f"NOT_{token}" if negate else token)
-    return out
+ out = []
+ negate = False
+ for token in tokens:
+ if token in NEGATION_TERMINATORS:
+ negate = False
+ out.append(token)
+ continue
+ if token in NEGATION_WORDS:
+ negate = True
+ out.append(token)
+ continue
+ out.append(f"NOT_{token}" if negate else token)
+ return out
 ```
 
 ```python
@@ -169,14 +169,14 @@ Ciddi şekilde dengesiz veri için (> %95-5 oranı), doğruluk yerine **AUROC** 
 
 ```python
 def evaluate(y_true, y_pred):
-    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)
-    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)
-    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)
-    tn = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 0)
-    precision = tp / (tp + fp) if tp + fp else 0
-    recall = tp / (tp + fn) if tp + fn else 0
-    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0
-    return {"tp": tp, "fp": fp, "tn": tn, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
+ tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)
+ fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)
+ fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)
+ tn = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 0)
+ precision = tp / (tp + fp) if tp + fp else 0
+ recall = tp / (tp + fn) if tp + fn else 0
+ f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0
+ return {"tp": tp, "fp": fp, "tn": tn, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
 ```
 
 ## Kullan
@@ -189,8 +189,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 
 pipe = Pipeline([
-    ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True, stop_words=None)),
-    ("clf", LogisticRegression(C=1.0, max_iter=1000)),
+ ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True, stop_words=None)),
+ ("clf", LogisticRegression(C=1.0, max_iter=1000)),
 ])
 pipe.fit(X_train, y_train)
 print(pipe.score(X_test, y_test))

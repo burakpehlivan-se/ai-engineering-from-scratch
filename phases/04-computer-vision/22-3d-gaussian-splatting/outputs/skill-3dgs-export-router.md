@@ -49,19 +49,19 @@ Bir aşağı akış hedefini doğru 3DGS dosya biçimiyle eşleyin. "Yüklenmiyo
 
 ```
 [export plan]
-  target:         <engine>
-  format:         <isim>
-  sh degree:      <0|1|2|3>
-  compression:    <none|meshopt|quantisation|usdz>
-  expected size:  <MB>
-  compatible with: <görüntüleyici listesi>
+ target: <engine>
+ format: <isim>
+ sh degree: <0|1|2|3>
+ compression: <none|meshopt|quantisation|usdz>
+ expected size: <MB>
+ compatible with: <görüntüleyici listesi>
 
 [pipeline]
-  1. source: <.ply from training>
-  2. optional: SuperSplat cleanup pass
-  3. convert: <tool + CLI or API call>
-  4. package: <.gltf / .glb / .usd / .usdz / .splat / .ply>
-  5. validate: <viewer sanity check>
+ 1. source: <.ply from training>
+ 2. optional: SuperSplat cleanup pass
+ 3. convert: <tool + CLI or API call>
+ 4. package: <.gltf / .glb / .usd / .usdz / .splat / .ply>
+ 5. validate: <viewer sanity check>
 ```
 
 ## Kurallar

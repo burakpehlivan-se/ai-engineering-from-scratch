@@ -28,15 +28,15 @@ GAN'lar (Goodfellow ve ark., 2014) bu çerçeveyi tanımladı. 2018'de StyleGAN,
 
 ```mermaid
 flowchart LR
-    Z["z ~ N(0, I)<br/>noise"] --> G["Generator<br/>transposed convs"]
-    G --> FAKE["Fake image"]
-    REAL["Real image"] --> D["Discriminator<br/>conv classifier"]
-    FAKE --> D
-    D --> OUT["P(real)"]
+ Z["z ~ N(0, I)<br/>noise"] --> G["Generator<br/>transposed convs"]
+ G --> FAKE["Fake image"]
+ REAL["Real image"] --> D["Discriminator<br/>conv classifier"]
+ FAKE --> D
+ D --> OUT["P(real)"]
 
-    style G fill:#dbeafe,stroke:#2563eb
-    style D fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style G fill:#dbeafe,stroke:#2563eb
+ style D fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 **Generator** G, bir gürültü (noise) vektörü `z` alır ve bir görüntü üretir. **Discriminator** D, bir görüntü alır ve tek bir skaler çıktı üretir: görüntünün gerçek olma olasılığı.
@@ -46,7 +46,7 @@ flowchart LR
 G, D'nin yanılmasını ister. D ise doğru olmayı ister. Biçimsel olarak:
 
 ```
-min_G max_D  E_x[log D(x)] + E_z[log(1 - D(G(z)))]
+min_G max_D E_x[log D(x)] + E_z[log(1 - D(G(z)))]
 ```
 
 Sağdan sola okuyun: D, gerçek (`log D(gerçek)`) ve sahte (`log (1 - D(sahte))`) görüntülerdeki doğruluğu maksimize ediyor. G, sahtelerde D'nin doğruluğunu minimize ediyor — `D(G(z))`'nin yüksek olmasını istiyor.
@@ -59,7 +59,7 @@ Yukarıdaki form sayısal olarak kararsızdır. Eğitimin başlarında, her saht
 
 ```
 L_D = -E_x[log D(x)] - E_z[log(1 - D(G(z)))]
-L_G = -E_z[log D(G(z))]                          # non-saturating
+L_G = -E_z[log D(G(z))] # non-saturating
 ```
 
 Şimdi `D(G(z))` sıfıra yakın olduğunda, G'nin kaybı büyüktür ve gradyanı bilgilendiricidir. Her modern GAN bu varyantla eğitilir.
@@ -80,13 +80,13 @@ Her modern conv tabanlı GAN (StyleGAN, BigGAN, GigaGAN) hâlâ bu kurallardan b
 
 ```mermaid
 flowchart LR
-    M1["Mode collapse<br/>G dar bir çıktı<br/>kümesi üretir"] --> S1["D loss düşük,<br/>G loss salınımlı,<br/>örnek çeşitliliği düşer"]
-    M2["Vanishing gradients<br/>D tamamen kazanır"] --> S2["D doğruluğu ~%100,<br/>G loss büyük ve sabit"]
-    M3["Oscillation<br/>G ve D sürekli<br/>kazanç değiş tokuş yapar"] --> S3["Her iki loss da<br/>iniş trendi olmadan<br/>şiddetle salınır"]
+ M1["Mode collapse<br/>G dar bir çıktı<br/>kümesi üretir"] --> S1["D loss düşük,<br/>G loss salınımlı,<br/>örnek çeşitliliği düşer"]
+ M2["Vanishing gradients<br/>D tamamen kazanır"] --> S2["D doğruluğu ~%100,<br/>G loss büyük ve sabit"]
+ M3["Oscillation<br/>G ve D sürekli<br/>kazanç değiş tokuş yapar"] --> S3["Her iki loss da<br/>iniş trendi olmadan<br/>şiddetle salınır"]
 
-    style M1 fill:#fecaca,stroke:#dc2626
-    style M2 fill:#fecaca,stroke:#dc2626
-    style M3 fill:#fecaca,stroke:#dc2626
+ style M1 fill:#fecaca,stroke:#dc2626
+ style M2 fill:#fecaca,stroke:#dc2626
+ style M3 fill:#fecaca,stroke:#dc2626
 ```
 
 - **Mode collapse (kip çökmesi)**: G, D'yi kandıran bir görüntü bulur ve yalnızca onu üretir. Çözüm: minibatch discrimination, spectral norm veya label-conditioning ekleyin.
@@ -114,25 +114,25 @@ Küçük bir sentetik veri çalıştırması için örnek incelemesi yeterlidir.
 import torch
 import torch.nn as nn
 
-class Generator(nn.Module):
-    def __init__(self, z_dim=64, img_channels=3, feat=64):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.ConvTranspose2d(z_dim, feat * 4, kernel_size=4, stride=1, padding=0, bias=False),
-            nn.BatchNorm2d(feat * 4),
-            nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(feat * 4, feat * 2, kernel_size=4, stride=2, padding=1, bias=False),
-            nn.BatchNorm2d(feat * 2),
-            nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(feat * 2, feat, kernel_size=4, stride=2, padding=1, bias=False),
-            nn.BatchNorm2d(feat),
-            nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(feat, img_channels, kernel_size=4, stride=2, padding=1, bias=False),
-            nn.Tanh(),
-        )
+class Generator(nn. Module):
+ def __init__(self, z_dim=64, img_channels=3, feat=64):
+ super().__init__()
+ self.net = nn. Sequential(
+ nn. ConvTranspose2d(z_dim, feat * 4, kernel_size=4, stride=1, padding=0, bias=False),
+ nn. BatchNorm2d(feat * 4),
+ nn. ReLU(inplace=True),
+ nn. ConvTranspose2d(feat * 4, feat * 2, kernel_size=4, stride=2, padding=1, bias=False),
+ nn. BatchNorm2d(feat * 2),
+ nn. ReLU(inplace=True),
+ nn. ConvTranspose2d(feat * 2, feat, kernel_size=4, stride=2, padding=1, bias=False),
+ nn. BatchNorm2d(feat),
+ nn. ReLU(inplace=True),
+ nn. ConvTranspose2d(feat, img_channels, kernel_size=4, stride=2, padding=1, bias=False),
+ nn. Tanh(),
+ )
 
-    def forward(self, z):
-        return self.net(z.view(z.size(0), -1, 1, 1))
+ def forward(self, z):
+ return self.net(z.view(z.size(0), -1, 1, 1))
 ```
 
 #### Açıklama
@@ -143,23 +143,23 @@ Her biri `kernel_size=4, stride=2, padding=1` ile dört transpose convolution; b
 Generator'un ayna görüntüsü. LeakyReLU, stride'lı conv'ler, sonunda skaler bir logit.
 
 ```python
-class Discriminator(nn.Module):
-    def __init__(self, img_channels=3, feat=64):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Conv2d(img_channels, feat, kernel_size=4, stride=2, padding=1),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Conv2d(feat, feat * 2, kernel_size=4, stride=2, padding=1, bias=False),
-            nn.BatchNorm2d(feat * 2),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Conv2d(feat * 2, feat * 4, kernel_size=4, stride=2, padding=1, bias=False),
-            nn.BatchNorm2d(feat * 4),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Conv2d(feat * 4, 1, kernel_size=4, stride=1, padding=0),
-        )
+class Discriminator(nn. Module):
+ def __init__(self, img_channels=3, feat=64):
+ super().__init__()
+ self.net = nn. Sequential(
+ nn. Conv2d(img_channels, feat, kernel_size=4, stride=2, padding=1),
+ nn. LeakyReLU(0.2, inplace=True),
+ nn. Conv2d(feat, feat * 2, kernel_size=4, stride=2, padding=1, bias=False),
+ nn. BatchNorm2d(feat * 2),
+ nn. LeakyReLU(0.2, inplace=True),
+ nn. Conv2d(feat * 2, feat * 4, kernel_size=4, stride=2, padding=1, bias=False),
+ nn. BatchNorm2d(feat * 4),
+ nn. LeakyReLU(0.2, inplace=True),
+ nn. Conv2d(feat * 4, 1, kernel_size=4, stride=1, padding=0),
+ )
 
-    def forward(self, x):
-        return self.net(x).view(-1)
+ def forward(self, x):
+ return self.net(x).view(-1)
 ```
 
 #### Açıklama
@@ -173,26 +173,26 @@ Dönüşümlü: her grupta önce D'yi, sonra G'yi güncelle.
 import torch.nn.functional as F
 
 def train_step(G, D, real, z, opt_g, opt_d, device):
-    real = real.to(device)
-    bs = real.size(0)
+ real = real.to(device)
+ bs = real.size(0)
 
-    # D adımı
-    opt_d.zero_grad()
-    d_real = D(real)
-    d_fake = D(G(z).detach())
-    loss_d = (F.binary_cross_entropy_with_logits(d_real, torch.ones_like(d_real))
-              + F.binary_cross_entropy_with_logits(d_fake, torch.zeros_like(d_fake)))
-    loss_d.backward()
-    opt_d.step()
+ # D adımı
+ opt_d.zero_grad()
+ d_real = D(real)
+ d_fake = D(G(z).detach())
+ loss_d = (F.binary_cross_entropy_with_logits(d_real, torch.ones_like(d_real))
+ + F.binary_cross_entropy_with_logits(d_fake, torch.zeros_like(d_fake)))
+ loss_d.backward()
+ opt_d.step()
 
-    # G adımı
-    opt_g.zero_grad()
-    d_fake = D(G(z))
-    loss_g = F.binary_cross_entropy_with_logits(d_fake, torch.ones_like(d_fake))
-    loss_g.backward()
-    opt_g.step()
+ # G adımı
+ opt_g.zero_grad()
+ d_fake = D(G(z))
+ loss_g = F.binary_cross_entropy_with_logits(d_fake, torch.ones_like(d_fake))
+ loss_g.backward()
+ opt_g.step()
 
-    return loss_d.item(), loss_g.item()
+ return loss_d.item(), loss_g.item()
 ```
 
 #### Açıklama
@@ -205,17 +205,17 @@ from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 
 def synthetic_images(num=2000, size=32, seed=0):
-    rng = np.random.default_rng(seed)
-    imgs = np.zeros((num, 3, size, size), dtype=np.float32) - 1.0
-    for i in range(num):
-        r = rng.uniform(6, 12)
-        cx, cy = rng.uniform(r, size - r, size=2)
-        yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
-        mask = (xx - cx) ** 2 + (yy - cy) ** 2 < r ** 2
-        color = rng.uniform(-0.5, 1.0, size=3)
-        for c in range(3):
-            imgs[i, c][mask] = color[c]
-    return torch.from_numpy(imgs)
+ rng = np.random.default_rng(seed)
+ imgs = np.zeros((num, 3, size, size), dtype=np.float32) - 1.0
+ for i in range(num):
+ r = rng.uniform(6, 12)
+ cx, cy = rng.uniform(r, size - r, size=2)
+ yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
+ mask = (xx - cx) ** 2 + (yy - cy) ** 2 < r ** 2
+ color = rng.uniform(-0.5, 1.0, size=3)
+ for c in range(3):
+ imgs[i, c][mask] = color[c]
+ return torch.from_numpy(imgs)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 data = synthetic_images()
@@ -223,14 +223,14 @@ loader = DataLoader(TensorDataset(data), batch_size=64, shuffle=True)
 
 G = Generator(z_dim=64, img_channels=3, feat=32).to(device)
 D = Discriminator(img_channels=3, feat=32).to(device)
-opt_g = torch.optim.Adam(G.parameters(), lr=2e-4, betas=(0.5, 0.999))
-opt_d = torch.optim.Adam(D.parameters(), lr=2e-4, betas=(0.5, 0.999))
+opt_g = torch.optim. Adam(G.parameters(), lr=2e-4, betas=(0.5, 0.999))
+opt_d = torch.optim. Adam(D.parameters(), lr=2e-4, betas=(0.5, 0.999))
 
 for epoch in range(10):
-    for (batch,) in loader:
-        z = torch.randn(batch.size(0), 64, device=device)
-        ld, lg = train_step(G, D, batch, z, opt_g, opt_d, device)
-    print(f"epoch {epoch}  D {ld:.3f}  G {lg:.3f}")
+ for (batch,) in loader:
+ z = torch.randn(batch.size(0), 64, device=device)
+ ld, lg = train_step(G, D, batch, z, opt_g, opt_d, device)
+ print(f"epoch {epoch} D {ld:.3f} G {lg:.3f}")
 ```
 
 #### Açıklama
@@ -241,11 +241,11 @@ for epoch in range(10):
 ```python
 @torch.no_grad()
 def sample(G, n=16, z_dim=64, device="cpu"):
-    G.eval()
-    z = torch.randn(n, z_dim, device=device)
-    imgs = G(z)
-    imgs = (imgs + 1) / 2
-    return imgs.clamp(0, 1)
+ G.eval()
+ z = torch.randn(n, z_dim, device=device)
+ imgs = G(z)
+ imgs = (imgs + 1) / 2
+ return imgs.clamp(0, 1)
 ```
 
 #### Açıklama
@@ -259,15 +259,15 @@ Discriminator'da BN'nin değiştirilebilir bir alternatifi; ağın 1-Lipschitz o
 from torch.nn.utils import spectral_norm
 
 def build_sn_discriminator(img_channels=3, feat=64):
-    return nn.Sequential(
-        spectral_norm(nn.Conv2d(img_channels, feat, 4, 2, 1)),
-        nn.LeakyReLU(0.2, inplace=True),
-        spectral_norm(nn.Conv2d(feat, feat * 2, 4, 2, 1)),
-        nn.LeakyReLU(0.2, inplace=True),
-        spectral_norm(nn.Conv2d(feat * 2, feat * 4, 4, 2, 1)),
-        nn.LeakyReLU(0.2, inplace=True),
-        spectral_norm(nn.Conv2d(feat * 4, 1, 4, 1, 0)),
-    )
+ return nn. Sequential(
+ spectral_norm(nn. Conv2d(img_channels, feat, 4, 2, 1)),
+ nn. LeakyReLU(0.2, inplace=True),
+ spectral_norm(nn. Conv2d(feat, feat * 2, 4, 2, 1)),
+ nn. LeakyReLU(0.2, inplace=True),
+ spectral_norm(nn. Conv2d(feat * 2, feat * 4, 4, 2, 1)),
+ nn. LeakyReLU(0.2, inplace=True),
+ spectral_norm(nn. Conv2d(feat * 4, 1, 4, 1, 0)),
+ )
 ```
 
 #### Açıklama

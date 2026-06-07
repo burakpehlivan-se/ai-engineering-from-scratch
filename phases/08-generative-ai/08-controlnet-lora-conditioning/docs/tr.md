@@ -26,7 +26,7 @@ ControlNet + LoRA + metin = 2026 uygulayıcısının araç seti. Üretim görün
 Önceden eğitilmiş bir SD'yi alın. U-Net'in encoder yarısını *klonlayın*. Orijinali dondurun. Klonu, ek bir koşullandırma girdisi (kenarlar, derinlik, poz) kabul edecek şekilde eğitin. Klonu orijinalin decoder yarısına *sıfır-evrişimli* (zero-convolution) skip bağlantılarıyla geri bağlayın (1×1 conv'lar sıfırla başlatılmış — başlangıçta no-op, bir delta öğrenir).
 
 ```
-SD U-Net decoder:   ... ← orig_enc_features + zero_conv(controlnet_enc(condition))
+SD U-Net decoder: ... ← orig_enc_features + zero_conv(controlnet_enc(condition))
 ```
 
 #### Açıklama
@@ -44,7 +44,7 @@ features += weight_a * control_a(depth) + weight_b * control_b(pose)
 Modeldeki herhangi bir lineer katman `W ∈ R^{d×d}` için `W`'yi dondurun ve düşük dereceli bir delta ekleyin:
 
 ```
-W' = W + ΔW,  ΔW = B @ A,  A ∈ R^{r×d},  B ∈ R^{d×r}
+W' = W + ΔW, ΔW = B @ A, A ∈ R^{r×d}, B ∈ R^{d×r}
 ```
 
 #### Açıklama
@@ -82,8 +82,8 @@ ControlNet ≈ uzamsal. LoRA ≈ anlamsal. Her ikisini de kullanın.
 
 ```python
 def lora(W, A, B, x, alpha=1.0):
-    # W is frozen; A, B are the trainable low-rank factors.
-    return [W[i][j] * x[j] for i, j in ...] + alpha * (B @ (A @ x))
+ # W is frozen; A, B are the trainable low-rank factors.
+ return [W[i][j] * x[j] for i, j in ...] + alpha * (B @ (A @ x))
 ```
 
 #### Açıklama
@@ -94,7 +94,7 @@ def lora(W, A, B, x, alpha=1.0):
 
 ```python
 side_out = control_net(x, condition)
-gated = gate * side_out  # gate initialized to 0
+gated = gate * side_out # gate initialized to 0
 h = base(x) + gated
 ```
 

@@ -36,7 +36,7 @@ DARK / kuadratik varyant için, yerel bir kuadratik kullanarak yaklaşık hesapl
 
 ```
 dx = -0.5 * (heatmap[y, x+1] - heatmap[y, x-1])
-        / (heatmap[y, x+1] - 2 * heatmap[y, x] + heatmap[y, x-1] + eps)
+ / (heatmap[y, x+1] - 2 * heatmap[y, x] + heatmap[y, x-1] + eps)
 ```
 
 Kuadratik uyum, sivri ısı haritalarında daha doğrudur; işaret tabanlı ofset, ısı haritaları gürültülü olduğunda daha güvenli varsayılan olarak kabul edilir.
@@ -51,51 +51,51 @@ Kuadratik uyum, sivri ısı haritalarında daha doğrudur; işaret tabanlı ofse
 import torch
 
 def heatmap_to_coords_subpixel(heatmaps, threshold=0.2):
-    N, K, H, W = heatmaps.shape
-    flat = heatmaps.reshape(N, K, -1)
-    conf, idx = flat.max(dim=-1)
-    ys = (idx // W).float()
-    xs = (idx % W).float()
+ N, K, H, W = heatmaps.shape
+ flat = heatmaps.reshape(N, K, -1)
+ conf, idx = flat.max(dim=-1)
+ ys = (idx // W).float()
+ xs = (idx % W).float()
 
-    ys_int = ys.long()
-    xs_int = xs.long()
+ ys_int = ys.long()
+ xs_int = xs.long()
 
-    x_minus = (xs_int - 1).clamp(min=0)
-    x_plus = (xs_int + 1).clamp(max=W - 1)
-    y_minus = (ys_int - 1).clamp(min=0)
-    y_plus = (ys_int + 1).clamp(max=H - 1)
+ x_minus = (xs_int - 1).clamp(min=0)
+ x_plus = (xs_int + 1).clamp(max=W - 1)
+ y_minus = (ys_int - 1).clamp(min=0)
+ y_plus = (ys_int + 1).clamp(max=H - 1)
 
-    batch_idx = torch.arange(N).view(-1, 1).expand(-1, K)
-    kp_idx = torch.arange(K).view(1, -1).expand(N, -1)
+ batch_idx = torch.arange(N).view(-1, 1).expand(-1, K)
+ kp_idx = torch.arange(K).view(1, -1).expand(N, -1)
 
-    dx_raw = (heatmaps[batch_idx, kp_idx, ys_int, x_plus]
-              - heatmaps[batch_idx, kp_idx, ys_int, x_minus])
-    dy_raw = (heatmaps[batch_idx, kp_idx, y_plus, xs_int]
-              - heatmaps[batch_idx, kp_idx, y_minus, xs_int])
-    dx = 0.25 * torch.sign(dx_raw)
-    dy = 0.25 * torch.sign(dy_raw)
+ dx_raw = (heatmaps[batch_idx, kp_idx, ys_int, x_plus]
+ - heatmaps[batch_idx, kp_idx, ys_int, x_minus])
+ dy_raw = (heatmaps[batch_idx, kp_idx, y_plus, xs_int]
+ - heatmaps[batch_idx, kp_idx, y_minus, xs_int])
+ dx = 0.25 * torch.sign(dx_raw)
+ dy = 0.25 * torch.sign(dy_raw)
 
-    at_left = xs_int == 0
-    at_right = xs_int == (W - 1)
-    at_top = ys_int == 0
-    at_bottom = ys_int == (H - 1)
-    dx = torch.where(at_left | at_right, torch.zeros_like(dx), dx)
-    dy = torch.where(at_top | at_bottom, torch.zeros_like(dy), dy)
+ at_left = xs_int == 0
+ at_right = xs_int == (W - 1)
+ at_top = ys_int == 0
+ at_bottom = ys_int == (H - 1)
+ dx = torch.where(at_left | at_right, torch.zeros_like(dx), dx)
+ dy = torch.where(at_top | at_bottom, torch.zeros_like(dy), dy)
 
-    refined_x = xs + dx
-    refined_y = ys + dy
-    coords = torch.stack([refined_x, refined_y], dim=-1)
-    mask = conf >= threshold
-    return coords, conf, mask
+ refined_x = xs + dx
+ refined_y = ys + dy
+ coords = torch.stack([refined_x, refined_y], dim=-1)
+ mask = conf >= threshold
+ return coords, conf, mask
 ```
 
 ## Rapor
 
 ```
 [subpixel decode]
-  keypoints:   K
-  threshold:   <float>
-  valid_rate:  eşiğin üzerindeki anahtar noktaların oranı
+ keypoints: K
+ threshold: <float>
+ valid_rate: eşiğin üzerindeki anahtar noktaların oranı
 ```
 
 ## Kurallar

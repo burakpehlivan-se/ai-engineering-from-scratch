@@ -51,19 +51,19 @@ from collections import Counter, defaultdict
 
 
 def train_mft(train_examples):
-    word_tag_counts = defaultdict(Counter)
-    all_tags = Counter()
-    for tokens, tags in train_examples:
-        for token, tag in zip(tokens, tags):
-            word_tag_counts[token.lower()][tag] += 1
-            all_tags[tag] += 1
-    word_best = {w: c.most_common(1)[0][0] for w, c in word_tag_counts.items()}
-    default_tag = all_tags.most_common(1)[0][0]
-    return word_best, default_tag
+ word_tag_counts = defaultdict(Counter)
+ all_tags = Counter()
+ for tokens, tags in train_examples:
+ for token, tag in zip(tokens, tags):
+ word_tag_counts[token.lower()][tag] += 1
+ all_tags[tag] += 1
+ word_best = {w: c.most_common(1)[0][0] for w, c in word_tag_counts.items()}
+ default_tag = all_tags.most_common(1)[0][0]
+ return word_best, default_tag
 
 
 def predict_mft(tokens, word_best, default_tag):
-    return [word_best.get(t.lower(), default_tag) for t in tokens]
+ return [word_best.get(t.lower(), default_tag) for t in tokens]
 ```
 
 Brown corpus'unda bu temel çizgi yaklaşık %85 doğruluğa ulaşır. İyi değil, ama hiçbir ciddi modelin altına düşmemesi gereken tabandır.
@@ -83,63 +83,63 @@ import math
 
 
 def train_hmm(train_examples, alpha=0.01):
-    transitions = defaultdict(Counter)
-    emissions = defaultdict(Counter)
-    tags = set()
-    vocab = set()
+ transitions = defaultdict(Counter)
+ emissions = defaultdict(Counter)
+ tags = set()
+ vocab = set()
 
-    for tokens, ts in train_examples:
-        prev = "<BOS>"
-        for token, tag in zip(tokens, ts):
-            transitions[prev][tag] += 1
-            emissions[tag][token.lower()] += 1
-            tags.add(tag)
-            vocab.add(token.lower())
-            prev = tag
-        transitions[prev]["<EOS>"] += 1
+ for tokens, ts in train_examples:
+ prev = "<BOS>"
+ for token, tag in zip(tokens, ts):
+ transitions[prev][tag] += 1
+ emissions[tag][token.lower()] += 1
+ tags.add(tag)
+ vocab.add(token.lower())
+ prev = tag
+ transitions[prev]["<EOS>"] += 1
 
-    return transitions, emissions, tags, vocab
+ return transitions, emissions, tags, vocab
 
 
 def log_prob(table, given, key, smooth_denom, alpha):
-    return math.log((table[given].get(key, 0) + alpha) / smooth_denom)
+ return math.log((table[given].get(key, 0) + alpha) / smooth_denom)
 
 
 def viterbi(tokens, transitions, emissions, tags, vocab, alpha=0.01):
-    tags_list = list(tags)
-    n = len(tokens)
-    V = [[0.0] * len(tags_list) for _ in range(n)]
-    back = [[0] * len(tags_list) for _ in range(n)]
+ tags_list = list(tags)
+ n = len(tokens)
+ V = [[0.0] * len(tags_list) for _ in range(n)]
+ back = [[0] * len(tags_list) for _ in range(n)]
 
-    for j, tag in enumerate(tags_list):
-        em_denom = sum(emissions[tag].values()) + alpha * (len(vocab) + 1)
-        tr_denom = sum(transitions["<BOS>"].values()) + alpha * (len(tags_list) + 1)
-        tr = log_prob(transitions, "<BOS>", tag, tr_denom, alpha)
-        em = log_prob(emissions, tag, tokens[0].lower(), em_denom, alpha)
-        V[0][j] = tr + em
-        back[0][j] = 0
+ for j, tag in enumerate(tags_list):
+ em_denom = sum(emissions[tag].values()) + alpha * (len(vocab) + 1)
+ tr_denom = sum(transitions["<BOS>"].values()) + alpha * (len(tags_list) + 1)
+ tr = log_prob(transitions, "<BOS>", tag, tr_denom, alpha)
+ em = log_prob(emissions, tag, tokens[0].lower(), em_denom, alpha)
+ V[0][j] = tr + em
+ back[0][j] = 0
 
-    for i in range(1, n):
-        for j, tag in enumerate(tags_list):
-            em_denom = sum(emissions[tag].values()) + alpha * (len(vocab) + 1)
-            em = log_prob(emissions, tag, tokens[i].lower(), em_denom, alpha)
-            best_prev = 0
-            best_score = -1e30
-            for k, prev_tag in enumerate(tags_list):
-                tr_denom = sum(transitions[prev_tag].values()) + alpha * (len(tags_list) + 1)
-                tr = log_prob(transitions, prev_tag, tag, tr_denom, alpha)
-                score = V[i - 1][k] + tr + em
-                if score > best_score:
-                    best_score = score
-                    best_prev = k
-            V[i][j] = best_score
-            back[i][j] = best_prev
+ for i in range(1, n):
+ for j, tag in enumerate(tags_list):
+ em_denom = sum(emissions[tag].values()) + alpha * (len(vocab) + 1)
+ em = log_prob(emissions, tag, tokens[i].lower(), em_denom, alpha)
+ best_prev = 0
+ best_score = -1e30
+ for k, prev_tag in enumerate(tags_list):
+ tr_denom = sum(transitions[prev_tag].values()) + alpha * (len(tags_list) + 1)
+ tr = log_prob(transitions, prev_tag, tag, tr_denom, alpha)
+ score = V[i - 1][k] + tr + em
+ if score > best_score:
+ best_score = score
+ best_prev = k
+ V[i][j] = best_score
+ back[i][j] = best_prev
 
-    last_best = max(range(len(tags_list)), key=lambda j: V[n - 1][j])
-    path = [last_best]
-    for i in range(n - 1, 0, -1):
-        path.append(back[i][path[-1]])
-    return [tags_list[j] for j in reversed(path)]
+ last_best = max(range(len(tags_list)), key=lambda j: V[n - 1][j])
+ path = [last_best]
+ for i in range(n - 1, 0, -1):
+ path.append(back[i][path[-1]])
+ return [tags_list[j] for j in reversed(path)]
 ```
 
 Brown'da bigram HMM yaklaşık %93 doğruluğa ulaşır. %85'ten %93'e sıçrama çoğunlukla geçiş olasılıklarından gelir — model `DET NOUN`'un yaygın ve `NOUN DET`'nin nadir olduğunu öğrenir.
@@ -154,7 +154,7 @@ Bu görevin tavanı,annotatör anlaşmazlığı tarafından belirlenir. İnsan a
 
 Sıfırdan tam bağımlılık ayrıştırması kapsam dışındadır; klasik ders kitabı yaklaşımı Jurafsky ve Martin'de yer alır. Bilmeniz gereken iki klasik aile:
 
-- **Geçiş tabanlı (Transition-based)** ayrıştırıcılar (arc-eager, arc-standard) bir shift-reduce ayrıştırıcısı gibi çalışır: tokenları okur, bir yığına (stack) koyar ve kemerler (arcs) oluşturan reduce eylemleri uygular. Açgözlü (greedy) kodlama hızlıdır. Klasik uygulama MaltParser'dır. Modern sinirsel versiyonu: Chen ve Manning'in geçiş tabanlı ayrıştırıcısı.
+- **Geçiş tabanlı (Transition-based)** ayrıştırıcılar (arc-eager, arc-standard) bir shift-reduce ayrıştırıcısı gibi çalışır: token'ları okur, bir yığına (stack) koyar ve kemerler (arcs) oluşturan reduce eylemleri uygular. Açgözlü (greedy) kodlama hızlıdır. Klasik uygulama MaltParser'dır. Modern sinirsel versiyonu: Chen ve Manning'in geçiş tabanlı ayrıştırıcısı.
 - **Graf tabanlı (Graph-based)** ayrıştırıcılar (Eisner algoritması, Dozat-Manning biaffine) olası her head-dependent kenarını puanlar ve maksimum spanning tree'yi seçer. Daha yavaş ama daha hassastır.
 
 Çoğu uygulama işi için spaCy'yi çağırın:
@@ -165,17 +165,17 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 doc = nlp("The cats were running at 3pm.")
 for token in doc:
-    print(f"{token.text:10s} tag={token.tag_:5s} pos={token.pos_:6s} dep={token.dep_:10s} head={token.head.text}")
+ print(f"{token.text:10s} tag={token.tag_:5s} pos={token.pos_:6s} dep={token.dep_:10s} head={token.head.text}")
 ```
 
 ```
-The        tag=DT    pos=DET    dep=det        head=cats
-cats       tag=NNS   pos=NOUN   dep=nsubj      head=running
-were       tag=VBD   pos=AUX    dep=aux        head=running
-running    tag=VBG   pos=VERB   dep=ROOT       head=running
-at         tag=IN    pos=ADP    dep=prep       head=running
-3pm        tag=NN    pos=NOUN   dep=pobj       head=at
-.          tag=.     pos=PUNCT  dep=punct      head=running
+The tag=DT pos=DET dep=det head=cats
+cats tag=NNS pos=NOUN dep=nsubj head=running
+were tag=VBD pos=AUX dep=aux head=running
+running tag=VBG pos=VERB dep=ROOT head=running
+at tag=IN pos=ADP dep=prep head=running
+3pm tag=NN pos=NOUN dep=pobj head=at
+. tag=. pos=PUNCT dep=punct head=running
 ```
 
 `dep` sütununu alta doğru okuyun ve cümlenin gramatik yapısı ortaya çıkar.

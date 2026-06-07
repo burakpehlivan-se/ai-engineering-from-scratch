@@ -33,13 +33,13 @@ Sandbox, işletim sistemi anlamında bir güvenlik sınırı değildir. Kod yür
 
 ```mermaid
 flowchart TD
-  Call[ToolCall<br/>zaten kapı zincirini geçti] --> Run["Sandbox.run()"]
-  Run --> S1[1. çalıştırılabiliri yasak listesine karşı çözümle<br/>rm, sudo, mkfs, ...]
-  S1 --> S2[2. argv'yi incele<br/>yorumlayıcı -c, shell=False iken kabuk metakarakterleri]
-  S2 --> S3[3. yol benzeri argümanları çözümle<br/>realpath üzerinden project_root'a karşı]
-  S3 --> S4[4. alt süreci başlat<br/>yakalama, duvar saati zaman aşımı, ortam temizleme]
-  S4 --> S5[5. stdout/stderr'i max_output_bytes'a kes]
-  S5 --> Result[SandboxResult<br/>exit_code, stdout, stderr,<br/>truncated, timed_out, denied, reason]
+ Call[ToolCall<br/>zaten kapı zincirini geçti] --> Run["Sandbox.run()"]
+ Run --> S1[1. çalıştırılabiliri yasak listesine karşı çözümle<br/>rm, sudo, mkfs, ...]
+ S1 --> S2[2. argv'yi incele<br/>yorumlayıcı -c, shell=False iken kabuk metakarakterleri]
+ S2 --> S3[3. yol benzeri argümanları çözümle<br/>realpath üzerinden project_root'a karşı]
+ S3 --> S4[4. alt süreci başlat<br/>yakalama, duvar saati zaman aşımı, ortam temizleme]
+ S4 --> S5[5. stdout/stderr'i max_output_bytes'a kes]
+ S5 --> Result[SandboxResult<br/>exit_code, stdout, stderr,<br/>truncated, timed_out, denied, reason]
 ```
 
 #### Açıklama
@@ -53,9 +53,9 @@ Sandbox'ın dört reddetme ekseni vardır: ad, argv, yol, yapı. Her eksen, hen�
 
 ```mermaid
 flowchart LR
-  Harness[AgentHarness<br/>ders 20-25] -->|call| Sandbox[Sandbox<br/>denylist<br/>path jail<br/>argv inspect<br/>timeout<br/>truncation]
-  Sandbox -->|exec| Popen[subprocess.Popen]
-  Sandbox --> Result[SandboxResult]
+ Harness[AgentHarness<br/>ders 20-25] -->|call| Sandbox[Sandbox<br/>denylist<br/>path jail<br/>argv inspect<br/>timeout<br/>truncation]
+ Sandbox -->|exec| Popen[subprocess. Popen]
+ Sandbox --> Result[SandboxResult]
 ```
 
 #### Açıklama

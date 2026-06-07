@@ -63,7 +63,7 @@ Large-v3 1.55B parametre içerir. Turbo 4 katmanlı bir decoder kullanır (32'de
 2026'da kanonik iş akışı:
 
 1. Hizalı transkripsiyonlarla hedef alanda 10–100 saat ses toplayın.
-2. `generate_with_loss` geri çağrısıyla `transformers.Seq2SeqTrainer` çalıştırın.
+2. `generate_with_loss` geri çağrısıyla `transformers. Seq2SeqTrainer` çalıştırın.
 3. Parametre verimli: attention katmanlarının `q_proj`, `k_proj`, `v_proj`'ünde LoRA, GPU belleğini <%0.3 WER bedeliyle 4× azaltır.
 4. 10 saatin altında encoder'ı dondurun. Yalnızca decoder'ı ince ayar yapın.
 5. Whisper'ın kendi tokenizer'ını ve istem biçimini kullanın; tokenizer'ları değiştirmeyin.
@@ -78,15 +78,15 @@ Topluluk sonuçları: 20 saat tıbbi diktasyon üzerinde Medium'u ince ayar yapm
 import whisper
 model = whisper.load_model("large-v3-turbo")
 result = model.transcribe(
-    "clip.wav",
-    language="en",
-    task="transcribe",
-    temperature=0.0,
-    condition_on_previous_text=False,  # kaçak tekrar sorununu önler
+ "clip.wav",
+ language="en",
+ task="transcribe",
+ temperature=0.0,
+ condition_on_previous_text=False, # kaçak tekrar sorununu önler
 )
 print(result["text"])
 for seg in result["segments"]:
-    print(f"[{seg['start']:.2f}–{seg['end']:.2f}] {seg['text']}")
+ print(f"[{seg['start']:.2f}–{seg['end']:.2f}] {seg['text']}")
 ```
 
 #### Açıklama
@@ -112,11 +112,11 @@ from peft import LoraConfig, get_peft_model
 
 model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v3-turbo")
 lora = LoraConfig(
-    r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"],
-    lora_dropout=0.1, bias="none", task_type="SEQ_2_SEQ_LM",
+ r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"],
+ lora_dropout=0.1, bias="none", task_type="SEQ_2_SEQ_LM",
 )
 model = get_peft_model(model, lora)
-# model.print_trainable_parameters()  -> ~3M eğitilebilir / 809M toplam
+# model.print_trainable_parameters() -> ~3M eğitilebilir / 809M toplam
 ```
 
 #### Açıklama
@@ -127,11 +127,11 @@ Sonra standart Trainer döngüsü. Her 1000 adımda kontrol noktası. Ayrılmı�
 ```python
 # Decoder sırasında cross-attention ağırlıklarını alarak decoder'ın nereye baktığını görün.
 with torch.inference_mode():
-    out = model.generate(
-        input_features=features,
-        return_dict_in_generate=True,
-        output_attentions=True,
-    )
+ out = model.generate(
+ input_features=features,
+ return_dict_in_generate=True,
+ output_attentions=True,
+ )
 # out.cross_attentions: katman × baş × adım × kaynak_uzunluğu
 ```
 

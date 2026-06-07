@@ -42,10 +42,10 @@ Refusal kuralları:
 ```
 <repo>/
 ├── docs/
-│   └── agent-rules.md
+│ └── agent-rules.md
 ├── tools/
-│   ├── rule_checker.py
-│   └── rule_report.py
+│ ├── rule_checker.py
+│ └── rule_report.py
 └── docs/migration-notes.md
 ```
 

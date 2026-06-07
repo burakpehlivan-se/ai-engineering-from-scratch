@@ -54,21 +54,21 @@ mcp = FastMCP("demo-server")
 
 @mcp.tool()
 def add(a: int, b: int) -> int:
-    """Add two integers."""
-    return a + b
+ """Add two integers."""
+ return a + b
 
 @mcp.resource("config://app")
 def app_config() -> str:
-    """Return the app's current JSON config."""
-    return '{"env": "prod", "region": "us-east-1"}'
+ """Return the app's current JSON config."""
+ return '{"env": "prod", "region": "us-east-1"}'
 
 @mcp.prompt()
 def code_review(language: str, code: str) -> str:
-    """Review code for correctness and style."""
-    return f"You are a senior {language} reviewer. Review:\n\n{code}"
+ """Review code for correctness and style."""
+ return f"You are a senior {language} reviewer. Review:\n\n{code}"
 
 if __name__ == "__main__":
-    mcp.run(transport="stdio")
+ mcp.run(transport="stdio")
 ```
 
 Üç dekoratör üç ilkeyi kaydeder. Type hint'ler host'un gördüğü JSON Schema'ya dönüşür. Claude Desktop veya Claude Code altında çalıştırın ve sunucu giriş noktası bu dosyayı göstersin.
@@ -84,12 +84,12 @@ from mcp import ClientSession
 params = StdioServerParameters(command="python", args=["server.py"])
 
 async def call_add(a: int, b: int) -> int:
-    async with stdio_client(params) as (read, write):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            tools = await session.list_tools()
-            result = await session.call_tool("add", {"a": a, "b": b})
-            return int(result.content[0].text)
+ async with stdio_client(params) as (read, write):
+ async with ClientSession(read, write) as session:
+ await session.initialize()
+ tools = await session.list_tools()
+ result = await session.call_tool("add", {"a": a, "b": b})
+ return int(result.content[0].text)
 ```
 
 `session.list_tools()` LLM'in göreceği aynı schema'yı döndürür. Üretim hostları bu schema'ları her turda enjekte eder, böylece model bir `tool_use` bloğu üretebilir ve client bunu sunucuya yönlendirir.
@@ -107,12 +107,12 @@ Host yapılandırması (Claude Desktop `mcp.json` veya Claude Code `~/.mcp.json`
 
 ```json
 {
-  "mcpServers": {
-    "demo": {
-      "type": "http",
-      "url": "https://tools.example.com/mcp"
-    }
-  }
+ "mcpServers": {
+ "demo": {
+ "type": "http",
+ "url": "https://tools.example.com/mcp"
+ }
+ }
 }
 ```
 

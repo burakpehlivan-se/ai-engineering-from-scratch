@@ -113,7 +113,7 @@ Bu ders `outputs/skill-inference-platform-picker.md` üretir. İş yükü profil
 | Özel silikon | "GPU olmayan çipler" | Groq LPU, Cerebras WSE, SambaNova RDU — decode için optimize edilmiş |
 | FireAttention | "Fireworks motoru" | Özel attention çekirdeği; vLLM'den 4x daha düşük gecikme olarak pazarlanıyor |
 | Truss | "Baseten'in formatı" | Model paketleme manifest'i; bağımlılıklar + sırlar + serving konfigürasyonu |
-| Token başına | "API fiyatlandırması" | Tüketilen tokenlara göre ücret; boş için ödeme yok |
+| Token başına | "API fiyatlandırması" | Tüketilen token'lara göre ücret; boş için ödeme yok |
 | Dakika başına | "ayrılmış fiyatlandırma" | Duvar saati GPU süresine göre ücret; yüksek kullanımda kazanır |
 | Tahmin başına | "Replicate fiyatlandırması" | Model çağrısı başına ücret; görüntü/video için yaygın |
 | RayTurbo | "Anyscale motoru" | Ray üzerinde tescilli inference; Ray kümelerinde vLLM ile rekabet eder |

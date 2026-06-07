@@ -48,14 +48,14 @@ Tam liste `fipa00037.pdf` (FIPA ACL Message Structure) içindedir. Mesele bunlar
 
 ```
 (inform
-  :sender       agent1@platform
-  :receiver     agent2@platform
-  :content      "((price IBM 83))"
-  :language     SL0
-  :ontology     finance
-  :protocol     fipa-request
-  :conversation-id   conv-42
-  :reply-with   msg-17
+ :sender agent1@platform
+ :receiver agent2@platform
+ :content "((price IBM 83))"
+ :language SL0
+ :ontology finance
+ :protocol fipa-request
+ :conversation-id conv-42
+ :reply-with msg-17
 )
 ```
 
@@ -81,13 +81,13 @@ Web stack'i multi-agent kullanım durumlarını yutunca ikisi de düşüşe geç
 Bir FIPA `request`'ini bir MCP `tools/call`'ı ile karşılaştırın:
 
 ```
-(request                                {
-  :sender  agent1                         "jsonrpc": "2.0",
-  :receiver tool-server                   "method":  "tools/call",
-  :content "(lookup stock IBM)"           "params":  {"name":"lookup_stock",
-  :ontology finance                                   "arguments":{"symbol":"IBM"}},
-  :conversation-id c42                    "id": 42
-)                                        }
+(request {
+ :sender agent1 "jsonrpc": "2.0",
+ :receiver tool-server "method": "tools/call",
+ :content "(lookup stock IBM)" "params": {"name":"lookup_stock",
+ :ontology finance "arguments":{"symbol":"IBM"}},
+ :conversation-id c42 "id": 42
+) }
 ```
 
 Aynı zarf, farklı sözdizimi. İkisi de taşır: kim, kime, niyet, yük, korelasyon kimliği. Biri diğerinin üzerinde devrim değil — aynı tasarım üzerinde farklı ödünleşimlerdir.

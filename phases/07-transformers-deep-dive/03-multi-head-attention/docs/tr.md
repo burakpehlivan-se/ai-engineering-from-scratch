@@ -49,19 +49,19 @@ Ders 02'deki `SelfAttention`'ı alın ve bir böl/birleştir çiftiyle sarın. B
 
 ```python
 def split_heads(X, n_heads):
-    n, d = X.shape
-    d_head = d // n_heads
-    return X.reshape(n, n_heads, d_head).transpose(1, 0, 2)  # (heads, n, d_head)
+ n, d = X.shape
+ d_head = d // n_heads
+ return X.reshape(n, n_heads, d_head).transpose(1, 0, 2) # (heads, n, d_head)
 
 def combine_heads(H):
-    h, n, d_head = H.shape
-    return H.transpose(1, 0, 2).reshape(n, h * d_head)
+ h, n, d_head = H.shape
+ return H.transpose(1, 0, 2).reshape(n, h * d_head)
 ```
 
 #### Açıklama
 Bu işlevler, çoklu dikkat için gerekli olan baş bölme ve birleştirme işlemlerini yapar. Bir reshape ve bir transpose — döngü yok.
 
-Bir reshape ve bir transpose. Döngü yok. Bu tam olarak PyTorch'un `nn.MultiheadAttention` altında yaptığı şeydir.
+Bir reshape ve bir transpose. Döngü yok. Bu tam olarak PyTorch'un `nn. MultiheadAttention` altında yaptığı şeydir.
 
 ### Adım 2: her baş için ölçekli nokta çarpımı dikkatı çalıştır
 
@@ -69,17 +69,17 @@ Her baş kendi Q, K, V dilimini alır. Dikkat toplu bir matris çarpımına dön
 
 ```python
 def mha_forward(X, W_q, W_k, W_v, W_o, n_heads):
-    Q = X @ W_q
-    K = X @ W_k
-    V = X @ W_v
-    Qh = split_heads(Q, n_heads)         # (heads, n, d_head)
-    Kh = split_heads(K, n_heads)
-    Vh = split_heads(V, n_heads)
-    scores = Qh @ Kh.transpose(0, 2, 1) / np.sqrt(Qh.shape[-1])
-    weights = softmax(scores, axis=-1)
-    out = weights @ Vh                    # (heads, n, d_head)
-    concat = combine_heads(out)
-    return concat @ W_o, weights
+ Q = X @ W_q
+ K = X @ W_k
+ V = X @ W_v
+ Qh = split_heads(Q, n_heads) # (heads, n, d_head)
+ Kh = split_heads(K, n_heads)
+ Vh = split_heads(V, n_heads)
+ scores = Qh @ Kh.transpose(0, 2, 1) / np.sqrt(Qh.shape[-1])
+ weights = softmax(scores, axis=-1)
+ out = weights @ Vh # (heads, n, d_head)
+ concat = combine_heads(out)
+ return concat @ W_o, weights
 ```
 
 #### Açıklama
@@ -93,9 +93,9 @@ Sadece anahtar ve değer projeksiyonları değişir. Q `n_heads` grup alır; K v
 
 ```python
 def gqa_project(X, W, n_kv_heads, n_heads):
-    kv = split_heads(X @ W, n_kv_heads)       # (kv_heads, n, d_head)
-    repeat = n_heads // n_kv_heads
-    return np.repeat(kv, repeat, axis=0)      # (n_heads, n, d_head)
+ kv = split_heads(X @ W, n_kv_heads) # (kv_heads, n, d_head)
+ repeat = n_heads // n_kv_heads
+ return np.repeat(kv, repeat, axis=0) # (n_heads, n, d_head)
 ```
 
 #### Açıklama
@@ -114,7 +114,7 @@ PyTorch'ta tek satırlık versiyon:
 ```python
 import torch.nn as nn
 
-mha = nn.MultiheadAttention(embed_dim=512, num_heads=8, batch_first=True)
+mha = nn. MultiheadAttention(embed_dim=512, num_heads=8, batch_first=True)
 ```
 
 PyTorch 2.5+ ile GQA:

@@ -112,7 +112,7 @@ Modelin kendisi akış yapıyorsa, tüm çağrılar sonlanmadan bir çağrının
 
 ## Kullan
 
-`code/main.py`'in iki yarısı vardır. İlk kısım `concurrent.futures.ThreadPoolExecutor` kullanarak üç simüle hava durumu çağrısını sıralı ve paralel çalıştırır ve duvar saati süresini yazdırır. İkinci kısım sahte bir akışlı yanıtı tekrar oynatır — bir akışta iç içe geçmiş üç paralel çağrı için `argüman` parçacıkları — ve bunları `StreamAccumulator` ile id başına yeniden birleştirir. LLM yok, ağ yok, yalnızca yeniden birleştirme mantığı.
+`code/main.py`'in iki yarısı vardır. İlk kısım `concurrent.futures. ThreadPoolExecutor` kullanarak üç simüle hava durumu çağrısını sıralı ve paralel çalıştırır ve duvar saati süresini yazdırır. İkinci kısım sahte bir akışlı yanıtı tekrar oynatır — bir akışta iç içe geçmiş üç paralel çağrı için `argüman` parçacıkları — ve bunları `StreamAccumulator` ile id başına yeniden birleştirir. LLM yok, ağ yok, yalnızca yeniden birleştirme mantığı.
 
 Neye bakılmalı:
 

@@ -38,17 +38,17 @@ Tüm anomaliler aynı değildir:
 
 ```mermaid
 flowchart TD
-    A[Anomali Türleri] --> B[Noktasal Anomali]
-    A --> C[Bağlamsal Anomali]
-    A --> D[Kolektif Anomali]
+ A[Anomali Türleri] --> B[Noktasal Anomali]
+ A --> C[Bağlamsal Anomali]
+ A --> D[Kolektif Anomali]
 
-    B --> B1["Tek olağandışı değer<br/>Sıcaklık: 500°F"]
-    C --> C1["Bağlamda olağandışı<br/>Ocak'ta 90°F"]
-    D --> D1["Olağandışı dizi<br/>50 başarısız giriş"]
+ B --> B1["Tek olağandışı değer<br/>Sıcaklık: 500°F"]
+ C --> C1["Bağlamda olağandışı<br/>Ocak'ta 90°F"]
+ D --> D1["Olağandışı dizi<br/>50 başarısız giriş"]
 
-    style B fill:#fdd,stroke:#333
-    style C fill:#ffd,stroke:#333
-    style D fill:#fdf,stroke:#333
+ style B fill:#fdd,stroke:#333
+ style C fill:#ffd,stroke:#333
+ style D fill:#fdf,stroke:#333
 ```
 
 #### Açıklama
@@ -135,16 +135,16 @@ Kilit içgörü: anomaliler azdır ve farklıdır. Verinin rastgele bir bölüml
 
 ```mermaid
 flowchart TD
-    A[Tüm Veri Noktaları] --> B{Rastgele Öznitelik + Rastgele Bölme}
-    B --> C[Sol Bölüm]
-    B --> D[Sağ Bölüm]
-    C --> E{Rastgele Öznitelik + Rastgele Bölme}
-    E --> F[Normal Nokta - ağacın derinliklerinde]
-    E --> G[Daha fazla bölme gerekli...]
-    D --> H["Anomali - hızlı izole edildi (kısa yol)"]
+ A[Tüm Veri Noktaları] --> B{Rastgele Öznitelik + Rastgele Bölme}
+ B --> C[Sol Bölüm]
+ B --> D[Sağ Bölüm]
+ C --> E{Rastgele Öznitelik + Rastgele Bölme}
+ E --> F[Normal Nokta - ağacın derinliklerinde]
+ E --> G[Daha fazla bölme gerekli...]
+ D --> H["Anomali - hızlı izole edildi (kısa yol)"]
 
-    style H fill:#fdd,stroke:#333
-    style F fill:#dfd,stroke:#333
+ style H fill:#fdd,stroke:#333
+ style F fill:#dfd,stroke:#333
 ```
 
 #### Açıklama
@@ -219,14 +219,14 @@ Anomali tespit edicilerini değerlendirmek, sınıflandırıcıları değerlendi
 
 ```mermaid
 flowchart LR
-    A[Ham Veri] --> B[Sadece Normal Veriyle Eğit]
-    B --> C[Tüm Test Verisini Puanla]
-    C --> D[Anomali Skoruna Göre Sırala]
-    D --> E[İlk-K İşaretlenen Öğeleri Değerlendir]
-    E --> F[Precision at K / AUPRC]
+ A[Ham Veri] --> B[Sadece Normal Veriyle Eğit]
+ B --> C[Tüm Test Verisini Puanla]
+ C --> D[Anomali Skoruna Göre Sırala]
+ D --> E[İlk-K İşaretlenen Öğeleri Değerlendir]
+ E --> F[Precision at K / AUPRC]
 
-    style A fill:#f9f,stroke:#333
-    style F fill:#9f9,stroke:#333
+ style A fill:#f9f,stroke:#333
+ style F fill:#9f9,stroke:#333
 ```
 
 #### Açıklama
@@ -254,11 +254,11 @@ Boru hattı asla "bitmez." Veri dağılımları kayar, yeni anomali türleri ort
 
 ```python
 def zscore_detect(X, threshold=3.0):
-    mean = X.mean(axis=0)
-    std = X.std(axis=0)
-    std[std == 0] = 1.0
-    z = np.abs((X - mean) / std)
-    return z.max(axis=1) > threshold
+ mean = X.mean(axis=0)
+ std = X.std(axis=0)
+ std[std == 0] = 1.0
+ z = np.abs((X - mean) / std)
+ return z.max(axis=1) > threshold
 ```
 
 #### Açıklama
@@ -268,14 +268,14 @@ Basit ve vektörleştirilmiş. Herhangi bir öznitelik threshold'u aşarsa nokta
 
 ```python
 def iqr_detect(X, factor=1.5):
-    q1 = np.percentile(X, 25, axis=0)
-    q3 = np.percentile(X, 75, axis=0)
-    iqr = q3 - q1
-    iqr[iqr == 0] = 1.0
-    lower = q1 - factor * iqr
-    upper = q3 + factor * iqr
-    outside = (X < lower) | (X > upper)
-    return outside.any(axis=1)
+ q1 = np.percentile(X, 25, axis=0)
+ q3 = np.percentile(X, 75, axis=0)
+ iqr = q3 - q1
+ iqr[iqr == 0] = 1.0
+ lower = q1 - factor * iqr
+ upper = q3 + factor * iqr
+ outside = (X < lower) | (X > upper)
+ return outside.any(axis=1)
 ```
 
 #### Açıklama
@@ -287,28 +287,28 @@ Sıfırdan yazılan uygulama, öznitelik uzayını rastgele bölen isolation tre
 
 ```python
 class IsolationTree:
-    def __init__(self, max_depth):
-        self.max_depth = max_depth
+ def __init__(self, max_depth):
+ self.max_depth = max_depth
 
-    def fit(self, X, depth=0):
-        n, p = X.shape
-        if depth >= self.max_depth or n <= 1:
-            self.is_leaf = True
-            self.size = n
-            return self
-        self.is_leaf = False
-        self.feature = np.random.randint(p)
-        x_min = X[:, self.feature].min()
-        x_max = X[:, self.feature].max()
-        if x_min == x_max:
-            self.is_leaf = True
-            self.size = n
-            return self
-        self.threshold = np.random.uniform(x_min, x_max)
-        left_mask = X[:, self.feature] < self.threshold
-        self.left = IsolationTree(self.max_depth).fit(X[left_mask], depth + 1)
-        self.right = IsolationTree(self.max_depth).fit(X[~left_mask], depth + 1)
-        return self
+ def fit(self, X, depth=0):
+ n, p = X.shape
+ if depth >= self.max_depth or n <= 1:
+ self.is_leaf = True
+ self.size = n
+ return self
+ self.is_leaf = False
+ self.feature = np.random.randint(p)
+ x_min = X[:, self.feature].min()
+ x_max = X[:, self.feature].max()
+ if x_min == x_max:
+ self.is_leaf = True
+ self.size = n
+ return self
+ self.threshold = np.random.uniform(x_min, x_max)
+ left_mask = X[:, self.feature] < self.threshold
+ self.left = IsolationTree(self.max_depth).fit(X[left_mask], depth + 1)
+ self.right = IsolationTree(self.max_depth).fit(X[~left_mask], depth + 1)
+ return self
 ```
 
 #### Açıklama
@@ -318,23 +318,23 @@ Bir noktayı izole etmek için gereken yol uzunluğu, anomali skorunu belirler. 
 
 ```python
 class IsolationForest:
-    def __init__(self, n_estimators=100, max_samples=256, seed=42):
-        self.n_estimators = n_estimators
-        self.max_samples = max_samples
+ def __init__(self, n_estimators=100, max_samples=256, seed=42):
+ self.n_estimators = n_estimators
+ self.max_samples = max_samples
 
-    def fit(self, X):
-        sample_size = min(self.max_samples, X.shape[0])
-        max_depth = int(np.ceil(np.log2(sample_size)))
-        for _ in range(self.n_estimators):
-            idx = rng.choice(X.shape[0], size=sample_size, replace=False)
-            tree = IsolationTree(max_depth=max_depth)
-            tree.fit(X[idx])
-            self.trees.append(tree)
+ def fit(self, X):
+ sample_size = min(self.max_samples, X.shape[0])
+ max_depth = int(np.ceil(np.log2(sample_size)))
+ for _ in range(self.n_estimators):
+ idx = rng.choice(X.shape[0], size=sample_size, replace=False)
+ tree = IsolationTree(max_depth=max_depth)
+ tree.fit(X[idx])
+ self.trees.append(tree)
 
-    def anomaly_score(self, X):
-        avg_path = tüm ağaçlardaki ortalama yol uzunluğu
-        scores = 2.0 ** (-avg_path / c(max_samples))
-        return scores
+ def anomaly_score(self, X):
+ avg_path = tüm ağaçlardaki ortalama yol uzunluğu
+ scores = 2.0 ** (-avg_path / c(max_samples))
+ return scores
 ```
 
 #### Açıklama

@@ -49,18 +49,18 @@ Sen bir poz tahmin yığını seçicisin.
 
 ```
 [pose stack]
-  model:         <isim>
-  runtime:       <MediaPipe | ONNX | TensorRT | PyTorch>
-  input_size:    <H x W>
-  output:        <anahtar nokta adları listesi>
+ model: <isim>
+ runtime: <MediaPipe | ONNX | TensorRT | PyTorch>
+ input_size: <H x W>
+ output: <anahtar nokta adları listesi>
 
 [expected latency]
-  <hedef yığında ms p95>
+ <hedef yığında ms p95>
 
 [notes]
-  - doğruluk geçidi
-  - kalabalık davranışı
-  - 3D uzatma yolu
+ - doğruluk geçidi
+ - kalabalık davranışı
+ - 3D uzatma yolu
 ```
 
 ## Kurallar

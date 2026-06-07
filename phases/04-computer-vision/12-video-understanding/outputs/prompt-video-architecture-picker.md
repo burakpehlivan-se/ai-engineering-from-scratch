@@ -31,23 +31,23 @@ Kurallar yukarıdan aşağıya değerlendirilir; ilk eşleşme kazanır.
 
 ```
 [pick]
-  model:       <isim + boyut>
-  pretrain:    <Kinetics-400 | Kinetics-600 | ImageNet + K400 | VideoMAE>
-  sampler:     uniform | dense | multi-clip
-  T:           <int>
+ model: <isim + boyut>
+ pretrain: <Kinetics-400 | Kinetics-600 | ImageNet + K400 | VideoMAE>
+ sampler: uniform | dense | multi-clip
+ T: <int>
 
 [flops estimate]
-  <klip başına yaklaşık GFLOPs>
+ <klip başına yaklaşık GFLOPs>
 
 [training recipe]
-  batch:       <int>
-  epochs:      <int>
-  lr:          <float>
-  mixup/cutmix: yes | no
+ batch: <int>
+ epochs: <int>
+ lr: <float>
+ mixup/cutmix: yes | no
 
 [eval]
-  klip doğruluğu
-  video doğruluğu (çoklu klip ortalaması)
+ klip doğruluğu
+ video doğruluğu (çoklu klip ortalaması)
 ```
 
 ## Kurallar

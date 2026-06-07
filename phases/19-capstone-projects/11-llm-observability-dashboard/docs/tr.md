@@ -26,30 +26,30 @@ Drift tespiti, zaman içinde gömme-uzayı dağılımlarını (istemi gömme'ler
 
 ```
 production apps:
-  OpenAI SDK  +  Anthropic SDK  +  Google GenAI SDK
-  LangChain + LlamaIndex + vLLM
-       |
-       v
-  OpenTelemetry SDK with GenAI semconv
-       |
-       v  OTLP HTTP
-  collector (ingest, sample, fan-out)
-       |
-       +-------------+-----------+
-       v             v           v
-   ClickHouse    Postgres    S3 archive
-   (spans)       (metadata)  (raw events)
-       |
-       +---> eval jobs (DeepEval, RAGAS, LLM-judge)
-       |     sampled or all-trace
-       |     write eval spans back
-       |
-       +---> drift detector (PSI / KL on prompt embeddings)
-       |
-       +---> Prometheus metrics -> Alertmanager -> Slack / PagerDuty
-       |
-       v
-   Next.js 15 dashboard (Recharts)
+ OpenAI SDK + Anthropic SDK + Google GenAI SDK
+ LangChain + LlamaIndex + vLLM
+ |
+ v
+ OpenTelemetry SDK with GenAI semconv
+ |
+ v OTLP HTTP
+ collector (ingest, sample, fan-out)
+ |
+ +-------------+-----------+
+ v v v
+ ClickHouse Postgres S3 archive
+ (spans) (metadata) (raw events)
+ |
+ +---> eval jobs (DeepEval, RAGAS, LLM-judge)
+ | sampled or all-trace
+ | write eval spans back
+ |
+ +---> drift detector (PSI / KL on prompt embeddings)
+ |
+ +---> Prometheus metrics -> Alertmanager -> Slack / PagerDuty
+ |
+ v
+ Next.js 15 dashboard (Recharts)
 ```
 
 #### Açıklama
@@ -91,11 +91,11 @@ Bu mimari üretim uygulamalarından panoya kadar tam veri akışını gösterir.
 
 ```
 $ curl -X POST https://my-otel-collector/v1/traces -d @trace.json
-[collector]  accepted 1 trace, 3 spans
+[collector] accepted 1 trace, 3 spans
 [clickhouse] inserted 3 spans (app=chat, user=u_42)
-[eval]       DeepEval faithfulness 0.82, toxicity 0.03
-[drift]      weekly PSI 0.08 (below 0.2 threshold)
-[ui]         live at https://obs.example.com
+[eval] DeepEval faithfulness 0.82, toxicity 0.03
+[drift] weekly PSI 0.08 (below 0.2 threshold)
+[ui] live at https://obs.example.com
 ```
 
 #### Açıklama

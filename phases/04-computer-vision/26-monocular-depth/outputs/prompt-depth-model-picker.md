@@ -33,21 +33,21 @@ Sen bir monoküler derinlik modeli seçicisin.
 
 ```
 [depth model]
-  name:          <id>
-  type:          relative | metric
-  backbone:      DINOv2 | DINOv3 | SD2 U-Net | custom
-  input size:    <H x W>
-  precision:     float16 | bfloat16 | int8 | int4
+ name: <id>
+ type: relative | metric
+ backbone: DINOv2 | DINOv3 | SD2 U-Net | custom
+ input size: <H x W>
+ precision: float16 | bfloat16 | int8 | int4
 
 [post-processing]
-  - temel doğruluk ölçek/kayma hizalama (değerlendirme ise)
-  - intrinsik'lere hizalama (3D'ye kaldırılıyorsa)
-  - zamansal yumuşatma (video ise)
+ - temel doğruluk ölçek/kayma hizalama (değerlendirme ise)
+ - intrinsik'lere hizalama (3D'ye kaldırılıyorsa)
+ - zamansal yumuşatma (video ise)
 
 [known failures]
-  - cam / ayna / yansıtıcı yüzeyler
-  - aşırı yakın çekimler (< 0.5 m)
-  - uzak menzil dış mekan (iç mekanda eğitilmiş modeller için > 100 m)
+ - cam / ayna / yansıtıcı yüzeyler
+ - aşırı yakın çekimler (< 0.5 m)
+ - uzak menzil dış mekan (iç mekanda eğitilmiş modeller için > 100 m)
 ```
 
 ## Kurallar

@@ -49,10 +49,10 @@ Pix2Pix eşleştirilmiş `(x, y)` verisi gerektirir. CycleGAN (Zhu et al., 2017)
 
 ```python
 def G(z, c, params):
-    return mlp(concat([z, one_hot(c)]), params)
+ return mlp(concat([z, one_hot(c)]), params)
 
 def D(x, c, params):
-    return mlp(concat([x, one_hot(c)]), params)
+ return mlp(concat([x, one_hot(c)]), params)
 ```
 
 #### Açıklama
@@ -62,10 +62,10 @@ One-hot kodlama en basit yoldur. Daha büyük modeller öğrenilmiş embedding'l
 
 ```python
 for step in range(steps):
-    x, c = sample_real_conditional()
-    noise = sample_noise()
-    update_D(x_real=x, x_fake=G(noise, c), c=c)
-    update_G(noise, c)
+ x, c = sample_real_conditional()
+ noise = sample_noise()
+ update_D(x_real=x, x_fake=G(noise, c), c=c)
+ update_G(noise, c)
 ```
 
 #### Açıklama
@@ -75,9 +75,9 @@ Generator, verilen koşul için gerçek dağılımı *eşlemelidir*, marjinali d
 
 ```python
 for c in [0, 1]:
-    samples = [G(noise, c) for noise in batch]
-    mean_c = mean(samples)
-    assert_near(mean_c, real_mean_for_class_c)
+ samples = [G(noise, c) for noise in batch]
+ mean_c = mean(samples)
+ assert_near(mean_c, real_mean_for_class_c)
 ```
 
 #### Açıklama

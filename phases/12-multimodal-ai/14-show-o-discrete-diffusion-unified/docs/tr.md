@@ -70,7 +70,7 @@ Inpainting yeteneği masked-prediction eğitiminden ücretsiz olarak gelir. VQ-t
 Her adımda kaç token'ın maskesinin kaldırılacağı zaman çizelgesi kaliteyi belirler. Show-o cosine'i önerir:
 
 ```
-mask_ratio(t) = cos(pi * t / (2 * T))   # t = 0..T
+mask_ratio(t) = cos(pi * t / (2 * T)) # t = 0.. T
 ```
 
 0. adımda tüm token'lar maskelidir (oran 1.0). T. adımda hiçbir token maskeli değildir. Cosine, tahminin en bilgilendirici olduğu orta aralık oranlarında kütleyi yoğunlaştırır. Linear zaman çizelgeleri de çalışır ancak daha hızlı plato yapar.

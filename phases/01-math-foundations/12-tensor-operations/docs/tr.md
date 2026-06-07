@@ -32,10 +32,10 @@ Bir tensör, tek bir veri türüne sahip çok boyutlu bir sayı dizisi. Boyut sa
 
 ```mermaid
 graph LR
-    S["Skaler<br/>derece 0<br/>şekil: ()"] --> V["Vektör<br/>derece 1<br/>şekil: (3,)"]
-    V --> M["Matris<br/>derece 2<br/>şekil: (2,3)"]
-    M --> T3["3B Tensör<br/>derece 3<br/>şekil: (2,2,2)"]
-    T3 --> T4["4B Tensör<br/>derece 4<br/>şekil: (B,C,Y,G)"]
+ S["Skaler<br/>derece 0<br/>şekil: ()"] --> V["Vektör<br/>derece 1<br/>şekil: (3,)"]
+ V --> M["Matris<br/>derece 2<br/>şekil: (2,3)"]
+ M --> T3["3B Tensör<br/>derece 3<br/>şekil: (2,2,2)"]
+ T3 --> T4["4B Tensör<br/>derece 4<br/>şekil: (B,C,Y,G)"]
 ```
 
 Toplam eleman = tüm boyutların çarpımı. `(2, 3, 4)` şeklinde `2 * 3 * 4 = 24` eleman sığar.
@@ -45,9 +45,9 @@ Toplam eleman = tüm boyutların çarpımı. `(2, 3, 4)` şeklinde `2 * 3 * 4 = 
 Farklı veri türleri, geleneksel olarak belirli tensör şekillerine eşlenir.
 
 ```
-Görüntü:     (toplu_iş, kanal, yükseklik, genişlik) → (32, 3, 224, 224)
-Metin:       (toplu_iş, dizi_uzunluğu) → (32, 128)
-Ses:         (toplu_iş, kanal, zaman) → (1, 1, 16000)
+Görüntü: (toplu_iş, kanal, yükseklik, genişlik) → (32, 3, 224, 224)
+Metin: (toplu_iş, dizi_uzunluğu) → (32, 128)
+Ses: (toplu_iş, kanal, zaman) → (1, 1, 16000)
 ```
 
 ### Yayma (Broadcasting)
@@ -60,7 +60,7 @@ import numpy as np
 # 3x3 matris + 3'lük vektör
 A = np.ones((3, 3))
 b = np.array([1, 2, 3])
-C = A + b  # b otomatik olarak 3x3'e genişletilir
+C = A + b # b otomatik olarak 3x3'e genişletilir
 ```
 
 #### Açıklama

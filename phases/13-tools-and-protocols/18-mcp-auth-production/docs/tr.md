@@ -1,6 +1,6 @@
 # Üretimde MCP Auth — DCR, JWKS Döndürme, iii Primitifleri Üzerinde Hedef Sabitlenmiş Tokenlar
 
-> Ders 16 OAuth 2.1 durum makinesini bellekte kurmuştu. 2026 itibarıyla gerçek bir kuruluşa sunduğunuz her MCP sunucusu üretim auth'unun arkasında oturur: dinamik istemci kaydı (RFC 7591), yetkilendirme-sunucusu meta verisi keşfi (RFC 8414), 3'te bir token doğrulamasını bozmayan JWKS döndürmesi ve kafa karışıklığı memuru suistimalini reddeden hedef sabitlenmiş tokenlar. Bu ders, her şeyi iii primitifleri aracılığıyla — HTTP ve cron için `iii.registerTrigger`, auth mantığı için `iii.registerFunction`, önbelleklenmiş anahtarlar için `state::set/get` — bağlar, böylece auth yüzeyi, motorun diğer her iş yükü gibi gözlemlenebilir, yeniden başlatılabilir ve tekrar oynatılabilir olur.
+> Ders 16 OAuth 2.1 durum makinesini bellekte kurmuştu. 2026 itibarıyla gerçek bir kuruluşa sunduğunuz her MCP sunucusu üretim auth'unun arkasında oturur: dinamik istemci kaydı (RFC 7591), yetkilendirme-sunucusu meta verisi keşfi (RFC 8414), 3'te bir token doğrulamasını bozmayan JWKS döndürmesi ve kafa karışıklığı memuru suistimalini reddeden hedef sabitlenmiş token'lar. Bu ders, her şeyi iii primitifleri aracılığıyla — HTTP ve cron için `iii.registerTrigger`, auth mantığı için `iii.registerFunction`, önbelleklenmiş anahtarlar için `state::set/get` — bağlar, böylece auth yüzeyi, motorun diğer her iş yükü gibi gözlemlenebilir, yeniden başlatılabilir ve tekrar oynatılabilir olur.
 
 **Tür:** İnşa Et
 **Diller:** Python (stdlib, ders ortamı için mocklanmış iii primitifleri)
@@ -12,7 +12,7 @@
 - RFC 8414 meta verisi aracılığıyla bir yetkilendirme sunucusu keşfet ve sözleşmeyi doğrula.
 - MCP istemcilerinin yönetici müdahalesi olmadan kaydolmasını sağlayan RFC 7591 dinamik istemci kaydını uygula.
 - Bir cron tetikleyicisi kullanarak JWKS anahtarlarını önbelleğe al ve döndür, böylece imza doğrulaması anahtar yuvarlanmasında hayatta kalır.
-- RFC 8707 kaynak göstergeleriyle tokenları tek bir MCP kaynağına sabitle ve kafa karışıklığı memuru suistimalini reddet.
+- RFC 8707 kaynak göstergeleriyle token'ları tek bir MCP kaynağına sabitle ve kafa karışıklığı memuru suistimalini reddet.
 - Her uç noktayı ve arka plan görevini iii primitifleri olarak bağla — HTTP tetikleyicileri, cron tetikleyicileri, adlı fonksiyonlar ve `state::*` okumaları — böylece tek bir yeniden başlatma auth yüzeyini yeniden inşa eder.
 - Bir IdP yetenek matrisini oku ve IdP, MCP'nin auth profilini karşılayamıyorsa dağıtıma reddet.
 
@@ -36,16 +36,16 @@ Bu ders, bu boşlukların her birini bir iii primitifi olarak ele alır. Meta ve
 
 ```json
 {
-  "issuer": "https://auth.example.com",
-  "authorization_endpoint": "https://auth.example.com/authorize",
-  "token_endpoint": "https://auth.example.com/token",
-  "jwks_uri": "https://auth.example.com/.well-known/jwks.json",
-  "registration_endpoint": "https://auth.example.com/register",
-  "response_types_supported": ["code"],
-  "grant_types_supported": ["authorization_code", "refresh_token"],
-  "code_challenge_methods_supported": ["S256"],
-  "scopes_supported": ["mcp:tools.read", "mcp:tools.invoke"],
-  "token_endpoint_auth_methods_supported": ["none", "private_key_jwt"]
+ "issuer": "https://auth.example.com",
+ "authorization_endpoint": "https://auth.example.com/authorize",
+ "token_endpoint": "https://auth.example.com/token",
+ "jwks_uri": "https://auth.example.com/.well-known/jwks.json",
+ "registration_endpoint": "https://auth.example.com/register",
+ "response_types_supported": ["code"],
+ "grant_types_supported": ["authorization_code", "refresh_token"],
+ "code_challenge_methods_supported": ["S256"],
+ "scopes_supported": ["mcp:tools.read", "mcp:tools.invoke"],
+ "token_endpoint_auth_methods_supported": ["none", "private_key_jwt"]
 }
 ```
 
@@ -66,11 +66,11 @@ Ders 16 RFC 9728'i kapsadı. Üretimdeki fark: bu belge, istemcinin *bu* MCP sun
 
 ```json
 {
-  "resource": "https://notes.example.com",
-  "authorization_servers": ["https://auth.example.com", "https://partners.example.com"],
-  "scopes_supported": ["mcp:tools.invoke"],
-  "bearer_methods_supported": ["header"],
-  "resource_documentation": "https://notes.example.com/docs"
+ "resource": "https://notes.example.com",
+ "authorization_servers": ["https://auth.example.com", "https://partners.example.com"],
+ "scopes_supported": ["mcp:tools.invoke"],
+ "bearer_methods_supported": ["header"],
+ "resource_documentation": "https://notes.example.com/docs"
 }
 ```
 
@@ -83,14 +83,14 @@ POST /register
 Content-Type: application/json
 
 {
-  "redirect_uris": ["http://127.0.0.1:7333/callback"],
-  "grant_types": ["authorization_code", "refresh_token"],
-  "response_types": ["code"],
-  "token_endpoint_auth_method": "none",
-  "scope": "mcp:tools.invoke",
-  "client_name": "Cursor",
-  "software_id": "com.cursor.cursor",
-  "software_version": "0.42.0"
+ "redirect_uris": ["http://127.0.0.1:7333/callback"],
+ "grant_types": ["authorization_code", "refresh_token"],
+ "response_types": ["code"],
+ "token_endpoint_auth_method": "none",
+ "scope": "mcp:tools.invoke",
+ "client_name": "Cursor",
+ "software_id": "com.cursor.cursor",
+ "software_version": "0.42.0"
 }
 ```
 
@@ -98,12 +98,12 @@ Sunucu `client_id` ve sonraki güncellemeler için bir `registration_access_toke
 
 ```json
 {
-  "client_id": "c_3e7f1a",
-  "client_id_issued_at": 1769472000,
-  "redirect_uris": ["http://127.0.0.1:7333/callback"],
-  "grant_types": ["authorization_code", "refresh_token"],
-  "registration_access_token": "regt_b2...",
-  "registration_client_uri": "https://auth.example.com/register/c_3e7f1a"
+ "client_id": "c_3e7f1a",
+ "client_id_issued_at": 1769472000,
+ "redirect_uris": ["http://127.0.0.1:7333/callback"],
+ "grant_types": ["authorization_code", "refresh_token"],
+ "registration_access_token": "regt_b2...",
+ "registration_client_uri": "https://auth.example.com/register/c_3e7f1a"
 }
 ```
 
@@ -131,8 +131,8 @@ MCP teknik dokümanı (2025-11-25), bir MCP sunucusunun yetkilendirme katmanın�
 - Tokenları yalnızca `Authorization: Bearer ...` aracılığıyla kabul edin.
 - Her istekte `aud`, `iss`, `exp` ve gerekli kapsamları doğrulayın.
 - Her 401 ve 403'te `Bearer error=...` taşıyan `WWW-Authenticate` ile yanıt verin; uygulanabilir yerlerde `scope=` ve `resource=` parametrelerini dahil edin.
-- `aud`'u kanonik kaynakla eşleşmeyen tokenları reddedin.
-- `iss`'i korumalı-kaynak meta verisinin `authorization_servers` listesinde olmayan tokenları reddedin.
+- `aud`'u kanonik kaynakla eşleşmeyen token'ları reddedin.
+- `iss`'i korumalı-kaynak meta verisinin `authorization_servers` listesinde olmayan token'ları reddedin.
 
 OAuth 2.1 taslağı temeldir; RFC 8414/7591/8707/9728 + RFC 7636 yüzeydir; MCP teknik dokümanı profildir.
 
@@ -156,9 +156,9 @@ Dağıtım manifestosu için ret kuralı: seçilen IdP `registration_endpoint` d
 
 ```python
 iii.registerTrigger(
-    "cron",
-    {"schedule": "0 */6 * * *", "name": "auth::jwks-refresh"},
-    "auth::rotate-jwks",
+ "cron",
+ {"schedule": "0 */6 * * *", "name": "auth::jwks-refresh"},
+ "auth::rotate-jwks",
 )
 ```
 
@@ -191,7 +191,7 @@ MCP sunucusu kendi başına doğrulamayı doğrudan çağırmaz. Şunu yapar:
 ```python
 result = iii.trigger("auth::validate-jwt", {"token": bearer_token, "resource": self.resource})
 if not result["valid"]:
-    return {"status": 401, "WWW-Authenticate": result["www_authenticate"]}
+ return {"status": 401, "WWW-Authenticate": result["www_authenticate"]}
 ```
 
 Bu dolaylılık iii bahsidir. Yarın doğrulayıcıyı paralel olarak iki IdP'ye danışan bir fanout ile değiştirirsiniz veya bir aralık (span) üretici eklersiniz veya olumlu doğrulamaları önbelleğe alırsınız. MCP sunucusu değişmez.
@@ -211,8 +211,8 @@ Hedef kitlesi iddiası, bu saldırıya karşı protokol katmanındaki tek savunm
 
 ### Hata modları
 
-- **Bayat JWKS.** Doğrulayıcı anahtar döndürmesinden sonra geçerli tokenları reddeder. Çözüm yukarıdaki cron+düşüş paternidir. JWKS'yi asla bir refresh görevi olmadan önbelleğe almayın.
-- **Eksik `aud` iddiası.** Bazı IdP'ler token isteğinde `resource` mevcut olmadıkça `aud`'u atlamayı varsayır. Doğrulayıcı eksik `aud`'lu tokenları reddetmeli, yokluğu joker olarak işlememelidir.
+- **Bayat JWKS.** Doğrulayıcı anahtar döndürmesinden sonra geçerli token'ları reddeder. Çözüm yukarıdaki cron+düşüş paternidir. JWKS'yi asla bir refresh görevi olmadan önbelleğe almayın.
+- **Eksik `aud` iddiası.** Bazı IdP'ler token isteğinde `resource` mevcut olmadıkça `aud`'u atlamayı varsayır. Doğrulayıcı eksik `aud`'lu token'ları reddetmeli, yokluğu joker olarak işlememelidir.
 - **Kapsam yükseltme yarışı.** Aynı kullanıcı için eşzamanlı iki adım-artırma akışı da başarılı olabilir ve farklı kapsamlara sahip iki erişim jetonu üretebilir. Doğrulayıcı istek üzerinde sunulan token'ı kullanmalıdır, "kullanıcının mevcut kapsamını" aramamalıdır — bu bir TOCTOU penceresi yaratır.
 - **Kayıt jetonu hırsızlığı.** Sızdırılmış bir `registration_access_token`, saldırganın redirect URI'lerini yeniden yazmasına olanak tanır. Bunları depolamada hash'leyin; istemciden her güncellemede düz metni sunmasını isteyin; şüpheli durumda döndürün.
 - **`iss` sabitlenmemiş.** Herhangi bir `iss`'i kabul eden bir doğrulayıcı, saldırganın kendi yetkilendirme sunucusunu kurmasına, hedef kitle için bir istemci kaydetmesine ve token vermesine olanak tanır. Korumalı-kaynak meta verisinin `authorization_servers` listesi izin listesidir; zorlayın.

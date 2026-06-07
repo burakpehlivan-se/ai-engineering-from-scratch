@@ -14,8 +14,8 @@ Gelişmiş RAG: sorguyu embedding yap + BM25 -> sıraları birleştir -> yeniden
 
 ```
 sorgu -> [vektör arama (ilk-50)] -+-> RRF füzyon -> yeniden sıralayıcı (ilk-5) -> prompt -> LLM
-                                   |
-sorgu -> [BM25 arama (ilk-50)]  --+
+ |
+sorgu -> [BM25 arama (ilk-50)] --+
 ```
 
 ## Temel RAG'den Ne Zaman Yükseltilir

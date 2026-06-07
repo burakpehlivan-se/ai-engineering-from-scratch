@@ -41,23 +41,23 @@ tags: [bilgisayarlı-gör, segmentasyon, hata-ayıklama, değerlendirme]
 
 ```
 [mask-inspector]
-  classes: C
+ classes: C
 
 [class distribution]
-  name       gt %    pred %   delta
-  ...
+ name gt % pred % delta
+ ...
 
 [metrics]
-  class       IoU     bF1    recall_tiny  recall_small  recall_medium  recall_large
-  ...
+ class IoU bF1 recall_tiny recall_small recall_medium recall_large
+ ...
 
 [confusion pairs]
-  class A confused with class B: <N> piksel (en yaygın)
-  class B confused with class A: <N> piksel
-  ...
+ class A confused with class B: <N> piksel (en yaygın)
+ class B confused with class A: <N> piksel
+ ...
 
 [verdict]
-  most impactful issue: <tek cümle>
+ most impactful issue: <tek cümle>
 ```
 
 ## Kurallar

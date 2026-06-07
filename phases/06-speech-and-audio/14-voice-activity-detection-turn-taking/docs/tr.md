@@ -59,9 +59,9 @@ Silero doğru varsayılanıdır. Cobra uyumluluk / doğruluk yükseltmesidir. Ya
 
 ```python
 def energy_vad(chunk, threshold_dbfs=-40.0):
-    rms = (sum(x * x for x in chunk) / len(chunk)) ** 0.5
-    dbfs = 20.0 * math.log10(max(rms, 1e-10))
-    return dbfs > threshold_dbfs
+ rms = (sum(x * x for x in chunk) / len(chunk)) ** 0.5
+ dbfs = 20.0 * math.log10(max(rms, 1e-10))
+ return dbfs > threshold_dbfs
 ```
 
 #### Açıklama
@@ -75,14 +75,14 @@ from silero_vad import load_silero_vad, get_speech_timestamps
 vad = load_silero_vad()
 audio = torch.tensor(waveform_16k, dtype=torch.float32)
 segments = get_speech_timestamps(
-    audio, vad, sampling_rate=16000,
-    threshold=0.5,
-    min_speech_duration_ms=250,
-    min_silence_duration_ms=500,
-    speech_pad_ms=300,
+ audio, vad, sampling_rate=16000,
+ threshold=0.5,
+ min_speech_duration_ms=250,
+ min_silence_duration_ms=500,
+ speech_pad_ms=300,
 )
 for s in segments:
-    print(f"{s['start']/16000:.2f}s - {s['end']/16000:.2f}s")
+ print(f"{s['start']/16000:.2f}s - {s['end']/16000:.2f}s")
 ```
 
 #### Açıklama
@@ -92,27 +92,27 @@ Silero VAD'ı yükler ve ses dalgasındaki konuşma segmentlerini algılar.
 
 ```python
 class TurnDetector:
-    def __init__(self, silence_hangover_ms=500, min_speech_ms=250):
-        self.state = "idle"
-        self.speech_ms = 0
-        self.silence_ms = 0
-        self.silence_hangover_ms = silence_hangover_ms
-        self.min_speech_ms = min_speech_ms
+ def __init__(self, silence_hangover_ms=500, min_speech_ms=250):
+ self.state = "idle"
+ self.speech_ms = 0
+ self.silence_ms = 0
+ self.silence_hangover_ms = silence_hangover_ms
+ self.min_speech_ms = min_speech_ms
 
-    def update(self, is_speech, chunk_ms=20):
-        if is_speech:
-            self.speech_ms += chunk_ms
-            self.silence_ms = 0
-            if self.state == "idle" and self.speech_ms >= self.min_speech_ms:
-                self.state = "speaking"
-                return "START"
-        else:
-            self.silence_ms += chunk_ms
-            if self.state == "speaking" and self.silence_ms >= self.silence_hangover_ms:
-                self.state = "idle"
-                self.speech_ms = 0
-                return "END"
-        return None
+ def update(self, is_speech, chunk_ms=20):
+ if is_speech:
+ self.speech_ms += chunk_ms
+ self.silence_ms = 0
+ if self.state == "idle" and self.speech_ms >= self.min_speech_ms:
+ self.state = "speaking"
+ return "START"
+ else:
+ self.silence_ms += chunk_ms
+ if self.state == "speaking" and self.silence_ms >= self.silence_hangover_ms:
+ self.state = "idle"
+ self.speech_ms = 0
+ return "END"
+ return None
 ```
 
 #### Açıklama
@@ -122,9 +122,9 @@ Konuşma ve sessizlik durumlarını izleyerek tur başlangıç ve bitiş sinyall
 
 ```python
 def flush_on_end(stt_client, audio_buffer):
-    stt_client.send_audio(audio_buffer)
-    stt_client.send_flush()
-    return stt_client.recv_transcript(timeout_ms=150)
+ stt_client.send_audio(audio_buffer)
+ stt_client.send_flush()
+ return stt_client.recv_transcript(timeout_ms=150)
 ```
 
 #### Açıklama

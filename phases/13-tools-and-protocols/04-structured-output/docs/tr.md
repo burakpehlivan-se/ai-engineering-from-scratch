@@ -56,9 +56,9 @@ Pydantic v2, `model_json_schema()` aracılığıyla dataclass benzeri modellerde
 
 ```python
 class Invoice(BaseModel):
-    customer: str
-    line_items: list[LineItem]
-    total_usd: Decimal
+ customer: str
+ line_items: list[LineItem]
+ total_usd: Decimal
 #### Açıklama
 Pydantic BaseModel sınıfı, Python'da JSON Schema üreten tipli veri modelleri tanımlar.
 ```

@@ -28,9 +28,9 @@ Yapay zeka hata ayıklaması üç düzeyde çalışır:
 
 ```mermaid
 graph TD
-    L3["3. Eğitim Dinamikleri<br/>Kayıp eğrileri, gradyan normları, aktivasyonlar"] --> L2
-    L2["2. Tensör İşlemleri<br/>Şekiller, veri türleri, cihazlar, NaN/Inf değerleri"] --> L1
-    L1["1. Standart Python<br/>Kesme noktaları, günlükleme, profilleme, bellek"]
+ L3["3. Eğitim Dinamikleri<br/>Kayıp eğrileri, gradyan normları, aktivasyonlar"] --> L2
+ L2["2. Tensör İşlemleri<br/>Şekiller, veri türleri, cihazlar, NaN/Inf değerleri"] --> L1
+ L1["1. Standart Python<br/>Kesme noktaları, günlükleme, profilleme, bellek"]
 ```
 
 Çoğu insan doğrudan 3. düzeye atlar (TensorBoard'a bakar). Ama yapay zeka hatalarının %80'i 1. ve 2. düzeydedir.
@@ -43,11 +43,11 @@ Yazdırma hata ayıklaması göz ardı edilir. Edilmemeli. Tensör kodu için, h
 
 ```python
 def debug_print(ad, tensor):
-    print(f"{ad}: shape={tensor.shape}, dtype={tensor.dtype}, "
-          f"device={tensor.device}, "
-          f"min={tensor.min().item():.4f}, max={tensor.max().item():.4f}, "
-          f"mean={tensor.mean().item():.4f}, "
-          f"has_nan={tensor.isnan().any().item()}")
+ print(f"{ad}: shape={tensor.shape}, dtype={tensor.dtype}, "
+ f"device={tensor.device}, "
+ f"min={tensor.min().item():.4f}, max={tensor.max().item():.4f}, "
+ f"mean={tensor.mean().item():.4f}, "
+ f"has_nan={tensor.isnan().any().item()}")
 ```
 
 #### Açıklama
@@ -58,11 +58,11 @@ Bu yardımcı fonksiyon, bir tensörün tüm önemli özelliklerini tek satırda
 ```python
 # Belirli bir koşulda dur
 if kayip.isnan():
-    breakpoint()  # Burada dur ve tensörleri incele
+ breakpoint() # Burada dur ve tensörleri incele
 
 # Eğitimi durdurmak için
 if step == 500:
-    breakpoint()  # 500. adımda dur
+ breakpoint() # 500. adımda dur
 ```
 
 #### Açıklama
@@ -73,7 +73,7 @@ if step == 500:
 **1. Şekil uyumsuzluğu:**
 ```python
 # HATA: matris çarpımı şekil uyuşmazlığı
-c = a @ b  # a: (32, 784), b: (256, 10) → HATA!
+c = a @ b # a: (32, 784), b: (256, 10) → HATA!
 
 # ÇÖZÜM: Shapes'i kontrol et
 print(f"a: {a.shape}, b: {b.shape}")
@@ -83,7 +83,7 @@ print(f"a: {a.shape}, b: {b.shape}")
 ```python
 # HATA: Öğrenme hızı çok yüksek
 kayip = kayip_fonksiyonu(tahmin, hedef)
-print(f"Kayıp: {kayip}")  # nan yazdırırsa
+print(f"Kayıp: {kayip}") # nan yazdırırsa
 
 # ÇÖZÜM: Öğrenme hızını düşür
 ```
@@ -92,7 +92,7 @@ print(f"Kayıp: {kayip}")  # nan yazdırırsa
 ```python
 # HATA: Tensörler farklı cihazlarda
 model = model.to("cuda")
-veri = veri  # CPU'da kaldı → HATA!
+veri = veri # CPU'da kaldı → HATA!
 
 # ÇÖZÜM: Tensörleri aynı cihaza taşı
 veri = veri.to("cuda")
@@ -117,9 +117,9 @@ from torch.utils.tensorboard import SummaryWriter
 yazar = SummaryWriter("runs/deney-1")
 
 for step in range(1000):
-    # ... eğitim kodu ...
-    yazar.add_scalar("Kayıp/kayip", kayip.item(), step)
-    yazar.add_scalar("Dogruluk/dogruluk", dogruluk, step)
+ # ... eğitim kodu ...
+ yazar.add_scalar("Kayıp/kayip", kayip.item(), step)
+ yazar.add_scalar("Dogruluk/dogruluk", dogruluk, step)
 
 yazar.close()
 ```

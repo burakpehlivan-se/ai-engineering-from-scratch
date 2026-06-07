@@ -91,31 +91,31 @@ Tek başına herhangi bir metrik bir yalandır. Üç doğrulayıcı metrik + nit
 
 ```python
 def fid(real_features, gen_features):
-    mu_r, cov_r = mean_and_cov(real_features)
-    mu_g, cov_g = mean_and_cov(gen_features)
-    mean_diff = sum((a - b) ** 2 for a, b in zip(mu_r, mu_g))
-    trace_term = trace(cov_r) + trace(cov_g) - 2 * sqrt_cov_product(cov_r, cov_g)
-    return mean_diff + trace_term
+ mu_r, cov_r = mean_and_cov(real_features)
+ mu_g, cov_g = mean_and_cov(gen_features)
+ mean_diff = sum((a - b) ** 2 for a, b in zip(mu_r, mu_g))
+ trace_term = trace(cov_r) + trace(cov_g) - 2 * sqrt_cov_product(cov_r, cov_g)
+ return mean_diff + trace_term
 ```
 
 ### Adım 2: CLIP tarzı kosinüs benzerliği
 
 ```python
 def clip_like(image_feat, text_feat):
-    dot = sum(a * b for a, b in zip(image_feat, text_feat))
-    norm = math.sqrt(dot_self(image_feat) * dot_self(text_feat))
-    return dot / max(norm, 1e-8)
+ dot = sum(a * b for a, b in zip(image_feat, text_feat))
+ norm = math.sqrt(dot_self(image_feat) * dot_self(text_feat))
+ return dot / max(norm, 1e-8)
 ```
 
 ### Adım 3: Elo toplaması
 
 ```python
 def elo_update(r_a, r_b, winner, k=32):
-    expected_a = 1 / (1 + 10 ** ((r_b - r_a) / 400))
-    actual_a = 1.0 if winner == "a" else 0.0
-    r_a_new = r_a + k * (actual_a - expected_a)
-    r_b_new = r_b - k * (actual_a - expected_a)
-    return r_a_new, r_b_new
+ expected_a = 1 / (1 + 10 ** ((r_b - r_a) / 400))
+ actual_a = 1.0 if winner == "a" else 0.0
+ r_a_new = r_a + k * (actual_a - expected_a)
+ r_b_new = r_b - k * (actual_a - expected_a)
+ return r_a_new, r_b_new
 ```
 
 ## Tuzaklar

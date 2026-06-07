@@ -25,16 +25,16 @@ Düz bir iş listesi (worklist) işleri gönderim sırasıyla çalıştırır. H
 
 ```mermaid
 flowchart LR
-    Queue[Hypothesis queue] --> Sched[Scheduler]
-    Sched --> Slot1[Slot 1]
-    Sched --> Slot2[Slot 2]
-    Sched --> Slot3[Slot 3]
-    Slot1 --> Bus[Result bus]
-    Slot2 --> Bus
-    Slot3 --> Bus
-    Bus --> Score[UCB scorer]
-    Score --> Queue
-    Bus --> Paper[Paper write fan-out]
+ Queue[Hypothesis queue] --> Sched[Scheduler]
+ Sched --> Slot1[Slot 1]
+ Sched --> Slot2[Slot 2]
+ Sched --> Slot3[Slot 3]
+ Slot1 --> Bus[Result bus]
+ Slot2 --> Bus
+ Slot3 --> Bus
+ Bus --> Score[UCB scorer]
+ Score --> Queue
+ Bus --> Paper[Paper write fan-out]
 ```
 
 #### Açıklama
@@ -44,12 +44,12 @@ Kuyruk hipotezleri tutar. Zamanlayıcı bir yuva boşaldığında en yüksek UCB
 
 ```mermaid
 flowchart TB
-    Hyp[Hypothesis] --> Id[id]
-    Hyp --> Branch[branch id]
-    Hyp --> Payload[payload dict]
-    Hyp --> Stats[runs and reward sum]
-    Stats --> Runs[runs int]
-    Stats --> Sum[reward sum float]
+ Hyp[Hypothesis] --> Id[id]
+ Hyp --> Branch[branch id]
+ Hyp --> Payload[payload dict]
+ Hyp --> Stats[runs and reward sum]
+ Stats --> Runs[runs int]
+ Stats --> Sum[reward sum float]
 ```
 
 #### Açıklama
@@ -70,21 +70,21 @@ Budama (pruning) kapısı seçiciden ayrıdır. Budama, bir dalın ortalama öd�
 
 ## asyncio ile paralel yuvalar
 
-Zamanlayıcı deneyleri `asyncio.create_task` ile sürer. Her görev, bir `Result` döndüren deney çalıştırıcısını (async def callable) çalıştırır. Ana döngü, uçuşan görevler kümesini `asyncio.wait(..., return_when=asyncio.FIRST_COMPLETED)` ile bekler ve her tamamlanmada puanlama güncellemesini tetikler.
+Zamanlayıcı deneyleri `asyncio.create_task` ile sürer. Her görev, bir `Result` döndüren deney çalıştırıcısını (async def callable) çalıştırır. Ana döngü, uçuşan görevler kümesini `asyncio.wait(..., return_when=asyncio. FIRST_COMPLETED)` ile bekler ve her tamamlanmada puanlama güncellemesini tetikler.
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant S as Scheduler
-    participant Q as Hypothesis queue
-    participant R as Experiment runner
-    participant T as In-flight tasks
-    S->>Q: pop highest UCB
-    S->>R: create_task(run(hypothesis))
-    R-->>T: Result (task completes)
-    S->>T: await wait(FIRST_COMPLETED)
-    S->>S: update UCB stats
-    S->>Q: re-queue follow-ups
+ autonumber
+ participant S as Scheduler
+ participant Q as Hypothesis queue
+ participant R as Experiment runner
+ participant T as In-flight tasks
+ S->>Q: pop highest UCB
+ S->>R: create_task(run(hypothesis))
+ R-->>T: Result (task completes)
+ S->>T: await wait(FIRST_COMPLETED)
+ S->>S: update UCB stats
+ S->>Q: re-queue follow-ups
 ```
 
 #### Açıklama
@@ -103,8 +103,8 @@ Yüksek verimli bir sonuç geldiğinde, zamanlayıcı aynı dal için bir veya d
 İki bütçe zamanlayıcıyı kontrolden çıkan döngülerden korur.
 
 ```text
-max_experiments    : total count of experiments run across all branches
-max_seconds        : wall-clock cap (asyncio time)
+max_experiments : total count of experiments run across all branches
+max_seconds : wall-clock cap (asyncio time)
 ```
 
 #### Açıklama

@@ -16,9 +16,9 @@ Bir çok-agent'lı görev tanımı verildiğinde, MARL algoritmasını seçin.
 3. **Eylem uzayı.** Ayrık (Atari-benzeri, SMAC) veya sürekli (parçacık dünyası, MuJoCo). Algoritma seçimini etkiler.
 4. **Ödül yapısı.** Yoğun (adım başına şekillendirilmiş) vs seyrek (yalnızca terminal). Yoğun, MAPPO'yu pratik yapar; seyrek, kredi atama yardımına ihtiyaç duyar (QMIX'in değer ayrıştırması).
 5. **Algoritma önerisi.** Yu ve ark. 2022'ye göre temel olarak MAPPO ile başlayın. Şuna geçin:
-   - İşbirlikçi + homojen + güçlü seyrek-ödül kredi ataması gerektiğinde → QMIX
-   - Karışık (işbirlikçi + rekabetçi) + sürekli eylemler → MADDPG
-   - Monotonluk kısıtı çok kısıtlayıcı olduğunda → Uzantılar (QTRAN, QPLEX, FACMAC)
+ - İşbirlikçi + homojen + güçlü seyrek-ödül kredi ataması gerektiğinde → QMIX
+ - Karışık (işbirlikçi + rekabetçi) + sürekli eylemler → MADDPG
+ - Monotonluk kısıtı çok kısıtlayıcı olduğunda → Uzantılar (QTRAN, QPLEX, FACMAC)
 6. **Eğitim altyapısı.** Sahip misiniz: yeterli etkileşim verisi, hesaplama bütçesi, ödül şekillendirme uzmanlığı, stabilite bütçesi (deney başına 5-10 tohum)? Değilse, LLM agent'ları için prompt-düzeyinde politikalar önerin.
 7. **Deployment sözleşmesi.** CTDE (Centralized Training, Decentralized Execution — Merkezi Eğitim, Merkezi-Olmayan Yürütme): deploy zamanında her agent yalnızca yerel gözlemi görür. Çalışma-zamanı kodunun buna uyduğu sözleşmeyi açıkça yazın.
 

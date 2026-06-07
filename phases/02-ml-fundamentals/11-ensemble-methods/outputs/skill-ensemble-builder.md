@@ -14,28 +14,28 @@ Ensemble'ler, herhangi bir tek modelden daha iyi tahminler üretmek için birden
 ## Karar Kontrol Listesi
 
 1. Mevcut modelinizdeki ana sorun nedir?
-   - Yüksek varyans (aşırı uyum): bagging (Rastgele Orman) kullan
-   - Yüksek yanlılık (yetersiz uyum): boosting (Gradyan Artırma, XGBoost) kullan
-   - İkisi de veya maksimum doğruluk istiyorsun: stacking kullan
+ - Yüksek varyans (aşırı uyum): bagging (Rastgele Orman) kullan
+ - Yüksek yanlılık (yetersiz uyum): boosting (Gradyan Artırma, XGBoost) kullan
+ - İkisi de veya maksimum doğruluk istiyorsun: stacking kullan
 
 2. Ne kadar verin var?
-   - 1.000 satırın altında: Rastgele Orman (sağlam, yanlış yapılandırmak zor)
-   - 1.000 ile 100.000 arası: XGBoost veya LightGBM (tablo için genel olarak en iyi)
-   - 100.000'in üzerinde: LightGBM (en hızlı gradyan artırma, büyük veriyi iyi işler)
+ - 1.000 satırın altında: Rastgele Orman (sağlam, yanlış yapılandırmak zor)
+ - 1.000 ile 100.000 arası: XGBoost veya LightGBM (tablo için genel olarak en iyi)
+ - 100.000'in üzerinde: LightGBM (en hızlı gradyan artırma, büyük veriyi iyi işler)
 
 3. Ne kadar ayar süresi yatırabilirsin?
-   - Minimum: Rastgele Orman varsayılanlarla (neredeyse her zaman çalışır)
-   - Orta: XGBoost learning_rate=0.1 ile, erken durdurmayla n_estimators'ı ayarla
-   - Maksimum: LightGBM veya XGBoost Bayesçi hiperparametre aramasıyla
+ - Minimum: Rastgele Orman varsayılanlarla (neredeyse her zaman çalışır)
+ - Orta: XGBoost learning_rate=0.1 ile, erken durdurmayla n_estimators'ı ayarla
+ - Maksimum: LightGBM veya XGBoost Bayesçi hiperparametre aramasıyla
 
 4. Yorumlanabilirliğe ihtiyacın var mı?
-   - Evet: tek karar ağacı veya küçük Rastgele Orman özellik önemiyle
-   - Kısmi: SHAP değerleriyle gradyan artırma
-   - Hayır: stacking veya derin ensemble'ler
+ - Evet: tek karar ağacı veya küçük Rastgele Orman özellik önemiyle
+ - Kısmi: SHAP değerleriyle gradyan artırma
+ - Hayır: stacking veya derin ensemble'ler
 
 5. Veri gürültülü ve birçok aykırı değer var mı?
-   - Evet: Rastgele Orman (bagging gürültüye dayanıklıdır)
-   - Hayır: gradyan artırma (temiz veride doğruluğu daha ileri taşıyabilir)
+ - Evet: Rastgele Orman (bagging gürültüye dayanıklıdır)
+ - Hayır: gradyan artırma (temiz veride doğruluğu daha ileri taşıyabilir)
 
 ## Her yöntemin ne zaman kullanılacağı
 

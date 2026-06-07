@@ -103,10 +103,10 @@ Kodunuzdaki kanonik araç beyanı şöyle görünür (siz şekli seçersiniz):
 
 ```python
 Tool(
-    name="get_weather",
-    description="Kullanım zamanı ...",
-    input_schema={"type": "object", "properties": {...}, "required": [...]},
-    strict=True,
+ name="get_weather",
+ description="Kullanım zamanı ...",
+ input_schema={"type": "object", "properties": {...}, "required": [...]},
+ strict=True,
 )
 #### Açıklama
 Tool sınıfı, bir aracın kanonik tanımını temsil eder. name, description, input_schema ve strict alanlarını içerir.

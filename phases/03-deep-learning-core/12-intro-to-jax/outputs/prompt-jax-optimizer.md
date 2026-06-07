@@ -47,9 +47,9 @@ Zinciri şu bileşenlerden oluştur:
 
 ```python
 optimizer = optax.chain(
-    optax.clip_by_global_norm(max_norm),   # gradyan kırpma
-    optax.add_decayed_weights(decay),       # L2 düzenlileştirme (adamw kullanmıyorsan)
-    base_optimizer,                          # adam, sgd, vb.
+ optax.clip_by_global_norm(max_norm), # gradyan kırpma
+ optax.add_decayed_weights(decay), # L2 düzenlileştirme (adamw kullanmıyorsan)
+ base_optimizer, # adam, sgd, vb.
 )
 ```
 
@@ -72,7 +72,7 @@ optimizer = optax.chain(
 
 ```python
 import orbax.checkpoint as ocp
-checkpointer = ocp.PyTreeCheckpointer()
+checkpointer = ocp. PyTreeCheckpointer()
 checkpointer.save(path, {'params': params, 'opt_state': opt_state})
 ```
 
@@ -94,16 +94,16 @@ total_steps = 50000
 warmup_steps = 2000
 
 schedule = optax.warmup_cosine_decay_schedule(
-    init_value=0.0,
-    peak_value=3e-4,
-    warmup_steps=warmup_steps,
-    decay_steps=total_steps,
-    end_value=1e-6,
+ init_value=0.0,
+ peak_value=3e-4,
+ warmup_steps=warmup_steps,
+ decay_steps=total_steps,
+ end_value=1e-6,
 )
 
 optimizer = optax.chain(
-    optax.clip_by_global_norm(1.0),
-    optax.adamw(learning_rate=schedule, weight_decay=0.1),
+ optax.clip_by_global_norm(1.0),
+ optax.adamw(learning_rate=schedule, weight_decay=0.1),
 )
 
 opt_state = optimizer.init(params)

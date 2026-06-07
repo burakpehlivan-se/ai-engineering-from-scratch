@@ -40,15 +40,15 @@ Yaklaşık çıkarım maliyeti `steps * unet_forward_ms`'dir. Bu, gecikme bütç
 
 ```
 [pick]
-  sampler:    <isim>
-  steps:      <int>
-  eta:        <varsa float>
+ sampler: <isim>
+ steps: <int>
+ eta: <varsa float>
 
 [reason]
-  girdileri alıntılayan tek cümle
+ girdileri alıntılayan tek cümle
 
 [warnings]
-  - <üretimde sorun yaratabilecek her şey>
+ - <üretimde sorun yaratabilecek her şey>
 ```
 
 ## Kurallar

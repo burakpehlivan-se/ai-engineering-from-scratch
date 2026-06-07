@@ -16,7 +16,7 @@ Goodfellow'un fikri: gerçek görüntüleri sahtelerden ayırt etmek için bir s
 Bu adversarial (düşmancıl) eğitimdir. Matematik bir minimax oyunudur:
 
 ```
-min_G max_D  E_real[log D(x)] + E_fake[log(1 - D(G(z)))]
+min_G max_D E_real[log D(x)] + E_fake[log(1 - D(G(z)))]
 ```
 
 #### Açıklama
@@ -66,8 +66,8 @@ Vanilla Goodfellow kaybı `log(1 - D(G(z)))`, D G'nin sahtesini yüksek güvenle
 
 ```python
 def g_loss(d_fake):
-    # maximize log D(G(z))  <=>  minimize -log D(G(z))
-    return -sum(math.log(max(p, 1e-8)) for p in d_fake) / len(d_fake)
+ # maximize log D(G(z)) <=> minimize -log D(G(z))
+ return -sum(math.log(max(p, 1e-8)) for p in d_fake) / len(d_fake)
 ```
 
 #### Açıklama
@@ -77,14 +77,14 @@ Generator kaybı, discriminator'un sahte olarak sınıflandırma olasılığın�
 
 ```python
 for step in range(steps):
-    # train D
-    real_batch = sample_real(batch_size)
-    fake_batch = [G(z) for z in sample_noise(batch_size)]
-    update_D(real_batch, fake_batch)
+ # train D
+ real_batch = sample_real(batch_size)
+ fake_batch = [G(z) for z in sample_noise(batch_size)]
+ update_D(real_batch, fake_batch)
 
-    # train G
-    fake_batch = [G(z) for z in sample_noise(batch_size)]  # fresh fakes
-    update_G(fake_batch)
+ # train G
+ fake_batch = [G(z) for z in sample_noise(batch_size)] # fresh fakes
+ update_G(fake_batch)
 ```
 
 #### Açıklama
@@ -94,11 +94,11 @@ G için taze sahteler, yoksa gradyanlar eski olur.
 
 ```python
 if step % 200 == 0:
-    samples = [G(z) for z in sample_noise(500)]
-    mode_a = sum(1 for s in samples if s < 0)
-    mode_b = 500 - mode_a
-    if min(mode_a, mode_b) < 50:
-        print("  [!] mode collapse: one mode is starved")
+ samples = [G(z) for z in sample_noise(500)]
+ mode_a = sum(1 for s in samples if s < 0)
+ mode_b = 500 - mode_a
+ if min(mode_a, mode_b) < 50:
+ print(" [!] mode collapse: one mode is starved")
 ```
 
 #### Açıklama

@@ -38,14 +38,14 @@ Verimli etiketli noktalar ve yeni bir sorgu noktası verildiğinde:
 
 ```mermaid
 graph TD
-    Q["Sorgu noktası ?"] --> D["Tüm eğitim noktalarına<br/>mesafeleri hesapla"]
-    D --> S["Mesafeye göre sırala"]
-    S --> K["En yakın K'sını seç"]
-    K --> C{"Sınıflandırma<br/>mı Regresyon mu?"}
-    C -->|Sınıflandırma| V["Çoğunluk oylaması"]
-    C -->|Regresyon| A["Ortalama değerler"]
-    V --> P["Tahmin"]
-    A --> P
+ Q["Sorgu noktası ?"] --> D["Tüm eğitim noktalarına<br/>mesafeleri hesapla"]
+ D --> S["Mesafeye göre sırala"]
+ S --> K["En yakın K'sını seç"]
+ K --> C{"Sınıflandırma<br/>mı Regresyon mu?"}
+ C -->|Sınıflandırma| V["Çoğunluk oylaması"]
+ C -->|Regresyon| A["Ortalama değerler"]
+ V --> P["Tahmin"]
+ A --> P
 ```
 
 Bu tüm algoritmadır. Uyum yok. Gradyan inişi yok. Epok yok.

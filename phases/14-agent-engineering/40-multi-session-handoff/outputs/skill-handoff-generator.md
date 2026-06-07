@@ -35,8 +35,8 @@ Refusal kuralları:
 ```
 <repo>/
 ├── outputs/handoff/<session_id>/
-│   ├── handoff.md
-│   └── handoff.json
+│ ├── handoff.md
+│ └── handoff.json
 ├── tools/generate_handoff.py
 ├── handoff.schema.json
 └── docs/handoff.md

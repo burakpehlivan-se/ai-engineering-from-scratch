@@ -54,8 +54,8 @@ Bir görev, üç üretim kullanımı. Bu yüzden her RAG değerlendirme çerçev
 from transformers import pipeline
 
 nli = pipeline("text-classification",
-               model="facebook/bart-large-mnli",
-               top_k=None)  # return all labels; replaces deprecated return_all_scores=True
+ model="facebook/bart-large-mnli",
+ top_k=None) # return all labels; replaces deprecated return_all_scores=True
 
 premise = "The cat is sleeping on the couch."
 hypothesis = "There is a cat in the room."
@@ -63,8 +63,8 @@ hypothesis = "There is a cat in the room."
 result = nli({"text": premise, "text_pair": hypothesis})[0]
 print(result)
 # [{'label': 'entailment', 'score': 0.97},
-#  {'label': 'neutral', 'score': 0.02},
-#  {'label': 'contradiction', 'score': 0.01}]
+# {'label': 'neutral', 'score': 0.02},
+# {'label': 'contradiction', 'score': 0.01}]
 ```
 
 #### Açıklama
@@ -83,7 +83,7 @@ labels = ["finance", "sports", "politics", "technology"]
 result = zs(text, candidate_labels=labels)
 print(result)
 # {'labels': ['finance', 'politics', 'technology', 'sports'],
-#  'scores': [0.92, 0.05, 0.02, 0.01]}
+# 'scores': [0.92, 0.05, 0.02, 0.01]}
 ```
 
 #### Açıklama
@@ -95,9 +95,9 @@ Varsayılan şablon "This example is about {label}." şeklindedir. `hypothesis_t
 
 ```python
 def is_faithful(answer, context, threshold=0.5):
-    result = nli({"text": context, "text_pair": answer})[0]
-    entail = next(s for s in result if s["label"] == "entailment")
-    return entail["score"] > threshold
+ result = nli({"text": context, "text_pair": answer})[0]
+ entail = next(s for s in result if s["label"] == "entailment")
+ return entail["score"] > threshold
 ```
 
 #### Açıklama

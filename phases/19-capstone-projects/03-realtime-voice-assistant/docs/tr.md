@@ -16,7 +16,7 @@ Ses, 2025-2026'nın en hızlı hareket eden yapay zekâ UX kategorisi oldu. Tekn
 
 ## Concept
 
-Boru hattının beş akış aşaması var: **ses girişi** (tarayıcı veya PSTN'den WebRTC), **ASR** (Deepgram Nova-3 veya faster-whisper'dan akış kısmi transkriptler), **dönüş algılama** (VAD artı kısmi transkriptleri tamamlama ipuçları için okuyan küçük bir dönüş-algılayıcı modeli), **LLM** (dönüş tamamlandı diye yargılanır yargılanmaz tokenları akıtmak), **TTS** (ilk LLM tokenından ~200ms içinde akış sesi dışarı).
+Boru hattının beş akış aşaması var: **ses girişi** (tarayıcı veya PSTN'den WebRTC), **ASR** (Deepgram Nova-3 veya faster-whisper'dan akış kısmi transkriptler), **dönüş algılama** (VAD artı kısmi transkriptleri tamamlama ipuçları için okuyan küçük bir dönüş-algılayıcı modeli), **LLM** (dönüş tamamlandı diye yargılanır yargılanmaz token'ları akıtmak), **TTS** (ilk LLM tokenından ~200ms içinde akış sesi dışarı).
 
 Üç yatay kesim konusu. **Araya girme (barge-in)**: ajan konuşurken kullanıcı konuşmaya başladığında, TTS iptal olur ve ASR hemen devralır. **Tool kullanımı**: konuşma ortası fonksiyon çağrıları (hava durumu, takvim) sesi duraksatmadan yan bir kanalda çalışmalıdır; ajan, gecikme 300ms'yi aşarsa bir onay token'ı ("bir saniye...") öceden doldurur. **Geri basınç (backpressure)**: paket kaybı altında, kısmi transkriptler tutulur, VAD konuşma-kapısı eşiğini yükseltir ve ajan onaylanmamış bir mesajın üzerine konuşmaktan kaçınır.
 
@@ -26,36 +26,36 @@ Boru hattının beş akış aşaması var: **ses girişi** (tarayıcı veya PSTN
 
 ```
 browser / Twilio PSTN
-        |
-        v
-   WebRTC / SIP edge
-        |
-        v
-  LiveKit Agents 1.0  (or Pipecat 0.0.70)
-        |
-   +----+--------------+--------------+-----------------+
-   |                   |              |                 |
-   v                   v              v                 v
-  ASR              VAD v5         turn-detector     side-channel
-(Deepgram         (Silero)          (LiveKit)        tools
- Nova-3 /         speech-gate    completion score    (weather,
- Whisper-v3)      per 20ms        on partials        calendar)
-   |                   |              |
-   +--------+----------+--------------+
-            v
-        LLM (streaming)
-     GPT-4o-realtime / Gemini 2.5 Flash /
-     cascaded Claude Haiku 4.5
-            |
-            v
-        TTS streaming
-     Cartesia Sonic-2 / ElevenLabs Flash v3
-            |
-            v
-     audio back to caller
-            |
-            v
-   OpenTelemetry voice traces -> Langfuse
+ |
+ v
+ WebRTC / SIP edge
+ |
+ v
+ LiveKit Agents 1.0 (or Pipecat 0.0.70)
+ |
+ +----+--------------+--------------+-----------------+
+ | | | |
+ v v v v
+ ASR VAD v5 turn-detector side-channel
+(Deepgram (Silero) (LiveKit) tools
+ Nova-3 / speech-gate completion score (weather,
+ Whisper-v3) per 20ms on partials calendar)
+ | | |
+ +--------+----------+--------------+
+ v
+ LLM (streaming)
+ GPT-4o-realtime / Gemini 2.5 Flash /
+ cascaded Claude Haiku 4.5
+ |
+ v
+ TTS streaming
+ Cartesia Sonic-2 / ElevenLabs Flash v3
+ |
+ v
+ audio back to caller
+ |
+ v
+ OpenTelemetry voice traces -> Langfuse
 ```
 
 #### Açıklama
@@ -97,12 +97,12 @@ Bu akış şeması bir sesli ajanın beş paralel aşamasını gösterir. Taray�
 
 ```
 caller: "what is the weather in tokyo tomorrow"
-[asr  ] partial @280ms: "what is the"
-[asr  ] partial @540ms: "what is the weather"
+[asr ] partial @280ms: "what is the"
+[asr ] partial @540ms: "what is the weather"
 [turn ] completion score 0.82 at @820ms; commit
-[llm  ] first token @960ms
+[llm ] first token @960ms
 [tool ] weather.tokyo tomorrow -> 68/52 partly cloudy @1140ms
-[tts  ] first audio-out @1040ms: "Tokyo tomorrow will be partly cloudy..."
+[tts ] first audio-out @1040ms: "Tokyo tomorrow will be partly cloudy..."
 turn latency: 1040ms user-stop -> audio-out
 ```
 

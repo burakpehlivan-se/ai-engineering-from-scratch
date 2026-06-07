@@ -24,32 +24,32 @@ Bu karar ağacını kullanarak tanılayın:
 
 **Doğru parça ilk-50 getirme sonuçlarında mı?**
 - Hayır: embedding uyumsuzluğu. Sorgu ve belge farklı kelime hazinesi kullanıyor. Çözümler:
-  - Hibrit arama ekleyin (BM25 tam terim eşleşmelerini yakalar)
-  - Sorgu-belge boşluğunu kapatmak için HyDE'yi deneyin
-  - Aramadan önce bir LLM kullanarak sorguyu yeniden ifade edin
+ - Hibrit arama ekleyin (BM25 tam terim eşleşmelerini yakalar)
+ - Sorgu-belge boşluğunu kapatmak için HyDE'yi deneyin
+ - Aramadan önce bir LLM kullanarak sorguyu yeniden ifade edin
 - Evet: sonraki kontrole geçin.
 
 **Doğru parça ilk-k (son sonuçlar) içinde mi?**
 - Hayır, ama ilk-50'de: parça getiriliyor ama çok düşük sıralanıyor. Çözüm:
-  - Yeniden puanlama için bir yeniden sıralayıcı (cross-encoder) ekleyin
-  - Daha fazla aday dahil etmek için k'yı artırın
-  - RRF füzyon ağırlıklarını ayarlayın
+ - Yeniden puanlama için bir yeniden sıralayıcı (cross-encoder) ekleyin
+ - Daha fazla aday dahil etmek için k'yı artırın
+ - RRF füzyon ağırlıklarını ayarlayın
 - Evet: sonraki kontrole geçin.
 
 **LLM getirilen bağlamı yok sayıyor mu?**
 - Evet: prompt şablonu zayıf. Çözümler:
-  - Açık talimatlar ekleyin: "YALNIZCA sağlanan bağlama dayanarak cevap verin"
-  - Sıcaklığı 0'a ayarlayın
-  - Getirilen bağlamı sorudan önce yerleştirin (öncüllük etkisi)
-  - "Bağlam cevabı içermiyorsa, öyle deyin" ekleyin
+ - Açık talimatlar ekleyin: "YALNIZCA sağlanan bağlama dayanarak cevap verin"
+ - Sıcaklığı 0'a ayarlayın
+ - Getirilen bağlamı sorudan önce yerleştirin (öncüllük etkisi)
+ - "Bağlam cevabı içermiyorsa, öyle deyin" ekleyin
 - Hayır: sonraki kontrole geçin.
 
 **LLM, bağlamda olmayan gerçekleri halüsinasyonluyor mu?**
 - Evet: sadakat başarısızlığı. Çözümler:
-  - Sıcaklığı düşürün
-  - Bağlamı kısaltın (çok fazla alakasız bağlam modeli karıştırır)
-  - Bir sadakat kontrolü ekleyin: iddiaları doğrulamak için ikinci bir LLM çağrısı sorun
-  - Zincir-düşünce kullanın: "Önce, ilgili pasajı belirleyin. Sonra, cevap verin."
+ - Sıcaklığı düşürün
+ - Bağlamı kısaltın (çok fazla alakasız bağlam modeli karıştırır)
+ - Bir sadakat kontrolü ekleyin: iddiaları doğrulamak için ikinci bir LLM çağrısı sorun
+ - Zincir-düşünce kullanın: "Önce, ilgili pasajı belirleyin. Sonra, cevap verin."
 
 **Yaygın başarısızlık kalıpları ve çözümleri:**
 

@@ -73,8 +73,8 @@ JAX parametreleri pytrees'dir (iç içe dizi sözlükleri):
 
 ```python
 params = {
-    'layer1': {'w': jnp.zeros((784, 256)), 'b': jnp.zeros(256)},
-    'layer2': {'w': jnp.zeros((256, 10)),  'b': jnp.zeros(10)},
+ 'layer1': {'w': jnp.zeros((784, 256)), 'b': jnp.zeros(256)},
+ 'layer2': {'w': jnp.zeros((256, 10)), 'b': jnp.zeros(10)},
 }
 ```
 
@@ -93,7 +93,7 @@ n_params = sum(p.size for p in jax.tree.leaves(params))
 JAX açık rastgele anahtarlar gerektirir:
 
 ```python
-key = jax.random.PRNGKey(0)
+key = jax.random. PRNGKey(0)
 key, subkey = jax.random.split(key)
 noise = jax.random.normal(subkey, shape)
 ```

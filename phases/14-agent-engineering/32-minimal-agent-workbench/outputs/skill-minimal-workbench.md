@@ -37,7 +37,7 @@ Refusal kuralları:
 ├── agent_state.json
 ├── task_board.json
 └── docs/
-    └── agent-rules.md
+ └── agent-rules.md
 ```
 
 Şuraya işaret eden bir "sırada ne okumalı" ile bitir:

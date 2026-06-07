@@ -29,9 +29,9 @@ RLHF (Christiano ve diğerleri 2017; Ouyang ve diğerleri 2022) tercihleri bir r
 - `y_+'ya` daha yüksek skorlar atamak için bir reward model `R_φ(x, y)` eğit.
 - Kayıp: **Bradley-Terry çiftli lojistik** kaybı:
 
-  `L(φ) = -E[ log σ(R_φ(x, y_+) - R_φ(x, y_-)) ]`
+ `L(φ) = -E[ log σ(R_φ(x, y_+) - R_φ(x, y_-)) ]`
 
-  σ sigmoiddir. Ödül farkı tercihin log-olasılık oranını ima eder. BT, 1952'den beri standarttır (Bradley-Terry) ve modern RLHF'de baskın seçimdir.
+ σ sigmoiddir. Ödül farkı tercihin log-olasılık oranını ima eder. BT, 1952'den beri standarttır (Bradley-Terry) ve modern RLHF'de baskın seçimdir.
 
 - `R_φ` genellikle SFT modelinin üzerine bir skaler başlık eklenerek başlatılır. Aynı transformer gövdesi; tek bir doğrusal katman ödüldü output eder.
 
@@ -40,9 +40,9 @@ RLHF (Christiano ve diğerleri 2017; Ouyang ve diğerleri 2022) tercihleri bir r
 - Eğitilebilir politikayı `π_SFT`'den başlat: `π_θ`. Dondurulmuş bir *referans* `π_ref = π_SFT` tut.
 - Yanıt `y`'nin sonundaki ödül:
 
-  `r_total(x, y) = R_φ(x, y) - β · KL(π_θ(·|x) || π_ref(·|x))`
+ `r_total(x, y) = R_φ(x, y) - β · KL(π_θ(·|x) || π_ref(·|x))`
 
-  KL cezası, `π_θ`'nın `π_SFT`'den keyfi olarak sapmasını önler — bu bir *düzenleyicidir*, sıkı bir güven bölgesi değil. `β` tipik olarak `0.01`-`0.05`.
+ KL cezası, `π_θ`'nın `π_SFT`'den keyfi olarak sapmasını önler — bu bir *düzenleyicidir*, sıkı bir güven bölgesi değil. `β` tipik olarak `0.01`-`0.05`.
 - Bu ödül ile PPO (Ders 08) çalıştır. Advantage'ler token seviyesindeki yörünge üzerinde hesaplanır ama RM sadece tam yanıtı puanlar.
 
 **Neden KL?** Olmadığında PPO, reward-hacking stratejilerini mutlulukla bulur — RM sadece dağılım içindeki tamamlamalar üzerinde eğitilmişti. Dağılım dışı bir yanıt, herhangi bir insan yazımından daha yüksek puan alabilir. KL, `π_θ`'yı RM'nin eğitildiği manifolda yakın tutar. RLHF'deki en önemli ayar düğmesidir.
@@ -66,10 +66,10 @@ GOOD_WORDS = {"clear", "specific", "kind", "thorough"}
 BAD_WORDS = {"vague", "rude", "wrong", "short"}
 
 def make_pair(rng):
-    x = rng.choice(PROMPTS)
-    y_good = rng.choice(list(GOOD_WORDS)) + " " + rng.choice(list(GOOD_WORDS))
-    y_bad = rng.choice(list(BAD_WORDS)) + " " + rng.choice(list(BAD_WORDS))
-    return (x, y_good, y_bad)
+ x = rng.choice(PROMPTS)
+ y_good = rng.choice(list(GOOD_WORDS)) + " " + rng.choice(list(GOOD_WORDS))
+ y_bad = rng.choice(list(BAD_WORDS)) + " " + rng.choice(list(BAD_WORDS))
+ return (x, y_good, y_bad)
 ```
 
 #### Açıklama
@@ -82,13 +82,13 @@ Doğrusal skor: `R(x, y) = w · bag(y)`. BT çiftli log-kayıbını minimize etm
 
 ```python
 def rm_train_step(w, x, y_pos, y_neg, lr):
-    r_pos = dot(w, bag(y_pos))
-    r_neg = dot(w, bag(y_neg))
-    p = sigmoid(r_pos - r_neg)
-    for tok, cnt in bag(y_pos).items():
-        w[tok] += lr * (1 - p) * cnt
-    for tok, cnt in bag(y_neg).items():
-        w[tok] -= lr * (1 - p) * cnt
+ r_pos = dot(w, bag(y_pos))
+ r_neg = dot(w, bag(y_neg))
+ p = sigmoid(r_pos - r_neg)
+ for tok, cnt in bag(y_pos).items():
+ w[tok] += lr * (1 - p) * cnt
+ for tok, cnt in bag(y_neg).items():
+ w[tok] -= lr * (1 - p) * cnt
 ```
 
 #### Açıklama
@@ -101,14 +101,14 @@ Oyuncak politikamız bir sözlükten tek bir token üretir. Token'ı RM altında
 
 ```python
 def rlhf_step(theta, ref, w, prompt, rng, eps=0.2, beta=0.1, lr=0.05):
-    logits_theta = policy_logits(theta, prompt)
-    probs = softmax(logits_theta)
-    token = sample(probs, rng)
-    logits_ref = policy_logits(ref, prompt)
-    probs_ref = softmax(logits_ref)
-    reward = dot(w, bag([token])) - beta * kl(probs, probs_ref)
-    # ppo-style update on theta, treating reward as the return
-    ...
+ logits_theta = policy_logits(theta, prompt)
+ probs = softmax(logits_theta)
+ token = sample(probs, rng)
+ logits_ref = policy_logits(ref, prompt)
+ probs_ref = softmax(logits_ref)
+ reward = dot(w, bag([token])) - beta * kl(probs, probs_ref)
+ # ppo-style update on theta, treating reward as the return
+ ...
 ```
 
 #### Açıklama
@@ -130,15 +130,15 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 tok = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
 rm = AutoModelForSequenceClassification.from_pretrained(
-    "meta-llama/Llama-3.1-8B-Instruct", num_labels=1
+ "meta-llama/Llama-3.1-8B-Instruct", num_labels=1
 )
 
 # veri seti satırları: {"prompt", "chosen", "rejected"} — Bradley-Terry formatı
 trainer = RewardTrainer(
-    model=rm,
-    tokenizer=tok,
-    train_dataset=preference_data,
-    args=RewardConfig(output_dir="./rm", num_train_epochs=1, learning_rate=1e-5),
+ model=rm,
+ tokenizer=tok,
+ train_dataset=preference_data,
+ args=RewardConfig(output_dir="./rm", num_train_epochs=1, learning_rate=1e-5),
 )
 trainer.train()
 ```
@@ -148,19 +148,19 @@ trainer.train()
 from trl import PPOTrainer, PPOConfig, AutoModelForCausalLMWithValueHead
 
 policy = AutoModelForCausalLMWithValueHead.from_pretrained("./sft-checkpoint")
-ref    = AutoModelForCausalLMWithValueHead.from_pretrained("./sft-checkpoint")  # dondurulmuş
+ref = AutoModelForCausalLMWithValueHead.from_pretrained("./sft-checkpoint") # dondurulmuş
 
 ppo = PPOTrainer(
-    config=PPOConfig(learning_rate=1.41e-5, batch_size=64, init_kl_coef=0.05,
-                     target_kl=6.0, adap_kl_ctrl=True),
-    model=policy, ref_model=ref, tokenizer=tok,
+ config=PPOConfig(learning_rate=1.41e-5, batch_size=64, init_kl_coef=0.05,
+ target_kl=6.0, adap_kl_ctrl=True),
+ model=policy, ref_model=ref, tokenizer=tok,
 )
 
 for batch in dataloader:
-    responses = ppo.generate(batch["query_ids"], max_new_tokens=128)
-    rewards   = rm(torch.cat([batch["query_ids"], responses], dim=-1)).logits[:, 0]
-    stats     = ppo.step(batch["query_ids"], responses, rewards)
-    # stats içerir: mean_kl, clip_frac, value_loss — üç PPO tanı aracı
+ responses = ppo.generate(batch["query_ids"], max_new_tokens=128)
+ rewards = rm(torch.cat([batch["query_ids"], responses], dim=-1)).logits[:, 0]
+ stats = ppo.step(batch["query_ids"], responses, rewards)
+ # stats içerir: mean_kl, clip_frac, value_loss — üç PPO tanı aracı
 ```
 
 #### Açıklama

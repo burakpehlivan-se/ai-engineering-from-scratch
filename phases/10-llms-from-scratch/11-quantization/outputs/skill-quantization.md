@@ -134,7 +134,7 @@ vllm serve model-awq --quantization awq --dtype half --max-model-len 8192
 
 ### Tarif 2: llama.cpp ile GGUF (MacBook)
 ```
-./llama-server -m model.Q4_K_M.gguf -c 4096 -ngl 99
+./llama-server -m model. Q4_K_M.gguf -c 4096 -ngl 99
 ```
 
 ### Tarif 3: TensorRT-LLM ile FP8 (H100)

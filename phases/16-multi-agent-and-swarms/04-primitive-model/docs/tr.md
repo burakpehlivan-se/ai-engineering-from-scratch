@@ -32,7 +32,7 @@ Tüm tasarım uzayı budur. Her çatı her eksen için varsayılanlar seçer; ge
 |-----------|-------|---------|--------------|--------------|
 | OpenAI Swarm / Agents SDK | `Agent(instructions, tools)` | Agent döndüren araç | çağıranın problemi | LLM'in bir sonraki handoff çağrısı |
 | AutoGen v0.4 / AG2 | `ConversableAgent` | GroupChat üzerinde konuşmacı seçici | mesaj havuzu | seçici fonksiyon (LLM veya round-robin) |
-| CrewAI | `Agent(role, goal, backstory)` | `Process.Sequential / Hierarchical` | zincirlenmiş görev çıktıları | yönetici LLM veya statik sıra |
+| CrewAI | `Agent(role, goal, backstory)` | `Process. Sequential / Hierarchical` | zincirlenmiş görev çıktıları | yönetici LLM veya statik sıra |
 | LangGraph | düğüm fonksiyonu | graf kenarı + koşul | `StateGraph` reducer | graf, deterministik |
 | Microsoft Agent Framework | agent + orkestrasyon kalıpları | kalıba özgü | iş parçacığı / bağlam | kalıba özgü |
 | Google ADK | agent + A2A card | A2A görevi | A2A yapıtları | ev sahibi karar verir |

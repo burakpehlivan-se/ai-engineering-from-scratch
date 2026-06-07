@@ -28,17 +28,17 @@ Bu ders, kasıtlı olarak durağan görüntü derslerinden daha kısadır. Temel
 
 ```mermaid
 flowchart LR
-    V["Video klibi<br/>(T kare)"] --> A1["2B + pool<br/>kare başına 2B CNN çalıştır,<br/>zaman üzerinden ortalama"]
-    V --> A2["3B evrişim<br/>T x H x W üzerinde<br/>evrişim yap"]
-    V --> A3["Uzamsal-zamansal<br/>transformer<br/>(t, h, w) token'ları<br/>üzerinde dikkat"]
+ V["Video klibi<br/>(T kare)"] --> A1["2B + pool<br/>kare başına 2B CNN çalıştır,<br/>zaman üzerinden ortalama"]
+ V --> A2["3B evrişim<br/>T x H x W üzerinde<br/>evrişim yap"]
+ V --> A3["Uzamsal-zamansal<br/>transformer<br/>(t, h, w) token'ları<br/>üzerinde dikkat"]
 
-    A1 --> C["Logits"]
-    A2 --> C
-    A3 --> C
+ A1 --> C["Logits"]
+ A2 --> C
+ A3 --> C
 
-    style A1 fill:#dbeafe,stroke:#2563eb
-    style A2 fill:#fef3c7,stroke:#d97706
-    style A3 fill:#dcfce7,stroke:#16a34a
+ style A1 fill:#dbeafe,stroke:#2563eb
+ style A2 fill:#fef3c7,stroke:#d97706
+ style A3 fill:#dcfce7,stroke:#16a34a
 ```
 
 ### 2B + pool
@@ -127,18 +127,18 @@ Kare listesi (veya video tensörü) üzerinde çalışan düzgün ve yoğun örn
 import numpy as np
 
 def sample_uniform(num_frames_total, T):
-    if num_frames_total <= T:
-        return list(range(num_frames_total)) + [num_frames_total - 1] * (T - num_frames_total)
-    step = num_frames_total / T
-    return [int(i * step) for i in range(T)]
+ if num_frames_total <= T:
+ return list(range(num_frames_total)) + [num_frames_total - 1] * (T - num_frames_total)
+ step = num_frames_total / T
+ return [int(i * step) for i in range(T)]
 
 
 def sample_dense(num_frames_total, T, rng=None):
-    rng = rng or np.random.default_rng()
-    if num_frames_total <= T:
-        return list(range(num_frames_total)) + [num_frames_total - 1] * (T - num_frames_total)
-    start = int(rng.integers(0, num_frames_total - T + 1))
-    return list(range(start, start + T))
+ rng = rng or np.random.default_rng()
+ if num_frames_total <= T:
+ return list(range(num_frames_total)) + [num_frames_total - 1] * (T - num_frames_total)
+ start = int(rng.integers(0, num_frames_total - T + 1))
+ return list(range(start, start + T))
 ```
 
 #### Açıklama
@@ -153,21 +153,21 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet18, ResNet18_Weights
 
-class FramePool(nn.Module):
-    def __init__(self, num_classes=400, pretrained=True):
-        super().__init__()
-        weights = ResNet18_Weights.IMAGENET1K_V1 if pretrained else None
-        backbone = resnet18(weights=weights)
-        self.features = nn.Sequential(*(list(backbone.children())[:-1]))  # global avg pool korunur
-        self.head = nn.Linear(512, num_classes)
+class FramePool(nn. Module):
+ def __init__(self, num_classes=400, pretrained=True):
+ super().__init__()
+ weights = ResNet18_Weights. IMAGENET1K_V1 if pretrained else None
+ backbone = resnet18(weights=weights)
+ self.features = nn. Sequential(*(list(backbone.children())[:-1])) # global avg pool korunur
+ self.head = nn. Linear(512, num_classes)
 
-    def forward(self, x):
-        # x: (N, T, 3, H, W)
-        N, T = x.shape[:2]
-        x = x.view(N * T, *x.shape[2:])
-        feats = self.features(x).view(N, T, -1)
-        pooled = feats.mean(dim=1)
-        return self.head(pooled)
+ def forward(self, x):
+ # x: (N, T, 3, H, W)
+ N, T = x.shape[:2]
+ x = x.view(N * T, *x.shape[2:])
+ feats = self.features(x).view(N, T, -1)
+ pooled = feats.mean(dim=1)
+ return self.head(pooled)
 
 model = FramePool(num_classes=10)
 x = torch.randn(2, 8, 3, 224, 224)
@@ -184,22 +184,22 @@ Tek bir 2B evrişimi, ağırlıkları yeni bir zaman ekseni boyunca tekrarlayara
 
 ```python
 def inflate_2d_to_3d(conv2d, time_kernel=3):
-    out_c, in_c, kh, kw = conv2d.weight.shape
-    weight_3d = conv2d.weight.data.unsqueeze(2)  # (out, in, 1, kh, kw)
-    weight_3d = weight_3d.repeat(1, 1, time_kernel, 1, 1) / time_kernel
-    conv3d = nn.Conv3d(in_c, out_c, kernel_size=(time_kernel, kh, kw),
-                        padding=(time_kernel // 2, conv2d.padding[0], conv2d.padding[1]),
-                        stride=(1, conv2d.stride[0], conv2d.stride[1]),
-                        bias=False)
-    conv3d.weight.data = weight_3d
-    return conv3d
+ out_c, in_c, kh, kw = conv2d.weight.shape
+ weight_3d = conv2d.weight.data.unsqueeze(2) # (out, in, 1, kh, kw)
+ weight_3d = weight_3d.repeat(1, 1, time_kernel, 1, 1) / time_kernel
+ conv3d = nn. Conv3d(in_c, out_c, kernel_size=(time_kernel, kh, kw),
+ padding=(time_kernel // 2, conv2d.padding[0], conv2d.padding[1]),
+ stride=(1, conv2d.stride[0], conv2d.stride[1]),
+ bias=False)
+ conv3d.weight.data = weight_3d
+ return conv3d
 
-conv2d = nn.Conv2d(3, 64, kernel_size=3, padding=1, bias=False)
+conv2d = nn. Conv2d(3, 64, kernel_size=3, padding=1, bias=False)
 conv3d = inflate_2d_to_3d(conv2d, time_kernel=3)
-print(f"2B ağırlık şekli:  {tuple(conv2d.weight.shape)}")
-print(f"3B ağırlık şekli:  {tuple(conv3d.weight.shape)}")
+print(f"2B ağırlık şekli: {tuple(conv2d.weight.shape)}")
+print(f"3B ağırlık şekli: {tuple(conv3d.weight.shape)}")
 x = torch.randn(1, 3, 8, 56, 56)
-print(f"3B çıktı şekli:  {tuple(conv3d(x).shape)}")
+print(f"3B çıktı şekli: {tuple(conv3d(x).shape)}")
 ```
 
 #### Açıklama
@@ -210,20 +210,20 @@ print(f"3B çıktı şekli:  {tuple(conv3d(x).shape)}")
 Bir 3B evrişimi, 2B (uzamsal) ve 1B (zamansal) evrişime ayırın. Aynı alıcı alan (receptive field), daha az parametre, bazı kıyaslamalarda daha iyi doğruluk.
 
 ```python
-class Conv2Plus1D(nn.Module):
-    def __init__(self, in_c, out_c, kernel_size=3):
-        super().__init__()
-        mid_c = (in_c * out_c * kernel_size * kernel_size * kernel_size) \
-                // (in_c * kernel_size * kernel_size + out_c * kernel_size)
-        self.spatial = nn.Conv3d(in_c, mid_c, kernel_size=(1, kernel_size, kernel_size),
-                                 padding=(0, kernel_size // 2, kernel_size // 2), bias=False)
-        self.bn = nn.BatchNorm3d(mid_c)
-        self.act = nn.ReLU(inplace=True)
-        self.temporal = nn.Conv3d(mid_c, out_c, kernel_size=(kernel_size, 1, 1),
-                                  padding=(kernel_size // 2, 0, 0), bias=False)
+class Conv2Plus1D(nn. Module):
+ def __init__(self, in_c, out_c, kernel_size=3):
+ super().__init__()
+ mid_c = (in_c * out_c * kernel_size * kernel_size * kernel_size) \
+ // (in_c * kernel_size * kernel_size + out_c * kernel_size)
+ self.spatial = nn. Conv3d(in_c, mid_c, kernel_size=(1, kernel_size, kernel_size),
+ padding=(0, kernel_size // 2, kernel_size // 2), bias=False)
+ self.bn = nn. BatchNorm3d(mid_c)
+ self.act = nn. ReLU(inplace=True)
+ self.temporal = nn. Conv3d(mid_c, out_c, kernel_size=(kernel_size, 1, 1),
+ padding=(kernel_size // 2, 0, 0), bias=False)
 
-    def forward(self, x):
-        return self.temporal(self.act(self.bn(self.spatial(x))))
+ def forward(self, x):
+ return self.temporal(self.act(self.bn(self.spatial(x))))
 
 c = Conv2Plus1D(3, 64)
 x = torch.randn(1, 3, 8, 56, 56)

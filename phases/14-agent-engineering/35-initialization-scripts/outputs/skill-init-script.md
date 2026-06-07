@@ -35,13 +35,13 @@ Refusal kuralları:
 ```
 <repo>/
 ├── tools/
-│   ├── init_agent.py
-│   └── pre_task.sh
+│ ├── init_agent.py
+│ └── pre_task.sh
 ├── docs/
-│   └── init.md
+│ └── init.md
 └── .github/
-    └── workflows/
-        └── agent-init.yml
+ └── workflows/
+ └── agent-init.yml
 ```
 
 Şuraya işaret eden bir "sırada ne okumalı" ile bitir:

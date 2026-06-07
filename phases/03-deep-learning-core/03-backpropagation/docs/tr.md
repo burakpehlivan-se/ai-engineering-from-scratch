@@ -38,13 +38,13 @@ Her ileri besleme bir grafik oluşturur. Her düğüm bir işlemdir (çarpma, to
 
 ```mermaid
 graph LR
-    x["x"] --> mul["*"]
-    w["w"] --> mul
-    mul -- "z1 = w*x" --> add["+"]
-    b["b"] --> add
-    add -- "z2 = z1 + b" --> sig["sigmoid"]
-    sig -- "a = sigmoid(z2)" --> loss["Kayıp"]
-    y["hedef"] --> loss
+ x["x"] --> mul["*"]
+ w["w"] --> mul
+ mul -- "z1 = w*x" --> add["+"]
+ b["b"] --> add
+ add -- "z2 = z1 + b" --> sig["sigmoid"]
+ sig -- "a = sigmoid(z2)" --> loss["Kayıp"]
+ y["hedef"] --> loss
 ```
 
 İleri besleme: değerler soldan sağa akar. x ve w, z1 = w*x üretir. b ekleyerek z2'yi elde eder. Sigmoid aktivasyonu a verir. Kayıp fonksiyonu ile a'yı hedef y ile karşılaştır.
@@ -57,19 +57,19 @@ Grafikteki her düğümün geriye doğru geçişte bir görevi vardır: yukarıd
 
 ```mermaid
 graph TB
-    subgraph Ileri["İleri Besleme"]
-        direction LR
-        f1["Girdi x"] --> f2["z = Wx + b"]
-        f2 --> f3["a = sigmoid(z)"]
-        f3 --> f4["Kayıp = (a - y)^2"]
-    end
-    subgraph Geri["Geriye Doğru"]
-        direction RL
-        b4["dL/dL = 1"] --> b3["dL/da = 2(a-y)"]
-        b3 --> b2["dL/dz = dL/da × a(1-a)"]
-        b2 --> b1["dL/dW = dL/dz × x\ndL/db = dL/dz"]
-    end
-    Ileri --> Geri
+ subgraph Ileri["İleri Besleme"]
+ direction LR
+ f1["Girdi x"] --> f2["z = Wx + b"]
+ f2 --> f3["a = sigmoid(z)"]
+ f3 --> f4["Kayıp = (a - y)^2"]
+ end
+ subgraph Geri["Geriye Doğru"]
+ direction RL
+ b4["dL/dL = 1"] --> b3["dL/da = 2(a-y)"]
+ b3 --> b2["dL/dz = dL/da × a(1-a)"]
+ b2 --> b1["dL/dW = dL/dz × x\ndL/db = dL/dz"]
+ end
+ Ileri --> Geri
 ```
 
 İleri besleme her ara değeri depolar: z, a, her katmanın girdileri. Geriye doğru geçiş gradyan hesaplamak için bu depolanan değerlere ihtiyaç duyar. Bu, geri yayılımın kalbindeki bellek-hesaplama takasıdır. Belleği (aktivasyonları depolama) hız için (milyonlarca yerine tek geçiş) takas edersiniz.
@@ -80,9 +80,9 @@ graph TB
 
 ```mermaid
 graph RL
-    L["Kayıp"] --> L3["dL/da3"]
-    L3 --> L2["dL/da2 = dL/da3 × W3"]
-    L2 --> L1["dL/da1 = dL/da2 × W2"]
+ L["Kayıp"] --> L3["dL/da3"]
+ L3 --> L2["dL/da2 = dL/da3 × W3"]
+ L2 --> L1["dL/da1 = dL/da2 × W2"]
 ```
 
 Her katman, gradyanı bir önceki katmana iletir. Ağırlıklar ne kadar derinse, gradyan o kadar çok çarpılır ve küçülür.

@@ -31,20 +31,20 @@ Sen bir VLM seçicisin.
 
 ```
 [vlm]
-  model:        <id + boyut>
-  license:      <isim + uyarılar>
-  context:      <token>
-  precision:    bfloat16 | int8 | int4
+ model: <id + boyut>
+ license: <isim + uyarılar>
+ context: <token>
+ precision: bfloat16 | int8 | int4
 
 [deployment]
-  host:         <self-host cloud | managed API | edge>
-  inference:    vllm | TGI | transformers | ollama
-  expected latency: <istek başına s>
+ host: <self-host cloud | managed API | edge>
+ inference: vllm | TGI | transformers | ollama
+ expected latency: <istek başına s>
 
 [fine-tuning recipe if custom domain]
-  method:       LoRA rank 16 / QLoRA rank 64
-  data needed:  5k-50k etiketli örnek
-  compute:      1x A100 veya H100, 2-10 saat
+ method: LoRA rank 16 / QLoRA rank 64
+ data needed: 5k-50k etiketli örnek
+ compute: 1x A100 veya H100, 2-10 saat
 ```
 
 ## Kurallar

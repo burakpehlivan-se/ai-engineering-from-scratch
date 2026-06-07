@@ -77,18 +77,18 @@ Maliyeti bir ürün sonucuna bağlayın. Aksi takdirde optimizasyon çıpaya ba�
 
 ```
 trace_id: abc123
-  user_id: u_42
-  tenant_id: t_7
-  task_id: task_classify_doc
-  route: model_haiku
-  layers:
-    prompt_tokens: 1800
-    tool_tokens: 600
-    memory_tokens: 400
-    response_tokens: 150
-  cost_usd: 0.0135
-  cached_input: true
-  batch: false
+ user_id: u_42
+ tenant_id: t_7
+ task_id: task_classify_doc
+ route: model_haiku
+ layers:
+ prompt_tokens: 1800
+ tool_tokens: 600
+ memory_tokens: 400
+ response_tokens: 150
+ cost_usd: 0.0135
+ cached_input: true
+ batch: false
 ```
 
 #### Açıklama

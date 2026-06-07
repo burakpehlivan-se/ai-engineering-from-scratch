@@ -32,11 +32,11 @@ output = step(w1*x1 + w2*x2 + ... + wn*xn + bias)
 ## Karar kontrol listesi
 
 1. Verinizi çizin veya inceleyin. Sınıflar arasına tek bir düz sınır çizebilir misiniz?
-   - Evet: tek algılayıcı çalışır
-   - Hayır: en az iki kata ihtiyacınız var
+ - Evet: tek algılayıcı çalışır
+ - Hayır: en az iki kata ihtiyacınız var
 2. Sorun, daha basit doğrusal kararların AND/OR birleşimine ayrıştırılabilir mi?
-   - Bu ayrıştırma size minimum ağ yapısını söyler
-   - XOR = (A OR B) AND (NOT (A AND B)) = 2 katmanda 3 algılayıcı
+ - Bu ayrıştırma size minimum ağ yapısını söyler
+ - XOR = (A OR B) AND (NOT (A AND B)) = 2 katmanda 3 algılayıcı
 3. İkiden fazla sınıfı olan sorunlar için sınıf başına bir çıktı düğümü gerekir
 
 ## Eğitim kuralı

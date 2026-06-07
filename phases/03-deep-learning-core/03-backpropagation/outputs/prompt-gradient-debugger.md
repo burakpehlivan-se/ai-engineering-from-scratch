@@ -55,10 +55,10 @@ Sorunu ortaya çıkaracak belirli kod ver:
 
 ```python
 for name, param in model.named_parameters():
-    if param.grad is not None:
-        grad_mean = param.grad.abs().mean().item()
-        grad_max = param.grad.abs().max().item()
-        print(f"{name:40s} | mean: {grad_mean:.2e} | max: {grad_max:.2e}")
+ if param.grad is not None:
+ grad_mean = param.grad.abs().mean().item()
+ grad_max = param.grad.abs().max().item()
+ print(f"{name:40s} | mean: {grad_mean:.2e} | max: {grad_max:.2e}")
 ```
 
 ### 4. Düzeltmeleri Öner (olasılığa göre sıralı)

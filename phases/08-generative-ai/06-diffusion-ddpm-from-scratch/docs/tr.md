@@ -20,7 +20,7 @@ Sohl-Dickstein et al. (2015) teorik bir cevabı vardı: yavaş yavaş Gauss gür
 **İleri süreç `q`.** `T` küçük adımda Gauss gürültüsü ekleyin. Kapalı form — matematiğin işlenebilir olmasının nedeni — birikimli adımın da Gauss olmasıdır:
 
 ```
-q(x_t | x_0) = N( sqrt(α̅_t) · x_0,  (1 - α̅_t) · I )
+q(x_t | x_0) = N( sqrt(α̅_t) · x_0, (1 - α̅_t) · I )
 ```
 
 #### Açıklama
@@ -29,7 +29,7 @@ Burada `α̅_t = ∏_{s=1..t} (1 - β_s)`, `β_t` programı içindir. T=1000 ad�
 **Ters süreç `p_θ`.** Eklenen gürültüyü tahmin eden bir sinir ağı `ε_θ(x_t, t)` öğrenin. Verilen `x_t` ile denoising:
 
 ```
-x_{t-1} = (1 / sqrt(α_t)) · ( x_t - (β_t / sqrt(1 - α̅_t)) · ε_θ(x_t, t) )  +  σ_t · z
+x_{t-1} = (1 / sqrt(α_t)) · ( x_t - (β_t / sqrt(1 - α̅_t)) · ε_θ(x_t, t) ) + σ_t · z
 ```
 
 #### Açıklama
@@ -38,7 +38,7 @@ Burada `σ_t` ya `sqrt(β_t)` ya da öğrenilmiş bir varyanstır. İfade çirki
 **Eğitim kaybı.**
 
 ```
-L_simple = E_{x_0, t, ε} [ || ε - ε_θ( sqrt(α̅_t) · x_0 + sqrt(1 - α̅_t) · ε,  t ) ||² ]
+L_simple = E_{x_0, t, ε} [ || ε - ε_θ( sqrt(α̅_t) · x_0 + sqrt(1 - α̅_t) · ε, t ) ||² ]
 ```
 
 #### Açıklama
@@ -68,8 +68,8 @@ alphas = [1 - b for b in betas]
 alpha_bars = []
 cum = 1.0
 for a in alphas:
-    cum *= a
-    alpha_bars.append(cum)
+ cum *= a
+ alpha_bars.append(cum)
 ```
 
 #### Açıklama
@@ -79,10 +79,10 @@ Lineer beta programı, her adımda ne kadar gürültü ekleneceğini belirler.
 
 ```python
 def forward_sample(x0, t, alpha_bars, rng):
-    a_bar = alpha_bars[t]
-    eps = rng.gauss(0, 1)
-    x_t = math.sqrt(a_bar) * x0 + math.sqrt(1 - a_bar) * eps
-    return x_t, eps
+ a_bar = alpha_bars[t]
+ eps = rng.gauss(0, 1)
+ x_t = math.sqrt(a_bar) * x0 + math.sqrt(1 - a_bar) * eps
+ return x_t, eps
 ```
 
 #### Açıklama
@@ -92,11 +92,11 @@ Kapalı form sayesinde herhangi bir zaman adımındaki gürültülü örneği do
 
 ```python
 def train_step(x0, model, alpha_bars, rng):
-    t = rng.randrange(T)
-    x_t, eps = forward_sample(x0, t, alpha_bars, rng)
-    eps_hat = model_forward(model, x_t, t)
-    loss = (eps - eps_hat) ** 2
-    return loss, gradient_step(model, ...)
+ t = rng.randrange(T)
+ x_t, eps = forward_sample(x0, t, alpha_bars, rng)
+ eps_hat = model_forward(model, x_t, t)
+ loss = (eps - eps_hat) ** 2
+ return loss, gradient_step(model, ...)
 ```
 
 #### Açıklama
@@ -106,14 +106,14 @@ Modelin gürültü tahmini ile gerçek gürültü arasındaki kare fark kayıpt�
 
 ```python
 def sample(model, alpha_bars, T, rng):
-    x = rng.gauss(0, 1)
-    for t in range(T - 1, -1, -1):
-        eps_hat = model_forward(model, x, t)
-        beta_t = 1 - alphas[t]
-        x = (x - beta_t / math.sqrt(1 - alpha_bars[t]) * eps_hat) / math.sqrt(alphas[t])
-        if t > 0:
-            x += math.sqrt(beta_t) * rng.gauss(0, 1)
-    return x
+ x = rng.gauss(0, 1)
+ for t in range(T - 1, -1, -1):
+ eps_hat = model_forward(model, x, t)
+ beta_t = 1 - alphas[t]
+ x = (x - beta_t / math.sqrt(1 - alpha_bars[t]) * eps_hat) / math.sqrt(alphas[t])
+ if t > 0:
+ x += math.sqrt(beta_t) * rng.gauss(0, 1)
+ return x
 ```
 
 #### Açıklama

@@ -72,9 +72,9 @@ Soy dersi: 2025'e kadar Qwen-VL mimarisi stabilleşmişti. Sonraki nesiller ilke
 Klasik RoPE, boyutu `d` olan bir sorgu `q`'yu `m` konumuyla eşleştirilmiş koordinatlar kullanarak döndürür:
 
 ```
-q_rot[2i]   = q[2i]   * cos(m * theta_i) - q[2i+1] * sin(m * theta_i)
-q_rot[2i+1] = q[2i]   * sin(m * theta_i) + q[2i+1] * cos(m * theta_i)
-theta_i     = 10000^(-2i/d)
+q_rot[2i] = q[2i] * cos(m * theta_i) - q[2i+1] * sin(m * theta_i)
+q_rot[2i+1] = q[2i] * sin(m * theta_i) + q[2i+1] * cos(m * theta_i)
+theta_i = 10000^(-2i/d)
 ```
 
 M-RoPE gizli boyutu üç şeride böler. `d = 96` diyelim. 32 boyutu zamana, 32'sini yüksekliğe, 32'sini genişliğe atayın. Her şerit kendi eksen konumuyla döndürülür. (t=5, h=10, w=20) konumundaki bir yama `R_t(5)`, `R_h(10)`, `R_w(20)` döndürmelerini üç şeridine uygular.
@@ -100,10 +100,10 @@ Qwen2.5-VL'nin ajan eğitimi açıkça yapılandırılmış araç çağrılara o
 
 ```
 {
-  "tool": "mouse_click",
-  "coords": [1024, 512],
-  "button": "left",
-  "modifier": null
+ "tool": "mouse_click",
+ "coords": [1024, 512],
+ "button": "left",
+ "modifier": null
 }
 ```
 

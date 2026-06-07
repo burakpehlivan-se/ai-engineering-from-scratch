@@ -101,7 +101,7 @@ Aşağıdaki kodları `code/main.py` içinde inşa edin:
 PyTorch'un yerleşik araçları:
 ```python
 with torch.autograd.detect_anomaly():
-    loss.backward()
+ loss.backward()
 ```
 
 Hata ayıklama kontrol listesi (tam eğitimden önce):

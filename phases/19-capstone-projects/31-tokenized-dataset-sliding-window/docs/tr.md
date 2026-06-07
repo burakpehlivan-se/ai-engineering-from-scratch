@@ -27,18 +27,18 @@ Nedensel (causal) bir LM, `(B, T)` şeklinde kimlikleri tüketir; burada `B` bat
 
 ```mermaid
 flowchart LR
-    A[ham derlem metni] --> B[tokenizer.encode]
-    B --> C[düz kimlik listesi]
-    C --> D[kayan pencere dilimleyici]
-    D --> E[(id_window_0)]
-    D --> F[(id_window_1)]
-    D --> G[(id_window_n)]
-    E --> H[PyTorch Dataset]
-    F --> H
-    G --> H
-    H --> I[tohumlu karıştırmalı DataLoader]
-    I --> J[B x T+1 kimliklik batchler]
-    J --> K[girdi ve hedefe böl]
+ A[ham derlem metni] --> B[tokenizer.encode]
+ B --> C[düz kimlik listesi]
+ C --> D[kayan pencere dilimleyici]
+ D --> E[(id_window_0)]
+ D --> F[(id_window_1)]
+ D --> G[(id_window_n)]
+ E --> H[PyTorch Dataset]
+ F --> H
+ G --> H
+ H --> I[tohumlu karıştırmalı DataLoader]
+ I --> J[B x T+1 kimliklik batchler]
+ J --> K[girdi ve hedefe böl]
 ```
 
 #### Açıklama
@@ -58,17 +58,17 @@ Bir PyTorch Dataset'in iki gerekli yöntemi vardır. `__len__` örnek sayısın�
 
 ```mermaid
 sequenceDiagram
-    participant Trainer
-    participant DataLoader
-    participant Dataset
-    participant Tokenizer
-    Trainer->>DataLoader: iter(dataloader)
-    DataLoader->>Dataset: __len__
-    DataLoader->>Dataset: __getitem__(i)
-    Dataset->>Dataset: window = ids[start:start+T+1]
-    Dataset->>DataLoader: (input_ids, target_ids)
-    DataLoader->>Trainer: batch (B,T) input, (B,T) target
-    Note over Tokenizer,Dataset: tokenizer.encode bir kez inşa zamanında çalışır
+ participant Trainer
+ participant DataLoader
+ participant Dataset
+ participant Tokenizer
+ Trainer->>DataLoader: iter(dataloader)
+ DataLoader->>Dataset: __len__
+ DataLoader->>Dataset: __getitem__(i)
+ Dataset->>Dataset: window = ids[start:start+T+1]
+ Dataset->>DataLoader: (input_ids, target_ids)
+ DataLoader->>Trainer: batch (B,T) input, (B,T) target
+ Note over Tokenizer,Dataset: tokenizer.encode bir kez inşa zamanında çalışır
 ```
 
 #### Açıklama
@@ -78,7 +78,7 @@ Bir-kaydırma `__getitem__` içinde olur. Dataset `(input, target)` döndürür;
 
 ## Deterministik Karıştırma
 
-`shuffle=True` ile bir DataLoader, PyTorch rastgele üretecinden (generator) okur. Dönem başına tohumlanan açık bir `torch.Generator` geçirerek, çalıştırma her yeniden başlatıldığında aynı karıştırmayı alırız. Bu özellik, yalnızca tek bir hiperparametrede farklılık gösteren iki çalıştırmayı karşılaştırmak istediğinizde önemlidir. Tohum olmadan, iki çalıştırma verileri farklı sırada görür ve kayıp eğrileri değişiklikle ilgisiz nedenlerle ayrılır.
+`shuffle=True` ile bir DataLoader, PyTorch rastgele üretecinden (generator) okur. Dönem başına tohumlanan açık bir `torch. Generator` geçirerek, çalıştırma her yeniden başlatıldığında aynı karıştırmayı alırız. Bu özellik, yalnızca tek bir hiperparametrede farklılık gösteren iki çalıştırmayı karşılaştırmak istediğinizde önemlidir. Tohum olmadan, iki çalıştırma verileri farklı sırada görür ve kayıp eğrileri değişiklikle ilgisiz nedenlerle ayrılır.
 
 Bu dersteki tohum sözleşmesi basittir. `epoch_seed = base_seed + epoch_index`. Taban tohum yapım sırasında geçirilir. Dönem indeksi, eğitimci tarafından her dönemin başında artırılır. Aynı taban tohumla bir yeniden çalıştırma, her dönemde aynı sırayı görür.
 

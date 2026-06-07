@@ -52,37 +52,37 @@ Hem `py-motmetrics` hem de `TrackEval` belirli bir disk üstü biçimi bekler:
 import motmetrics as mm
 
 def evaluate_mota_idf1(pred_path, gt_path):
-    gt = mm.io.loadtxt(gt_path, fmt="mot15-2D")
-    pred = mm.io.loadtxt(pred_path, fmt="mot15-2D")
-    acc = mm.utils.compare_to_groundtruth(gt, pred, dist="iou", distth=0.5)
-    metrics = mm.metrics.create().compute(
-        acc, metrics=["num_frames", "mota", "motp", "idf1", "idp", "idr", "num_switches"]
-    )
-    return metrics
+ gt = mm.io.loadtxt(gt_path, fmt="mot15-2D")
+ pred = mm.io.loadtxt(pred_path, fmt="mot15-2D")
+ acc = mm.utils.compare_to_groundtruth(gt, pred, dist="iou", distth=0.5)
+ metrics = mm.metrics.create().compute(
+ acc, metrics=["num_frames", "mota", "motp", "idf1", "idp", "idr", "num_switches"]
+ )
+ return metrics
 
 
 def write_mot_txt(predictions, path):
-    with open(path, "w") as f:
-        for frame_idx, detections in enumerate(predictions, start=1):
-            for tid, x, y, w, h, conf in detections:
-                f.write(f"{frame_idx},{tid},{x:.2f},{y:.2f},{w:.2f},{h:.2f},{conf:.3f},-1,-1,-1\n")
+ with open(path, "w") as f:
+ for frame_idx, detections in enumerate(predictions, start=1):
+ for tid, x, y, w, h, conf in detections:
+ f.write(f"{frame_idx},{tid},{x:.2f},{y:.2f},{w:.2f},{h:.2f},{conf:.3f},-1,-1,-1\n")
 ```
 
 ## Rapor
 
 ```
 [mot evaluation]
-  frames:     <int>
-  gt tracks:  <int>
-  pred tracks: <int>
+ frames: <int>
+ gt tracks: <int>
+ pred tracks: <int>
 
 [metrics]
-  MOTA:       <float>
-  MOTP:       <float>
-  IDF1:       <float>
-  IDP/IDR:    <float/float>
-  ID switches: <int>
-  HOTA:       <float>  (TrackEval'den)
+ MOTA: <float>
+ MOTP: <float>
+ IDF1: <float>
+ IDP/IDR: <float/float>
+ ID switches: <int>
+ HOTA: <float> (TrackEval'den)
 ```
 
 ## Kurallar

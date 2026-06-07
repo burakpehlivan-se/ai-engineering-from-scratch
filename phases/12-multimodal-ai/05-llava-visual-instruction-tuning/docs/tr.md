@@ -65,9 +65,9 @@ Talimat verisi hilesidir. Liu ve diğerleri bunu şöyle üretti:
 1. Bir COCO görüntüsü alın.
 2. Metin açıklamasını çıkarın (5 insan açıklaması + sınır kutusu listesi).
 3. Üç istem şablonuyla GPT-4'e gönderin:
-   - Sohbet: "Bu görüntü hakkında kullanıcı ve asistan arasında gidip gelen bir diyalog üretin."
-   - Detaylı açıklama: "Görüntünün zengin, detaylı bir tanımını verin."
-   - Karmaşık akıl yürütmesi: "Görüntü hakkında akıl yürütmeyi gerektiren bir soru sorun, sonra cevaplayın."
+ - Sohbet: "Bu görüntü hakkında kullanıcı ve asistan arasında gidip gelen bir diyalog üretin."
+ - Detaylı açıklama: "Görüntünün zengin, detaylı bir tanımını verin."
+ - Karmaşık akıl yürütmesi: "Görüntü hakkında akıl yürütmeyi gerektiren bir soru sorun, sonra cevaplayın."
 4. GPT-4 çıktısını (talimat, cevap) çiftlerine ayrıştırın.
 
 Bunların hiçbiri görüntüye doğrudan dokunmaz — yalnızca metin açıklaması. GPT-4 ikna edici görüntü içeriği hayal eder. Biraz gürültü var ama işe yaradı: 158k dönüşüm diyaloğun kilidini açmak için yeterliydi.

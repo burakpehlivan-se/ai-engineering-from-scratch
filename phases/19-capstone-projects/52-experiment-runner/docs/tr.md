@@ -27,14 +27,14 @@ Buradaki koşucu tam yalıtım uygulamaz. cgroup, seccomp filtresi, ad alanı ye
 
 ```text
 ExperimentSpec
-  spec_id        : str            (kararlı kimlik, "exp_001")
-  hypothesis_id  : int            (elli numaralı dersteki kuyruğa geri bağlantı)
-  script_path    : str            (çalıştırılacak python betiğinin yolu)
-  config         : dict           (tek bir json argümanı olarak betiğe geçirilir)
-  seed           : int            (deney için deterministik seed)
-  wall_timeout_s : float          (sert zaman aşımı, aşıldığında öldürülür)
-  memory_cap_mb  : int            (yumuşak sınır, yoklanır; aşıldığında öldürülür)
-  metric_keys    : list[str]      (değerlendiricinin okuyacağı alanlar)
+ spec_id : str (kararlı kimlik, "exp_001")
+ hypothesis_id : int (elli numaralı dersteki kuyruğa geri bağlantı)
+ script_path : str (çalıştırılacak python betiğinin yolu)
+ config : dict (tek bir json argümanı olarak betiğe geçirilir)
+ seed : int (deney için deterministik seed)
+ wall_timeout_s : float (sert zaman aşımı, aşıldığında öldürülür)
+ memory_cap_mb : int (yumuşak sınır, yoklanır; aşıldığında öldürülür)
+ metric_keys : list[str] (değerlendiricinin okuyacağı alanlar)
 ```
 
 Betiği diskte yaşar; koşucu, yapılandırmayı betiğin okuduğu geçici bir dosya yoluna yazar. Betiğin, anahtarları `metric_keys`'in bir üst kümesi olan tek bir json satırını stdout'a yazdırması beklenir. stdout'taki başka her şey yakalanır ancak metrik ayrıştırıcısı tarafından yok sayılır.
@@ -43,17 +43,17 @@ Betiği diskte yaşar; koşucu, yapılandırmayı betiğin okuduğu geçici bir 
 
 ```mermaid
 flowchart TD
-    A[ExperimentSpec] --> B[yapılandırmayı geçici dosyaya serileştir]
-    B --> C[alt süreç doğur]
-    C --> D[stdout / stderr boruları]
-    C --> E[duvar saati zamanlayıcısı]
-    C --> F[bellek yoklayıcısı]
-    E -- aşıldı --> K[süreci öldür]
-    F -- aşıldı --> K
-    D --> P[son json satırını ayrıştır]
-    K --> R[terminal=timeout veya oom ile sonuç]
-    P --> R[metriklerle sonuç]
-    R --> O[ExperimentResult]
+ A[ExperimentSpec] --> B[yapılandırmayı geçici dosyaya serileştir]
+ B --> C[alt süreç doğur]
+ C --> D[stdout / stderr boruları]
+ C --> E[duvar saati zamanlayıcısı]
+ C --> F[bellek yoklayıcısı]
+ E -- aşıldı --> K[süreci öldür]
+ F -- aşıldı --> K
+ D --> P[son json satırını ayrıştır]
+ K --> R[terminal=timeout veya oom ile sonuç]
+ P --> R[metriklerle sonuç]
+ R --> O[ExperimentResult]
 ```
 
 Koşucu, tek bir ana yöntemi olan tek bir sınıftır. Yoklayıcı, periyodik olarak uyanan ve kullanılabilir olduğunda alt süreç `psutil` eşdeğerini proc dosya sisteminden okuyan, platform açığa çıkarmadığında no-op'a geri dönen küçük bir iş parçacığıdır.
@@ -74,7 +74,7 @@ Stderr, sonuca olduğu gibi yakalanır. Koşucu, sıfır olmayan bir çıkış k
 
 ```python
 def ablate(base: ExperimentSpec, knob: str, values: list[Any]) -> list[ExperimentSpec]:
-    ...
+ ...
 ```
 
 Bir temel belirtim ve bir düğme adı verildiğinde, yardımcı, `config[knob]` geçersiz kılınmış olarak değer başına bir belirtim döndürür. Her belirtim türetilmiş bir `spec_id` alır (`f"{base.spec_id}_{knob}_{value}"`). Koşucu, bunları sırayla çalıştıran ve düğme değerine göre anahtarlanmış bir `AblationTable` döndüren bir `AblationRunner` gönderir.
@@ -95,16 +95,16 @@ Simülasyon gerçek bir şey eğitmez. Bir eğitim döngüsünün şeklini takli
 
 ```text
 ExperimentResult
-  spec_id              : str
-  hypothesis_id        : int
-  exit_code            : int
-  terminal             : "ok" | "timeout" | "oom" | "crash"
-  wall_time_s          : float
-  peak_rss_mb          : float | None
-  metrics              : dict
-  intermediate_metrics : list[dict]
-  stdout_tail          : str
-  stderr_tail          : str
+ spec_id : str
+ hypothesis_id : int
+ exit_code : int
+ terminal : "ok" | "timeout" | "oom" | "crash"
+ wall_time_s : float
+ peak_rss_mb : float | None
+ metrics : dict
+ intermediate_metrics : list[dict]
+ stdout_tail : str
+ stderr_tail : str
 ```
 
 Değerlendirici önce `metrics` ve `terminal`'i okur. Terminal `"ok"` dışında bir şeyse deney, başarısız bir çalıştırma olarak sayılır ve değerlendiricinin hükmü otomatiktir. Aksi takdirde metrikler, anlamlılık testinden geçirilir.

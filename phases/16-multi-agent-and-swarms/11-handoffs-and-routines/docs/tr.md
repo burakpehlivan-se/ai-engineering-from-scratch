@@ -25,12 +25,12 @@ Tüm soyutlama budur.
 
 ```
 def transfer_to_refunds():
-    return refund_agent  # Swarm Agent dönüşünü görür → etkin agent'ı değiştirir
+ return refund_agent # Swarm Agent dönüşünü görür → etkin agent'ı değiştirir
 
 triage_agent = Agent(
-    name="triage",
-    instructions="Kullanıcıyı doğru uzmana yönlendir.",
-    functions=[transfer_to_refunds, transfer_to_sales, transfer_to_support],
+ name="triage",
+ instructions="Kullanıcıyı doğru uzmana yönlendir.",
+ functions=[transfer_to_refunds, transfer_to_sales, transfer_to_support],
 )
 ```
 

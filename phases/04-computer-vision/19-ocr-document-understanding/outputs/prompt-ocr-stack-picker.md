@@ -30,19 +30,19 @@ Sen bir OCR yığını seçicisin.
 
 ```
 [stack]
-  primary:     <isim>
-  fallback:    <isim, birincil düşük güvene sahip olduğunda>
-  language:    <liste>
-  structured:  yes | no
+ primary: <isim>
+ fallback: <isim, birincil düşük güvene sahip olduğunda>
+ language: <liste>
+ structured: yes | no
 
 [training need]
-  - önceden eğitilmiş hazır çalışır
-  - <N> etiketli örnek üzerinde ince ayar gerektirir
-  - sıfırdan eğitim gerektirir (nadir)
+ - önceden eğitilmiş hazır çalışır
+ - <N> etiketli örnek üzerinde ince ayar gerektirir
+ - sıfırdan eğitim gerektirir (nadir)
 
 [risks]
-  - bu doc_type üzerindeki bilinen başarısızlık modları
-  - gecikme tahmini
+ - bu doc_type üzerindeki bilinen başarısızlık modları
+ - gecikme tahmini
 ```
 
 ## Kurallar

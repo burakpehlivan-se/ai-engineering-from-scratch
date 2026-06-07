@@ -36,11 +36,11 @@ Refusal kuralları:
 ```
 <repo>/
 ├── tools/
-│   ├── verify_agent.py
-│   └── override.py
+│ ├── verify_agent.py
+│ └── override.py
 ├── outputs/verification/
-│   ├── overrides.jsonl
-│   └── <task_id>.json
+│ ├── overrides.jsonl
+│ └── <task_id>.json
 ├── docs/verification.md
 └── .github/workflows/verify.yml
 ```

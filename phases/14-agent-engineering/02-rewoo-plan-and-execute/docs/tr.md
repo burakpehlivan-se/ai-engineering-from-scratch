@@ -25,9 +25,9 @@ ReWOO (Xu ve diğerleri, arXiv:2305.18323, Mayıs 2023) bunu fark etti ve bir ba
 ### Üç rol
 
 ```text
-Planner:  user_question -> [plan_dag]
-Workers:  [plan_dag]     -> [evidence]        (araç çağrıları, muhtemelen paralel)
-Solver:   user_question, plan_dag, evidence -> final_answer
+Planner: user_question -> [plan_dag]
+Workers: [plan_dag] -> [evidence] (araç çağrıları, muhtemelen paralel)
+Solver: user_question, plan_dag, evidence -> final_answer
 ```
 
 Planner bir DAG üretir. Her düğüm bir aracı, argümanlarını ve hangi önceki düğümlere bağımlı olduğunu (`#E1`, `#E2` gibi referanslarla) adlandırır. Worker'lar düğümleri topolojik sırayla çalıştırır. Solver her şeyi birleştirir.

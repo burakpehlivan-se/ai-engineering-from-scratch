@@ -15,13 +15,13 @@ Kümenin duvar-saati tavanından daha uzun herhangi bir eğitim çalıştırmas�
 
 ```python
 {
-  "schema": "ckpt.v1",
-  "model": model.state_dict(),
-  "optimizer": opt.state_dict(),
-  "scheduler": sched.state_dict(),
-  "state": {"step": int, "epoch": int, "batch_in_epoch": int, "losses": [float, ...]},
-  "rng": {"python": ..., "numpy": ..., "torch_cpu": ..., "torch_cuda": ...},
-  "wall_saved_at": time.time(),
+ "schema": "ckpt.v1",
+ "model": model.state_dict(),
+ "optimizer": opt.state_dict(),
+ "scheduler": sched.state_dict(),
+ "state": {"step": int, "epoch": int, "batch_in_epoch": int, "losses": [float, ...]},
+ "rng": {"python": ..., "numpy": ..., "torch_cpu": ..., "torch_cuda": ...},
+ "wall_saved_at": time.time(),
 }
 ```
 

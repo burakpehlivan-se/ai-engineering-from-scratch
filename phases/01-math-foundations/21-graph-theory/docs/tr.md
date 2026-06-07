@@ -54,20 +54,20 @@ Düğümleri katman katman ziyaret eder.
 from collections import deque
 
 def bfs(graf, baslangic):
-    ziyaret = set([baslangic])
-    kuyruk = deque([baslangic])
-    siralama = []
-    
-    while kuyruk:
-        dugum = kuyruk.popleft()
-        siralama.append(dugum)
-        
-        for komsu in graf[dugum]:
-            if komsu not in ziyaret:
-                ziyaret.add(komsu)
-                kuyruk.append(komsu)
-    
-    return siralama
+ ziyaret = set([baslangic])
+ kuyruk = deque([baslangic])
+ siralama = []
+ 
+ while kuyruk:
+ dugum = kuyruk.popleft()
+ siralama.append(dugum)
+ 
+ for komsu in graf[dugum]:
+ if komsu not in ziyaret:
+ ziyaret.add(komsu)
+ kuyruk.append(komsu)
+ 
+ return siralama
 ```
 
 ### DFS (Derinlik Öncelikli Arama)

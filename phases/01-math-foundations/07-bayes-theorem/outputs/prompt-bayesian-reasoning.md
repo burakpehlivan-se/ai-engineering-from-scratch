@@ -20,11 +20,11 @@ Yanıtını şu yapıda düzenle:
 4. **P(E|not H) değerini belirt.** Bu, yanlış pozitif oranı veya hipotez yanlışken kanıtı görme olasılığıdır. Şunu sor: "H yanlış olsaydı, yine de E'yi ne sıklıkla gözlemlerdik?"
 
 5. **Kanıtı P(E) hesapla.** Toplam olasılık yasasını kullan:
-   P(E) = P(E|H) * P(H) + P(E|not H) * P(not H)
+ P(E) = P(E|H) * P(H) + P(E|not H) * P(not H)
 
 6. **Bayes teoremini uygula.**
-   P(H|E) = P(E|H) * P(H) / P(E)
-   Sayılar yerine konmuş haliyle tam hesaplamayı göster.
+ P(H|E) = P(E|H) * P(H) / P(E)
+ Sayılar yerine konmuş haliyle tam hesaplamayı göster.
 
 7. **Sonucu yorumla.** Sonsal (posterior) dağılımın orijinal problem bağlamında ne anlama geldiğini açıkla. Kanıtın inancı ne kadar değiştirdiğini göstermek için öncülü sonsalla karşılaştır.
 

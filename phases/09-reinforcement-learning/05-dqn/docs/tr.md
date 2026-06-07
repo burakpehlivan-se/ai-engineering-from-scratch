@@ -53,15 +53,15 @@ Buradaki kod yalnızca stdlib — numpy'siz — küçük bir sürekli GridWorld 
 
 ```python
 class ReplayBuffer:
-    def __init__(self, capacity):
-        self.buf = []
-        self.capacity = capacity
-    def push(self, s, a, r, s_next, done):
-        if len(self.buf) == self.capacity:
-            self.buf.pop(0)
-        self.buf.append((s, a, r, s_next, done))
-    def sample(self, batch, rng):
-        return rng.sample(self.buf, batch)
+ def __init__(self, capacity):
+ self.buf = []
+ self.capacity = capacity
+ def push(self, s, a, r, s_next, done):
+ if len(self.buf) == self.capacity:
+ self.buf.pop(0)
+ self.buf.append((s, a, r, s_next, done))
+ def sample(self, batch, rng):
+ return rng.sample(self.buf, batch)
 ```
 
 #### Açıklama
@@ -71,15 +71,15 @@ Atari için ~50.000 kapasite; oyuncak ortamımız için 5.000 yeterlidir.
 
 ```python
 class QNet:
-    def __init__(self, n_in, n_hidden, n_actions, rng):
-        self.W1 = [[rng.gauss(0, 0.3) for _ in range(n_in)] for _ in range(n_hidden)]
-        self.b1 = [0.0] * n_hidden
-        self.W2 = [[rng.gauss(0, 0.3) for _ in range(n_hidden)] for _ in range(n_actions)]
-        self.b2 = [0.0] * n_actions
-    def forward(self, x):
-        h = [max(0.0, sum(w * xi for w, xi in zip(row, x)) + b) for row, b in zip(self.W1, self.b1)]
-        q = [sum(w * hi for w, hi in zip(row, h)) + b for row, b in zip(self.W2, self.b2)]
-        return q, h
+ def __init__(self, n_in, n_hidden, n_actions, rng):
+ self. W1 = [[rng.gauss(0, 0.3) for _ in range(n_in)] for _ in range(n_hidden)]
+ self.b1 = [0.0] * n_hidden
+ self. W2 = [[rng.gauss(0, 0.3) for _ in range(n_hidden)] for _ in range(n_actions)]
+ self.b2 = [0.0] * n_actions
+ def forward(self, x):
+ h = [max(0.0, sum(w * xi for w, xi in zip(row, x)) + b) for row, b in zip(self. W1, self.b1)]
+ q = [sum(w * hi for w, hi in zip(row, h)) + b for row, b in zip(self. W2, self.b2)]
+ return q, h
 ```
 
 #### Açıklama
@@ -89,17 +89,17 @@ class QNet:
 
 ```python
 def train_step(online, target, batch, gamma, lr):
-    grads = zeros_like(online)
-    for s, a, r, s_next, done in batch:
-        q, h = online.forward(s)
-        if done:
-            y = r
-        else:
-            q_next, _ = target.forward(s_next)
-            y = r + gamma * max(q_next)
-        td_error = q[a] - y
-        accumulate_grads(grads, online, s, h, a, td_error)
-    apply_sgd(online, grads, lr / len(batch))
+ grads = zeros_like(online)
+ for s, a, r, s_next, done in batch:
+ q, h = online.forward(s)
+ if done:
+ y = r
+ else:
+ q_next, _ = target.forward(s_next)
+ y = r + gamma * max(q_next)
+ td_error = q[a] - y
+ accumulate_grads(grads, online, s, h, a, td_error)
+ apply_sgd(online, grads, lr / len(batch))
 ```
 
 #### Açıklama
@@ -111,16 +111,16 @@ Her bölüm için, `Q(·; θ)` üzerinde ε-greedy davranın, geçişleri buffer
 
 ```python
 for episode in range(N):
-    s = env.reset()
-    while not done:
-        a = epsilon_greedy(online, s, epsilon)
-        s_next, r, done = env.step(s, a)
-        buffer.push(s, a, r, s_next, done)
-        if len(buffer) >= batch:
-            train_step(online, target, buffer.sample(batch), gamma, lr)
-        if steps % sync_every == 0:
-            target = copy(online)
-        s = s_next
+ s = env.reset()
+ while not done:
+ a = epsilon_greedy(online, s, epsilon)
+ s_next, r, done = env.step(s, a)
+ buffer.push(s, a, r, s_next, done)
+ if len(buffer) >= batch:
+ train_step(online, target, buffer.sample(batch), gamma, lr)
+ if steps % sync_every == 0:
+ target = copy(online)
+ s = s_next
 ```
 
 #### Açıklama

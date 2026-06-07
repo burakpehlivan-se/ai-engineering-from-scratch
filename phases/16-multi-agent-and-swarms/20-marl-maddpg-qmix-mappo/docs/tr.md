@@ -32,7 +32,7 @@ Farklı ortamların farklı eylem/gözlem türleri vardır. Algoritmalar buna g�
 Her ajan `i`'nin kendi gözlemini eyleme eşleyen bir aktörü `mu_i(o_i)` vardır. Her ajanın ayrıca eğitim sırasında tüm gözlemleri ve tüm eylemleri gören bir eleştirmeni `Q_i(x, a_1, ..., a_n)` vardır. Aktör, eleştirmenin değerlendirmesine karşı politika gradyanı ile güncellenir.
 
 ```
-aktör güncelleme:   grad_theta_i J = E[grad_theta mu_i(o_i) * grad_a_i Q_i(x, a_1..n) at a_i=mu_i(o_i)]
+aktör güncelleme: grad_theta_i J = E[grad_theta mu_i(o_i) * grad_a_i Q_i(x, a_1..n) at a_i=mu_i(o_i)]
 eleştirmen güncelleme: TD on Q_i(x, a_1..n) bir sonraki-durum ortak tahmini verildiğinde
 ```
 
@@ -46,7 +46,7 @@ Başarısızlık kipi: eleştirmenler N ajanla büyür (girdi tüm eylemleri iç
 Yalnızca işbirlikçi. Küresel ödül, ajan başına Q-değerlerinin monoton bir fonksiyonunun toplamıdır:
 
 ```
-Q_top(tau, a) = f(Q_1(tau_1, a_1), ..., Q_n(tau_n, a_n)),   df/dQ_i >= 0
+Q_top(tau, a) = f(Q_1(tau_1, a_1), ..., Q_n(tau_n, a_n)), df/dQ_i >= 0
 ```
 
 #### Açıklama

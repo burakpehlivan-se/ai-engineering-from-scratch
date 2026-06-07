@@ -49,7 +49,7 @@ Bir aksiyon, ortalamanın üstünde getiri ürettiyse iyidir; altındaysa kötü
 
 **Birleşik kayıp.**
 
-`L(θ, φ) = -E[ A_t · log π_θ(a_t | s_t) ]  +  c_v · E[(V_φ(s_t) - G_t)²]  -  c_e · E[H(π_θ(·|s_t))]`
+`L(θ, φ) = -E[ A_t · log π_θ(a_t | s_t) ] + c_v · E[(V_φ(s_t) - G_t)²] - c_e · E[H(π_θ(·|s_t))]`
 
 Üç terim: policy-gradient kaybı, değer regresyonu, entropi bonusu. `c_v ~ 0.5`, `c_e ~ 0.01` kanonik başlangıç noktalarıdır.
 
@@ -61,11 +61,11 @@ Doğrusal critic `V_φ(s) = w · features(s)`, MSE ile güncellenir:
 
 ```python
 def critic_update(w, x, target, lr):
-    v_hat = dot(w, x)
-    err = target - v_hat
-    for j in range(len(w)):
-        w[j] += lr * err * x[j]
-    return v_hat
+ v_hat = dot(w, x)
+ err = target - v_hat
+ for j in range(len(w)):
+ w[j] += lr * err * x[j]
+ return v_hat
 ```
 
 #### Açıklama
@@ -78,15 +78,15 @@ Uzunluğu `T` olan bir rollout ve bootstrap edilmiş son `V(s_T)` verildiğinde:
 
 ```python
 def compute_advantages(rewards, values, gamma=0.99, lam=0.95, last_value=0.0):
-    advantages = [0.0] * len(rewards)
-    gae = 0.0
-    for t in reversed(range(len(rewards))):
-        next_v = values[t + 1] if t + 1 < len(values) else last_value
-        delta = rewards[t] + gamma * next_v - values[t]
-        gae = delta + gamma * lam * gae
-        advantages[t] = gae
-    returns = [a + v for a, v in zip(advantages, values)]
-    return advantages, returns
+ advantages = [0.0] * len(rewards)
+ gae = 0.0
+ for t in reversed(range(len(rewards))):
+ next_v = values[t + 1] if t + 1 < len(values) else last_value
+ delta = rewards[t] + gamma * next_v - values[t]
+ gae = delta + gamma * lam * gae
+ advantages[t] = gae
+ returns = [a + v for a, v in zip(advantages, values)]
+ return advantages, returns
 ```
 
 #### Açıklama
@@ -97,17 +97,17 @@ def compute_advantages(rewards, values, gamma=0.99, lam=0.95, last_value=0.0):
 
 ```python
 for step_i, (x, a, _r, probs) in enumerate(traj):
-    adv = advantages[step_i]
-    target_v = returns[step_i]
+ adv = advantages[step_i]
+ target_v = returns[step_i]
 
-    # critic
-    critic_update(w, x, target_v, lr_v)
+ # critic
+ critic_update(w, x, target_v, lr_v)
 
-    # actor
-    for i in range(N_ACTIONS):
-        grad_logpi = (1.0 if i == a else 0.0) - probs[i]
-        for j in range(N_FEAT):
-            theta[i][j] += lr_a * adv * grad_logpi * x[j]
+ # actor
+ for i in range(N_ACTIONS):
+ grad_logpi = (1.0 if i == a else 0.0) - probs[i]
+ for j in range(N_FEAT):
+ theta[i][j] += lr_a * adv * grad_logpi * x[j]
 ```
 
 #### Açıklama

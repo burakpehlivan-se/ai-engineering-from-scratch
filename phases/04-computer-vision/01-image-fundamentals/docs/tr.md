@@ -32,20 +32,20 @@ Her üretim görüntü sistemi, aynı tersine çevrilebilir dönüşümler dizis
 
 ```mermaid
 flowchart LR
-    A["Görüntü dosyası<br/>(JPEG/PNG)"] --> B["Çözümleme<br/>uint8 HWC"]
-    B --> C["Dönüşüm<br/>renk uzayı<br/>(RGB/BGR/YCbCr)"]
-    C --> D["Yeniden boyutlandırma<br/>daha kısa kenar"]
-    D --> E["Ortadan kırpma<br/>model boyutu"]
-    E --> F["255'e böl<br/>float32 [0,1]"]
-    F --> G["Ortalama çıkar<br/>std'ye böl"]
-    G --> D["Döndürme<br/>HWC → CHW"]
-    H --> I["Toplu iş<br/>CHW → NCHW"]
-    I --> J["Model"]
+ A["Görüntü dosyası<br/>(JPEG/PNG)"] --> B["Çözümleme<br/>uint8 HWC"]
+ B --> C["Dönüşüm<br/>renk uzayı<br/>(RGB/BGR/YCbCr)"]
+ C --> D["Yeniden boyutlandırma<br/>daha kısa kenar"]
+ D --> E["Ortadan kırpma<br/>model boyutu"]
+ E --> F["255'e böl<br/>float32 [0,1]"]
+ F --> G["Ortalama çıkar<br/>std'ye böl"]
+ G --> D["Döndürme<br/>HWC → CHW"]
+ H --> I["Toplu iş<br/>CHW → NCHW"]
+ I --> J["Model"]
 
-    style A fill:#fef3c7,stroke:#d97706
-    style J fill:#ddd6fe,stroke:#7c3aed
-    style G fill:#fecaca,stroke:#dc2626
-    style H fill:#bfdbfe,stroke:#2563eb
+ style A fill:#fef3c7,stroke:#d97706
+ style J fill:#ddd6fe,stroke:#7c3aed
+ style G fill:#fecaca,stroke:#dc2626
+ style H fill:#bfdbfe,stroke:#2563eb
 ```
 
 Kırmızı ve mavi kutular, sessiz başarısızlıkların %80'inin yaşadığı yerlerdir: eksik standardlaştırma ve yanlış düzen.
@@ -55,14 +55,14 @@ Kırmızı ve mavi kutular, sessiz başarısızlıkların %80'inin yaşadığı 
 Bir kamera sensörü, küçük dedektörlerin ızgarasına düşen fotonları sayar. Her dedektör bir saniyenin kesri kadar ışığı bütünleştirir ve çarpan foton sayısına orantılı bir voltaj yayar. Sensör sonra bu voltajı bir tamsayıya ayrıştırır. Bir dedektör bir piksel olur.
 
 ```
-Sürekli sahne                 Sensör ızgarası                   Dijital görüntü
-(Sonsuz ayrıntı)              (H x W dedektör)                  (H x W tamsayı)
+Sürekli sahne Sensör ızgarası Dijital görüntü
+(Sonsuz ayrıntı) (H x W dedektör) (H x W tamsayı)
 
-    ~~~~~                        +--+--+--+--+--+                 210 198 180 155 120
-   ~   ~   ~                     |  |  |  |  |  |                 205 195 178 152 118
-  ~ ışık  ~      ---->           +--+--+--+--+--+     ---->       200 190 175 150 115
-   ~~~~~                         |  |  |  |  |  |                 195 185 170 148 112
-                                 +--+--+--+--+--+                 188 180 165 145 108
+ ~~~~~ +--+--+--+--+--+ 210 198 180 155 120
+ ~ ~ ~ | | | | | | 205 195 178 152 118
+ ~ ışık ~ ----> +--+--+--+--+--+ ----> 200 190 175 150 115
+ ~~~~~ | | | | | | 195 185 170 148 112
+ +--+--+--+--+--+ 188 180 165 145 108
 ```
 
 Bu adımda iki seçim yapılır ve bunlar aşağıdakilerin hepsinin tavanını belirler:
@@ -79,12 +79,12 @@ Bir dedektör tüm görünür spektrum boyunca fotonları sayar — bu gri tonla
 ```
 Bellekte tek bir piksel:
 
-    (R, G, B) = (210, 140, 30)   <- kırmızımsı-turuncu
+ (R, G, B) = (210, 140, 30) <- kırmızımsı-turuncu
 
 Bir H x W RGB görüntüsü:
 
-    şekil (H, W, 3)     şu şekilde depolanır   H satır, W piksel, her birinde 3 değer
-                                              her biri uint8 için [0, 255] aralığında
+ şekil (H, W, 3) şu şekilde depolanır H satır, W piksel, her birinde 3 değer
+ her biri uint8 için [0, 255] aralığında
 ```
 
 Üç sihirli bir sayı değildir. Derinlik kameraları bir Z kanalı ekler. Uydular kızılötesi ve morötesi bantlar ekler. Tıbbi taramalar genellikle bir kanallıdır (röntgen, BT) veya birçok (hiperspektral). Kanal sayısı son eksendir; evrişim katmanları onun karışımını öğrenir.
@@ -94,16 +94,16 @@ Bir H x W RGB görüntüsü:
 Aynı tensör, iki sıralama. Her kütüphane birini seçer.
 
 ```
-HWC (yükseklik, genişlik, kanallar)       CHW (kanallar, yükseklik, genişlik)
+HWC (yükseklik, genişlik, kanallar) CHW (kanallar, yükseklik, genişlik)
 
-   Genişlik ->                              Yükseklik ->
-  +-----+-----+-----+                     +-----+-----+
-Y |R G B|R G B|R G B|                   K |R R R R R R|
-  | +-----+-----+-----+                   | +-----+-----+
-  | |R G B|R G B|R G B|                   | |G G G G G G|
-  | +-----+-----+-----+                   | +-----+-----+
-  | |R G B|R G B|R G B|                   | |B B B B B B|
-  +-----+-----+-----+                     +-----+-----+
+ Genişlik -> Yükseklik ->
+ +-----+-----+-----+ +-----+-----+
+Y |R G B|R G B|R G B| K |R R R R R R|
+ | +-----+-----+-----+ | +-----+-----+
+ | |R G B|R G B|R G B| | |G G G G G G|
+ | +-----+-----+-----+ | +-----+-----+
+ | |R G B|R G B|R G B| | |B B B B B B|
+ +-----+-----+-----+ +-----+-----+
 ```
 
 **PyTorch, torchvision ve çoğu derin öğrenme çerçevesi CHW bekler.**
@@ -114,11 +114,11 @@ Geçiş:
 import numpy as np
 
 # HWC'den CHW'ye
-hwc = np.array(...)  # şekil: (H, W, 3)
-chw = hwc.transpose(2, 0, 1)  # şekil: (3, H, W)
+hwc = np.array(...) # şekil: (H, W, 3)
+chw = hwc.transpose(2, 0, 1) # şekil: (3, H, W)
 
 # CHW'den HWC'ye
-hwc_geri = chw.transpose(1, 2, 0)  # şekil: (H, W, 3)
+hwc_geri = chw.transpose(1, 2, 0) # şekil: (H, W, 3)
 ```
 
 ### Renk Uzayları

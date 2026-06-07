@@ -73,15 +73,15 @@ from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import MemorySaver
 
 class State(TypedDict):
-    messages: Annotated[list[AnyMessage], add_messages]
+ messages: Annotated[list[AnyMessage], add_messages]
 
 def agent_node(state: State) -> dict:
-    response = llm.invoke(state["messages"])
-    return {"messages": [response]}
+ response = llm.invoke(state["messages"])
+ return {"messages": [response]}
 
 def should_continue(state: State) -> str:
-    last = state["messages"][-1]
-    return "tools" if getattr(last, "tool_calls", None) else END
+ last = state["messages"][-1]
+ return "tools" if getattr(last, "tool_calls", None) else END
 
 tool_node = ToolNode(tools=[search_web, read_file])
 
@@ -102,11 +102,11 @@ app = graph.compile(checkpointer=MemorySaver())
 ```python
 config = {"configurable": {"thread_id": "user-42"}}
 for event in app.stream(
-    {"messages": [HumanMessage("find the Anthropic headquarters address")]},
-    config,
-    stream_mode="updates",
+ {"messages": [HumanMessage("find the Anthropic headquarters address")]},
+ config,
+ stream_mode="updates",
 ):
-    print(event)
+ print(event)
 ```
 
 Her güncelleme bir `{node_name: state_delta}` dict'idir. Frontend'iniz bunları UI'a yayınlayabilir, böylece kullanıcılar "agent düşünüyor… search_web çağırılıyor… sonuç alındı… yanıt veriliyor" görür.
@@ -117,8 +117,8 @@ Bir düğümü işaretleyin, çalışma çalıştırılmadan önce duraklasın.
 
 ```python
 app = graph.compile(
-    checkpointer=MemorySaver(),
-    interrupt_before=["tools"],  # her araç çağrısından önce durakla
+ checkpointer=MemorySaver(),
+ interrupt_before=["tools"], # her araç çağrısından önce durakla
 )
 
 state = app.invoke({"messages": [HumanMessage("delete the production database")]}, config)
@@ -137,12 +137,12 @@ Durum, checkpoint ve thread interrupt boyunca depolanır. Çalıştırma sıras�
 ```python
 history = list(app.get_state_history(config))
 for snapshot in history:
-    print(snapshot.values["messages"][-1].content[:80], snapshot.config)
+ print(snapshot.values["messages"][-1].content[:80], snapshot.config)
 
 # Önceki checkpoint'ten dallanma
-target = history[3].config  # üç adım geri
+target = history[3].config # üç adım geri
 for event in app.stream(None, target, stream_mode="values"):
-    pass  # o noktadan ileriye doğru yeniden oynatma
+ pass # o noktadan ileriye doğru yeniden oynatma
 ```
 
 Girdi olarak `None` geçirmek verilen checkpoint'ten yeniden oynatır; bir değer geçirmek, sürdürmeden önce o checkpoint'in durumuna bir güncelleme olarak ekler. Bu, tüm konuşmayı yeniden çalıştırmadan kötü bir agent çalışmasını nasıl yeniden ürettiğinizdir.
@@ -153,8 +153,8 @@ Girdi olarak `None` geçirmek verilen checkpoint'ten yeniden oynatır; bir değe
 from langgraph.checkpoint.postgres import PostgresSaver
 
 with PostgresSaver.from_conn_string("postgresql://...") as checkpointer:
-    checkpointer.setup()
-    app = graph.compile(checkpointer=checkpointer)
+ checkpointer.setup()
+ app = graph.compile(checkpointer=checkpointer)
 ```
 
 SQLite, Redis ve Postgres sunulmaktadır. `MemorySaver` testler içindir. Yeniden başlatmalar arası kalıcılık isteyen her şey gerçek bir depo ister.

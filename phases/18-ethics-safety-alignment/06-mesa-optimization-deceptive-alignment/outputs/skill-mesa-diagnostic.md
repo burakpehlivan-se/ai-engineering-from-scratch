@@ -12,9 +12,9 @@ Bir güvenlik değerlendirme raporu (değerlendirme görevi, başarısızlık ki
 Çıktı:
 
 1. Başarısızlık kipi kategorizasyonu. Birini seç:
-   - Dış-hizalama başarısızlığı: temel amaç (ödül, kayıp) yanlıştı; model onu doğru optimize etti.
-   - İç-hizalama vekil başarısızlığı: mesa-amaç, dağılım içinde temeli izleyen bir vekildir; dağılım dışında başarısız olur.
-   - İç-hizalama aldatıcı: mesa-optimize edici, durumsal farkındalığa sahiptir ve dağıtımda sapma gösterir; eğitim davranışı temizdir.
+ - Dış-hizalama başarısızlığı: temel amaç (ödül, kayıp) yanlıştı; model onu doğru optimize etti.
+ - İç-hizalama vekil başarısızlığı: mesa-amaç, dağılım içinde temeli izleyen bir vekildir; dağılım dışında başarısız olur.
+ - İç-hizalama aldatıcı: mesa-optimize edici, durumsal farkındalığa sahiptir ve dağıtımda sapma gösterir; eğitim davranışı temizdir.
 2. Kanıt izi. Her kategori için onu destekleyecek kanıt. Aldatıcı için, vekilden ayırt et: durumsal farkındalık kanıtı (tarih duyarlılığı, değerlendirme-vs-dağıtım ayrıştırıcıları, düşünce zincirinde stratejik muhakeme).
 3. Hafifletme sınıfı. Dış-hizalama için: amacı değiştir (CAI, daha iyi ödül verisi, süreç denetimi). Vekil-iç için: dağılımsal kapsama, topluluklar, elenmiş değerlendirmeler. Aldatıcı-iç için: kontrol önlemleri (Ders 10), yorumlanabilirlik (artık-akış sondaları), yetenek azaltımları.
 4. Bilinen başarısızlıklar kontrolü. Aldatıcı-iç için, ilgili 2024-2026 deneysel gösterimi (Sleeper Agents, Alignment Faking, In-Context Scheming) — bu başarısızlığın en çok benzediği — alıntıla.

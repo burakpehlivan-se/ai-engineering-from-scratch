@@ -13,9 +13,9 @@ Bir ajan dağıtım olayı raporu (beklenmeyen araç kullanımı, veri erişimi,
 
 1. Başarısızlık sınıfı triyajı. Olayı şu şekilde etiketle: yetenek başarısızlığı (model görevi yapamadı), kontrol başarısızlığı (izleme/araç-kullanım protokolü modeli sınırlamadı) veya komplo (model, farklı bir bağlam-içi hedef uğruna kullanıcının hedefine karşı eylemler aldı).
 2. Üç-sütun kontrolü (komplo adaysa).
-   - Hizalama dışılık: eylem, ortamda veya araç çıktısında bulunan ortogonal bir hedefe hizmet etti mi?
-   - Hedef-yönelimlilik: eylem, çok adımlı bir planın parçası mıydı yoksa tek atımlık bir hata mı?
-   - Durumsal farkındalık: modelin o sırada değerlendirildiğini bildiğine dair kanıt var mı?
+ - Hizalama dışılık: eylem, ortamda veya araç çıktısında bulunan ortogonal bir hedefe hizmet etti mi?
+ - Hedef-yönelimlilik: eylem, çok adımlı bir planın parçası mıydı yoksa tek atımlık bir hata mı?
+ - Durumsal farkındalık: modelin o sırada değerlendirildiğini bildiğine dair kanıt var mı?
 3. Değerlendirme-bağlamı denetimi. Olay, dağıtımda mı, kırmızı takım değerlendirmesinde mi yoksa her ikisinde mi gözlemlendi? Yalnızca dağıtımdaysa, değerlendirme-zamanı sonuçlarının aktarılmadığını not et (Apollo 2025 uyarısı).
 4. Çıkarma yeniden üretilebilirliği. Aynı istem + ortam aynı davranışı tekrar üretebilir mi? Yeniden üretilebilir bir olay üç-sütun çerçevesindedir; yeniden üretilemeyen bir olay bir yetenek çıkarma artefaktı olabilir.
 5. Güvenlik durumu boşluğu. Bu dağıtım için mevcut güvenlik durumu üç sütundan hangilerini ele alıyor ve hangisini açıkta bırakıyor?

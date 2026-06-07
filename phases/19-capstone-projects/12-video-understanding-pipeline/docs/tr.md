@@ -26,28 +26,28 @@ Halüsinasyon ölçümü önemlidir. Sayma ("odaya kaç kişi giriyor?") ve eyle
 
 ```
 video file / URL
-      |
-      v
-PySceneDetect / TransNetV2  (scene segmentation)
-      |
-      +--- per-scene keyframe --- VLM caption + frame embedding
-      |                            (Gemini 2.5 Pro / Qwen3-VL-Max / Molmo 2)
-      |
-      +--- audio channel --- Whisper-v3-turbo ASR + word timestamps
-      |
-      v
+ |
+ v
+PySceneDetect / TransNetV2 (scene segmentation)
+ |
+ +--- per-scene keyframe --- VLM caption + frame embedding
+ | (Gemini 2.5 Pro / Qwen3-VL-Max / Molmo 2)
+ |
+ +--- audio channel --- Whisper-v3-turbo ASR + word timestamps
+ |
+ v
 multi-vector Qdrant: {caption_emb, keyframe_emb, transcript_emb}
-      |
+ |
 query:
-  dense queries against all three -> RRF merge -> top-k scenes
-      |
-      v
+ dense queries against all three -> RRF merge -> top-k scenes
+ |
+ v
 TimeLens / VideoITG temporal grounding (refine start/end within scene)
-      |
-      v
+ |
+ v
 VLM synth: query + top scenes + frame previews
-      |
-      v
+ |
+ v
 answer + (start, end) timestamps + frame thumbs + citations
 ```
 
@@ -90,15 +90,15 @@ Bu mimari ham video dosyasından alıntılanmış bir video Soru-Cevap yanıtın
 
 ```
 $ video-qa ask --url=https://youtube.com/watch?v=X "how many cars pass the intersection in the first minute?"
-[scene]    23 scenes detected
-[asr]      transcript complete, 4m12s
-[index]    69 vectors written (23 scenes x 3)
-[query]    top scene: scene 3 [01:32-01:54], confidence 0.84
-[ground]   refined window: [00:12-00:58]
-[synth]    gemini 2.5 pro, 1.4s
-answer:    5 cars pass the intersection between 00:12 and 00:58.
+[scene] 23 scenes detected
+[asr] transcript complete, 4m12s
+[index] 69 vectors written (23 scenes x 3)
+[query] top scene: scene 3 [01:32-01:54], confidence 0.84
+[ground] refined window: [00:12-00:58]
+[synth] gemini 2.5 pro, 1.4s
+answer: 5 cars pass the intersection between 00:12 and 00:58.
 citations: [scene 3: 00:12-00:58]
-          [frame preview at 00:14, 00:27, 00:44, 00:51, 00:57]
+ [frame preview at 00:14, 00:27, 00:44, 00:51, 00:57]
 ```
 
 #### Açıklama

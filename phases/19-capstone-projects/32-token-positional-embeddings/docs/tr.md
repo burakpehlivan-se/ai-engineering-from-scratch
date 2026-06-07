@@ -29,14 +29,14 @@ Gömme aşamasının girdisi, `(B, T)` şeklinde token kimliği batch'idir. Çı
 
 ```mermaid
 flowchart LR
-    A["(B, T) token ids"] --> B[token embedding lookup]
-    B --> C["(B, T, D) token vectors"]
-    A --> D[position broadcast 0..T-1]
-    D --> E[positional embedding lookup]
-    E --> F["(B, T, D) position vectors"]
-    C --> G[elementwise sum]
-    F --> G
-    G --> H["(B, T, D) input to attention"]
+ A["(B, T) token ids"] --> B[token embedding lookup]
+ B --> C["(B, T, D) token vectors"]
+ A --> D[position broadcast 0.. T-1]
+ D --> E[positional embedding lookup]
+ E --> F["(B, T, D) position vectors"]
+ C --> G[elementwise sum]
+ F --> G
+ G --> H["(B, T, D) input to attention"]
 ```
 
 #### Açıklama
@@ -46,7 +46,7 @@ Kompozisyon bir toplamdır, bitiştirme (concatenation) değil. Toplam, `D`'yi a
 
 ## Token Gömme Matrisi
 
-Token gömme, `(V, D)` şeklinde bir parametre tensörüdür; burada `V` sözlük boyutudur. PyTorch bunu `nn.Embedding(V, D)` olarak sunar. Başlatmada (init) girişler küçük bir Gauss'tan çekilir, geleneksel olarak sıfır ortalama ve transformer ölçeğindeki modeller için yaklaşık `0.02` standart sapma ile. Tam başlatma değerinden çok, çalıştırmalar arasında tutarlı kalması daha önemlidir.
+Token gömme, `(V, D)` şeklinde bir parametre tensörüdür; burada `V` sözlük boyutudur. PyTorch bunu `nn. Embedding(V, D)` olarak sunar. Başlatmada (init) girişler küçük bir Gauss'tan çekilir, geleneksel olarak sıfır ortalama ve transformer ölçeğindeki modeller için yaklaşık `0.02` standart sapma ile. Tam başlatma değerinden çok, çalıştırmalar arasında tutarlı kalması daha önemlidir.
 
 İleri geçiş tek bir indeksleme işlemidir. PyTorch, `(B, T)` int64 kimliklerini, satırları toplayarak `(B, T, D)` float'lara eşler. Geri geçiş, yalnızca ileri geçişte dokunulan satırlara gradyan biriktirir. Batch'te hiç görünmeyen iki satır, o adımda sıfır gradyan alır.
 
@@ -54,7 +54,7 @@ Token gömme, `(V, D)` şeklinde bir parametre tensörüdür; burada `V` sözlü
 
 ## Öğrenilmiş Konumsal Gömme
 
-Öğrenilmiş konumsal gömme, `(max_context_length, D)` şeklinde ikinci bir `nn.Embedding`'dir. Arama, konum kimliği `0, 1, 2, ..., T-1` ile anahtarlanır. İleri geçiş, konum vektörünü batch boyutu boyunca yayar (broadcast).
+Öğrenilmiş konumsal gömme, `(max_context_length, D)` şeklinde ikinci bir `nn. Embedding`'dir. Arama, konum kimliği `0, 1, 2, ..., T-1` ile anahtarlanır. İleri geçiş, konum vektörünü batch boyutu boyunca yayar (broadcast).
 
 Öğrenilmiş tablonun eksik yanı, model yalnızca `T-1`'e kadar eğitildiyse, konum `T`'de sorgulanamamasıdır. Satır yoktur. Bu şemayı kullanan üretim yalnızca çözücü (decoder-only) modelleri, maksimum bağlam uzunluğunu mimariye yerleştirir ve daha uzun girdileri işlemeyi reddeder.
 
@@ -64,7 +64,7 @@ Sinüzoidal konumsal gömme, konumdan vektöre bir fonksiyondur. Konum `p` ve ö
 
 ```python
 angle = p / (10000 ** (2 * (i // 2) / D))
-emb[p, 2k]     = sin(angle)
+emb[p, 2k] = sin(angle)
 emb[p, 2k + 1] = cos(angle)
 ```
 
@@ -83,15 +83,15 @@ Girdi işlem hattı sırayla üç şey yapar. Token kimliklerini oku. Token vekt
 
 ```mermaid
 sequenceDiagram
-    participant Caller
-    participant Layer
-    participant TokEmb
-    participant PosEmb
-    Caller->>Layer: forward(ids of shape (B, T))
-    Layer->>TokEmb: ids -> (B, T, D)
-    Layer->>PosEmb: 0..T-1 -> (T, D)
-    Layer->>Layer: tok + pos (broadcast across B)
-    Layer->>Caller: (B, T, D)
+ participant Caller
+ participant Layer
+ participant TokEmb
+ participant PosEmb
+ Caller->>Layer: forward(ids of shape (B, T))
+ Layer->>TokEmb: ids -> (B, T, D)
+ Layer->>PosEmb: 0.. T-1 -> (T, D)
+ Layer->>Layer: tok + pos (broadcast across B)
+ Layer->>Caller: (B, T, D)
 ```
 
 #### Açıklama
@@ -115,6 +115,6 @@ Gömme'yi eğitmez. Eğitim bir kayıp (loss) gerektirir, bu bir model çıktıs
 
 ## Kodu Nasıl Okumalı
 
-`main.py` üç modül tanımlar. `TokenEmbedding` `nn.Embedding(V, D)`'yi sarar. `LearnedPositionalEmbedding` `nn.Embedding(L, D)`'yi sarar. `SinusoidalPositionalEmbedding` tabloyu önceden hesaplar ve onu bir buffer olarak sunar. `EmbeddingComposer` bir token gömme ve bir konumsal gömme'yi bağlar. Alttaki demo, şekilleri, parametre sayılarını ve komşu-konum benzerliği tanısal değerini yazdırır. `code/tests/test_embeddings.py` içindeki testler, şekli, yayma davranışını, parametre sayısını ve sinüzoidal formülü sabitler.
+`main.py` üç modül tanımlar. `TokenEmbedding` `nn. Embedding(V, D)`'yi sarar. `LearnedPositionalEmbedding` `nn. Embedding(L, D)`'yi sarar. `SinusoidalPositionalEmbedding` tabloyu önceden hesaplar ve onu bir buffer olarak sunar. `EmbeddingComposer` bir token gömme ve bir konumsal gömme'yi bağlar. Alttaki demo, şekilleri, parametre sayılarını ve komşu-konum benzerliği tanısal değerini yazdırır. `code/tests/test_embeddings.py` içindeki testler, şekli, yayma davranışını, parametre sayısını ve sinüzoidal formülü sabitler.
 
 Demoyu çalıştırın. Sonra model boyutu `D`'yi 64'ten 32'ye değiştirin ve sinüzoidal dalga boyu bantlarının nasıl değiştiğini izleyin.

@@ -28,11 +28,11 @@ Bu ağları sırayla incelemek sizi yaygın bir hatadan da korur: mevcut en büy
 
 ```mermaid
 timeline
-    title Four ideas, four families
-    1998 : LeNet-5 : Conv + pool + FC for digits, trained on CPU, 60k params
-    2012 : AlexNet : Deeper + ReLU + dropout + two GPUs, won ImageNet by 10 points
-    2014 : VGG / Inception : 3x3 stacks (VGG), parallel filter sizes (Inception)
-    2015 : ResNet : Identity skip connections unlock 100+ layer training
+ title Four ideas, four families
+ 1998 : LeNet-5 : Conv + pool + FC for digits, trained on CPU, 60k params
+ 2012 : AlexNet : Deeper + ReLU + dropout + two GPUs, won ImageNet by 10 points
+ 2014 : VGG / Inception : 3x3 stacks (VGG), parallel filter sizes (Inception)
+ 2015 : ResNet : Identity skip connections unlock 100+ layer training
 ```
 
 #### Açıklama
@@ -46,14 +46,14 @@ Yann LeCun'un rakam tanıyıcısı. 60.000 parametre. İki conv-pool bloğu, iki
 
 ```text
 input (1, 32, 32)
-  conv 5x5 -> (6, 28, 28)
-  avg pool 2x2 -> (6, 14, 14)
-  conv 5x5 -> (16, 10, 10)
-  avg pool 2x2 -> (16, 5, 5)
-  flatten -> 400
-  dense -> 120
-  dense -> 84
-  dense -> 10
+ conv 5x5 -> (6, 28, 28)
+ avg pool 2x2 -> (6, 14, 14)
+ conv 5x5 -> (16, 10, 10)
+ avg pool 2x2 -> (16, 5, 5)
+ flatten -> 400
+ dense -> 120
+ dense -> 84
+ dense -> 10
 ```
 
 #### Açıklama
@@ -76,8 +76,8 @@ Makalenin Şekil 2'si hâlâ GPU bölünmesini iki paralel akış olarak göster
 VGG şunu sordu: ya sadece 3x3 convolution'lar kullanırsanız ve derine inerseniz?
 
 ```text
-stack:   conv 3x3 -> conv 3x3 -> pool 2x2
-repeat:  16 or 19 conv layers
+stack: conv 3x3 -> conv 3x3 -> pool 2x2
+repeat: 16 or 19 conv layers
 ```
 
 #### Açıklama
@@ -93,19 +93,19 @@ Google'ın "hangi kernel boyutunu kullanmalıyım?" sorusuna yanıtı: hepsini, 
 
 ```mermaid
 flowchart LR
-    IN["Input feature map"] --> A["1x1 conv"]
-    IN --> B["3x3 conv"]
-    IN --> C["5x5 conv"]
-    IN --> D["3x3 max pool"]
-    A --> CAT["Concatenate<br/>along channel axis"]
-    B --> CAT
-    C --> CAT
-    D --> CAT
-    CAT --> OUT["Next block"]
+ IN["Input feature map"] --> A["1x1 conv"]
+ IN --> B["3x3 conv"]
+ IN --> C["5x5 conv"]
+ IN --> D["3x3 max pool"]
+ A --> CAT["Concatenate<br/>along channel axis"]
+ B --> CAT
+ C --> CAT
+ D --> CAT
+ CAT --> OUT["Next block"]
 
-    style IN fill:#dbeafe,stroke:#2563eb
-    style CAT fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style IN fill:#dbeafe,stroke:#2563eb
+ style CAT fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 #### Açıklama
@@ -119,10 +119,10 @@ Her dal uzmanlaşır — 1x1 kanal karıştırma için, 3x3 yerel doku için, 5x
 
 ```text
 Plain deep network:
-  y = f_L( f_{L-1}( ... f_1(x) ... ) )
+ y = f_L( f_{L-1}( ... f_1(x) ... ) )
 
 Gradient wrt early layer:
-  dL/dW_1 = dL/dy * df_L/df_{L-1} * ... * df_2/df_1 * df_1/dW_1
+ dL/dW_1 = dL/dy * df_L/df_{L-1} * ... * df_2/df_1 * df_1/dW_1
 
 Each multiplicative term has magnitude roughly (weight magnitude) * (activation gain).
 Stack 100 of them with gains < 1 and the gradient is effectively zero.
@@ -138,23 +138,23 @@ VGG, batch norm (eş zamanlı yayınlanan) aktivasyonları iyi ölçeklendirdiğ
 He, Zhang, Ren, Sun her şeyi düzelten tek bir değişiklik önerdi:
 
 ```
-standard block:   y = F(x)
-residual block:   y = F(x) + x
+standard block: y = F(x)
+residual block: y = F(x) + x
 ```
 
 `+ x`, katmanın `F(x)`'i sıfıra iterek her zaman hiçbir şey yapmamayı seçebileceği anlamına gelir. 1.000 katmanlı bir ResNet artık en kötü ihtimalle 1 katmanlı bir ağ kadar kötüdür, çünkü her ekstra bloğun önemsiz bir kaçış kapağı vardır. Bu garantiyle, optimizasyon aracı her bloğu *biraz* yararlı hale getirmeye isteklidir — ve biraz yararlı, 100 kez istiflendiğinde, son teknolojidir.
 
 ```mermaid
 flowchart LR
-    X["Input x"] --> F["F(x)<br/>conv + BN + ReLU<br/>conv + BN"]
-    X -.->|identity skip| PLUS(["+"])
-    F --> PLUS
-    PLUS --> RELU["ReLU"]
-    RELU --> OUT["y"]
+ X["Input x"] --> F["F(x)<br/>conv + BN + ReLU<br/>conv + BN"]
+ X -.->|identity skip| PLUS(["+"])
+ F --> PLUS
+ PLUS --> RELU["ReLU"]
+ RELU --> OUT["y"]
 
-    style X fill:#dbeafe,stroke:#2563eb
-    style PLUS fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style X fill:#dbeafe,stroke:#2563eb
+ style PLUS fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 #### Açıklama
@@ -175,30 +175,30 @@ Bu fikir aslında görüntü sınıflandırmasıyla ilgili değildi. Derin ağla
 
 ### Adım 1: LeNet-5
 
-Minimal, sadık bir LeNet. Tanh aktivasyonları, average pooling. Moderniteye tek taviz, orijinal Gaussian bağlantıları yerine aşağı akışta `nn.CrossEntropyLoss` kullanmamızdır.
+Minimal, sadık bir LeNet. Tanh aktivasyonları, average pooling. Moderniteye tek taviz, orijinal Gaussian bağlantıları yerine aşağı akışta `nn. CrossEntropyLoss` kullanmamızdır.
 
 ```python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class LeNet5(nn.Module):
-    def __init__(self, num_classes=10):
-        super().__init__()
-        self.conv1 = nn.Conv2d(1, 6, kernel_size=5)
-        self.conv2 = nn.Conv2d(6, 16, kernel_size=5)
-        self.pool = nn.AvgPool2d(2)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, num_classes)
+class LeNet5(nn. Module):
+ def __init__(self, num_classes=10):
+ super().__init__()
+ self.conv1 = nn. Conv2d(1, 6, kernel_size=5)
+ self.conv2 = nn. Conv2d(6, 16, kernel_size=5)
+ self.pool = nn. AvgPool2d(2)
+ self.fc1 = nn. Linear(16 * 5 * 5, 120)
+ self.fc2 = nn. Linear(120, 84)
+ self.fc3 = nn. Linear(84, num_classes)
 
-    def forward(self, x):
-        x = self.pool(torch.tanh(self.conv1(x)))
-        x = self.pool(torch.tanh(self.conv2(x)))
-        x = torch.flatten(x, 1)
-        x = torch.tanh(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
-        return self.fc3(x)
+ def forward(self, x):
+ x = self.pool(torch.tanh(self.conv1(x)))
+ x = self.pool(torch.tanh(self.conv2(x)))
+ x = torch.flatten(x, 1)
+ x = torch.tanh(self.fc1(x))
+ x = torch.tanh(self.fc2(x))
+ return self.fc3(x)
 
 net = LeNet5()
 x = torch.randn(1, 1, 32, 32)
@@ -209,43 +209,43 @@ print(f"params: {sum(p.numel() for p in net.parameters()):,}")
 #### Açıklama
 LeNet-5'in PyTorch uygulaması: iki convolution katmanı, average pooling, üç tam bağlı katman. ~61 bin parametre.
 
-Beklenen çıktı: `output: torch.Size([1, 10])`, `params: 61,706`. Modern görüşü başlatan rakam sınıflandırıcının tamamı budur.
+Beklenen çıktı: `output: torch. Size([1, 10])`, `params: 61,706`. Modern görüşü başlatan rakam sınıflandırıcının tamamı budur.
 
 ### Adım 2: Bir VGG bloğu
 
 Tek bir yeniden kullanılabilir blok: iki 3x3 conv, ReLU, batch norm, max pool.
 
 ```python
-class VGGBlock(nn.Module):
-    def __init__(self, in_c, out_c):
-        super().__init__()
-        self.conv1 = nn.Conv2d(in_c, out_c, kernel_size=3, padding=1)
-        self.bn1 = nn.BatchNorm2d(out_c)
-        self.conv2 = nn.Conv2d(out_c, out_c, kernel_size=3, padding=1)
-        self.bn2 = nn.BatchNorm2d(out_c)
-        self.pool = nn.MaxPool2d(2)
+class VGGBlock(nn. Module):
+ def __init__(self, in_c, out_c):
+ super().__init__()
+ self.conv1 = nn. Conv2d(in_c, out_c, kernel_size=3, padding=1)
+ self.bn1 = nn. BatchNorm2d(out_c)
+ self.conv2 = nn. Conv2d(out_c, out_c, kernel_size=3, padding=1)
+ self.bn2 = nn. BatchNorm2d(out_c)
+ self.pool = nn. MaxPool2d(2)
 
-    def forward(self, x):
-        x = F.relu(self.bn1(self.conv1(x)))
-        x = F.relu(self.bn2(self.conv2(x)))
-        return self.pool(x)
+ def forward(self, x):
+ x = F.relu(self.bn1(self.conv1(x)))
+ x = F.relu(self.bn2(self.conv2(x)))
+ return self.pool(x)
 
-class MiniVGG(nn.Module):
-    def __init__(self, num_classes=10):
-        super().__init__()
-        self.stack = nn.Sequential(
-            VGGBlock(3, 32),
-            VGGBlock(32, 64),
-            VGGBlock(64, 128),
-        )
-        self.head = nn.Sequential(
-            nn.AdaptiveAvgPool2d(1),
-            nn.Flatten(),
-            nn.Linear(128, num_classes),
-        )
+class MiniVGG(nn. Module):
+ def __init__(self, num_classes=10):
+ super().__init__()
+ self.stack = nn. Sequential(
+ VGGBlock(3, 32),
+ VGGBlock(32, 64),
+ VGGBlock(64, 128),
+ )
+ self.head = nn. Sequential(
+ nn. AdaptiveAvgPool2d(1),
+ nn. Flatten(),
+ nn. Linear(128, num_classes),
+ )
 
-    def forward(self, x):
-        return self.head(self.stack(x))
+ def forward(self, x):
+ return self.head(self.stack(x))
 
 net = MiniVGG()
 x = torch.randn(1, 3, 32, 32)
@@ -263,26 +263,26 @@ CIFAR boyutlu girdide üç VGG bloğu, adaptive pool, tek linear katman. ~290k p
 ResNet-18 ve ResNet-34'un temel yapı taşı.
 
 ```python
-class BasicBlock(nn.Module):
-    def __init__(self, in_c, out_c, stride=1):
-        super().__init__()
-        self.conv1 = nn.Conv2d(in_c, out_c, kernel_size=3, stride=stride, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(out_c)
-        self.conv2 = nn.Conv2d(out_c, out_c, kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn2 = nn.BatchNorm2d(out_c)
-        if stride != 1 or in_c != out_c:
-            self.shortcut = nn.Sequential(
-                nn.Conv2d(in_c, out_c, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(out_c),
-            )
-        else:
-            self.shortcut = nn.Identity()
+class BasicBlock(nn. Module):
+ def __init__(self, in_c, out_c, stride=1):
+ super().__init__()
+ self.conv1 = nn. Conv2d(in_c, out_c, kernel_size=3, stride=stride, padding=1, bias=False)
+ self.bn1 = nn. BatchNorm2d(out_c)
+ self.conv2 = nn. Conv2d(out_c, out_c, kernel_size=3, stride=1, padding=1, bias=False)
+ self.bn2 = nn. BatchNorm2d(out_c)
+ if stride != 1 or in_c != out_c:
+ self.shortcut = nn. Sequential(
+ nn. Conv2d(in_c, out_c, kernel_size=1, stride=stride, bias=False),
+ nn. BatchNorm2d(out_c),
+ )
+ else:
+ self.shortcut = nn. Identity()
 
-    def forward(self, x):
-        out = F.relu(self.bn1(self.conv1(x)))
-        out = self.bn2(self.conv2(out))
-        out = out + self.shortcut(x)
-        return F.relu(out)
+ def forward(self, x):
+ out = F.relu(self.bn1(self.conv1(x)))
+ out = self.bn2(self.conv2(out))
+ out = out + self.shortcut(x)
+ return F.relu(out)
 ```
 
 #### Açıklama
@@ -295,37 +295,37 @@ Conv katmanlarında `bias=False`, batch-norm geleneğidir — BN'nin beta parame
 CIFAR boyutlu girdiler için çalışan bir ResNet elde etmek üzere dört grup BasicBlock istifleyin.
 
 ```python
-class TinyResNet(nn.Module):
-    def __init__(self, num_classes=10):
-        super().__init__()
-        self.stem = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-        )
-        self.layer1 = self._make_group(32, 32, num_blocks=2, stride=1)
-        self.layer2 = self._make_group(32, 64, num_blocks=2, stride=2)
-        self.layer3 = self._make_group(64, 128, num_blocks=2, stride=2)
-        self.layer4 = self._make_group(128, 256, num_blocks=2, stride=2)
-        self.head = nn.Sequential(
-            nn.AdaptiveAvgPool2d(1),
-            nn.Flatten(),
-            nn.Linear(256, num_classes),
-        )
+class TinyResNet(nn. Module):
+ def __init__(self, num_classes=10):
+ super().__init__()
+ self.stem = nn. Sequential(
+ nn. Conv2d(3, 32, kernel_size=3, stride=1, padding=1, bias=False),
+ nn. BatchNorm2d(32),
+ nn. ReLU(inplace=True),
+ )
+ self.layer1 = self._make_group(32, 32, num_blocks=2, stride=1)
+ self.layer2 = self._make_group(32, 64, num_blocks=2, stride=2)
+ self.layer3 = self._make_group(64, 128, num_blocks=2, stride=2)
+ self.layer4 = self._make_group(128, 256, num_blocks=2, stride=2)
+ self.head = nn. Sequential(
+ nn. AdaptiveAvgPool2d(1),
+ nn. Flatten(),
+ nn. Linear(256, num_classes),
+ )
 
-    def _make_group(self, in_c, out_c, num_blocks, stride):
-        blocks = [BasicBlock(in_c, out_c, stride=stride)]
-        for _ in range(num_blocks - 1):
-            blocks.append(BasicBlock(out_c, out_c, stride=1))
-        return nn.Sequential(*blocks)
+ def _make_group(self, in_c, out_c, num_blocks, stride):
+ blocks = [BasicBlock(in_c, out_c, stride=stride)]
+ for _ in range(num_blocks - 1):
+ blocks.append(BasicBlock(out_c, out_c, stride=1))
+ return nn. Sequential(*blocks)
 
-    def forward(self, x):
-        x = self.stem(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-        return self.head(x)
+ def forward(self, x):
+ x = self.stem(x)
+ x = self.layer1(x)
+ x = self.layer2(x)
+ x = self.layer3(x)
+ x = self.layer4(x)
+ return self.head(x)
 
 net = TinyResNet()
 x = torch.randn(1, 3, 32, 32)
@@ -344,14 +344,14 @@ Aynı girdiyi üç ağ üzerinden de geçirin ve parametre sayılarını karşı
 
 ```python
 def summary(name, net, x):
-    y = net(x)
-    params = sum(p.numel() for p in net.parameters())
-    print(f"{name:12s}  input {tuple(x.shape)} -> output {tuple(y.shape)}  params {params:>10,}")
+ y = net(x)
+ params = sum(p.numel() for p in net.parameters())
+ print(f"{name:12s} input {tuple(x.shape)} -> output {tuple(y.shape)} params {params:>10,}")
 
 x = torch.randn(1, 3, 32, 32)
-summary("LeNet5",     LeNet5(),       torch.randn(1, 1, 32, 32))
-summary("MiniVGG",    MiniVGG(),      x)
-summary("TinyResNet", TinyResNet(),   x)
+summary("LeNet5", LeNet5(), torch.randn(1, 1, 32, 32))
+summary("MiniVGG", MiniVGG(), x)
+summary("TinyResNet", TinyResNet(), x)
 ```
 
 #### Açıklama
@@ -364,16 +364,16 @@ summary("TinyResNet", TinyResNet(),   x)
 ```python
 from torchvision.models import resnet18, ResNet18_Weights, vgg16, VGG16_Weights
 
-r18 = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+r18 = resnet18(weights=ResNet18_Weights. IMAGENET1K_V1)
 r18.eval()
 
 print(f"ResNet-18 params: {sum(p.numel() for p in r18.parameters()):,}")
 print(r18.layer1[0])
 print()
 
-v16 = vgg16(weights=VGG16_Weights.IMAGENET1K_V1)
+v16 = vgg16(weights=VGG16_Weights. IMAGENET1K_V1)
 v16.eval()
-print(f"VGG-16   params: {sum(p.numel() for p in v16.parameters()):,}")
+print(f"VGG-16 params: {sum(p.numel() for p in v16.parameters()):,}")
 ```
 
 #### Açıklama
@@ -385,8 +385,8 @@ Transfer learning (aktarma öğrenme) için tarif her zaman aynıdır: önceden 
 
 ```python
 for p in r18.parameters():
-    p.requires_grad = False
-r18.fc = nn.Linear(r18.fc.in_features, 10)
+ p.requires_grad = False
+r18.fc = nn. Linear(r18.fc.in_features, 10)
 ```
 
 #### Açıklama

@@ -56,14 +56,14 @@ Moshi (Kyutai, 2024) 200 ms tam çift taraflı (full-duplex) hızına ulaştı. 
 import collections
 
 class RingBuffer:
-    def __init__(self, capacity):
-        self.buf = collections.deque(maxlen=capacity)
-    def write(self, frame):
-        self.buf.extend(frame)
-    def read(self, n):
-        return [self.buf.popleft() for _ in range(min(n, len(self.buf)))]
-    def level(self):
-        return len(self.buf)
+ def __init__(self, capacity):
+ self.buf = collections.deque(maxlen=capacity)
+ def write(self, frame):
+ self.buf.extend(frame)
+ def read(self, n):
+ return [self.buf.popleft() for _ in range(min(n, len(self.buf)))]
+ def level(self):
+ return len(self.buf)
 ```
 
 #### Açıklama
@@ -73,7 +73,7 @@ Kapasite maksimum tamponlama gecikmesini belirler. 16 kHz'de 32.000 örnek = 2 s
 
 ```python
 def simple_energy_vad(frame, threshold=0.01):
-    return sum(x * x for x in frame) / len(frame) > threshold ** 2
+ return sum(x * x for x in frame) / len(frame) > threshold ** 2
 ```
 
 #### Açıklama
@@ -93,8 +93,8 @@ from nemo.collections.asr.models import EncDecCTCModelBPE
 asr = EncDecCTCModelBPE.from_pretrained("nvidia/parakeet-ctc-0.6b")
 # chunk_ms=320 ms, look_ahead_ms=80 ms
 for chunk in audio_stream():
-    partial_text = asr.transcribe_streaming(chunk)
-    print(partial_text, end="\r")
+ partial_text = asr.transcribe_streaming(chunk)
+ print(partial_text, end="\r")
 ```
 
 #### Açıklama
@@ -104,20 +104,20 @@ NeMo Parakeet-CTC modeliyle akışlı transkripsiyon yaparak kısmi metinleri ge
 
 ```python
 class Dialog:
-    def __init__(self):
-        self.tts_task = None
+ def __init__(self):
+ self.tts_task = None
 
-    def on_user_speech(self, frame):
-        if self.tts_task and not self.tts_task.done():
-            self.tts_task.cancel()   # araya girme
-        # sonra akışlı ASR'ye besle
+ def on_user_speech(self, frame):
+ if self.tts_task and not self.tts_task.done():
+ self.tts_task.cancel() # araya girme
+ # sonra akışlı ASR'ye besle
 
-    def on_final_user_utterance(self, text):
-        self.tts_task = asyncio.create_task(self.reply(text))
+ def on_final_user_utterance(self, text):
+ self.tts_task = asyncio.create_task(self.reply(text))
 
-    async def reply(self, text):
-        async for tts_chunk in llm_then_tts(text):
-            speaker.write(tts_chunk)
+ async def reply(self, text):
+ async for tts_chunk in llm_then_tts(text):
+ speaker.write(tts_chunk)
 ```
 
 #### Açıklama

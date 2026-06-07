@@ -31,20 +31,20 @@ Sırayla uygulayın; ilk eşleşen kural kazanır.
 
 ```
 [video model]
-  name:           <id>
-  duration_cap:   <saniye>
-  resolution_cap: <H x W>
-  interactivity:  static | steerable
+ name: <id>
+ duration_cap: <saniye>
+ resolution_cap: <H x W>
+ interactivity: static | steerable
 
 [deployment]
-  hosting:     <API | self-host GPU cluster>
-  compute:     <gereken GPU'lar>
-  cost estimate: <video başına>
+ hosting: <API | self-host GPU cluster>
+ compute: <gereken GPU'lar>
+ cost estimate: <video başına>
 
 [caveats]
-  - lisans notları
-  - izlenecek kalite başarısızlıkları (nesne kalıcılığı, hareket artefaktları)
-  - ses kullanılabilirliği
+ - lisans notları
+ - izlenecek kalite başarısızlıkları (nesne kalıcılığı, hareket artefaktları)
+ - ses kullanılabilirliği
 ```
 
 ## Kurallar

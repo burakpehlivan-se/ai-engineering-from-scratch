@@ -31,12 +31,12 @@ OpenTelemetry GenAI semantik kuralları tam olarak bunun için var. LLM çerçev
 
 ```mermaid
 flowchart TD
-  Call[tool call / model call / gate decision] --> Span["SpanBuilder.span()<br/>context manager"]
-  Span --> GenAI[GenAISpan<br/>trace_id / span_id / name<br/>attributes:<br/>gen_ai.system<br/>gen_ai.request.*<br/>gen_ai.usage.*<br/>start, end, status]
-  GenAI --> Writer[JSONLWriter]
-  GenAI --> Metrics[MetricsRegistry]
-  Writer --> Traces[traces.jsonl]
-  Metrics --> Prom[/metrics text/]
+ Call[tool call / model call / gate decision] --> Span["SpanBuilder.span()<br/>context manager"]
+ Span --> GenAI[GenAISpan<br/>trace_id / span_id / name<br/>attributes:<br/>gen_ai.system<br/>gen_ai.request.*<br/>gen_ai.usage.*<br/>start, end, status]
+ GenAI --> Writer[JSONLWriter]
+ GenAI --> Metrics[MetricsRegistry]
+ Writer --> Traces[traces.jsonl]
+ Metrics --> Prom[/metrics text/]
 ```
 
 #### Açıklama
@@ -54,10 +54,10 @@ Metrikler izlerin yanında yaşar. Bir sayaç her araç çağrısında artar: `t
 
 ```mermaid
 flowchart LR
-  Harness[AgentHarness<br/>dersler 25-27] --> Span[SpanBuilder<br/>context mgr / attrs / status]
-  Span --> Exporter[JSONLExporter<br/>traces.jsonl]
-  Span --> Metrics[MetricsRegistry<br/>counters / histograms]
-  Metrics --> Prom[Prometheus text<br/>exposition]
+ Harness[AgentHarness<br/>dersler 25-27] --> Span[SpanBuilder<br/>context mgr / attrs / status]
+ Span --> Exporter[JSONLExporter<br/>traces.jsonl]
+ Span --> Metrics[MetricsRegistry<br/>counters / histograms]
+ Metrics --> Prom[Prometheus text<br/>exposition]
 ```
 
 #### Açıklama

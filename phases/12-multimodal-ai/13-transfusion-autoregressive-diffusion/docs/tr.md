@@ -49,10 +49,10 @@ Maske:
 
 ```
 M[i, j] = 1 if:
-  (i is text and j is text and j <= i)   # metin için nedensel
-  OR (i is image and j is image and same_image_block(i, j))   # görüntü içinde çift yönlü
-  OR (i is text and j is image and j < i_image_end)   # metin önceki görüntülere dikkat eder
-  OR (i is image and j is text and j < i_image_start)   # görüntü önceki metne dikkat eder
+ (i is text and j is text and j <= i) # metin için nedensel
+ OR (i is image and j is image and same_image_block(i, j)) # görüntü içinde çift yönlü
+ OR (i is text and j is image and j < i_image_end) # metin önceki görüntülere dikkat eder
+ OR (i is image and j is text and j < i_image_start) # görüntü önceki metne dikkat eder
 ```
 
 Eğitim ve çıkarımda blok-üçgensel (block-triangular) maske olarak uygulanır.

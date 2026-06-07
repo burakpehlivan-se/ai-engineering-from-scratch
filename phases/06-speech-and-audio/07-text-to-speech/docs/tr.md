@@ -83,7 +83,7 @@ Fonemler (phoneme) evrensel köprüdür. VITS kalitesinin altındaki herhangi bi
 
 ```python
 from kokoro import KPipeline
-tts = KPipeline(lang_code="a")  # "a" = Amerikan İngilizcesi
+tts = KPipeline(lang_code="a") # "a" = Amerikan İngilizcesi
 audio, sr = tts("Please remind me to water the plants at 6 pm.", voice="af_bella")
 # audio: float32 tensor, sr=24000
 ```
@@ -97,9 +97,9 @@ audio, sr = tts("Please remind me to water the plants at 6 pm.", voice="af_bella
 from f5_tts.api import F5TTS
 tts = F5TTS()
 wav = tts.infer(
-    ref_file="my_voice_5s.wav",
-    ref_text="The quick brown fox jumps over the lazy dog.",
-    gen_text="Please remind me to water the plants.",
+ ref_file="my_voice_5s.wav",
+ ref_text="The quick brown fox jumps over the lazy dog.",
+ gen_text="Please remind me to water the plants.",
 )
 ```
 
@@ -111,13 +111,13 @@ wav = tts.infer(
 Bir eğitim betiğine sığacak kadar büyük değil, ama şekil şu:
 
 ```python
-class HiFiGAN(nn.Module):
-    def __init__(self, mel_channels=80, upsample_rates=[8, 8, 2, 2]):
-        super().__init__()
-        # 4 yukarı örnekleme bloğu, mel hızından ses hızına toplam 256×
-        ...
-    def forward(self, mel):
-        return self.blocks(mel)  # -> dalga formu
+class HiFiGAN(nn. Module):
+ def __init__(self, mel_channels=80, upsample_rates=[8, 8, 2, 2]):
+ super().__init__()
+ # 4 yukarı örnekleme bloğu, mel hızından ses hızına toplam 256×
+ ...
+ def forward(self, mel):
+ return self.blocks(mel) # -> dalga formu
 ```
 
 #### Açıklama
@@ -128,8 +128,8 @@ Eğitim: rekabetçi (kısa pencerelerde ayrımcı) + mel spektrogramı yeniden o
 ```python
 text = "Please remind me at 6 pm."
 phones = phonemize(text)
-mel = acoustic_model(phones, speaker=alice)      # [T, 80]
-wav = vocoder(mel)                                # [T * 256]
+mel = acoustic_model(phones, speaker=alice) # [T, 80]
+wav = vocoder(mel) # [T * 256]
 soundfile.write("out.wav", wav, 24000)
 ```
 

@@ -14,24 +14,24 @@ Bir LLM'nin bir problem üzerinde akıl yürütmesi gerektiğinde, prompt'u yazm
 ## Hızlı Karar Ağacı
 
 1. Görev basit bir olgusal arama mı yoksa tek adımlı sınıflandırma mı?
-   - Evet: **zero-shot** kullanın. CoT, doğruluk kazanımı olmadan maliyet ekler.
-   - Hayır: devam edin.
+ - Evet: **zero-shot** kullanın. CoT, doğruluk kazanımı olmadan maliyet ekler.
+ - Hayır: devam edin.
 
 2. Görev çok adımlı akıl yürütme (matematik, mantık, planlama) gerektiriyor mu?
-   - Evet: **Zincir-düşünce (Chain-of-Thought)** kullanın. Adım 3'e devam edin.
-   - Hayır: format önemliyse **few-shot**, önemli değilse zero-shot kullanın.
+ - Evet: **Zincir-düşünce (Chain-of-Thought)** kullanın. Adım 3'e devam edin.
+ - Hayır: format önemliyse **few-shot**, önemli değilse zero-shot kullanın.
 
 3. Tek bir akıl yürütme hatası kabul edilebilir mi?
-   - Evet: **few-shot CoT** kullanın (tek örnek, sıcaklık 0.0).
-   - Hayır: **ö z-tutarlılık (self-consistency)** kullanın (N=5, sıcaklık 0.7). Adım 4'e devam edin.
+ - Evet: **few-shot CoT** kullanın (tek örnek, sıcaklık 0.0).
+ - Hayır: **ö z-tutarlılık (self-consistency)** kullanın (N=5, sıcaklık 0.7). Adım 4'e devam edin.
 
 4. Problem, birçok olası yola sahip bir arama/planlama problemi mi?
-   - Evet: **Düşünce Ağacı (Tree-of-Thought)** kullanın.
-   - Hayır: öz-tutarlılık yeterlidir.
+ - Evet: **Düşünce Ağacı (Tree-of-Thought)** kullanın.
+ - Hayır: öz-tutarlılık yeterlidir.
 
 5. Görev dış bilgi veya hesaplama gerektiriyor mu?
-   - Evet: **ReAct** kullanın (akıl yürütme + araç çağrıları).
-   - Hayır: saf akıl yürütme teknikleri yeterlidir.
+ - Evet: **ReAct** kullanın (akıl yürütme + araç çağrıları).
+ - Hayır: saf akıl yürütme teknikleri yeterlidir.
 
 ## Teknik Matrisi
 

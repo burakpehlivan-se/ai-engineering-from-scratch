@@ -119,7 +119,7 @@ The simulator runs for a fixed step budget and reports:
 
 ### Step 1: the shared cache
 
-A list that both workers append to. Simple locking (Python `threading.Lock`) in a real implementation; we simulate with a counter.
+A list that both workers append to. Simple locking (Python `threading. Lock`) in a real implementation; we simulate with a counter.
 
 ### Step 2: the worker loop
 

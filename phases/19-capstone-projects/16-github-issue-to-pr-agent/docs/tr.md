@@ -26,32 +26,32 @@ Güvenlik iki farklı GitHub yüzeyi üzerinden kapsamlanır: App, `workflows: r
 
 ```
 GitHub issue labeled `@agent fix` or PR comment
-            |
-            v
-    GitHub App webhook -> AWS Lambda dispatcher
-            |
-            v
-    ECS Fargate task (or GitHub Actions self-hosted runner)
-       - pull repo
-       - infer Dockerfile (language, package manager)
-       - Daytona / E2B sandbox with target runtime
-       - clone -> git worktree -> agent branch
-            |
-            v
-    mini-swe-agent / SWE-agent v2 loop
-       Claude Opus 4.7 or GPT-5.4-Codex
-       tools: ripgrep, tree-sitter, read/edit, run_tests, git
-            |
-            v
-    verify CI passes in-sandbox + coverage delta check
-            |
-            v (verified)
-    git push + open PR via GitHub App
-       PR body = rationale + diff summary + trace URL
-       label: needs-review
-            |
-            v
-    operator reviews; can @-mention agent for follow-ups
+ |
+ v
+ GitHub App webhook -> AWS Lambda dispatcher
+ |
+ v
+ ECS Fargate task (or GitHub Actions self-hosted runner)
+ - pull repo
+ - infer Dockerfile (language, package manager)
+ - Daytona / E2B sandbox with target runtime
+ - clone -> git worktree -> agent branch
+ |
+ v
+ mini-swe-agent / SWE-agent v2 loop
+ Claude Opus 4.7 or GPT-5.4-Codex
+ tools: ripgrep, tree-sitter, read/edit, run_tests, git
+ |
+ v
+ verify CI passes in-sandbox + coverage delta check
+ |
+ v (verified)
+ git push + open PR via GitHub App
+ PR body = rationale + diff summary + trace URL
+ label: needs-review
+ |
+ v
+ operator reviews; can @-mention agent for follow-ups
 ```
 
 #### Açıklama
@@ -93,14 +93,14 @@ Bu mimari bir GitHub etiketinden incelemeye hazır bir PR'a kadar tam veri akı�
 
 ```
 # on github.com
-  - user labels issue #842 with `@agent fix this`
-  - PR #1903 appears 14 minutes later
-  - body:
-    > Fixed NPE in widget.dedupe() caused by null comparator entry.
-    > Added regression test widget_test.go::TestDedupeNullComparator.
-    > Coverage delta: +0.12%
-    > Turns: 7  Cost: $1.80  Trace: langfuse:...
-    > Label: needs-review
+ - user labels issue #842 with `@agent fix this`
+ - PR #1903 appears 14 minutes later
+ - body:
+ > Fixed NPE in widget.dedupe() caused by null comparator entry.
+ > Added regression test widget_test.go::TestDedupeNullComparator.
+ > Coverage delta: +0.12%
+ > Turns: 7 Cost: $1.80 Trace: langfuse:...
+ > Label: needs-review
 ```
 
 #### Açıklama

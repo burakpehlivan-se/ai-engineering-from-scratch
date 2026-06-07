@@ -46,8 +46,8 @@ Mem0 (arXiv:2504.19413, Nisan 2025) `add(text, user_id, metadata)` üzerinde:
 
 ```text
 score = w_relevance * relevance(q, record)
-      + w_importance * importance(record)
-      + w_recency * recency(record)
+ + w_importance * importance(record)
+ + w_recency * recency(record)
 ```
 
 - **Relevance** — vektör kosinüsü, KV tam eşleşme, graf yol ağırlığı.

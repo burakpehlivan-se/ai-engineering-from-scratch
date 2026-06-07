@@ -32,17 +32,17 @@ Her katmanın klasik ve modern yaklaşımları vardır ve "bir görüntüden met
 
 ```mermaid
 flowchart LR
-    IMG["Görüntü"] --> DET["Metin tespiti<br/>(DB, EAST, CRAFT)"]
-    DET --> BOX["Kelime/satır<br/>bounding box'ları"]
-    BOX --> CROP["Her bölgeyi kırp"]
-    CROP --> REC["Tanıma<br/>(CRNN + CTC)"]
-    REC --> TXT["Metin dizileri"]
-    TXT --> LAY["Düzen<br/>sıralama"]
-    LAY --> OUT["Okuma sırasına<br/>göre metin"]
+ IMG["Görüntü"] --> DET["Metin tespiti<br/>(DB, EAST, CRAFT)"]
+ DET --> BOX["Kelime/satır<br/>bounding box'ları"]
+ BOX --> CROP["Her bölgeyi kırp"]
+ CROP --> REC["Tanıma<br/>(CRNN + CTC)"]
+ REC --> TXT["Metin dizileri"]
+ TXT --> LAY["Düzen<br/>sıralama"]
+ LAY --> OUT["Okuma sırasına<br/>göre metin"]
 
-    style DET fill:#dbeafe,stroke:#2563eb
-    style REC fill:#fef3c7,stroke:#d97706
-    style OUT fill:#dcfce7,stroke:#16a34a
+ style DET fill:#dbeafe,stroke:#2563eb
+ style REC fill:#fef3c7,stroke:#d97706
+ style OUT fill:#dcfce7,stroke:#16a34a
 ```
 
 - **Metin tespiti (Text detection)**, satır veya kelime başına dörtgenler (quadrilaterals) üretir.
@@ -94,32 +94,32 @@ import torch.nn.functional as F
 
 
 def ctc_loss(log_probs, targets, input_lengths, target_lengths, blank=0):
-    """
-    log_probs:      (T, N, C) indeks 0'da blank dahil vocab üzerinde log-softmax
-    targets:        (N, S) int hedefler (blank yok)
-    input_lengths:  (N,) örnek başına kullanılan zaman adımları
-    target_lengths: (N,) örnek başına hedef uzunluğu
-    """
-    return F.ctc_loss(log_probs, targets, input_lengths, target_lengths,
-                      blank=blank, reduction="mean", zero_infinity=True)
+ """
+ log_probs: (T, N, C) indeks 0'da blank dahil vocab üzerinde log-softmax
+ targets: (N, S) int hedefler (blank yok)
+ input_lengths: (N,) örnek başına kullanılan zaman adımları
+ target_lengths: (N,) örnek başına hedef uzunluğu
+ """
+ return F.ctc_loss(log_probs, targets, input_lengths, target_lengths,
+ blank=blank, reduction="mean", zero_infinity=True)
 
 
 def greedy_ctc_decode(log_probs, blank=0):
-    """
-    log_probs: (T, N, C) log-softmax
-    döndürür: indeks dizilerinin listesi (blank'ler silinmiş, tekrarlar birleştirilmiş)
-    """
-    preds = log_probs.argmax(dim=-1).transpose(0, 1).cpu().tolist()
-    out = []
-    for seq in preds:
-        decoded = []
-        prev = None
-        for idx in seq:
-            if idx != prev and idx != blank:
-                decoded.append(idx)
-            prev = idx
-        out.append(decoded)
-    return out
+ """
+ log_probs: (T, N, C) log-softmax
+ döndürür: indeks dizilerinin listesi (blank'ler silinmiş, tekrarlar birleştirilmiş)
+ """
+ preds = log_probs.argmax(dim=-1).transpose(0, 1).cpu().tolist()
+ out = []
+ for seq in preds:
+ decoded = []
+ prev = None
+ for idx in seq:
+ if idx != prev and idx != blank:
+ decoded.append(idx)
+ prev = idx
+ out.append(decoded)
+ return out
 ```
 
 #### Açıklama
@@ -130,28 +130,28 @@ def greedy_ctc_decode(log_probs, blank=0):
 Satır OCR'si için minimum CNN + BiLSTM.
 
 ```python
-class TinyCRNN(nn.Module):
-    def __init__(self, vocab_size=40, hidden=128, feat=32):
-        super().__init__()
-        self.cnn = nn.Sequential(
-            nn.Conv2d(1, feat, 3, 1, 1), nn.BatchNorm2d(feat), nn.ReLU(inplace=True),
-            nn.MaxPool2d(2),
-            nn.Conv2d(feat, feat * 2, 3, 1, 1), nn.BatchNorm2d(feat * 2), nn.ReLU(inplace=True),
-            nn.MaxPool2d(2),
-            nn.Conv2d(feat * 2, feat * 4, 3, 1, 1), nn.BatchNorm2d(feat * 4), nn.ReLU(inplace=True),
-            nn.MaxPool2d((2, 1)),
-            nn.Conv2d(feat * 4, feat * 4, 3, 1, 1), nn.BatchNorm2d(feat * 4), nn.ReLU(inplace=True),
-            nn.MaxPool2d((2, 1)),
-        )
-        self.rnn = nn.LSTM(feat * 4, hidden, bidirectional=True, batch_first=True)
-        self.head = nn.Linear(hidden * 2, vocab_size)
+class TinyCRNN(nn. Module):
+ def __init__(self, vocab_size=40, hidden=128, feat=32):
+ super().__init__()
+ self.cnn = nn. Sequential(
+ nn. Conv2d(1, feat, 3, 1, 1), nn. BatchNorm2d(feat), nn. ReLU(inplace=True),
+ nn. MaxPool2d(2),
+ nn. Conv2d(feat, feat * 2, 3, 1, 1), nn. BatchNorm2d(feat * 2), nn. ReLU(inplace=True),
+ nn. MaxPool2d(2),
+ nn. Conv2d(feat * 2, feat * 4, 3, 1, 1), nn. BatchNorm2d(feat * 4), nn. ReLU(inplace=True),
+ nn. MaxPool2d((2, 1)),
+ nn. Conv2d(feat * 4, feat * 4, 3, 1, 1), nn. BatchNorm2d(feat * 4), nn. ReLU(inplace=True),
+ nn. MaxPool2d((2, 1)),
+ )
+ self.rnn = nn. LSTM(feat * 4, hidden, bidirectional=True, batch_first=True)
+ self.head = nn. Linear(hidden * 2, vocab_size)
 
-    def forward(self, x):
-        # x: (N, 1, H, W)
-        f = self.cnn(x)                # (N, C, H', W')
-        f = f.mean(dim=2).transpose(1, 2)  # (N, W', C)
-        h, _ = self.rnn(f)
-        return F.log_softmax(self.head(h).transpose(0, 1), dim=-1)  # (W', N, vocab)
+ def forward(self, x):
+ # x: (N, 1, H, W)
+ f = self.cnn(x) # (N, C, H', W')
+ f = f.mean(dim=2).transpose(1, 2) # (N, W', C)
+ h, _ = self.rnn(f)
+ return F.log_softmax(self.head(h).transpose(0, 1), dim=-1) # (W', N, vocab)
 ```
 
 #### Açıklama
@@ -165,32 +165,32 @@ Uçtan uca bir doğrulama (smoke test) için siyah-beyaz rakam dizileri üretin.
 import numpy as np
 
 def synthetic_line(text, height=32, char_width=16):
-    W = char_width * len(text)
-    img = np.ones((height, W), dtype=np.float32)
-    for i, c in enumerate(text):
-        x = i * char_width
-        shade = 0.0 if c.isalnum() else 0.5
-        img[6:height - 6, x + 2:x + char_width - 2] = shade
-    return img
+ W = char_width * len(text)
+ img = np.ones((height, W), dtype=np.float32)
+ for i, c in enumerate(text):
+ x = i * char_width
+ shade = 0.0 if c.isalnum() else 0.5
+ img[6:height - 6, x + 2:x + char_width - 2] = shade
+ return img
 
 
 def build_batch(strings, vocab):
-    H = 32
-    W = 16 * max(len(s) for s in strings)
-    imgs = np.ones((len(strings), 1, H, W), dtype=np.float32)
-    target_lengths = []
-    targets = []
-    for i, s in enumerate(strings):
-        imgs[i, 0, :, :16 * len(s)] = synthetic_line(s)
-        ids = [vocab.index(c) for c in s]
-        targets.extend(ids)
-        target_lengths.append(len(ids))
-    return torch.from_numpy(imgs), torch.tensor(targets), torch.tensor(target_lengths)
+ H = 32
+ W = 16 * max(len(s) for s in strings)
+ imgs = np.ones((len(strings), 1, H, W), dtype=np.float32)
+ target_lengths = []
+ targets = []
+ for i, s in enumerate(strings):
+ imgs[i, 0, :, :16 * len(s)] = synthetic_line(s)
+ ids = [vocab.index(c) for c in s]
+ targets.extend(ids)
+ target_lengths.append(len(ids))
+ return torch.from_numpy(imgs), torch.tensor(targets), torch.tensor(target_lengths)
 
 
 vocab = ["_"] + list("0123456789abcdefghijklmnopqrstuvwxyz")
 imgs, targets, lengths = build_batch(["hello", "world"], vocab)
-print(f"images: {imgs.shape}   targets: {targets.shape}   lengths: {lengths.tolist()}")
+print(f"images: {imgs.shape} targets: {targets.shape} lengths: {lengths.tolist()}")
 ```
 
 #### Açıklama
@@ -200,15 +200,15 @@ Gerçek bir OCR veri kümesi fontlar, gürültü, döndürme, bulanıklık ve re
 
 ```python
 model = TinyCRNN(vocab_size=len(vocab))
-opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+opt = torch.optim. Adam(model.parameters(), lr=1e-3)
 
 for step in range(200):
-    strings = ["abc" + str(step % 10)] * 4 + ["xyz" + str((step + 1) % 10)] * 4
-    imgs, targets, target_lens = build_batch(strings, vocab)
-    log_probs = model(imgs)  # (W', 8, vocab)
-    input_lens = torch.full((8,), log_probs.size(0), dtype=torch.long)
-    loss = ctc_loss(log_probs, targets, input_lens, target_lens, blank=0)
-    opt.zero_grad(); loss.backward(); opt.step()
+ strings = ["abc" + str(step % 10)] * 4 + ["xyz" + str((step + 1) % 10)] * 4
+ imgs, targets, target_lens = build_batch(strings, vocab)
+ log_probs = model(imgs) # (W', 8, vocab)
+ input_lens = torch.full((8,), log_probs.size(0), dtype=torch.long)
+ loss = ctc_loss(log_probs, targets, input_lens, target_lens, blank=0)
+ opt.zero_grad(); loss.backward(); opt.step()
 ```
 
 #### Açıklama
@@ -218,7 +218,7 @@ Bu basit sentetik veri üzerinde loss, 200 adımda ~3'ten ~0.2'ye düşmelidir.
 
 Üç üretim yolu:
 
-- **PaddleOCR** — olgun, hızlı, çok dilli. Tek satırlık kullanım: `paddleocr.PaddleOCR(lang="en").ocr(image_path)`.
+- **PaddleOCR** — olgun, hızlı, çok dilli. Tek satırlık kullanım: `paddleocr. PaddleOCR(lang="en").ocr(image_path)`.
 - **EasyOCR** — Python-native, çok dilli, PyTorch altyapılı.
 - **Tesseract** — klasik; modellerin zorlandığı eski taranmış belgeler için hâlâ kullanışlı.
 

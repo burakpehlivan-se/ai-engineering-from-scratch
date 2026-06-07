@@ -35,13 +35,13 @@ Refusal kuralları:
 ```
 <repo>/
 ├── eval/
-│   ├── sample_app/
-│   ├── run_prompt_only.py
-│   ├── run_workbench.py
-│   └── report.py
+│ ├── sample_app/
+│ ├── run_prompt_only.py
+│ ├── run_workbench.py
+│ └── report.py
 ├── outputs/eval/
-│   ├── before-after-report.md
-│   └── comparison.json
+│ ├── before-after-report.md
+│ └── comparison.json
 ├── docs/benchmark.md
 └── .github/workflows/benchmark.yml
 ```

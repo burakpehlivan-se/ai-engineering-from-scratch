@@ -28,17 +28,17 @@ Mühendislik sorusu ölçektir. Tek görüntülü, tek kişilik pose 20 ms'lik b
 
 ```mermaid
 flowchart LR
-    subgraph TD["Top-down pipeline"]
-        A1["Kişi kutularını tespit et"] --> A2["Her kutuyu kırp"]
-        A2 --> A3["Kutu başına keypoint modeli<br/>(HRNet, ViTPose)"]
-    end
-    subgraph BU["Bottom-up pipeline"]
-        B1["Görüntü üzerinde tek geçiş"] --> B2["Tüm keypoint heatmap'leri<br/>+ ilişkilendirme alanı"]
-        B2 --> B3["Keypoint'leri örneklere<br/>grupla (açgözlü eşleme)"]
-    end
+ subgraph TD["Top-down pipeline"]
+ A1["Kişi kutularını tespit et"] --> A2["Her kutuyu kırp"]
+ A2 --> A3["Kutu başına keypoint modeli<br/>(HRNet, ViTPose)"]
+ end
+ subgraph BU["Bottom-up pipeline"]
+ B1["Görüntü üzerinde tek geçiş"] --> B2["Tüm keypoint heatmap'leri<br/>+ ilişkilendirme alanı"]
+ B2 --> B3["Keypoint'leri örneklere<br/>grupla (açgözlü eşleme)"]
+ end
 
-    style TD fill:#dbeafe,stroke:#2563eb
-    style BU fill:#fef3c7,stroke:#d97706
+ style TD fill:#dbeafe,stroke:#2563eb
+ style BU fill:#fef3c7,stroke:#d97706
 ```
 
 - **Top-down** — önce insanları tespit et, sonra her kırpılan bölgede kişi başına bir keypoint modeli çalıştır. En yüksek doğruluk; kişi sayısıyla doğrusal olarak ölçeklenir.
@@ -69,9 +69,9 @@ OpenPose'un bottom-up ilişkilendirme numarası. Bağlı her keypoint çifti (ö
 
 ```
 Her bağlantı (uzuv) için:
-  PAF kanalları: 2 (birim vektör x, y)
-  Çizgi integrali: örnekleme noktalarında (PAF . line_direction) toplamı
-  Yüksek integral = daha güçlü eşleşme
+ PAF kanalları: 2 (birim vektör x, y)
+ Çizgi integrali: örnekleme noktalarında (PAF . line_direction) toplamı
+ Yüksek integral = daha güçlü eşleşme
 ```
 
 #### Açıklama
@@ -85,9 +85,9 @@ Standart vücut duruşu veri kümesi: kişi başına 17 keypoint, PCK (Percentag
 
 - **2B pose** — görüntü koordinatları; üretim kalitesinde çözülmüştür (MediaPipe, HRNet, ViTPose).
 - **3B pose** — dünya/kamera koordinatları; hâlâ aktif araştırma alanı. Yaygın yaklaşımlar:
-  - 2B tahminleri küçük bir MLP ile 3B'ye kaldırma (VideoPose3D).
-  - Görüntüden doğrudan 3B regresyonu (PyMAF, MHFormer).
-  - Gerçek referans (ground truth) için çoklu görüş düzenekleri (CMU Panoptic).
+ - 2B tahminleri küçük bir MLP ile 3B'ye kaldırma (VideoPose3D).
+ - Görüntüden doğrudan 3B regresyonu (PyMAF, MHFormer).
+ - Gerçek referans (ground truth) için çoklu görüş düzenekleri (CMU Panoptic).
 
 ## Build It (Sıfırdan Kodla)
 
@@ -98,8 +98,8 @@ import numpy as np
 import torch
 
 def gaussian_heatmap(size, cx, cy, sigma=2.0):
-    yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
-    return np.exp(-((xx - cx) ** 2 + (yy - cy) ** 2) / (2 * sigma ** 2)).astype(np.float32)
+ yy, xx = np.meshgrid(np.arange(size), np.arange(size), indexing="ij")
+ return np.exp(-((xx - cx) ** 2 + (yy - cy) ** 2) / (2 * sigma ** 2)).astype(np.float32)
 
 hm = gaussian_heatmap(64, 32, 32, sigma=2.0)
 print(f"peak: {hm.max():.3f} at ({hm.argmax() % 64}, {hm.argmax() // 64})")
@@ -116,21 +116,21 @@ K adet heatmap kanalı çıktılayan U-Net tarzı bir model.
 import torch.nn as nn
 import torch.nn.functional as F
 
-class TinyKeypointNet(nn.Module):
-    def __init__(self, num_keypoints=4, base=16):
-        super().__init__()
-        self.down1 = nn.Sequential(nn.Conv2d(3, base, 3, 2, 1), nn.ReLU(inplace=True))
-        self.down2 = nn.Sequential(nn.Conv2d(base, base * 2, 3, 2, 1), nn.ReLU(inplace=True))
-        self.mid = nn.Sequential(nn.Conv2d(base * 2, base * 2, 3, 1, 1), nn.ReLU(inplace=True))
-        self.up1 = nn.ConvTranspose2d(base * 2, base, 2, 2)
-        self.up2 = nn.ConvTranspose2d(base, num_keypoints, 2, 2)
+class TinyKeypointNet(nn. Module):
+ def __init__(self, num_keypoints=4, base=16):
+ super().__init__()
+ self.down1 = nn. Sequential(nn. Conv2d(3, base, 3, 2, 1), nn. ReLU(inplace=True))
+ self.down2 = nn. Sequential(nn. Conv2d(base, base * 2, 3, 2, 1), nn. ReLU(inplace=True))
+ self.mid = nn. Sequential(nn. Conv2d(base * 2, base * 2, 3, 1, 1), nn. ReLU(inplace=True))
+ self.up1 = nn. ConvTranspose2d(base * 2, base, 2, 2)
+ self.up2 = nn. ConvTranspose2d(base, num_keypoints, 2, 2)
 
-    def forward(self, x):
-        h1 = self.down1(x)
-        h2 = self.down2(h1)
-        h3 = self.mid(h2)
-        u1 = self.up1(h3)
-        return self.up2(u1)
+ def forward(self, x):
+ h1 = self.down1(x)
+ h2 = self.down2(h1)
+ h3 = self.mid(h2)
+ u1 = self.up1(h3)
+ return self.up2(u1)
 ```
 
 #### Açıklama
@@ -140,19 +140,19 @@ Girdi `(N, 3, H, W)`, çıktı `(N, K, H, W)`. Loss, Gaussian hedeflerine karş�
 
 ```python
 def heatmap_to_coords(heatmaps):
-    """
-    heatmaps: (N, K, H, W)
-    döndürür: (N, K, 2) görüntü piksellerinde float koordinatlar
-    """
-    N, K, H, W = heatmaps.shape
-    hm = heatmaps.reshape(N, K, -1)
-    idx = hm.argmax(dim=-1)
-    ys = (idx // W).float()
-    xs = (idx % W).float()
-    return torch.stack([xs, ys], dim=-1)
+ """
+ heatmaps: (N, K, H, W)
+ döndürür: (N, K, 2) görüntü piksellerinde float koordinatlar
+ """
+ N, K, H, W = heatmaps.shape
+ hm = heatmaps.reshape(N, K, -1)
+ idx = hm.argmax(dim=-1)
+ ys = (idx // W).float()
+ xs = (idx % W).float()
+ return torch.stack([xs, ys], dim=-1)
 
 coords = heatmap_to_coords(torch.randn(2, 4, 32, 32))
-print(f"coords: {coords.shape}")  # (2, 4, 2)
+print(f"coords: {coords.shape}") # (2, 4, 2)
 ```
 
 #### Açıklama
@@ -164,13 +164,13 @@ Basit: beyaz bir tuval üzerine dört nokta çizin ve onları tahmin etmeyi öğ
 
 ```python
 def make_synthetic_sample(size=64):
-    img = np.ones((3, size, size), dtype=np.float32)
-    rng = np.random.default_rng()
-    kps = rng.integers(8, size - 8, size=(4, 2))
-    for cx, cy in kps:
-        img[:, cy - 2:cy + 2, cx - 2:cx + 2] = 0.0
-    hms = np.stack([gaussian_heatmap(size, cx, cy) for cx, cy in kps])
-    return img, hms, kps
+ img = np.ones((3, size, size), dtype=np.float32)
+ rng = np.random.default_rng()
+ kps = rng.integers(8, size - 8, size=(4, 2))
+ for cx, cy in kps:
+ img[:, cy - 2:cy + 2, cx - 2:cx + 2] = 0.0
+ hms = np.stack([gaussian_heatmap(size, cx, cy) for cx, cy in kps])
+ return img, hms, kps
 ```
 
 #### Açıklama
@@ -180,17 +180,17 @@ Küçük bir modelin bir dakikada öğrenebileceği kadar basit.
 
 ```python
 model = TinyKeypointNet(num_keypoints=4)
-opt = torch.optim.Adam(model.parameters(), lr=3e-3)
+opt = torch.optim. Adam(model.parameters(), lr=3e-3)
 
 for step in range(200):
-    batch = [make_synthetic_sample() for _ in range(16)]
-    imgs = torch.from_numpy(np.stack([b[0] for b in batch]))
-    hms = torch.from_numpy(np.stack([b[1] for b in batch]))
-    pred = model(imgs)
-    # Tahmini tam çözünürlüğe yükselt
-    pred = F.interpolate(pred, size=hms.shape[-2:], mode="bilinear", align_corners=False)
-    loss = F.mse_loss(pred, hms)
-    opt.zero_grad(); loss.backward(); opt.step()
+ batch = [make_synthetic_sample() for _ in range(16)]
+ imgs = torch.from_numpy(np.stack([b[0] for b in batch]))
+ hms = torch.from_numpy(np.stack([b[1] for b in batch]))
+ pred = model(imgs)
+ # Tahmini tam çözünürlüğe yükselt
+ pred = F.interpolate(pred, size=hms.shape[-2:], mode="bilinear", align_corners=False)
+ loss = F.mse_loss(pred, hms)
+ opt.zero_grad(); loss.backward(); opt.step()
 ```
 
 #### Açıklama

@@ -65,13 +65,13 @@ Gradyan inişi, aşağıya doğru adım atarak kase'nin dibini bulur.
 
 ```mermaid
 flowchart TD
-    A[w ve b'yi rastgele başlat] --> B[Tahminleri hesapla: ŷ = wx + b]
-    B --> C[Maliyeti hesapla: MSE]
-    C --> D[Gradyanları hesapla: dMSE/dw, dMSE/db]
-    D --> E[Parametreleri güncelle]
-    E --> F{Maliyet yeterince düşük mü?}
-    F -->|Hayır| B
-    F -->|Evet| Bitti: optimum w ve b bulundu
+ A[w ve b'yi rastgele başlat] --> B[Tahminleri hesapla: ŷ = wx + b]
+ B --> C[Maliyeti hesapla: MSE]
+ C --> D[Gradyanları hesapla: dMSE/dw, dMSE/db]
+ D --> E[Parametreleri güncelle]
+ E --> F{Maliyet yeterince düşük mü?}
+ F -->|Hayır| B
+ F -->|Evet| Bitti: optimum w ve b bulundu
 ```
 
 Gradyanlar iki şey söyler: her parametrenin hangi yönde hareket edeceği ve ne kadar hareket edeceği.

@@ -63,9 +63,9 @@ SECS > 0.70 genellikle çoğu dinleyici için hedeften ayırt edilemez.
 
 ```python
 def clone_pipeline(ref_audio, text, target_embedder, tts_model):
-    speaker_emb = target_embedder.encode(ref_audio)
-    mel = tts_model(text, speaker=speaker_emb)
-    return vocoder(mel)
+ speaker_emb = target_embedder.encode(ref_audio)
+ mel = tts_model(text, speaker=speaker_emb)
+ return vocoder(mel)
 ```
 
 #### Açıklama
@@ -77,9 +77,9 @@ Kavramsal olarak basit; uygulama ağırlığı `tts_model` ve konuşmacı kodlay
 from f5_tts.api import F5TTS
 tts = F5TTS()
 wav = tts.infer(
-    ref_file="rohit_5s.wav",
-    ref_text="The quick brown fox jumps over the lazy dog.",
-    gen_text="Please add milk and bread to my list.",
+ ref_file="rohit_5s.wav",
+ ref_text="The quick brown fox jumps over the lazy dog.",
+ gen_text="Please add milk and bread to my list.",
 )
 ```
 
@@ -90,7 +90,7 @@ Referans dökümü sesle tam olarak eşleşmelidir; uyumsuzluk hizalamayı bozar
 
 ```python
 import torch
-from knnvc import KNNVC  # 2023 modeli, https://github.com/bshall/knn-vc
+from knnvc import KNNVC # 2023 modeli, https://github.com/bshall/knn-vc
 vc = KNNVC.load("wavlm-base-plus")
 out_wav = vc.convert(source="my_voice.wav", target_pool=["alice_1.wav", "alice_2.wav"])
 ```
@@ -105,7 +105,7 @@ from silentcipher import SilentCipher
 sc = SilentCipher(model="2024-06-01")
 payload = b"consent_id:abc123;ts:1745353200"
 watermarked = sc.embed(wav, sr=24000, message=payload)
-detected = sc.detect(watermarked, sr=24000)   # payload baytlarını döndürür
+detected = sc.detect(watermarked, sr=24000) # payload baytlarını döndürür
 ```
 
 #### Açıklama
@@ -115,11 +115,11 @@ detected = sc.detect(watermarked, sr=24000)   # payload baytlarını döndürür
 
 ```python
 def cloned_inference(text, ref_audio, consent_record):
-    assert verify_signature(consent_record), "İmzalı rıza gerekli"
-    assert consent_record["speaker_id"] == hash_speaker(ref_audio)
-    wav = tts.infer(ref_file=ref_audio, gen_text=text)
-    wav = watermark(wav, payload=consent_record["id"])
-    return wav
+ assert verify_signature(consent_record), "İmzalı rıza gerekli"
+ assert consent_record["speaker_id"] == hash_speaker(ref_audio)
+ wav = tts.infer(ref_file=ref_audio, gen_text=text)
+ wav = watermark(wav, payload=consent_record["id"])
+ return wav
 ```
 
 #### Açıklama

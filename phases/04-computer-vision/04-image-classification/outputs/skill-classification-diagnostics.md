@@ -27,44 +27,44 @@ Karışıklık matrisleri için bir okuma merceği. Toplam doğruluk, bir sını
 ## Adımlar
 
 1. **Sınıf başına metrikleri hesapla.** Sıfıra bölmeyi, o sınıf için metrik tanımsız olarak ele al ve `n/a` olarak raporla; asla sessizce 0 ile değiştirme.
-   - precision_i = cm[i,i] / sum(cm[:, i])   (sınıf hiç tahmin edilmediğinde tanımsız)
-   - recall_i    = cm[i,i] / sum(cm[i, :])   (sınıfın temel gerçeklik örneği olmadığında tanımsız)
-   - f1_i        = 2 * p * r / (p + r)        (herhangi bir bileşen tanımsız olduğunda tanımsız)
+ - precision_i = cm[i,i] / sum(cm[:, i]) (sınıf hiç tahmin edilmediğinde tanımsız)
+ - recall_i = cm[i,i] / sum(cm[i, :]) (sınıfın temel gerçeklik örneği olmadığında tanımsız)
+ - f1_i = 2 * p * r / (p + r) (herhangi bir bileşen tanımsız olduğunda tanımsız)
 
 2. **F1'e göre en kötü üç sınıfı sırala.** Karışıklık matrisi üçten az sınıfa sahipse, mevcut olduğu kadar sırala. Tüm metrikleri tanımsız olan sınıfları hariç tut.
 
 3. **Satır başına en üst köşegen dışı hücreyi bul** — bu sınıftan en yaygın çalan sınıf. `true -> predicted` olarak raporla.
 
 4. **Her en kötü sınıf için başarısızlık modunu sınıflandır.** Etiketin tekrarlanabilir olması için şu nicel eşikleri kullan:
-   - `ambiguity` — başka bir sınıfla çift yönlü karışıklık: hem `cm[i,j] / sum(cm[i, :]) >= 0.15` hem de `cm[j,i] / sum(cm[j, :]) >= 0.15`.
-   - `imbalance` — sınıfın eğitim sayısı, en üst karıştırıcısının `< 0.5x`'i.
-   - `label_noise` — `|precision_i - recall_i| >= 0.2` ve sınıf dengesizlik / belirsizlik yollarında değil.
-   - `systematic` — hiçbir tek karıştırıcı, bu sınıfın hatalarının 0.2 payını aşmıyor; hatalar üç veya daha fazla sınıfa yayılmış.
+ - `ambiguity` — başka bir sınıfla çift yönlü karışıklık: hem `cm[i,j] / sum(cm[i, :]) >= 0.15` hem de `cm[j,i] / sum(cm[j, :]) >= 0.15`.
+ - `imbalance` — sınıfın eğitim sayısı, en üst karıştırıcısının `< 0.5x`'i.
+ - `label_noise` — `|precision_i - recall_i| >= 0.2` ve sınıf dengesizlik / belirsizlik yollarında değil.
+ - `systematic` — hiçbir tek karıştırıcı, bu sınıfın hatalarının 0.2 payını aşmıyor; hatalar üç veya daha fazla sınıfa yayılmış.
 
 5. **En etkili tek bir sonraki eylemi öner**:
-   - `ambiguity` -> ayırt edici örnekler topla veya sentezle, ayırt edici özelliği koruyan hedefli veri artırma ekle.
-   - `imbalance` -> azınlık sınıfını aşırı örnekle veya sınıf ağırlıklı kayıp uygula.
-   - `label_noise` -> sınıfın tabakalı bir örneğini denetle; diğer herhangi bir değişiklikten önce yanlış etiketleri düzelt.
-   - `systematic` -> sınıf için veriyi artır veya bu sınıfın kaybına daha yüksek ağırlıkla ince ayar yap.
+ - `ambiguity` -> ayırt edici örnekler topla veya sentezle, ayırt edici özelliği koruyan hedefli veri artırma ekle.
+ - `imbalance` -> azınlık sınıfını aşırı örnekle veya sınıf ağırlıklı kayıp uygula.
+ - `label_noise` -> sınıfın tabakalı bir örneğini denetle; diğer herhangi bir değişiklikten önce yanlış etiketleri düzelt.
+ - `systematic` -> sınıf için veriyi artır veya bu sınıfın kaybına daha yüksek ağırlıkla ince ayar yap.
 
 ## Rapor
 
 ```
 [diagnostics]
-  aggregate accuracy: X.XX
-  macro F1:           X.XX
+ aggregate accuracy: X. XX
+ macro F1: X. XX
 
 [top-3 worst classes]
-  1. class <name>  F1 = X.XX  prec = X.XX  rec = X.XX
-     top confusion: <name> -> <other>  (N cases)
-     failure mode:  ambiguity | imbalance | label_noise | systematic
-     action:        <tek cümle>
+ 1. class <name> F1 = X. XX prec = X. XX rec = X. XX
+ top confusion: <name> -> <other> (N cases)
+ failure mode: ambiguity | imbalance | label_noise | systematic
+ action: <tek cümle>
 
-  2. ...
-  3. ...
+ 2. ...
+ 3. ...
 
 [recommendation]
-  single biggest lever: <sınıfı ve düzeltmeyi adlandıran tek cümle>
+ single biggest lever: <sınıfı ve düzeltmeyi adlandıran tek cümle>
 ```
 
 ## Kurallar

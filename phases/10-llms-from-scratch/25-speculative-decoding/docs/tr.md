@@ -37,12 +37,12 @@ Speculative decoding is **provably equivalent in distribution to sampling from p
 
 ```
 For each drafted token x_t:
-    r ~ Uniform(0, 1)
-    if r < p(x_t) / q(x_t):
-        accept x_t
-    else:
-        sample replacement from residual: (p - q)+ / ||(p - q)+||_1
-        stop
+ r ~ Uniform(0, 1)
+ if r < p(x_t) / q(x_t):
+ accept x_t
+ else:
+ sample replacement from residual: (p - q)+ / ||(p - q)+||_1
+ stop
 ```
 
 where `(p - q)+` denotes the positive part of the pointwise difference. When the draft and target agree (`p ≈ q`) acceptance is nearly 1. When they disagree, the residual distribution is constructed so that the overall sample is still exactly `p`.
@@ -54,7 +54,7 @@ where `(p - q)+` denotes the positive part of the pointwise difference. When the
 If the draft model's token-level acceptance rate is `α`, the expected tokens produced per target-forward pass is:
 
 ```
-E[tokens] = (1 - α^{K+1}) / (1 - α)        # K = draft length, α in [0, 1]
+E[tokens] = (1 - α^{K+1}) / (1 - α) # K = draft length, α in [0, 1]
 ```
 
 At `α = 0.8, K = 4`: `(1 - 0.8^5)/(1 - 0.8) = 3.36` tokens per forward. A single target forward costs roughly `cost_q * K + cost_p` (K draft steps plus one target verify). If `cost_p >> cost_q * K` the speedup ratio is `3.36× / 1 = 3.36×` on throughput.
@@ -92,11 +92,11 @@ EAGLE-3 (Li et al. 2025, "EAGLE-3: Scaling up Inference Acceleration of Large La
 When the draft outputs a tree, the target model verifies it in a single forward pass using a **tree attention mask** — a causal mask that encodes the tree topology rather than a pure line. Each token attends only to its ancestors in the tree. The verify pass is still one forward, one matmul; the topological mask costs only a few extra KV entries.
 
 ```
-        root
-       /    \
-      a      b
-     / \    / \
-    c  d   e   f
+ root
+ / \
+ a b
+ / \ / \
+ c d e f
 ```
 
 If `a, b` are competing first-token candidates and `c, d, e, f` are second-token candidates, all six positions are verified in one forward pass. The output is the longest prefix along any accepted path.
@@ -125,35 +125,35 @@ Production shops typically report 2-3× wall-clock speedup on chat, 3-5× on cod
 
 ```python
 def speculative_step(p_target, q_draft, K, temperature=1.0):
-    """One round of speculative decoding. Returns list of accepted tokens."""
-    # 1. Draft K tokens
-    draft_tokens = []
-    q_probs = []
-    state = draft_state_init()
-    for _ in range(K):
-        probs = softmax(q_draft(state) / temperature)
-        t = np.random.choice(len(probs), p=probs)
-        draft_tokens.append(t)
-        q_probs.append(probs[t])
-        state = draft_step(state, t)
+ """One round of speculative decoding. Returns list of accepted tokens."""
+ # 1. Draft K tokens
+ draft_tokens = []
+ q_probs = []
+ state = draft_state_init()
+ for _ in range(K):
+ probs = softmax(q_draft(state) / temperature)
+ t = np.random.choice(len(probs), p=probs)
+ draft_tokens.append(t)
+ q_probs.append(probs[t])
+ state = draft_step(state, t)
 
-    # 2. Target computes p at every drafted position + 1 extra
-    p_probs_all = target_forward_batched(p_target, draft_tokens, temperature)
+ # 2. Target computes p at every drafted position + 1 extra
+ p_probs_all = target_forward_batched(p_target, draft_tokens, temperature)
 
-    # 3. Accept/reject left-to-right
-    accepted = []
-    for k, tok in enumerate(draft_tokens):
-        r = np.random.uniform()
-        if r < p_probs_all[k][tok] / q_probs[k]:
-            accepted.append(tok)
-        else:
-            residual = np.maximum(p_probs_all[k] - q_probs[k], 0)
-            residual /= residual.sum()
-            accepted.append(np.random.choice(len(residual), p=residual))
-            return accepted
-    # 4. All K accepted → sample bonus token from target
-    accepted.append(np.random.choice(len(p_probs_all[-1]), p=p_probs_all[-1]))
-    return accepted
+ # 3. Accept/reject left-to-right
+ accepted = []
+ for k, tok in enumerate(draft_tokens):
+ r = np.random.uniform()
+ if r < p_probs_all[k][tok] / q_probs[k]:
+ accepted.append(tok)
+ else:
+ residual = np.maximum(p_probs_all[k] - q_probs[k], 0)
+ residual /= residual.sum()
+ accepted.append(np.random.choice(len(residual), p=residual))
+ return accepted
+ # 4. All K accepted → sample bonus token from target
+ accepted.append(np.random.choice(len(p_probs_all[-1]), p=p_probs_all[-1]))
+ return accepted
 ```
 
 ## Use It

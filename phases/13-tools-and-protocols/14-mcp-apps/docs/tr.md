@@ -30,21 +30,21 @@ Bir araç döndürür:
 
 ```json
 {
-  "content": [
-    {"type": "text", "text": "İşte notlarınızın zaman çizelgesi:"},
-    {"type": "ui_resource", "uri": "ui://notes/timeline"}
-  ],
-  "_meta": {
-    "ui": {
-      "resourceUri": "ui://notes/timeline",
-      "csp": {
-        "defaultSrc": "'self'",
-        "scriptSrc": "'self' 'unsafe-inline'",
-        "connectSrc": "'self'"
-      },
-      "permissions": []
-    }
-  }
+ "content": [
+ {"type": "text", "text": "İşte notlarınızın zaman çizelgesi:"},
+ {"type": "ui_resource", "uri": "ui://notes/timeline"}
+ ],
+ "_meta": {
+ "ui": {
+ "resourceUri": "ui://notes/timeline",
+ "csp": {
+ "defaultSrc": "'self'",
+ "scriptSrc": "'self' 'unsafe-inline'",
+ "connectSrc": "'self'"
+ },
+ "permissions": []
+ }
+ }
 }
 ```
 
@@ -52,11 +52,11 @@ Ardından ana program `ui://notes/timeline` URI'si üzerinde `resources/read` ç
 
 ```json
 {
-  "contents": [{
-    "uri": "ui://notes/timeline",
-    "mimeType": "text/html;profile=mcp-app",
-    "text": "<!doctype html>..."
-  }]
+ "contents": [{
+ "uri": "ui://notes/timeline",
+ "mimeType": "text/html;profile=mcp-app",
+ "text": "<!doctype html>..."
+ }]
 }
 ```
 
@@ -76,25 +76,25 @@ iframe, `window.postMessage` aracılığıyla ana programla iletişim kurar. Kü
 `targetOrigin`'u her zaman partnerin kesin kaynağına sabitleyin ve alan tarafta, herhangi bir yükü işlemeden önce `event.origin`'i bir izin listesine göre doğrulayın. Bu kanalın her iki tarafında da asla `"*"` kullanmayın — gövde araç çağrısı ve kaynak okumaları taşır.
 
 ```js
-// iframe'den ana programa  (ana program kaynağına sabitle)
+// iframe'den ana programa (ana program kaynağına sabitle)
 window.parent.postMessage({
-  jsonrpc: "2.0",
-  id: 1,
-  method: "host.callTool",
-  params: { name: "notes_update", arguments: { id: "note-14", title: "..." } }
+ jsonrpc: "2.0",
+ id: 1,
+ method: "host.callTool",
+ params: { name: "notes_update", arguments: { id: "note-14", title: "..." } }
 }, "https://host.example.com");
 
-// ana programdan iframe'e  (iframe kaynağına sabitle)
+// ana programdan iframe'e (iframe kaynağına sabitle)
 iframe.contentWindow.postMessage({
-  jsonrpc: "2.0",
-  id: 1,
-  result: { content: [...] }
+ jsonrpc: "2.0",
+ id: 1,
+ result: { content: [...] }
 }, "https://iframe.example.com");
 
 // her iki taraftaki alıcı
 window.addEventListener("message", (event) => {
-  if (event.origin !== "https://expected-peer.example.com") return;
-  // event.data'yı işlemek güvenli
+ if (event.origin !== "https://expected-peer.example.com") return;
+ // event.data'yı işlemek güvenli
 });
 ```
 

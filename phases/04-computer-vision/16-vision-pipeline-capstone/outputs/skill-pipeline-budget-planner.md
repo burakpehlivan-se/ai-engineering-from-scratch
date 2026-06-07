@@ -43,28 +43,28 @@ GPU'ya bağlı işlem hatlarında (bulut), detektör payı sıklıkla %70'e yük
 
 ```
 [budget plan]
-  p95 target:  <ms>
-  throughput:  <replika başına qps>
+ p95 target: <ms>
+ throughput: <replika başına qps>
 
-| stage               | target_ms | current_ms | headroom | gate |
+| stage | target_ms | current_ms | headroom | gate |
 |---------------------|-----------|------------|----------|------|
-| decode+preprocess   | ...       | ...        | ...      | ok|X |
-| detector            | ...       | ...        | ...      | ok|X |
-| ...                 | ...       | ...        | ...      |      |
+| decode+preprocess | ... | ... | ... | ok|X |
+| detector | ... | ... | ... | ok|X |
+| ... | ... | ... | ... | |
 
 [bottleneck]
-  stage:  <isim>
-  miss:   <bütçenin üzerinde ms>
-  lever:  <spesifik eylem>
+ stage: <isim>
+ miss: <bütçenin üzerinde ms>
+ lever: <spesifik eylem>
 
 [levers]
-  decode+preprocess:   Pillow-SIMD, libjpeg-turbo, NVJPEG ile GPU'da çözme
-  detector:            daha küçük omurga, daha düşük giriş çözünürlüğü, INT8, TensorRT
-  postprocess:         GPU tarafında NMS (torchvision.ops), füzyon maskeleri
-  crop+resize:         grid_sample ile GPU kırpması, toplu enterpolasyon
-  classifier:          daha küçük omurga, INT8, sıcak önbellek, toplu iş
-  schema:              sıcak yolda doğrulamayı atla, yalnızca sınırlarda doğrula
-  response:            orjson, akış protobuf
+ decode+preprocess: Pillow-SIMD, libjpeg-turbo, NVJPEG ile GPU'da çözme
+ detector: daha küçük omurga, daha düşük giriş çözünürlüğü, INT8, TensorRT
+ postprocess: GPU tarafında NMS (torchvision.ops), füzyon maskeleri
+ crop+resize: grid_sample ile GPU kırpması, toplu enterpolasyon
+ classifier: daha küçük omurga, INT8, sıcak önbellek, toplu iş
+ schema: sıcak yolda doğrulamayı atla, yalnızca sınırlarda doğrula
+ response: orjson, akış protobuf
 ```
 
 ## Kurallar

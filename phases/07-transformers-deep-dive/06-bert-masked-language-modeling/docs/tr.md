@@ -28,8 +28,8 @@ Bir cümle alın: `the quick brown fox jumps over the lazy dog`.
 Token'ların %15'ini rastgele maskeler:
 
 ```
-input:  the [MASK] brown fox jumps [MASK] the lazy dog
-target: the  quick brown fox jumps  over  the lazy dog
+input: the [MASK] brown fox jumps [MASK] the lazy dog
+target: the quick brown fox jumps over the lazy dog
 ```
 
 #### Açıklama
@@ -82,18 +82,18 @@ Ve 2018 yığınından farklı olarak, Flash Attention-native'dir. Dizi uzunluğ
 
 ```python
 def create_mlm_batch(tokens, vocab_size, mask_prob=0.15, rng=None):
-    input_ids = list(tokens)
-    labels = [-100] * len(tokens)
-    for i, t in enumerate(tokens):
-        if rng.random() < mask_prob:
-            labels[i] = t
-            r = rng.random()
-            if r < 0.8:
-                input_ids[i] = MASK_ID
-            elif r < 0.9:
-                input_ids[i] = rng.randrange(vocab_size)
-            # else: keep original
-    return input_ids, labels
+ input_ids = list(tokens)
+ labels = [-100] * len(tokens)
+ for i, t in enumerate(tokens):
+ if rng.random() < mask_prob:
+ labels[i] = t
+ r = rng.random()
+ if r < 0.8:
+ input_ids[i] = MASK_ID
+ elif r < 0.9:
+ input_ids[i] = rng.randrange(vocab_size)
+ # else: keep original
+ return input_ids, labels
 ```
 
 #### Açıklama
@@ -121,7 +121,7 @@ model = AutoModel.from_pretrained("answerdotai/ModernBERT-base")
 
 text = "Attention is all you need."
 inputs = tok(text, return_tensors="pt")
-out = model(**inputs).last_hidden_state   # (1, N, 768)
+out = model(**inputs).last_hidden_state # (1, N, 768)
 ```
 
 #### Açıklama

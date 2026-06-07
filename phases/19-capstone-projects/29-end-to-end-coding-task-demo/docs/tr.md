@@ -27,10 +27,10 @@ Bu ders tüm track için entegrasyon testidir. Ajanın sırayla dört şey yapma
 
 ```mermaid
 flowchart TD
-  Repo[Repo fixture<br/>src/fizz.py buggy<br/>tests/test_fizz.py] --> Harness
-  Policy[Policy<br/>deterministik<br/>model yerine] -->|tool call| Harness
-  Harness[Harness<br/>gate chain / sandbox<br/>span builder / observation ledger] -->|observation| Policy
-  Harness --> Out[EvalReport + JSONL<br/>+ Prometheus exposition]
+ Repo[Repo fixture<br/>src/fizz.py buggy<br/>tests/test_fizz.py] --> Harness
+ Policy[Policy<br/>deterministik<br/>model yerine] -->|tool call| Harness
+ Harness[Harness<br/>gate chain / sandbox<br/>span builder / observation ledger] -->|observation| Policy
+ Harness --> Out[EvalReport + JSONL<br/>+ Prometheus exposition]
 ```
 
 #### Açıklama
@@ -56,16 +56,16 @@ Sabit hata, `fizz.py` içinde off-by-one hatasıdır. Deterministik politika, te
 
 ```mermaid
 flowchart TD
-  Policy -->|step| Dispatcher[StepDispatcher]
-  Dispatcher --> Gate[GateChain.evaluate]
-  Gate -->|ALLOW| Sandbox
-  Gate -->|DENY| Refuse[refuse note]
-  Sandbox --> Obs[Observation<br/>append to ledger]
-  Obs --> Span
-  Refuse --> SpanErr[Span ERROR]
-  Span --> Back[back to Policy]
-  SpanErr --> Back
-  Back --> Policy
+ Policy -->|step| Dispatcher[StepDispatcher]
+ Dispatcher --> Gate[GateChain.evaluate]
+ Gate -->|ALLOW| Sandbox
+ Gate -->|DENY| Refuse[refuse note]
+ Sandbox --> Obs[Observation<br/>append to ledger]
+ Obs --> Span
+ Refuse --> SpanErr[Span ERROR]
+ Span --> Back[back to Policy]
+ SpanErr --> Back
+ Back --> Policy
 ```
 
 #### Açıklama

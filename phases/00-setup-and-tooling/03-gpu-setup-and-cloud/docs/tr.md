@@ -28,19 +28,19 @@
 Seçenekleriniz:
 
 1. Yerel NVIDIA GPU
-   Maliyet: $0 (zaten sahipsiniz)
-   Kurulum: CUDA + cuDNN yükleme
-   En iyi: Düzenli kullanım, büyük veri setleri
+ Maliyet: $0 (zaten sahipsiniz)
+ Kurulum: CUDA + cuDNN yükleme
+ En iyi: Düzenli kullanım, büyük veri setleri
 
 2. Google Colab (ücretsiz katman)
-   Maliyet: $0
-   Kurulum: Yok
-   En iyi: Hızlı deneyler, evde GPU yoksa
+ Maliyet: $0
+ Kurulum: Yok
+ En iyi: Hızlı deneyler, evde GPU yoksa
 
 3. Bulut GPU (Lambda, RunPod, Vast.ai)
-   Maliyet: $0.20-2.00/saat
-   Kurulum: SSH + kurulum
-   En iyi: Ciddi eğitim, büyük modeller
+ Maliyet: $0.20-2.00/saat
+ Kurulum: SSH + kurulum
+ En iyi: Ciddi eğitim, büyük modeller
 ```
 
 ## Uygulama
@@ -64,8 +64,8 @@ import torch
 print(f"CUDA mevcut: {torch.cuda.is_available()}")
 print(f"CUDA sürümü: {torch.version.cuda}")
 if torch.cuda.is_available():
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
-    print(f"Bellek: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
+ print(f"GPU: {torch.cuda.get_device_name(0)}")
+ print(f"Bellek: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
 ```
 
 #### Açıklama
@@ -120,16 +120,16 @@ cpu_time = time.time() - start
 print(f"CPU: {cpu_time:.3f}s")
 
 if torch.cuda.is_available():
-    a_gpu = a_cpu.to("cuda")
-    b_gpu = b_cpu.to("cuda")
+ a_gpu = a_cpu.to("cuda")
+ b_gpu = b_cpu.to("cuda")
 
-    torch.cuda.synchronize()
-    start = time.time()
-    c_gpu = a_gpu @ b_gpu
-    torch.cuda.synchronize()
-    gpu_time = time.time() - start
-    print(f"GPU: {gpu_time:.3f}s")
-    print(f"Hızlanma: {cpu_time / gpu_time:.0f}x")
+ torch.cuda.synchronize()
+ start = time.time()
+ c_gpu = a_gpu @ b_gpu
+ torch.cuda.synchronize()
+ gpu_time = time.time() - start
+ print(f"GPU: {gpu_time:.3f}s")
+ print(f"Hızlanma: {cpu_time / gpu_time:.0f}x")
 ```
 
 #### Açıklama

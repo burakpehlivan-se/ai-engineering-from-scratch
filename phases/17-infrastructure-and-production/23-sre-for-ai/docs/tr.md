@@ -28,15 +28,15 @@ Tamamen özerk düzeltme farklı bir sorundur. Pod'u yeniden başlat: güvenli. 
 
 ```mermaid
 flowchart TB
-    O[Olay] --> S[Gözetmen]
-    S --> LA[Günlük ajanı]
-    S --> MA[Metrik ajanı]
-    S --> RA[Runbook ajanı]
-    LA --> H[Hipotez + kanıt]
-    MA --> H
-    RA --> H
-    H --> I[İnsan onayı]
-    I --> A[Eylem (dar set)]
+ O[Olay] --> S[Gözetmen]
+ S --> LA[Günlük ajanı]
+ S --> MA[Metrik ajanı]
+ S --> RA[Runbook ajanı]
+ LA --> H[Hipotez + kanıt]
+ MA --> H
+ RA --> H
+ H --> I[İnsan onayı]
+ I --> A[Eylem (dar set)]
 ```
 
 #### Açıklama

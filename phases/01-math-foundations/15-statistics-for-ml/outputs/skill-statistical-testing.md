@@ -24,29 +24,29 @@ Modelleri karşılaştırırken, A/B deneyleri yürütürken veya sonuçları do
 
 ```text
 Ortalamaları mı karşılaştırıyorsun?
-  İki grup?
-    Eşleştirilmiş (aynı veri bölmeleri)? --> Eşleştirilmiş t-testi (veya normal değilse Wilcoxon signed-rank)
-    Bağımsız? --> Welch'in t-testi (veya normal değilse Mann-Whitney U)
-  Birden çok grup?
-    Eşleştirilmiş? --> Tekrarlanan ölçümler ANOVA'sı (veya Friedman testi)
-    Bağımsız? --> Tek yönlü ANOVA (veya Kruskal-Wallis)
+ İki grup?
+ Eşleştirilmiş (aynı veri bölmeleri)? --> Eşleştirilmiş t-testi (veya normal değilse Wilcoxon signed-rank)
+ Bağımsız? --> Welch'in t-testi (veya normal değilse Mann-Whitney U)
+ Birden çok grup?
+ Eşleştirilmiş? --> Tekrarlanan ölçümler ANOVA'sı (veya Friedman testi)
+ Bağımsız? --> Tek yönlü ANOVA (veya Kruskal-Wallis)
 
 Oranları mı karşılaştırıyorsun?
-  İki grup? --> Ki-kare testi veya Fisher'ın kesin testi (küçük n)
-  Birden çok grup? --> Ki-kare testi
+ İki grup? --> Ki-kare testi veya Fisher'ın kesin testi (küçük n)
+ Birden çok grup? --> Ki-kare testi
 
 Dağılımları mı karşılaştırıyorsun?
-  Bir dağılım referans mı? --> Kolmogorov-Smirnov testi
-  İkisi de ampirik mi? --> İki örneklem KS testi
+ Bir dağılım referans mı? --> Kolmogorov-Smirnov testi
+ İkisi de ampirik mi? --> İki örneklem KS testi
 
 İlişki mi ölçüyorsun?
-  İkisi de sürekli, kabaca normal? --> Pearson korelasyonu
-  Sıralı veya normal değil? --> Spearman sıra korelasyonu
-  Kategorik x Kategorik? --> Bağımsızlık ki-kare testi
+ İkisi de sürekli, kabaca normal? --> Pearson korelasyonu
+ Sıralı veya normal değil? --> Spearman sıra korelasyonu
+ Kategorik x Kategorik? --> Bağımsızlık ki-kare testi
 
 Birçok test mi çalıştırıyorsun?
-  Bonferroni düzeltmesi uygula: duzeltilmis_alpha = alpha / test_sayisi
-  Ya da Holm-Bonferroni kullan (daha az muhafazakâr, yine de aile bazlı hatayı kontrol eder)
+ Bonferroni düzeltmesi uygula: duzeltilmis_alpha = alpha / test_sayisi
+ Ya da Holm-Bonferroni kullan (daha az muhafazakâr, yine de aile bazlı hatayı kontrol eder)
 ```
 
 ## Her testin ne zaman kullanılacağı

@@ -12,25 +12,25 @@ tags: [pytorch, eğitim, derin-öğrenme, gpu, desenler]
 ```python
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = Model().to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=0.01)
+criterion = nn. CrossEntropyLoss()
+optimizer = torch.optim. AdamW(model.parameters(), lr=1e-3, weight_decay=0.01)
 
 for epoch in range(num_epochs):
-    model.train()
-    for inputs, targets in train_loader:
-        inputs, targets = inputs.to(device), targets.to(device)
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, targets)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        optimizer.step()
+ model.train()
+ for inputs, targets in train_loader:
+ inputs, targets = inputs.to(device), targets.to(device)
+ optimizer.zero_grad()
+ outputs = model(inputs)
+ loss = criterion(outputs, targets)
+ loss.backward()
+ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+ optimizer.step()
 
-    model.eval()
-    with torch.no_grad():
-        for inputs, targets in val_loader:
-            inputs, targets = inputs.to(device), targets.to(device)
-            outputs = model(inputs)
+ model.eval()
+ with torch.no_grad():
+ for inputs, targets in val_loader:
+ inputs, targets = inputs.to(device), targets.to(device)
+ outputs = model(inputs)
 ```
 
 ## Karma Hassasiyet (Mixed Precision) Eğitimi
@@ -40,14 +40,14 @@ from torch.amp import autocast, GradScaler
 
 scaler = GradScaler()
 for inputs, targets in train_loader:
-    inputs, targets = inputs.to(device), targets.to(device)
-    optimizer.zero_grad()
-    with autocast(device_type="cuda"):
-        outputs = model(inputs)
-        loss = criterion(outputs, targets)
-    scaler.scale(loss).backward()
-    scaler.step(optimizer)
-    scaler.update()
+ inputs, targets = inputs.to(device), targets.to(device)
+ optimizer.zero_grad()
+ with autocast(device_type="cuda"):
+ outputs = model(inputs)
+ loss = criterion(outputs, targets)
+ scaler.scale(loss).backward()
+ scaler.step(optimizer)
+ scaler.update()
 ```
 
 Ne zaman kullanılır: float16 özellikli donanımla (V100, A100, H100, RTX 3090+) GPU'da eğitim. ~%1.5-2x hızlanma ve ~%50 bellek azalması bekleyin.
@@ -58,13 +58,13 @@ Ne zaman kullanılır: float16 özellikli donanımla (V100, A100, H100, RTX 3090
 accumulation_steps = 4
 optimizer.zero_grad()
 for i, (inputs, targets) in enumerate(train_loader):
-    inputs, targets = inputs.to(device), targets.to(device)
-    outputs = model(inputs)
-    loss = criterion(outputs, targets) / accumulation_steps
-    loss.backward()
-    if (i + 1) % accumulation_steps == 0:
-        optimizer.step()
-        optimizer.zero_grad()
+ inputs, targets = inputs.to(device), targets.to(device)
+ outputs = model(inputs)
+ loss = criterion(outputs, targets) / accumulation_steps
+ loss.backward()
+ if (i + 1) % accumulation_steps == 0:
+ optimizer.step()
+ optimizer.zero_grad()
 ```
 
 Ne zaman kullanılır: etkili toplu iş boyutunun GPU belleğinin izin verdiğinden büyük olması gerektiğinde. Kaybı accumulation_steps'e bölmek gradyan ölçeğini tutarlı tutar.
@@ -73,10 +73,10 @@ Ne zaman kullanılır: etkili toplu iş boyutunun GPU belleğinin izin verdiğin
 
 ```python
 torch.save({
-    "epoch": epoch,
-    "model_state_dict": model.state_dict(),
-    "optimizer_state_dict": optimizer.state_dict(),
-    "loss": loss.item(),
+ "epoch": epoch,
+ "model_state_dict": model.state_dict(),
+ "optimizer_state_dict": optimizer.state_dict(),
+ "loss": loss.item(),
 }, "checkpoint.pt")
 
 checkpoint = torch.load("checkpoint.pt", weights_only=True)
@@ -89,35 +89,35 @@ Eğitimi sürdürmek için her zaman optimize edici durumunu kaydedin. Yalnızca
 ## Özel Veri Kümesi
 
 ```python
-class CustomDataset(torch.utils.data.Dataset):
-    def __init__(self, data_dir, transform=None):
-        self.samples = self._load_samples(data_dir)
-        self.transform = transform
+class CustomDataset(torch.utils.data. Dataset):
+ def __init__(self, data_dir, transform=None):
+ self.samples = self._load_samples(data_dir)
+ self.transform = transform
 
-    def __len__(self):
-        return len(self.samples)
+ def __len__(self):
+ return len(self.samples)
 
-    def __getitem__(self, idx):
-        x, y = self.samples[idx]
-        if self.transform:
-            x = self.transform(x)
-        return x, y
+ def __getitem__(self, idx):
+ x, y = self.samples[idx]
+ if self.transform:
+ x = self.transform(x)
+ return x, y
 
-    def _load_samples(self, data_dir):
-        ...
+ def _load_samples(self, data_dir):
+ ...
 ```
 
 ## DataLoader Yapılandırması
 
 ```python
-train_loader = torch.utils.data.DataLoader(
-    dataset,
-    batch_size=64,
-    shuffle=True,
-    num_workers=4,
-    pin_memory=True,
-    drop_last=True,
-    persistent_workers=True,
+train_loader = torch.utils.data. DataLoader(
+ dataset,
+ batch_size=64,
+ shuffle=True,
+ num_workers=4,
+ pin_memory=True,
+ drop_last=True,
+ persistent_workers=True,
 )
 ```
 
@@ -131,18 +131,18 @@ train_loader = torch.utils.data.DataLoader(
 ## Öğrenme Hızı Takvimleri
 
 ```python
-scheduler = torch.optim.lr_scheduler.OneCycleLR(
-    optimizer,
-    max_lr=1e-3,
-    total_steps=num_epochs * len(train_loader),
-    pct_start=0.1,
+scheduler = torch.optim.lr_scheduler. OneCycleLR(
+ optimizer,
+ max_lr=1e-3,
+ total_steps=num_epochs * len(train_loader),
+ pct_start=0.1,
 )
 
 for epoch in range(num_epochs):
-    for inputs, targets in train_loader:
-        ...
-        optimizer.step()
-        scheduler.step()
+ for inputs, targets in train_loader:
+ ...
+ optimizer.step()
+ scheduler.step()
 ```
 
 OneCycleLR: çoğu görev için en iyi varsayılan. max_lr'ye kadar ısınır, sonra kosinüs azalır. Her epok yerine her toplu işten sonra `scheduler.step()` çağırın.
@@ -151,12 +151,12 @@ OneCycleLR: çoğu görev için en iyi varsayılan. max_lr'ye kadar ısınır, s
 
 ```python
 def init_weights(module):
-    if isinstance(module, nn.Linear):
-        nn.init.kaiming_normal_(module.weight, nonlinearity="relu")
-        if module.bias is not None:
-            nn.init.zeros_(module.bias)
-    elif isinstance(module, nn.Conv2d):
-        nn.init.kaiming_normal_(module.weight, mode="fan_out", nonlinearity="relu")
+ if isinstance(module, nn. Linear):
+ nn.init.kaiming_normal_(module.weight, nonlinearity="relu")
+ if module.bias is not None:
+ nn.init.zeros_(module.bias)
+ elif isinstance(module, nn. Conv2d):
+ nn.init.kaiming_normal_(module.weight, mode="fan_out", nonlinearity="relu")
 
 model.apply(init_weights)
 ```
@@ -167,7 +167,7 @@ model.apply(init_weights)
 model.eval()
 
 with torch.inference_mode():
-    outputs = model(inputs)
+ outputs = model(inputs)
 ```
 
 `torch.inference_mode()`, gradyan hesaplamasını bastırmak yerine autograd'ı tamamen devre dışı bıraktığı için `torch.no_grad()`'dan daha hızlıdır.

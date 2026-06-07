@@ -28,7 +28,7 @@ This lesson builds a single MTP module and the D-depth loss from scratch. The ma
 
 ### The sequential MTP recipe
 
-DeepSeek-V3 adds `D` MTP modules on top of the main model. Each module `k` (for `k = 1..D`) predicts the token at depth `k` — that is, `t_{i+k}` given a prefix through position `i`.
+DeepSeek-V3 adds `D` MTP modules on top of the main model. Each module `k` (for `k = 1.. D`) predicts the token at depth `k` — that is, `t_{i+k}` given a prefix through position `i`.
 
 Module `k` consists of:
 
@@ -41,13 +41,13 @@ At training, for a prefix through position `i`, the per-depth hidden state is:
 
 ```
 h_i^(0) = main model backbone at position i
-h_i^(k) = T_k( M_k * concat(RMSNorm(h_i^(k-1)), RMSNorm(E(t_{i+k}))) )   for k >= 1
+h_i^(k) = T_k( M_k * concat(RMSNorm(h_i^(k-1)), RMSNorm(E(t_{i+k}))) ) for k >= 1
 ```
 
 The per-depth prediction is:
 
 ```
-logits_{i+k} = Out(h_i^(k-1))   for k = 1..D
+logits_{i+k} = Out(h_i^(k-1)) for k = 1.. D
 ```
 
 The per-depth loss is cross-entropy against the ground-truth `t_{i+k}`:
@@ -59,7 +59,7 @@ L_k = CE(logits_{i+k}, t_{i+k})
 The joint loss across depths:
 
 ```
-L_MTP = (lambda / D) * sum_{k=1..D} L_k
+L_MTP = (lambda / D) * sum_{k=1.. D} L_k
 ```
 
 `lambda` is a small weighting factor — DeepSeek-V3 uses 0.3 for the first 10% of training and 0.1 afterward. The total training loss is `L_main + L_MTP`.
@@ -80,8 +80,8 @@ For a model with hidden `h` and vocabulary `V`:
 - Shared output head: reuse the main model's head. No extra params.
 - Shared embedding: reuse the main model's embedding. No extra params.
 - Per-MTP module:
-  - Projection `M_k`: `(2h) * h = 2h^2`.
-  - Transformer block `T_k`: attention (`4h^2` for MHA) plus MLP (typically `8h^2` for SwiGLU with ratio 8/3). About `12h^2` per block.
+ - Projection `M_k`: `(2h) * h = 2h^2`.
+ - Transformer block `T_k`: attention (`4h^2` for MHA) plus MLP (typically `8h^2` for SwiGLU with ratio 8/3). About `12h^2` per block.
 
 Total extra per module: `~14h^2`. For DeepSeek-V3's `h = 7168`, D = 1 module: `~14 * 7168^2 = ~720M` parameters on paper. DeepSeek-V3 reports 14B — the difference is mostly expert layers being MoE in the MTP module too.
 
@@ -117,10 +117,10 @@ A single `vocab_size x hidden` table is used by the main model AND by every MTP 
 
 ```python
 def combine(prev_hidden, next_token_embed, M_k):
-    # concat along feature dim, then project down to hidden
-    concat = rms_norm(prev_hidden) + rms_norm(next_token_embed)  # vector addition stand-in
-    projected = matvec(M_k, concat)
-    return projected
+ # concat along feature dim, then project down to hidden
+ concat = rms_norm(prev_hidden) + rms_norm(next_token_embed) # vector addition stand-in
+ projected = matvec(M_k, concat)
+ return projected
 ```
 
 Real DeepSeek-V3 concatenates the two RMSNormed vectors to `[2h]` and projects with an `h x 2h` matrix. The toy uses vector addition for stdlib brevity.
