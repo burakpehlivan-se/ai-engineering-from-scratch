@@ -1,4 +1,4 @@
-# IDE dosyaları
+# IDE
 .idea/
 .vscode/
 *.swp
@@ -11,27 +11,11 @@ __pycache__/
 venv/
 *.egg-info/
 
-# Geçici dosyalar
+# Temp
 *.tmp
 *.log
 
-# OS dosyaları
+# OS
 .DS_Store
 Thumbs.db
-
-# Kaynak repo (ayrı klonlanmış)
-source/
-
-# uv
-uv.lock
-
-# Ajan ve raporlar (sadece yerel)
-agent/
-reports/
-
-loop/
-# OpenCode
 .opencode/
-
-# node_modules
-node_modules/
