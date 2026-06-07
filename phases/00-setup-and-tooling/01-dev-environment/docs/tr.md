@@ -18,7 +18,7 @@
 
 ## Sorun
 
-Python, TypeScript, Rust ve Julia kullanarak 200'ün dersten yapay zeka mühendisliği öğreneceksiniz. Eğer ortamınız bozuksa, her ders öğrenmek yerine araçlarla mücadele etmeye dönüşür.
+Python, TypeScript, Rust ve Julia kullanarak 200'den fazla derste yapay zeka mühendisliği öğreneceksiniz. Eğer ortamınız bozuksa her ders, öğrenmek yerine araçlarla mücadeleye dönüşür.
 
 Çoğu kişi ortam kurulumunu atlar. Sonra saatlerce içe aktarma hataları, sürüm çakışmaları ve eksik CUDA sürücüleriyle uğraşır. Bunu bir kez, doğru bir şekilde yapacağız.
 
@@ -133,7 +133,7 @@ julia -e 'println("Julia ", VERSION)'
 #### Açıklama
 Julia dilini kuruyoruz ve sürümünü kontrol ediyoruz. Julia, matematiksel hesaplamalarda yüksek performans sunar.
 
-### Adım 6: GPU Kurumu (Varsa)
+### Adım 6: GPU Kurulumu (Varsa)
 
 ```bash
 # NVIDIA

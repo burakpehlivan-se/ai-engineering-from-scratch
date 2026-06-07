@@ -2,7 +2,7 @@
 
 # GPU Kurulumu ve Bulut
 
-> CPU'da eğitim öğrenmek için iyidir. Gerçek eğitim için GPU gerekir.
+> CPU'da eğitim, öğrenmek için yeterlidir. Gerçek eğitim için GPU gerekir.
 
 **Tür:** Uygulama
 **Diller:** Python

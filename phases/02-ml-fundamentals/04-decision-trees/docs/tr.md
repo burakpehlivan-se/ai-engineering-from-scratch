@@ -46,7 +46,7 @@ Ağaç, her düğümde veriyi en iyi ayıran özelliği ve eşiği seçerek yuka
 
 ### Bölme kriterleri: saflığı ölçme
 
-Her düğümde, bir örnek kümemiz var. Onları, elde edilen alt düğümlerin mümkün olduğunca "safin" olacak şekilde bölmek istiyoruz, yani her alt düğüm çoğunlukla tek bir sınıf içersin.
+Her düğümde, bir örnek kümemiz var. Onları, elde edilen alt düğümlerin mümkün olduğunca "saf" olacak şekilde bölmek istiyoruz, yani her alt düğüm çoğunlukla tek bir sınıf içersin.
 
 **Gini saflığı**, rastgele seçilen bir örneğin o düğümdeki sınıf dağılımına göre etiketlenseydi yanlış sınıflandırılma olasılığını ölçer.
 

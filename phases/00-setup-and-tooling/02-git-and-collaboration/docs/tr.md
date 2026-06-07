@@ -11,16 +11,16 @@
 
 ## Öğrenme Hedefleri
 
-- Git kimliğini yapılandırın ve ekleme, commit ve push günlük iş akışını kullanın
+- Git kimliğini yapılandırın; ekleme, commit ve push'tan oluşan günlük iş akışını kullanın
 - Ana dalı bozmadan yalıtılmış deneyler için dallar oluşturun ve birleştirin
 - Model kontrol noktalarını ve büyük ikili dosyaları hariç tutan bir `.gitignore` yazın
 - Proje evrimini anlamak için `git log` ile commit geçmişinde gezinin
 
 ## Sorun
 
-20 faz boyunca yüzlerce kod dosyası yazacaksınız. Sürüm kontrolü olmadan çalışmayı kaybedersiniz, geri alamayacağınız şeyleri bozersiniz ve başkalarıyla işbirliği yapma yolunuz olmaz.
+20 faz boyunca yüzlerce kod dosyası yazacaksınız. Sürüm kontrolü olmadan çalışmanızı kaybeder, geri alamayacağınız hatalar yapar ve başkalarıyla işbirliği yapamazsınız.
 
-Git araçtır. GitHub kodun bulunduğu yerdir. Bu ders, bu kurs için ihtiyacınız olanı ve fazlasını değil kapsar.
+Git araçtır. GitHub kodun yaşadığı yerdir. Bu ders, bu kurs için ihtiyacınız olanı kapsar; fazlasını değil.
 
 ## Kavram
 
